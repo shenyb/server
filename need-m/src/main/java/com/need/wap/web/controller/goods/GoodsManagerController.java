@@ -47,6 +47,9 @@ public class GoodsManagerController {
 		logger.info("getGoodsDetail.....in GoodsManagerController");
 		//详情页面
 		GoodsProfileResultVO goodsProfileResultVO= goodsMainService.getgoodsProfiled(goodsId);
+		if(goodsProfileResultVO==null){
+			Message.error(3003);	
+		}
 		GoodsDetailVO goodsDetailVO = goodsDetailService.getGoodsDetailById(goodsId);
 		JSONObject goodsParam = goodsDetailService.getGoodsParamsById(goodsId);
 		goodsProfileResultVO.setGoodsDesc(goodsDetailVO.getGoodsDesc());
