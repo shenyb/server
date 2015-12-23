@@ -210,8 +210,10 @@ public class GoodsMainServiceImpl implements GoodsMainService {
     @Override
     public GoodsProfileResultVO getgoodsProfiled(String goodsId) {
         GoodsProfileResultVO goods = goodsMainDAO.getGoodsProfileById_V2_0(goodsId);
+        if(goods!=null){
         if(!StringUtil.isBlank(goods.getTopPicKeyString())){
         goods.setTopPicKeys(goods.getTopPicKeyString().split(","));
+        }
         }
         return goods;
     }
