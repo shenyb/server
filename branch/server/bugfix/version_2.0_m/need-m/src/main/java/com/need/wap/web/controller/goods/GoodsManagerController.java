@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.need.common.core.dao.jdbc.user.UserBaseDAO;
 import com.need.common.core.service.goods.GoodsDetailService;
 import com.need.common.core.service.goods.GoodsMainService;
@@ -54,16 +56,15 @@ public class GoodsManagerController {
 		goodsProfileResultVO.setColor(goodsParam.getString("color"));
 		goodsProfileResultVO.setWeight(goodsParam.getString("weight"));
 		success.addData("goods", goodsProfileResultVO);
-	//商品评级集合
-		List<GoodsJudgementListResultVO> commentList= tradeJudgementService.getGoodsJudgementOpsList(goodsId);
-		for(GoodsJudgementListResultVO goodsJudgementListResultVO :commentList){
+	  //商品评级集合
+		PageHelper.startPage(1, 10);
+		Page<GoodsJudgementListResultVO> page = (Page<GoodsJudgementListResultVO>)tradeJudgementService.getGoodsJudgementOpsList(goodsId);
+		for(GoodsJudgementListResultVO goodsJudgementListResultVO :page.getResult()){
 			UserBasePO user= userBaseDAO.selectByPrimaryKey(goodsJudgementListResultVO.getUserId());
 			goodsJudgementListResultVO.setProfilePicKey(user!=null?user.getProfilePicKey():"");
 			goodsJudgementListResultVO.setUserName(user!=null?user.getNickName():"");
 		}
-
-		success.addData("commentList", commentList);
-		
+		success.addData("commentList", page.getResult());
 		return success;
 	}
 	
