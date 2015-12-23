@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.need.dao.api.ops.OpsTopicDAO">
+	<resultMap id="BaseResultMap"
+		type="com.need.domain.po.api.ops.OpsTopicPO">
+		<id column="topic_id" jdbcType="INTEGER" property="topicId" />
+		<result column="topic_name" jdbcType="VARCHAR" property="topicName" />
+		<result column="cover_key" jdbcType="VARCHAR" property="coverKey" />
+		<result column="topic_status" jdbcType="VARCHAR" property="topicStatus" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="publisher_id" jdbcType="INTEGER" property="publisherId" />
+		<result column="auditor_id" jdbcType="INTEGER" property="auditorId" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		topic_id, topic_name, cover_key, topic_status, create_time, publisher_id,
+		auditor_id
+	</sql>
+	<sql id="Blob_Column_List">
+		content
+	</sql>
+
+	<insert id="insertTopic" parameterType="com.need.domain.po.bops.ops.BopsOpsTopic">
+		insert into ops_topic
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="topicId != null">
+				topic_id,
+			</if>
+			<if test="topicName != null">
+				topic_name,
+			</if>
+			<if test="coverKey != null">
+				cover_key,
+			</if>
+			<if test="topicStatus != null">
+				topic_status,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="publisherId != null">
+				publisher_id,
+			</if>
+			<if test="auditorId != null">
+				auditor_id,
+			</if>
+
+			<if test="content != null">
+				content
+			</if>
+
+
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="topicId != null">
+				#{topicId},
+			</if>
+			<if test="topicName != null">
+				#{topicName},
+			</if>
+			<if test="coverKey != null">
+				#{coverKey},
+			</if>
+			<if test="topicStatus != null">
+				#{topicStatus},
+			</if>
+			<if test="createTime != null">
+				#{createTime},
+			</if>
+			<if test="publisherId != null">
+				#{publisherId},
+			</if>
+			<if test="auditorId != null">
+				#{auditorId},
+			</if>
+
+			<if test="content != null">
+				#{content}
+			</if>
+
+		</trim>
+	</insert>
+
+	<delete id="deleteApiTopic" parameterType="java.lang.String">
+		delete from ops_topic
+		where topic_id = #{topicId}
+	</delete>
+	<update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.bops.ops.BopsOpsTopic">
+		update ops_topic
+		<set>
+			<if test="topicName != null">
+				topic_name = #{topicName},
+			</if>
+			<if test="coverKey != null">
+				cover_key = #{coverKey},
+			</if>
+			<if test="topicStatus != null">
+				topic_status = #{topicStatus},
+			</if>
+			<if test="content != null">
+				content = #{content}
+			</if>
+		</set>
+		where topic_id = #{topicId}
+	</update>
+	
+	 <select id="getById" parameterType="int" resultMap="BaseResultMap">
+	  select 
+	   <include refid="Base_Column_List"/>
+	 from  ops_topic
+		where topic_id = #{topicId}
+	 </select>
+</mapper>

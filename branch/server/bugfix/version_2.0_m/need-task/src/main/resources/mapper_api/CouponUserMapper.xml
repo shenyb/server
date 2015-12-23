@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.task.dao.jdbc.api.coupon.CouponUserDAO" >
+    <resultMap id="BaseResultMap" type="com.need.task.dao.jdbc.api.coupon.po.CouponUserPO" >
+        <id column="coupon_no" property="couponNo" jdbcType="VARCHAR" />
+        <result column="coupon_template_id" property="couponTemplateId" jdbcType="VARCHAR" />
+        <result column="share_user_id" property="shareUserId" jdbcType="VARCHAR" />
+        <result column="user_id" property="userId" jdbcType="VARCHAR" />
+        <result column="coupon_name" property="couponName" jdbcType="VARCHAR" />
+        <result column="coupon_pic_key" property="couponPicKey" jdbcType="VARCHAR" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
+        <result column="value" property="value" jdbcType="INTEGER" />
+        <result column="min_cost" property="minCost" jdbcType="INTEGER" />
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+        <result column="use_time" property="useTime" jdbcType="TIMESTAMP" />
+        <result column="coupon_status" property="couponStatus" jdbcType="VARCHAR" />
+        <result column="trade_no" property="tradeNo" jdbcType="VARCHAR" />
+        <result column="coupon_type" property="couponType" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    
+    <sql id="Base_Column_List" >
+        coupon_no, coupon_template_id, share_user_id, user_id, coupon_name, coupon_pic_key, description, 
+        value / 100 value, min_cost / 100 min_cost, start_time, end_time, use_time, coupon_status, trade_no, coupon_type, 
+        create_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from coupon_user
+        where coupon_no = #{couponNo,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from coupon_user
+        where coupon_no = #{couponNo,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.need.task.dao.jdbc.api.coupon.po.CouponUserPO" >
+        insert into coupon_user (coupon_no, coupon_template_id, share_user_id, 
+        user_id, coupon_name, coupon_pic_key, description, 
+        value, min_cost, start_time, 
+        end_time, use_time, coupon_status, 
+        trade_no, coupon_type, create_time
+        )
+        values (#{couponNo,jdbcType=VARCHAR}, #{couponTemplateId,jdbcType=VARCHAR}, #{shareUserId,jdbcType=VARCHAR}, 
+        #{userId,jdbcType=VARCHAR}, #{couponName,jdbcType=VARCHAR}, #{couponPicKey,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+        #{value,jdbcType=INTEGER} * 100, #{minCost,jdbcType=INTEGER} * 100, #{startTime,jdbcType=TIMESTAMP}, 
+        #{endTime,jdbcType=TIMESTAMP}, #{useTime,jdbcType=TIMESTAMP}, #{couponStatus,jdbcType=VARCHAR}, 
+        #{tradeNo,jdbcType=VARCHAR}, #{couponType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.need.task.dao.jdbc.api.coupon.po.CouponUserPO" >
+        insert into coupon_user
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="couponNo != null" >
+                coupon_no,
+            </if>
+            <if test="couponTemplateId != null" >
+                coupon_template_id,
+            </if>
+            <if test="shareUserId != null" >
+                share_user_id,
+            </if>
+            <if test="userId != null" >
+                user_id,
+            </if>
+            <if test="couponName != null" >
+                coupon_name,
+            </if>
+            <if test="couponPicKey != null" >
+                coupon_pic_key,
+            </if>
+            <if test="description != null" >
+                description,
+            </if>
+            <if test="value != null" >
+                value,
+            </if>
+            <if test="minCost != null" >
+                min_cost,
+            </if>
+            <if test="startTime != null" >
+                start_time,
+            </if>
+            <if test="endTime != null" >
+                end_time,
+            </if>
+            <if test="useTime != null" >
+                use_time,
+            </if>
+            <if test="couponStatus != null" >
+                coupon_status,
+            </if>
+            <if test="tradeNo != null" >
+                trade_no,
+            </if>
+            <if test="couponType != null" >
+                coupon_type,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="couponNo != null" >
+                #{couponNo,jdbcType=VARCHAR},
+            </if>
+            <if test="couponTemplateId != null" >
+                #{couponTemplateId,jdbcType=VARCHAR},
+            </if>
+            <if test="shareUserId != null" >
+                #{shareUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null" >
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="couponName != null" >
+                #{couponName,jdbcType=VARCHAR},
+            </if>
+            <if test="couponPicKey != null" >
+                #{couponPicKey,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null" >
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="value != null" >
+                #{value,jdbcType=INTEGER} * 100,
+            </if>
+            <if test="minCost != null" >
+                #{minCost,jdbcType=INTEGER} * 100,
+            </if>
+            <if test="startTime != null" >
+                #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null" >
+                #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="useTime != null" >
+                #{useTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="couponStatus != null" >
+                #{couponStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeNo != null" >
+                #{tradeNo,jdbcType=VARCHAR},
+            </if>
+            <if test="couponType != null" >
+                #{couponType,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.need.task.dao.jdbc.api.coupon.po.CouponUserPO" >
+        update coupon_user
+        <set >
+            <if test="couponTemplateId != null" >
+                coupon_template_id = #{couponTemplateId,jdbcType=VARCHAR},
+            </if>
+            <if test="shareUserId != null" >
+                share_user_id = #{shareUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null" >
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="couponName != null" >
+                coupon_name = #{couponName,jdbcType=VARCHAR},
+            </if>
+            <if test="couponPicKey != null" >
+                coupon_pic_key = #{couponPicKey,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null" >
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="value != null" >
+                value = #{value,jdbcType=INTEGER} * 100,
+            </if>
+            <if test="minCost != null" >
+                min_cost = #{minCost,jdbcType=INTEGER} * 100,
+            </if>
+            <if test="startTime != null" >
+                start_time = #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null" >
+                end_time = #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="useTime != null" >
+                use_time = #{useTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="couponStatus != null" >
+                coupon_status = #{couponStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeNo != null" >
+                trade_no = #{tradeNo,jdbcType=VARCHAR},
+            </if>
+            <if test="couponType != null" >
+                coupon_type = #{couponType,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where coupon_no = #{couponNo,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.need.task.dao.jdbc.api.coupon.po.CouponUserPO" >
+        update coupon_user
+        set coupon_template_id = #{couponTemplateId,jdbcType=VARCHAR},
+        share_user_id = #{shareUserId,jdbcType=VARCHAR},
+        user_id = #{userId,jdbcType=VARCHAR},
+        coupon_name = #{couponName,jdbcType=VARCHAR},
+        coupon_pic_key = #{couponPicKey,jdbcType=VARCHAR},
+        description = #{description,jdbcType=VARCHAR},
+        value = #{value,jdbcType=INTEGER} * 100,
+        min_cost = #{minCost,jdbcType=INTEGER} * 100,
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+        use_time = #{useTime,jdbcType=TIMESTAMP},
+        coupon_status = #{couponStatus,jdbcType=VARCHAR},
+        trade_no = #{tradeNo,jdbcType=VARCHAR},
+        coupon_type = #{couponType,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP}
+        where coupon_no = #{couponNo,jdbcType=VARCHAR}
+    </update>
+
+    <select id="getCouponUserListByUserId" parameterType="java.util.Map" resultType="com.need.task.dao.jdbc.api.coupon.po.CouponUserPO">
+        select 
+        <include refid="Base_Column_List" />
+        from coupon_user
+        <![CDATA[
+            where user_id = #{userId,jdbcType=VARCHAR}
+        ]]>
+    </select>
+
+    <select id="getCouponUserListByUserIdAndCost" parameterType="java.util.Map" resultType="com.need.task.dao.jdbc.api.coupon.po.CouponUserPO">
+        select 
+        <include refid="Base_Column_List" />
+        from coupon_user
+        <![CDATA[
+            where user_id = #{userId,jdbcType=VARCHAR} and min_cost <= #{cost,jdbcType=INTEGER} and coupon_status = 'notUse'
+        ]]>
+    </select>
+    
+    <select id="getCountByParams" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1)
+        from coupon_user
+        where coupon_template_id = #{couponTemplateId,jdbcType=VARCHAR} 
+        <if test="userId != null" >
+            and user_id = #{userId,jdbcType=VARCHAR}
+        </if>
+        <if test="coupon_status != null" >
+            and coupon_status = #{couponStatus,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+  <select id="getCouponUserListByTradeNo" parameterType="java.lang.String" resultType="com.need.task.dao.jdbc.api.coupon.po.CouponUserPO">
+        select 
+        <include refid="Base_Column_List" />
+        from coupon_user
+        <![CDATA[
+            where trade_no = #{tradeNo,jdbcType=VARCHAR}  and coupon_status = #{couponStatue,jdbcType=VARCHAR} 
+        ]]>
+    </select>
+
+</mapper>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.task.dao.jdbc.bops.goods.BopsPriceChangeDAO" >
+  <resultMap id="BaseResultMap" type="com.need.task.dao.jdbc.bops.goods.po.BopsPriceChangePO" >
+    <id column="pricechange_id" property="pricechangeId" jdbcType="INTEGER" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="excuted" property="excuted" jdbcType="VARCHAR" />
+    <result column="pricechange_status" property="pricechangeStatus" jdbcType="VARCHAR" />
+    <result column="bops_user_id" property="bopsUserId" jdbcType="INTEGER" />
+    <result column="audit_user_id" property="auditUserId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="pricechange_type" property="pricechangeType" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="BasePriceChangeGoodsResultMap" type="com.need.task.dao.jdbc.bops.goods.po.BopsPriceChangeGoodsPO" >
+    <id column="pricechange_goods_id" property="pricechangeGoodsId" jdbcType="INTEGER" />
+    <result column="pricechange_id" property="pricechangeId" jdbcType="INTEGER" />
+    <result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+    <result column="start_price" property="startPrice" jdbcType="INTEGER" />
+    <result column="end_price" property="endPrice" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    pricechange_id, start_time, end_time, excuted, pricechange_status, bops_user_id, 
+    audit_user_id
+  </sql>
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from bops_pricechange
+    where pricechange_id = #{pricechangeId,jdbcType=INTEGER}
+  </select>
+  
+  
+  <select id="selectChangeStartTimeRecord" resultMap="BasePriceChangeGoodsResultMap" >
+    select 
+    b.pricechange_id, b.goods_id, b.start_price 
+    from bops_pricechange a , bops_pricechange_goods b
+   
+    where a.pricechange_status ='VALID'
+    and a.pricechange_id=b.pricechange_id
+    and a.excuted = 'NEITHER'
+    and now() >= a.start_time
+    and a.pricechange_type = 'SCHEDULE'
+  </select>
+  
+  <select id="selectChangeEndTimeRecord" resultMap="BasePriceChangeGoodsResultMap" >
+    select 
+    b.pricechange_id, b.goods_id, b.end_price 
+    from bops_pricechange a , bops_pricechange_goods b
+   
+    where a.pricechange_status ='VALID'
+    and a.pricechange_id=b.pricechange_id
+    and a.excuted = 'STARTED'
+    and now() >= a.end_time
+    and a.pricechange_type = 'SCHEDULE'
+  </select>
+    
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from bops_pricechange
+    where pricechange_id = #{pricechangeId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.need.task.dao.jdbc.bops.goods.po.BopsPriceChangePO" >
+    insert into bops_pricechange (pricechange_id, start_time, end_time, 
+      excuted, pricechange_status, bops_user_id, 
+      audit_user_id)
+    values (#{pricechangeId,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{excuted,jdbcType=VARCHAR}, #{pricechangeStatus,jdbcType=VARCHAR}, #{bopsUserId,jdbcType=INTEGER}, 
+      #{auditUserId,jdbcType=INTEGER})
+  </insert>
+  
+  
+  <update id="updateById"  >
+    update bops_pricechange
+    set  excuted = #{excuted},
+    update_time=now()
+    where pricechange_id = #{pricechangeId}
+  </update>
+  
+  <update id="updateStartTimeById"  >
+    update bops_pricechange
+    set  excuted = #{excuted},
+    update_time=now(),
+    start_time =now()
+    where pricechange_id = #{pricechangeId}
+  </update>
+  
+  <update id="updateEndTimeById"  >
+    update bops_pricechange
+    set  excuted = #{excuted},
+    update_time=now(),
+    end_time=now()
+    where pricechange_id = #{pricechangeId}
+  </update>
+  
+</mapper>

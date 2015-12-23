@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.task.dao.jdbc.bops.goods.BopsPriceChangeGoodsDAO" >
+  <resultMap id="BaseResultMap" type="com.need.task.dao.jdbc.bops.goods.po.BopsPriceChangeGoodsPO" >
+    <id column="pricechange_goods_id" property="pricechangeGoodsId" jdbcType="INTEGER" />
+    <result column="pricechange_id" property="pricechangeId" jdbcType="INTEGER" />
+    <result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+    <result column="start_price" property="startPrice" jdbcType="INTEGER" />
+    <result column="end_price" property="endPrice" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    pricechange_goods_id, pricechange_id, goods_id, start_price, end_price
+  </sql>
+ 
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from bops_pricechange_goods
+    where pricechange_goods_id = #{pricechangeGoodsId,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from bops_pricechange_goods
+    where pricechange_goods_id = #{pricechangeGoodsId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.need.task.dao.jdbc.bops.goods.po.BopsPriceChangeGoodsPO" >
+    insert into bops_pricechange_goods (pricechange_goods_id, pricechange_id, 
+      goods_id, start_price, end_price
+      )
+    values (#{pricechangeGoodsId,jdbcType=INTEGER}, #{pricechangeId,jdbcType=INTEGER}, 
+      #{goodsId,jdbcType=VARCHAR}, #{startPrice,jdbcType=INTEGER}, #{endPrice,jdbcType=INTEGER}
+      )
+  </insert>
+ 
+ 
+  <update id="updateById" parameterType="com.need.task.dao.jdbc.bops.goods.po.BopsPriceChangeGoodsPO" >
+    update bops_pricechange_goods
+    set pricechange_id = #{pricechangeId,jdbcType=INTEGER},
+      goods_id = #{goodsId,jdbcType=VARCHAR},
+      start_price = #{startPrice,jdbcType=INTEGER},
+      end_price = #{endPrice,jdbcType=INTEGER}
+    where pricechange_goods_id = #{pricechangeGoodsId,jdbcType=INTEGER}
+  </update>
+  
+  
+</mapper>

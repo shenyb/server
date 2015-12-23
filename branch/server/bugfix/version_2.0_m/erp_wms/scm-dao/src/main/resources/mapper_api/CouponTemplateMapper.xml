@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.need.dao.api.coupon.CouponTemplateDAO">
+    <resultMap id="BaseResultMap" type="com.need.domain.po.api.coupon.CouponTemplatePO">
+        <id column="coupon_template_id" jdbcType="VARCHAR" property="couponTemplateId" />
+        <result column="coupon_template_no" jdbcType="VARCHAR" property="couponTemplateNo" />
+        <result column="coupon_name" jdbcType="VARCHAR" property="couponName" />
+        <result column="coupon_pic_key" jdbcType="VARCHAR" property="couponPicKey" />
+        <result column="disabled_pic_key" jdbcType="VARCHAR" property="disabledPicKey" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
+        <result column="value" jdbcType="INTEGER" property="value" />
+        <result column="min_cost" jdbcType="INTEGER" property="minCost" />
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+        <result column="max_count" jdbcType="INTEGER" property="maxCount" />
+        <result column="daily_count" jdbcType="INTEGER" property="dailyCount" />
+        <result column="max_receive_count" jdbcType="INTEGER" property="maxReceiveCount" />
+        <result column="goods_category_ids" jdbcType="VARCHAR" property="goodsCategoryIds" />
+        <result column="channel_ids" jdbcType="VARCHAR" property="channelIds" />
+        <result column="goods_id" jdbcType="VARCHAR" property="goodsId" />
+        <result column="coupon_type" jdbcType="VARCHAR" property="couponType" />
+        <result column="coupon_status" jdbcType="VARCHAR" property="couponStatus" />
+        <result column="coupon_rule" jdbcType="VARCHAR" property="couponRule" />
+        <result column="coupon_recommend" jdbcType="VARCHAR" property="couponRecommend" />
+        <result column="coupon_share_title" jdbcType="VARCHAR" property="couponShareTitle" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        coupon_template_id, coupon_template_no, coupon_name, coupon_pic_key, disabled_pic_key, description, 
+        value / 100 value, min_cost / 100 min_cost, start_time, end_time, max_count, daily_count, max_receive_count, goods_category_ids, 
+        channel_ids, goods_id, coupon_type, coupon_status, coupon_rule, coupon_recommend, coupon_share_title
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from coupon_template
+        where coupon_template_id = #{couponTemplateId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from coupon_template
+        where coupon_template_id = #{couponTemplateId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.need.domain.po.api.coupon.CouponTemplatePO">
+        insert into coupon_template (coupon_template_id, coupon_template_no, 
+        coupon_name, coupon_pic_key, disabled_pic_key, description, 
+        value, min_cost, start_time, 
+        end_time, max_count, daily_count, max_receive_count, 
+        goods_category_ids, channel_ids, goods_id, coupon_type, 
+        coupon_status, coupon_rule, coupon_recommend, coupon_share_title)
+        values (#{couponTemplateId,jdbcType=VARCHAR}, #{couponTemplateNo,jdbcType=VARCHAR}, 
+        #{couponName,jdbcType=VARCHAR}, #{couponPicKey,jdbcType=VARCHAR}, #{disabledPicKey,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+        #{value,jdbcType=INTEGER} * 100, #{minCost,jdbcType=INTEGER} * 100, #{startTime,jdbcType=TIMESTAMP}, 
+        #{endTime,jdbcType=TIMESTAMP}, #{maxCount,jdbcType=INTEGER}, #{dailyCount,jdbcType=INTEGER}, #{maxReceiveCount,jdbcType=INTEGER}, 
+        #{goodsCategoryIds,jdbcType=VARCHAR}, #{channelIds,jdbcType=VARCHAR}, #{goodsId,jdbcType=VARCHAR}, #{couponType,jdbcType=VARCHAR}, 
+        #{couponStatus,jdbcType=VARCHAR}, #{couponRule,jdbcType=VARCHAR}, #{couponRecommend,jdbcType=VARCHAR}, #{couponShareTitle,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.need.domain.po.api.coupon.CouponTemplatePO">
+        insert into coupon_template
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="couponTemplateId != null">
+                coupon_template_id,
+            </if>
+            <if test="couponTemplateNo != null">
+                coupon_template_no,
+            </if>
+            <if test="couponName != null">
+                coupon_name,
+            </if>
+            <if test="couponPicKey != null">
+                coupon_pic_key,
+            </if>
+            <if test="disabledPicKey != null">
+                coupon_pic_key,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="value != null">
+                value,
+            </if>
+            <if test="minCost != null">
+                min_cost,
+            </if>
+            <if test="startTime != null">
+                start_time,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+            <if test="maxCount != null">
+                max_count,
+            </if>
+            <if test="dailyCount != null">
+                daily_count,
+            </if>
+            <if test="maxReceiveCount != null">
+                daily_count,
+            </if>
+            <if test="goodsCategoryIds != null">
+                goods_category_ids,
+            </if>
+            <if test="channelIds != null">
+                channel_ids,
+            </if>
+            <if test="goodsId != null">
+                goods_id
+            </if>
+            <if test="couponType != null">
+                coupon_type,
+            </if>
+            <if test="couponStatus != null">
+                coupon_status,
+            </if>
+            <if test="couponRule != null">
+                coupon_rule,
+            </if>
+            <if test="couponRecommend != null">
+                coupon_recommend,
+            </if>
+            <if test="couponShareTitle != null">
+                coupon_share_title,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="couponTemplateId != null">
+                #{couponTemplateId,jdbcType=VARCHAR},
+            </if>
+            <if test="couponTemplateNo != null">
+                #{couponTemplateNo,jdbcType=VARCHAR},
+            </if>
+            <if test="couponName != null">
+                #{couponName,jdbcType=VARCHAR},
+            </if>
+            <if test="couponPicKey != null">
+                #{couponPicKey,jdbcType=VARCHAR},
+            </if>
+            <if test="disabledPicKey != null">
+                #{disabledPicKey,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="value != null">
+                #{value,jdbcType=INTEGER} * 100,
+            </if>
+            <if test="minCost != null">
+                #{minCost,jdbcType=INTEGER} * 100,
+            </if>
+            <if test="startTime != null">
+                #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="maxCount != null">
+                #{maxCount,jdbcType=INTEGER},
+            </if>
+            <if test="dailyCount != null">
+                #{dailyCount,jdbcType=INTEGER},
+            </if>
+            <if test="maxReceiveCount != null">
+                #{maxReceiveCount,jdbcType=INTEGER},
+            </if>
+            <if test="goodsCategoryIds != null">
+                #{goodsCategoryIds,jdbcType=VARCHAR},
+            </if>
+            <if test="channelIds != null">
+                #{channelIds,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsId != null">
+                #{goodsId,jdbcType=VARCHAR},
+            </if>
+            <if test="couponType != null">
+                #{couponType,jdbcType=VARCHAR},
+            </if>
+            <if test="couponStatus != null">
+                #{couponStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="couponRule != null">
+                #{couponRule,jdbcType=VARCHAR},
+            </if>
+            <if test="couponRecommend != null">
+                #{couponRecommend,jdbcType=VARCHAR},
+            </if>
+            <if test="couponShareTitle != null">
+                #{couponShareTitle,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.api.coupon.CouponTemplatePO">
+        update coupon_template
+        <set>
+            <if test="couponTemplateNo != null">
+                coupon_template_no = #{couponTemplateNo,jdbcType=VARCHAR},
+            </if>
+            <if test="couponName != null">
+                coupon_name = #{couponName,jdbcType=VARCHAR},
+            </if>
+            <if test="couponPicKey != null">
+                coupon_pic_key = #{couponPicKey,jdbcType=VARCHAR},
+            </if>
+            <if test="disabledPicKey != null">
+                disabled_pic_key = #{disabledPicKey,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="value != null">
+                value = #{value,jdbcType=INTEGER} * 100,
+            </if>
+            <if test="minCost != null">
+                min_cost = #{minCost,jdbcType=INTEGER} * 100,
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="maxCount != null">
+                max_count = #{maxCount,jdbcType=INTEGER},
+            </if>
+            <if test="dailyCount != null">
+                daily_count = #{dailyCount,jdbcType=INTEGER},
+            </if>
+            <if test="maxReceiveCount != null">
+                max_receive_count = #{maxReceiveCount,jdbcType=INTEGER},
+            </if>
+            <if test="goodsCategoryIds != null">
+                goods_category_ids = #{goodsCategoryIds,jdbcType=VARCHAR},
+            </if>
+            <if test="channelIds != null">
+                channel_ids = #{channelIds,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsId != null">
+                goods_id = #{channelIds,jdbcType=VARCHAR},
+            </if>
+            <if test="couponType != null">
+                coupon_type = #{couponType,jdbcType=VARCHAR},
+            </if>
+            <if test="couponStatus != null">
+                coupon_status = #{couponStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="couponRule != null">
+                coupon_rule = #{couponRule,jdbcType=VARCHAR},
+            </if>
+            <if test="couponRecommend != null">
+                coupon_recommend = #{couponRecommend,jdbcType=VARCHAR},
+            </if>
+            <if test="couponShareTitle != null">
+                coupon_share_title = #{couponShareTitle,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where coupon_template_id = #{couponTemplateId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.need.domain.po.api.coupon.CouponTemplatePO">
+        update coupon_template
+        set coupon_template_no = #{couponTemplateNo,jdbcType=VARCHAR},
+        coupon_name = #{couponName,jdbcType=VARCHAR},
+        coupon_pic_key = #{couponPicKey,jdbcType=VARCHAR},
+        disabled_pic_key = #{disabledPicKey,jdbcType=VARCHAR},
+        description = #{description,jdbcType=VARCHAR},
+        value = #{value,jdbcType=INTEGER} * 100,
+        min_cost = #{minCost,jdbcType=INTEGER} * 100,
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+        max_count = #{maxCount,jdbcType=INTEGER},
+        daily_count = #{dailyCount,jdbcType=INTEGER},
+        max_receive_count = #{maxReceiveCount,jdbcType=INTEGER},
+        goods_category_ids = #{goodsCategoryIds,jdbcType=VARCHAR},
+        channel_ids = #{channelIds,jdbcType=VARCHAR},
+        goods_id = #{goodsId,jdbcType=VARCHAR},
+        coupon_type = #{couponType,jdbcType=VARCHAR},
+        coupon_status = #{couponStatus,jdbcType=VARCHAR},
+        coupon_rule = #{couponRule,jdbcType=VARCHAR},
+        coupon_recommend = #{couponRecommend,jdbcType=VARCHAR},
+        coupon_share_title = #{couponShareTitle,jdbcType=VARCHAR}
+        where coupon_template_id = #{couponTemplateId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateFrozen" parameterType="java.lang.String">
+        update coupon_template
+        set coupon_status = 'frozen'
+        where coupon_template_id = #{couponTemplateId,jdbcType=VARCHAR}
+    </update>
+    <select id="queryByStatus" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from coupon_template
+        where coupon_status = #{couponStatus,jdbcType=VARCHAR}
+    </select>
+</mapper>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.ops.BopsOpsDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.bops.ops.BopsOps" >
+    <id column="ops_id" property="opsId" jdbcType="VARCHAR" />
+    <result column="ops_type" property="opsType" jdbcType="VARCHAR" />
+    <result column="ops_channel" property="opsChannel" jdbcType="VARCHAR" />
+    <result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="publisher_id" property="publisherId" jdbcType="INTEGER" />
+    <result column="auditor_id" property="auditorId" jdbcType="INTEGER" />
+    <result column="ops_pic_key" property="opsPicKey" jdbcType="VARCHAR" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+    <result column="ops_number" property="opsNumber" jdbcType="VARCHAR" />
+    <result column="type_id" property="typeId" jdbcType="VARCHAR" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="topic_score" property="topicScore" jdbcType="INTEGER"/>
+    <result column="eff_date" property="effDate" jdbcType="TIMESTAMP"/>
+    <result column="exp_date" property="expDate" jdbcType="TIMESTAMP"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ops_id, ops_type, ops_channel, audit_status, create_time, publisher_id, auditor_id, 
+    ops_pic_key, memo,ops_number,type_id,category_id,topic_score,eff_date,exp_date
+  </sql>
+  <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bops_ops
+    where ops_id = #{opsId}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.String" >
+    delete from bops_ops
+    where ops_id = #{opsId}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.bops.ops.BopsOps" >
+    insert into bops_ops (ops_id, ops_type, ops_channel, 
+      audit_status, create_time, publisher_id, 
+      auditor_id, ops_pic_key, memo,ops_number,type_id,category_id,topic_score,eff_date,exp_date
+      )
+    values (#{opsId}, #{opsType}, #{opsChannel}, 
+      #{auditStatus}, #{createTime}, #{publisherId}, 
+      #{auditorId}, #{opsPicKey}, #{memo},#{opsNumber},#{typeId},#{categoryId},#{topicScore},#{effDate},#{expDate}
+      )
+  </insert>
+  <update id="update" parameterType="com.need.domain.po.bops.ops.BopsOps" >
+    update bops_ops
+    set ops_type = #{opsType},
+      ops_channel = #{opsChannel},
+      audit_status = #{auditStatus},
+      create_time = #{createTime},
+      publisher_id = #{publisherId},
+      auditor_id = #{auditorId},
+      ops_pic_key = #{opsPicKey},
+       memo = #{memo},
+      ops_number = #{opsNumber},
+       type_id = #{typeId},
+       category_id = #{categoryId},
+       topic_score=#{topicScore},
+       eff_date=#{effDate},
+       exp_date=#{expDate}
+    where ops_id = #{opsId}
+  </update>
+  
+   <!-- 查询运营位的count-->
+  <select id="getCountById" parameterType="com.need.domain.vo.ops.PageBopsOpsVO" resultType="int">
+   select count(1) FROM  bops_ops r LEFT JOIN bops_ops_main o ON r.ops_number=o.ops_id
+   where
+   <![CDATA[r.create_time <= NOW()]]>
+            <if test="typeId!=null and typeId!=''">  
+             and  r.type_id =#{typeId} 
+            </if> 
+             <if test="opsNumber!=null and opsNumber!=''">  
+             and  r.ops_number =#{opsNumber} 
+            </if> 
+             <if test="auditStatus!=null and auditStatus!=''">  
+             and  r.audit_status =#{auditStatus} 
+            </if>   
+  </select>
+  
+  <select id="queryByPage" parameterType="com.need.domain.vo.ops.PageBopsOpsVO" resultMap="BaseResultMap">
+    select 
+    r.ops_id,  r.ops_type,  r.ops_channel,  r.audit_status,  r.create_time,  r.publisher_id,  r.auditor_id, 
+     r.ops_pic_key,  r.memo, r.ops_number, r.type_id,r.topic_score,r.eff_date,r.exp_date
+    FROM  bops_ops r LEFT JOIN bops_ops_main o ON r.ops_number=o.ops_id    
+      where
+      <![CDATA[r.create_time <= NOW()]]>
+            <if test="typeId!=null and typeId!=''">  
+             and  r.type_id =#{typeId} 
+            </if> 
+             <if test="opsNumber!=null and opsNumber!=''">  
+             and  r.ops_number =#{opsNumber} 
+            </if> 
+             <if test="auditStatus!=null and auditStatus!=''">  
+             and  r.audit_status =#{auditStatus} 
+            </if>    
+      ORDER BY o.ops_type,r.topic_score DESC   LIMIT #{start},#{pageSize} 
+  </select>
+  
+   <select id="queryByTypeId" parameterType="java.lang.String" resultMap="BaseResultMap">
+      select 
+    <include refid="Base_Column_List" />
+      from  bops_ops where  type_id = #{typeId} AND ops_number NOT IN('BANNER_HOME','BANNER_SHOP')
+   </select>
+  
+   <select id="getByOpsNumber" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+      from  bops_ops  where  ops_number = #{opsNumber} 
+   </select>
+   
+   
+    <select id="queryByParams" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+      from  bops_ops  where type_id = #{typeId}  and  ops_number = #{opsNumber} 
+    </select>
+    
+    
+    <delete id="deleteByTypeId" parameterType="java.lang.String">
+     delete from bops_ops
+     where ops_type ='TOPIC' AND type_id = #{typeId}
+    </delete>
+   
+</mapper>

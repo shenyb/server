@@ -1,0 +1,130 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.need</groupId>
+		<artifactId>scm-base</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+
+	<artifactId>scm-service</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>scm-service</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<definition.scope>provided</definition.scope>
+	</properties>
+
+<profiles>
+<!-- sonarqube 配置 -->
+		<profile>
+				<id>sonar</id>
+				<activation>
+					<activeByDefault>true</activeByDefault>
+				</activation>
+				<properties>
+					<sonar.jdbc.url>
+						jdbc:mysql://101.200.182.96:3306/sonarqube?useUnicode=true&amp;characterEncoding=utf8
+					</sonar.jdbc.url>
+					<sonar.jdbc.username>sonar</sonar.jdbc.username>
+					<sonar.jdbc.password>sonar</sonar.jdbc.password>
+					<!-- Optional URL to server. Default value is http://localhost:9000 -->
+					<sonar.host.url>
+						http://101.200.182.96:9000
+					</sonar.host.url>
+				</properties>
+			</profile>	
+</profiles>
+
+	<dependencies>
+		<!-- 项目之间依赖jar -->
+		<dependency>
+			<groupId>com.need</groupId>
+			<artifactId>scm-domain</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.need</groupId>
+			<artifactId>need-utils</artifactId>
+			<scope>${definition.scope}</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.need</groupId>
+			<artifactId>scm-dao</artifactId>
+			<scope>${definition.scope}</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.need</groupId>
+			<artifactId>need-framework</artifactId>
+		</dependency>
+
+
+		<!-- log4j -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+		<!-- slf4j 和slf4j到log4j的转换 -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+		</dependency>
+
+
+		<!-- spring core -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+		</dependency>
+		<!-- alibaba fastjson -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+		</dependency>
+		<!-- need jedis 多点jedis -->
+		<dependency>
+			<groupId>com.need</groupId>
+			<artifactId>need-jedis</artifactId>
+		</dependency>
+		<dependency>
+			  <groupId>com.need</groupId>
+			  <artifactId>need-kafka</artifactId>
+		</dependency>
+
+
+	</dependencies>
+</project>

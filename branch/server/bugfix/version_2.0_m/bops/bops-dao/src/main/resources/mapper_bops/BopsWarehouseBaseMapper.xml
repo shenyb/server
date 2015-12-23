@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.goods.BopsWarehouseBaseDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.bops.goods.BopsWarehouseBase" >
+    <id column="warehouse_id" property="warehouseId" jdbcType="INTEGER" />
+    <result column="warehouse_name" property="warehouseName" jdbcType="VARCHAR" />
+    <result column="warehouse_type" property="warehouseType" jdbcType="VARCHAR" />
+    <result column="ops_type" property="opsType" jdbcType="VARCHAR" />
+    <result column="warehouse_province" property="warehouseProvince" jdbcType="VARCHAR" />
+    <result column="warehouse_city" property="warehouseCity" jdbcType="VARCHAR" />
+    <result column="warehouse_area" property="warehouseArea" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    warehouse_id, warehouse_name, warehouse_type, ops_type, warehouse_province, warehouse_city, 
+    warehouse_area, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from bops_warehouse_base
+    where warehouse_id = #{warehouseId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from bops_warehouse_base
+    where warehouse_id = #{warehouseId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.bops.goods.BopsWarehouseBase" >
+    insert into bops_warehouse_base (warehouse_id, warehouse_name, warehouse_type, 
+      ops_type, warehouse_province, warehouse_city, 
+      warehouse_area, remark)
+    values (#{warehouseId,jdbcType=INTEGER}, #{warehouseName,jdbcType=VARCHAR}, #{warehouseType,jdbcType=VARCHAR}, 
+      #{opsType,jdbcType=VARCHAR}, #{warehouseProvince,jdbcType=VARCHAR}, #{warehouseCity,jdbcType=VARCHAR}, 
+      #{warehouseArea,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.domain.po.bops.goods.BopsWarehouseBase" >
+    insert into bops_warehouse_base
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="warehouseId != null" >
+        warehouse_id,
+      </if>
+      <if test="warehouseName != null" >
+        warehouse_name,
+      </if>
+      <if test="warehouseType != null" >
+        warehouse_type,
+      </if>
+      <if test="opsType != null" >
+        ops_type,
+      </if>
+      <if test="warehouseProvince != null" >
+        warehouse_province,
+      </if>
+      <if test="warehouseCity != null" >
+        warehouse_city,
+      </if>
+      <if test="warehouseArea != null" >
+        warehouse_area,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="warehouseId != null" >
+        #{warehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="warehouseName != null" >
+        #{warehouseName,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseType != null" >
+        #{warehouseType,jdbcType=VARCHAR},
+      </if>
+      <if test="opsType != null" >
+        #{opsType,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseProvince != null" >
+        #{warehouseProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseCity != null" >
+        #{warehouseCity,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseArea != null" >
+        #{warehouseArea,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.bops.goods.BopsWarehouseBase" >
+    update bops_warehouse_base
+    <set >
+      <if test="warehouseName != null" >
+        warehouse_name = #{warehouseName,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseType != null" >
+        warehouse_type = #{warehouseType,jdbcType=VARCHAR},
+      </if>
+      <if test="opsType != null" >
+        ops_type = #{opsType,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseProvince != null" >
+        warehouse_province = #{warehouseProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseCity != null" >
+        warehouse_city = #{warehouseCity,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseArea != null" >
+        warehouse_area = #{warehouseArea,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where warehouse_id = #{warehouseId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.domain.po.bops.goods.BopsWarehouseBase" >
+    update bops_warehouse_base
+    set warehouse_name = #{warehouseName,jdbcType=VARCHAR},
+      warehouse_type = #{warehouseType,jdbcType=VARCHAR},
+      ops_type = #{opsType,jdbcType=VARCHAR},
+      warehouse_province = #{warehouseProvince,jdbcType=VARCHAR},
+      warehouse_city = #{warehouseCity,jdbcType=VARCHAR},
+      warehouse_area = #{warehouseArea,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where warehouse_id = #{warehouseId,jdbcType=INTEGER}
+  </update>
+</mapper>

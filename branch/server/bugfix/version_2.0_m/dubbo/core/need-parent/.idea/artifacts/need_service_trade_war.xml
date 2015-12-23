@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="need-service-trade:war">
+    <output-path>$PROJECT_DIR$/../../service/need-service-trade/target</output-path>
+    <root id="archive" name="need-service-trade.war">
+      <element id="artifact" artifact-name="need-service-trade:war exploded" />
+    </root>
+  </artifact>
+</component>

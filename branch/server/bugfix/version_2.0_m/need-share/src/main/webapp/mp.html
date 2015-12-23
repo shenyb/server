@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-cmn">
+	<head>
+		<meta charset="utf-8">
+		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+		<meta content="portrait" name="x5-orientation">
+		<meta content="true" name="x5-fullscreen">
+		<meta content="portrait" name="screen-orientation">
+		<meta content="yes" name="full-screen">
+		<meta content="webkit" name="renderer">
+		<meta content="IE=Edge" http-equiv="X-UA-Compatible">
+		<meta content="no-siteapp" http-equiv="Cache-Control">
+		<meta content="" name="description">
+		<meta content="" name="keywords">
+		<title>Need App下载</title>
+
+		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="../app/images/common/logo_114x114.png">
+		<link rel="apple-touch-icon-precomposed" href="../app/images/common/logo_57x57.png">
+	    <link rel="shortcut icon" href="app/images/common/favicon.ico" type="image/x-icon"/>
+
+	    <link rel="stylesheet" href="app/css/normalize.css">
+		<link rel="stylesheet" href="app/css/main.css">
+
+		<script type="text/javascript" src="app/script/lib/zepto/zepto.min.js"></script>
+		<script type="text/javascript" src="app/script/auto_fontsize.js"></script>
+
+		<style>
+			body {
+				width: 100%;
+				height: 100%;
+			}
+			img {
+				display: block;
+				width: 100%;
+			}
+			section:nth-child(1) {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				overflow: hidden;
+			}
+			.background {
+				position: absolute;
+				width: 100%;
+				bottom: 0;
+			}
+			.ios-btn, .android-btn {
+				position: absolute;
+				width: 8.5625rem;
+				height: 2.4375rem;
+				bottom: 3.4375rem;
+			}
+			.ios-btn {
+				right: 50%;
+				margin-right: 0.625rem;
+			}
+			.android-btn {
+				left: 50%;
+				margin-left: 10px;
+			}
+			.slogan {
+				position: absolute;
+				width: 11.875rem;
+				height: 6.6875rem;
+				left: 50%;
+				top: 5.9375rem;
+				-webkit-transform: translateX(-50%);
+				-moz-transform: translateX(-50%);
+				-o-transform: translateX(-50%);
+				transform: translateX(-50%);
+			}
+			.masklayer {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				background: #000000;
+				opacity: .85;
+				display: none;
+			}
+			.mp-word-wrap {
+				position: absolute;
+				width: 13.90625rem;
+				height: 7.34375rem;
+				left: 50%;
+				top: 3.875rem;
+				-webkit-transform: translateX(-50%);
+				-moz-transform: translateX(-50%);
+				-o-transform: translateX(-50%);
+				transform: translateX(-50%);
+			}
+			.mp-arr-wrap {
+				width: 5.3125rem;
+				height: 2.4375rem;
+				position: absolute;
+				right: 0;
+				top: 2.15625rem;
+				margin-right: 1.75rem;
+			}
+			.mp-erwei-wrap {
+			    position: absolute;
+				width: 12.5rem;
+			    top: 16rem;
+			    left: 50%;
+				-webkit-transform: translateX(-50%);
+				-moz-transform: translateX(-50%);
+				-o-transform: translateX(-50%);
+				transform: translateX(-50%);
+			}
+		</style>
+	</head>
+	<body>
+		<section>
+			<img class="background" src="app/images/download/down_background_6+.jpg" alt="">
+			<a class="slogan" href="">
+				<img src="app/images/download/slogan.png" alt="">
+			</a>
+			<a id="android-btn" class="android-btn" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.needapp.need">
+				<img src="app/images/download/android_download_btn_r.png" alt="">
+			</a>
+			<a id="ios-btn" class="ios-btn" href="javascript:;">
+				<img src="app/images/download/ios_download_btn.png" alt="">
+			</a>
+			<div id="masklayer" class="masklayer">
+				<div class="mp-word-wrap">
+					<img src="app/images/download/mp_word.png" alt="">
+				</div>
+				<div class="mp-arr-wrap">
+					<img src="app/images/download/arr.png" alt="">
+				</div>
+				<div class="mp-erwei-wrap">
+					<img src="app/images/download/erwei.png" alt="">
+				</div>
+			</div>
+		</section>
+		<script type="text/javascript" src="app/script/mp.js"></script>
+	</body>
+</html>

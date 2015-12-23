@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.trade.BopsTradeLogisticsDAO">
+	<resultMap id="BaseResultMap"
+		type="com.need.domain.po.bops.trade.BopsTradeLogistics">
+		<id column="trade_no" property="tradeNo" jdbcType="CHAR" />
+		<result column="address_id" property="addressId" jdbcType="VARCHAR" />
+		<result column="user_id" property="userId" jdbcType="VARCHAR" />
+		<result column="logistics_id" property="logisticsId" jdbcType="INTEGER" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="goods_sn_no" property="goodsSnNo" jdbcType="VARCHAR" />
+		<result column="logistics_info" property="logisticsInfo"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		trade_no, address_id, user_id, logistics_id, address, create_time, goods_sn_no,
+		logistics_info
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from bops_trade_logistics
+		where trade_no = #{tradeNo}
+	</select>
+	 <select id="queryAllBopsTradeLogistics" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    	from bops_trade_logistics
+  </select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from bops_trade_logistics
+		where trade_no = #{tradeNo}
+	</delete>
+	<insert id="insert"
+		parameterType="com.need.domain.po.bops.trade.BopsTradeLogistics">
+		insert into bops_trade_logistics (trade_no, address_id, user_id,
+		logistics_id, address, create_time,
+		goods_sn_no, logistics_info)
+		values (#{tradeNo}, #{addressId}, #{userId},
+		#{logisticsId}, #{address}, NOW(),
+		#{goodsSnNo}, #{logisticsInfo})
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.need.domain.po.bops.trade.BopsTradeLogistics">
+		update bops_trade_logistics
+		<set>
+			<if test="addressId != null">
+				address_id = #{addressId},
+			</if>
+			<if test="userId != null">
+				user_id = #{userId},
+			</if>
+			<if test="logisticsId != null">
+				logistics_id = #{logisticsId},
+			</if>
+			<if test="address != null">
+				address = #{address},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime},
+			</if>
+			<if test="goodsSnNo != null">
+				goods_sn_no = #{goodsSnNo},
+			</if>
+			<if test="logisticsInfo != null">
+				logistics_info = #{logisticsInfo},
+			</if>
+		</set>
+		where trade_no = #{tradeNo}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.need.domain.po.bops.trade.BopsTradeLogistics">
+		update bops_trade_logistics
+		set address_id = #{addressId},
+		user_id = #{userId},
+		logistics_id = #{logisticsId},
+		address = #{address},
+		create_time = #{createTime},
+		goods_sn_no = #{goodsSnNo},
+		logistics_info = #{logisticsInfo}
+		where trade_no = #{tradeNo}
+	</update>
+</mapper>

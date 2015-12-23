@@ -1,0 +1,352 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+
+
+<link rel="stylesheet" href="/resources/css/datapage.css" >
+<link rel="stylesheet" href="/resources/css/pagination.css" >
+
+<div class="data-page-wrap">
+	<div class="data-page-inner">
+		<div class="page-head">
+	        <h3 class="m-b-less">
+	            行家分类管理
+	        </h3>
+	        <!--<span class="sub-title">Welcome to Static Table</span>-->
+	        <div class="state-information">
+	            <ol class="breadcrumb m-b-less bg-less">
+	                <li><a href="#">主页</a></li>
+	                <li><a href="#">行家分类管理</a></li>
+	                <li class="active">行家分类列表</li>
+	            </ol>
+	        </div>
+	    </div>
+	    <div class="wrapper">
+	    	<div class="row">
+	    		<div class="col-sm-12">
+	    			<section class="panel">
+	    				<header class="panel-heading ">
+	                        行家分类列表
+	                        <span class="tools pull-right">
+	                            <a class="fa fa-repeat box-refresh" href="javascript:;"></a>
+	                            <a class="t-close fa fa-times" href="javascript:;"></a>
+	                        </span>
+	                    </header>
+	    				<div class="dataTables_wrapper form-inline dt-bootstrap no-footer" 
+	    					 id="DataTables_Table_0_wrapper">
+	    					<div class="tbl-head">
+	    						<input type="text" placeholder="搜索信息">
+	    						<input type="text" placeholder="搜索信息">
+	    						<input type="text" placeholder="搜索信息">
+	    						<button type="submit" class="btn btn-info">提交</button>
+	    					</div>
+					 		<table aria-describedby="DataTables_Table_0_info" 
+					 			   role="grid" id="DataTables_Table_0" 
+					 			   class="table convert-data-table data-table dataTable no-footer">
+				                <thead>
+			                        <tr role="row">
+			                        	<th aria-label="OrderDate : activate to sort column descending" 
+			                        		aria-sort="ascending" style="width: 184px;" 
+			                        		colspan="1" 
+			                        		rowspan="1" 
+			                        		aria-controls="DataTables_Table_0" 
+			                        		tabindex="0" 
+			                        		class="sorting_asc">
+			                                OrderDate
+			                            </th>
+			                            <th aria-label="Region : activate to sort column ascending" 
+			                            	style="width: 135px;" 
+			                            	colspan="1" 
+			                            	rowspan="1" 
+			                            	aria-controls="DataTables_Table_0" 
+			                            	tabindex="0" 
+			                            	class="sorting">
+			                                Region
+			                            </th>
+			                            <th aria-label="Rep : activate to sort column ascending" 
+			                            	style="width: 181px;" 
+			                            	colspan="1" 
+			                            	rowspan="1" 
+			                            	aria-controls="DataTables_Table_0" 
+			                            	tabindex="0" 
+			                            	class="sorting">
+			                                Rep
+			                            </th>
+			                            <th aria-label="Item : activate to sort column ascending" 
+			                            	style="width: 133px;" 
+			                            	colspan="1" 
+			                            	rowspan="1" 
+			                            	aria-controls="DataTables_Table_0" 
+			                            	tabindex="0" 
+			                            	class="sorting">
+			                                Item
+			                            </th>
+			                            <th aria-label="Units : activate to sort column ascending" 
+			                            	style="width: 105px;" 
+			                            	colspan="1" 
+			                            	rowspan="1" 
+			                            	aria-controls="DataTables_Table_0" 
+			                            	tabindex="0" 
+			                            	class="sorting">
+			                                Units
+			                            </th>
+			                            <th aria-label="Unit Cost : activate to sort column ascending" 
+			                            	style="width: 165px;" 
+			                            	colspan="1" 
+			                            	rowspan="1" 
+			                            	aria-controls="DataTables_Table_0" 
+			                            	tabindex="0" 
+			                            	class="sorting">
+			                                Unit Cost
+			                            </th>
+			                            <th aria-label="Total: activate to sort column ascending" 
+			                            	style="width: 145px;" 
+			                            	colspan="1"
+			                            	rowspan="1" 
+			                            	aria-controls="DataTables_Table_0" 
+			                            	tabindex="0" 
+			                            	class="sorting">
+			                                Total
+			                            </th>
+			                        </tr>
+			                    </thead>
+			                	<tbody>
+			                  		<tr class="odd" role="row">
+			                            <td class="sorting_1">
+			                                1/6/10
+			                            </td>
+			                            <td>
+			                                Quebec
+			                            </td>
+			                            <td>
+			                                Jones
+			                            </td>
+			                            <td>
+			                                Pencil
+			                            </td>
+			                            <td>
+			                                95
+			                            </td>
+			                            <td>
+			                                1.99
+			                            </td>
+			                            <td>
+			                                189.05
+			                            </td>
+			                        </tr><tr class="even" role="row">
+			                            <td class="sorting_1">
+			                                1/23/10
+			                            </td>
+			                            <td>
+			                                Ontario
+			                            </td>
+			                            <td>
+			                                Kivell
+			                            </td>
+			                            <td>
+			                                Binder
+			                            </td>
+			                            <td>
+			                                50
+			                            </td>
+			                            <td>
+			                                19.99
+			                            </td>
+			                            <td>
+			                                999.50
+			                            </td>
+			                        </tr><tr class="odd" role="row">
+			                            <td class="sorting_1">
+			                                2/9/10
+			                            </td>
+			                            <td>
+			                                Ontario
+			                            </td>
+			                            <td>
+			                                Jardine
+			                            </td>
+			                            <td>
+			                                Pencil
+			                            </td>
+			                            <td>
+			                                36
+			                            </td>
+			                            <td>
+			                                4.99
+			                            </td>
+			                            <td>
+			                                179.64
+			                            </td>
+			                        </tr><tr class="even" role="row">
+			                            <td class="sorting_1">
+			                                2/26/10
+			                            </td>
+			                            <td>
+			                                Ontario
+			                            </td>
+			                            <td>
+			                                Gill
+			                            </td>
+			                            <td>
+			                                Pen
+			                            </td>
+			                            <td>
+			                                27
+			                            </td>
+			                            <td>
+			                                19.99
+			                            </td>
+			                            <td>
+			                                539.73
+			                            </td>
+			                        </tr><tr class="odd" role="row">
+			                            <td class="sorting_1">
+			                                3/15/10
+			                            </td>
+			                            <td>
+			                                Alberta
+			                            </td>
+			                            <td>
+			                                Sorvino
+			                            </td>
+			                            <td>
+			                                Pencil
+			                            </td>
+			                            <td>
+			                                56
+			                            </td>
+			                            <td>
+			                                2.99
+			                            </td>
+			                            <td>
+			                                167.44
+			                            </td>
+			                        </tr><tr class="even" role="row">
+			                            <td class="sorting_1">
+			                                4/1/10
+			                            </td>
+			                            <td>
+			                                Quebec
+			                            </td>
+			                            <td>
+			                                Jones
+			                            </td>
+			                            <td>
+			                                Binder
+			                            </td>
+			                            <td>
+			                                60
+			                            </td>
+			                            <td>
+			                                4.99
+			                            </td>
+			                            <td>
+			                                299.40
+			                            </td>
+			                        </tr><tr class="odd" role="row">
+			                            <td class="sorting_1">
+			                                4/18/10
+			                            </td>
+			                            <td>
+			                                Ontario
+			                            </td>
+			                            <td>
+			                                Andrews
+			                            </td>
+			                            <td>
+			                                Pencil
+			                            </td>
+			                            <td>
+			                                75
+			                            </td>
+			                            <td>
+			                                1.99
+			                            </td>
+			                            <td>
+			                                149.25
+			                            </td>
+			                        </tr><tr class="even" role="row">
+			                            <td class="sorting_1">
+			                                5/5/10
+			                            </td>
+			                            <td>
+			                                Ontario
+			                            </td>
+			                            <td>
+			                                Jardine
+			                            </td>
+			                            <td>
+			                                Pencil
+			                            </td>
+			                            <td>
+			                                90
+			                            </td>
+			                            <td>
+			                                4.99
+			                            </td>
+			                            <td>
+			                                449.10
+			                            </td>
+			                        </tr><tr class="odd" role="row">
+			                            <td class="sorting_1">
+			                                5/22/10
+			                            </td>
+			                            <td>
+			                                Alberta
+			                            </td>
+			                            <td>
+			                                Thompson
+			                            </td>
+			                            <td>
+			                                Pencil
+			                            </td>
+			                            <td>
+			                                32
+			                            </td>
+			                            <td>
+			                                1.99
+			                            </td>
+			                            <td>
+			                                63.68
+			                            </td>
+			                        </tr><tr class="even" role="row">
+			                            <td class="sorting_1">
+			                                6/8/10
+			                            </td>
+			                            <td>
+			                                Quebec
+			                            </td>
+			                            <td>
+			                                Jones
+			                            </td>
+			                            <td>
+			                                Binder
+			                            </td>
+			                            <td>
+			                                60
+			                            </td>
+			                            <td>
+			                                8.99
+			                            </td>
+			                            <td>
+			                                539.40
+			                            </td>
+			                        </tr>
+			                    </tbody>
+				            </table>
+							<div class="tbl-footer clearfix">
+								<div class="tbl-info pull-left">
+									<div aria-live="polite" 
+										 role="status" 
+										 id="DataTables_Table_0_info" 
+										 class="dataTables_info">共有 21 条, 每页显示 10 条</div>
+								</div>
+								<div class="tbl-pagin pull-right">
+		                            <div id="light-pagination"></div>
+		                        </div>
+							</div>
+	    				</div>
+	    			</section>
+	    		</div>
+	    	</div>
+	    </div>
+	</div>
+</div>

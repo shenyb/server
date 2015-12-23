@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.api.trade.TradePayDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.api.trade.TradePayPO" >
+    <id column="pay_id" property="payId" jdbcType="VARCHAR" />
+    <result column="trade_no" property="tradeNo" jdbcType="VARCHAR" />
+    <result column="out_pay_no" property="outPayNo" jdbcType="VARCHAR" />
+    <result column="pay_channel" property="payChannel" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="INTEGER" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="pay_type" property="payType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    pay_id, trade_no, out_pay_no, pay_channel, amount, memo, pay_time, pay_type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from trade_pay
+    where pay_id = #{payId}
+  </select>
+    <select id="selectByTradeNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from trade_pay
+    where trade_no = #{tradeNo}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from trade_pay
+    where pay_id = #{payId}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.api.trade.TradePayPO" >
+    insert into trade_pay (pay_id, trade_no, out_pay_no, 
+      pay_channel, amount, memo, 
+      pay_time, pay_type)
+    values (#{payId}, #{tradeNo}, #{outPayNo}, 
+      #{payChannel}, #{amount}, #{memo}, 
+      #{payTime}, #{payType})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.api.trade.TradePayPO" >
+    update trade_pay
+    <set >
+      <if test="tradeNo != null" >
+        trade_no = #{tradeNo},
+      </if>
+      <if test="outPayNo != null" >
+        out_pay_no = #{outPayNo},
+      </if>
+      <if test="payChannel != null" >
+        pay_channel = #{payChannel},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount},
+      </if>
+      <if test="memo != null" >
+        memo = #{memo},
+      </if>
+      <if test="payTime != null" >
+        pay_time = #{payTime},
+      </if>
+      <if test="payType != null" >
+        pay_type = #{payType},
+      </if>
+    </set>
+    where pay_id = #{payId}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.domain.po.api.trade.TradePayPO" >
+    update trade_pay
+    set trade_no = #{tradeNo},
+      out_pay_no = #{outPayNo},
+      pay_channel = #{payChannel},
+      amount = #{amount},
+      memo = #{memo},
+      pay_time = #{payTime},
+      pay_type = #{payType}
+    where pay_id = #{payId}
+  </update>
+</mapper>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.marketing.dao.jdbc.cheap.CheapOpenDAO" >
+  <resultMap id="BaseResultMap" type="com.need.marketing.dao.jdbc.cheap.po.CheapOpenPO" >
+    <id column="cheap_open_id" property="cheapOpenId" jdbcType="INTEGER" />
+    <result column="cheap_no" property="cheapNo" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="cheap_status" property="cheapStatus" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="complete_time" property="completeTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    cheap_open_id, cheap_no, user_id, cheap_status, create_time, complete_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from cheap_open
+    where cheap_open_id = #{cheapOpenId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from cheap_open
+    where cheap_open_id = #{cheapOpenId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.need.marketing.dao.jdbc.cheap.po.CheapOpenPO" keyProperty="cheapOpenId" useGeneratedKeys="true" >
+    insert into cheap_open (cheap_open_id, cheap_no, user_id, 
+      cheap_status, create_time, complete_time
+      )
+    values (#{cheapOpenId,jdbcType=INTEGER}, #{cheapNo,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{cheapStatus,jdbcType=VARCHAR}, now(), #{completeTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.marketing.dao.jdbc.cheap.po.CheapOpenPO" >
+    insert into cheap_open
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cheapOpenId != null" >
+        cheap_open_id,
+      </if>
+      <if test="cheapNo != null" >
+        cheap_no,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="cheapStatus != null" >
+        cheap_status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="completeTime != null" >
+        complete_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cheapOpenId != null" >
+        #{cheapOpenId,jdbcType=INTEGER},
+      </if>
+      <if test="cheapNo != null" >
+        #{cheapNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="cheapStatus != null" >
+        #{cheapStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="completeTime != null" >
+        #{completeTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.marketing.dao.jdbc.cheap.po.CheapOpenPO" >
+    update cheap_open
+    <set >
+      <if test="cheapNo != null" >
+        cheap_no = #{cheapNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="cheapStatus != null" >
+        cheap_status = #{cheapStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="completeTime != null" >
+        complete_time = #{completeTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where cheap_open_id = #{cheapOpenId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.marketing.dao.jdbc.cheap.po.CheapOpenPO" >
+    update cheap_open
+    set cheap_no = #{cheapNo,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      cheap_status = #{cheapStatus,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      complete_time = #{completeTime,jdbcType=TIMESTAMP}
+    where cheap_open_id = #{cheapOpenId,jdbcType=INTEGER}
+  </update>
+  
+   <select id="getByParames" parameterType="java.lang.String" resultMap="BaseResultMap">
+     select 
+    <include refid="Base_Column_List" />
+    from cheap_open
+    where cheap_no =#{cheapNo} AND user_id=#{userId}　
+   </select>
+   
+   
+    <sql id="Share_Column_List" >
+    o.cheap_open_id, o.cheap_no, o.user_id, o.cheap_status, o.create_time, o.complete_time,u.profile_pic_key,u.traded,u.open_id
+    </sql>
+   
+   <select id="getShareInfo" parameterType="java.lang.Integer" resultType="com.need.marketing.web.controller.cheap.vo.ShareCheapVO">
+     select 
+    <include refid="Share_Column_List" />
+      from cheap_open o INNER JOIN cheap_open_user u ON o.cheap_open_id =u.cheap_open_id
+      where o.cheap_open_id=#{cheapOpenId}　
+   </select>
+   
+   
+   <select id="getByOpenId" parameterType="java.lang.Integer" resultType="com.need.marketing.web.controller.cheap.vo.CheapVO">
+     select c.cheap_no, o.cheap_open_id, c.goods_id,c.goods_name,c.goods_pic_key, c.cheap_pic_key, c.goods_brief,c.cheap_count,c.cheap_price as cheap_price,c.cheap_share_title,c.cheap_share_content,c.end_time,c.during_time,c.cheap_description,c.join_description,c.open_description
+     ,o.create_time,o.cheap_status, c.onsale_price as onsale_price,c.warehouse_type from cheap_base c 
+     LEFT JOIN cheap_open o ON c.cheap_no = o.cheap_no where o.cheap_open_id =#{cheapOpenId}   
+   </select>
+   
+   <update id="updateStatus" parameterType="java.lang.Integer">
+   update cheap_open
+    set 
+      cheap_status = 'COMPLETE',
+       complete_time = NOW()
+    where cheap_open_id = #{cheapOpenId}
+   </update>
+   
+  
+</mapper>

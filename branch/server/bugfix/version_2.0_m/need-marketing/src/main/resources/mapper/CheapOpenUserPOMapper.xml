@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.marketing.dao.jdbc.cheap.CheapOpenUserDAO" >
+  <resultMap id="BaseResultMap" type="com.need.marketing.dao.jdbc.cheap.po.CheapOpenUserPO" >
+    <id column="cheap_open_id" property="cheapOpenId" jdbcType="INTEGER" />
+    <id column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="cheap_no" property="cheapNo" jdbcType="VARCHAR" />
+    <result column="profile_pic_key" property="profilePicKey" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="traded" property="traded" jdbcType="VARCHAR" />
+    <result column="open_id" property="openId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    cheap_open_id, mobile, cheap_no, profile_pic_key, create_time, traded, open_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.need.marketing.dao.jdbc.cheap.po.CheapOpenUserPOKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from cheap_open_user
+    where cheap_open_id = #{cheapOpenId,jdbcType=INTEGER}
+      and mobile = #{mobile,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.need.marketing.dao.jdbc.cheap.po.CheapOpenUserPOKey" >
+    delete from cheap_open_user
+    where cheap_open_id = #{cheapOpenId,jdbcType=INTEGER}
+      and mobile = #{mobile,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.need.marketing.dao.jdbc.cheap.po.CheapOpenUserPO" >
+    insert into cheap_open_user (cheap_open_id, mobile, cheap_no, 
+      profile_pic_key, create_time, traded, 
+      open_id)
+    values (#{cheapOpenId,jdbcType=INTEGER}, #{mobile,jdbcType=VARCHAR}, #{cheapNo,jdbcType=VARCHAR}, 
+      #{profilePicKey,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{traded,jdbcType=VARCHAR}, 
+      #{openId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.marketing.dao.jdbc.cheap.po.CheapOpenUserPO" >
+    insert into cheap_open_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cheapOpenId != null" >
+        cheap_open_id,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="cheapNo != null" >
+        cheap_no,
+      </if>
+      <if test="profilePicKey != null" >
+        profile_pic_key,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="traded != null" >
+        traded,
+      </if>
+      <if test="openId != null" >
+        open_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cheapOpenId != null" >
+        #{cheapOpenId,jdbcType=INTEGER},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="cheapNo != null" >
+        #{cheapNo,jdbcType=VARCHAR},
+      </if>
+      <if test="profilePicKey != null" >
+        #{profilePicKey,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="traded != null" >
+        #{traded,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null" >
+        #{openId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.marketing.dao.jdbc.cheap.po.CheapOpenUserPO" >
+    update cheap_open_user
+    <set >
+      <if test="cheapNo != null" >
+        cheap_no = #{cheapNo,jdbcType=VARCHAR},
+      </if>
+      <if test="profilePicKey != null" >
+        profile_pic_key = #{profilePicKey,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="traded != null" >
+        traded = #{traded,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null" >
+        open_id = #{openId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cheap_open_id = #{cheapOpenId,jdbcType=INTEGER}
+      and mobile = #{mobile,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.marketing.dao.jdbc.cheap.po.CheapOpenUserPO" >
+    update cheap_open_user
+    set cheap_no = #{cheapNo,jdbcType=VARCHAR},
+      profile_pic_key = #{profilePicKey,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      traded = #{traded,jdbcType=VARCHAR},
+      open_id = #{openId,jdbcType=VARCHAR}
+    where cheap_open_id = #{cheapOpenId,jdbcType=INTEGER}
+      and mobile = #{mobile,jdbcType=VARCHAR}
+  </update>
+   <sql id="Show_Column_List" >
+    u.cheap_open_id, u.mobile, u.cheap_no, u.profile_pic_key,  u.traded, u.open_id, o.cheap_status,o.create_time,o.complete_time,o.user_id
+  </sql>
+   
+  <select id="getByParames" parameterType="java.lang.String" resultType="com.need.marketing.web.controller.cheap.vo.CheapUserVO">
+     select 
+   <include refid="Show_Column_List"/> 
+    from cheap_open_user u LEFT JOIN cheap_open o ON u.cheap_open_id =o.cheap_open_id 
+    where u.cheap_no = #{cheapNo}
+      and u.mobile = #{mobile} 
+      and o.cheap_status!='CLOSED'
+      order by o.create_time DESC
+  </select>
+   
+   
+   <sql id="Share_Column_List" >
+    o.cheap_open_id, o.cheap_no, o.user_id, o.cheap_status, o.create_time, o.complete_time,u.profile_pic_key,u.traded,u.open_id
+    </sql>
+  
+  <select id="getShareList" parameterType="java.lang.String" resultType="com.need.marketing.web.controller.cheap.vo.ShareCheapVO">
+   select 
+    <include refid="Share_Column_List" />
+      from cheap_open o INNER JOIN cheap_open_user u ON o.cheap_open_id =u.cheap_open_id
+      where o.cheap_open_id=#{cheapOpenId}
+  </select>
+  
+  
+  <select id="getListByOpenId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from cheap_open_user
+    where cheap_open_id = #{cheapOpenId} 
+    order by create_time ASC
+  </select>
+  
+  
+   <sql id="User_Column_List" >
+    u.cheap_open_id, u.mobile, u.profile_pic_key ,c.goods_name
+  </sql>
+  
+  <select id="getJoinUser" parameterType="java.lang.Integer" resultType="com.need.marketing.web.controller.cheap.vo.JoinUserVO">
+     select 
+    <include refid="User_Column_List" />
+    from cheap_open_user  u LEFT JOIN cheap_base c ON u.cheap_no=c.cheap_no
+     where u.cheap_open_id = #{cheapOpenId} 
+    order by u.create_time ASC
+  </select>
+  
+  <select id="getBycheapNoAndMobile" resultMap="BaseResultMap" parameterType="com.need.marketing.dao.jdbc.cheap.po.CheapOpenUserPOKey">
+    SELECT 
+    u.cheap_open_id, u.mobile, u.profile_pic_key ,c.goods_name, o.cheap_status 
+     FROM cheap_open_user u INNER JOIN cheap_base c ON u.cheap_no=c.cheap_no  
+     INNER JOIN cheap_open o ON o.cheap_open_id=u.cheap_open_id
+     where u.mobile=#{mobile} and u.cheap_no=${cheapNo} 
+     <![CDATA[ and NOW() < c.end_time ]]>
+     and  o.cheap_status!='CLOSED' 
+    order by u.create_time DESC
+    </select>
+    
+    
+    <select id="queryByParams" parameterType="java.lang.String" resultType="com.need.marketing.dao.jdbc.cheap.po.CheapOpenUserPO">
+        select
+      <include refid="Base_Column_List" />
+      from cheap_open_user where mobile=#{mobile} and cheap_no=#{cheapNo} and
+      traded=#{traded}
+    </select>
+  
+</mapper>

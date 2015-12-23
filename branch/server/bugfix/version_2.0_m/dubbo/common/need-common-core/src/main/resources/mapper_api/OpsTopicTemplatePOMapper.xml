@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.common.core.dao.jdbc.ops.OpsTopicTemplateDAO" >
+  <resultMap id="BaseResultMap" type="com.need.common.domain.po.api.ops.OpsTopicTemplatePO" >
+    <id column="topic_id" property="topicId" jdbcType="INTEGER" />
+    <result column="topic_title" property="topicTitle" jdbcType="VARCHAR" />
+    <result column="topic_code" property="topicCode" jdbcType="VARCHAR" />
+    <result column="visit_url" property="visitUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.need.common.domain.po.api.ops.OpsTopicTemplatePO" extends="BaseResultMap" >
+    <result column="topic_contents" property="topicContents" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    topic_id, topic_title, topic_code, visit_url
+  </sql>
+  <sql id="Blob_Column_List" >
+    topic_contents
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ops_topic1
+    where topic_id = #{topicId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ops_topic1
+    where topic_id = #{topicId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.need.common.domain.po.api.ops.OpsTopicTemplatePO" >
+    insert into ops_topic1 (topic_id, topic_title, topic_code, 
+      visit_url, topic_contents)
+    values (#{topicId,jdbcType=INTEGER}, #{topicTitle,jdbcType=VARCHAR}, #{topicCode,jdbcType=VARCHAR}, 
+      #{visitUrl,jdbcType=VARCHAR}, #{topicContents,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.common.domain.po.api.ops.OpsTopicTemplatePO" >
+    insert into ops_topic1
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="topicId != null" >
+        topic_id,
+      </if>
+      <if test="topicTitle != null" >
+        topic_title,
+      </if>
+      <if test="topicCode != null" >
+        topic_code,
+      </if>
+      <if test="visitUrl != null" >
+        visit_url,
+      </if>
+      <if test="topicContents != null" >
+        topic_contents,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="topicId != null" >
+        #{topicId,jdbcType=INTEGER},
+      </if>
+      <if test="topicTitle != null" >
+        #{topicTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="topicCode != null" >
+        #{topicCode,jdbcType=VARCHAR},
+      </if>
+      <if test="visitUrl != null" >
+        #{visitUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="topicContents != null" >
+        #{topicContents,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.common.domain.po.api.ops.OpsTopicTemplatePO" >
+    update ops_topic1
+    <set >
+      <if test="topicTitle != null" >
+        topic_title = #{topicTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="topicCode != null" >
+        topic_code = #{topicCode,jdbcType=VARCHAR},
+      </if>
+      <if test="visitUrl != null" >
+        visit_url = #{visitUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="topicContents != null" >
+        topic_contents = #{topicContents,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where topic_id = #{topicId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.need.common.domain.po.api.ops.OpsTopicTemplatePO" >
+    update ops_topic1
+    set topic_title = #{topicTitle,jdbcType=VARCHAR},
+      topic_code = #{topicCode,jdbcType=VARCHAR},
+      visit_url = #{visitUrl,jdbcType=VARCHAR},
+      topic_contents = #{topicContents,jdbcType=LONGVARCHAR}
+    where topic_id = #{topicId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.common.domain.po.api.ops.OpsTopicTemplatePO" >
+    update ops_topic1
+    set topic_title = #{topicTitle,jdbcType=VARCHAR},
+      topic_code = #{topicCode,jdbcType=VARCHAR},
+      visit_url = #{visitUrl,jdbcType=VARCHAR}
+    where topic_id = #{topicId,jdbcType=INTEGER}
+  </update>
+  
+  
+   <select id="queryByPage" resultType="com.need.common.domain.vo.ops.XinhuanTemplateVO"  >
+    SELECT a.visit_url topic_url ,a.topic_id, a.topic_title as topicName, b.new_pic_key top_pic_key 
+    FROM ops_topic1 a LEFT JOIN topic_category b ON a.topic_id=b.topic_id 
+    WHERE EXISTS  
+    (SELECT 1 FROM  ops_topic_category WHERE  topic_category_position='XINHUAN' AND topic_category_id=b.topic_category_id )
+      AND now() between b.eff_date and b.exp_date
+    order by b.topic_score DESC
+  </select>
+</mapper>

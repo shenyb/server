@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.goods.BopsGoodsSalesDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.bops.goods.BopsGoodsSales" >
+    <id column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+    <result column="sales_serven" property="salesServen" jdbcType="INTEGER" />
+    <result column="sales_fifteen" property="salesFifteen" jdbcType="INTEGER" />
+    <result column="sales_sixty" property="salesSixty" jdbcType="INTEGER" />
+    <result column="sales_ninety" property="salesNinety" jdbcType="INTEGER" />
+    <result column="sales_thirty" property="salesThirty" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    goods_id, sales_serven, sales_fifteen, sales_sixty, sales_ninety, sales_thirty
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bops_goods_sales
+    where goods_id = #{goodsId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bops_goods_sales
+    where goods_id = #{goodsId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteAll" parameterType="java.lang.String" >
+    delete from bops_goods_sales
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.bops.goods.BopsGoodsSales" >
+    insert into bops_goods_sales (goods_id, sales_serven, sales_fifteen, 
+      sales_sixty, sales_ninety, sales_thirty
+      )
+    values (#{goodsId,jdbcType=VARCHAR}, #{salesServen,jdbcType=INTEGER}, #{salesFifteen,jdbcType=INTEGER}, 
+      #{salesSixty,jdbcType=INTEGER}, #{salesNinety,jdbcType=INTEGER}, #{salesThirty,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.domain.po.bops.goods.BopsGoodsSales" >
+    insert into bops_goods_sales
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="salesServen != null" >
+        sales_serven,
+      </if>
+      <if test="salesFifteen != null" >
+        sales_fifteen,
+      </if>
+      <if test="salesSixty != null" >
+        sales_sixty,
+      </if>
+      <if test="salesNinety != null" >
+        sales_ninety,
+      </if>
+      <if test="salesThirty != null" >
+        sales_thirty,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="salesServen != null" >
+        #{salesServen,jdbcType=INTEGER},
+      </if>
+      <if test="salesFifteen != null" >
+        #{salesFifteen,jdbcType=INTEGER},
+      </if>
+      <if test="salesSixty != null" >
+        #{salesSixty,jdbcType=INTEGER},
+      </if>
+      <if test="salesNinety != null" >
+        #{salesNinety,jdbcType=INTEGER},
+      </if>
+      <if test="salesThirty != null" >
+        #{salesThirty,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.bops.goods.BopsGoodsSales" >
+    update bops_goods_sales
+    <set >
+      <if test="salesServen != null" >
+        sales_serven = #{salesServen}
+      </if>
+      <if test="salesFifteen != null" >
+        sales_fifteen = #{salesFifteen}
+      </if>
+      <if test="salesSixty != null" >
+        sales_sixty = #{salesSixty}
+      </if>
+      <if test="salesNinety != null" >
+        sales_ninety = #{salesNinety}
+      </if>
+      <if test="salesThirty != null" >
+        sales_thirty = #{salesThirty}
+      </if>
+    </set>
+    where goods_id = #{goodsId}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.domain.po.bops.goods.BopsGoodsSales" >
+    update bops_goods_sales
+    set sales_serven = #{salesServen,jdbcType=INTEGER},
+      sales_fifteen = #{salesFifteen,jdbcType=INTEGER},
+      sales_sixty = #{salesSixty,jdbcType=INTEGER},
+      sales_ninety = #{salesNinety,jdbcType=INTEGER},
+      sales_thirty = #{salesThirty,jdbcType=INTEGER}
+    where goods_id = #{goodsId,jdbcType=VARCHAR}
+  </update>
+  <select id="queryGoodsSales" resultMap="BaseResultMap" parameterType="com.need.domain.vo.goods.BopsGoodsSalesVO" >
+   SELECT 
+    SUM(buy_count),goods_id
+  FROM
+    trade_base 
+  WHERE trade_status IN (
+      'TRADE_SUCCESS',
+      'WAIT_RECEIVE',
+      'WAIT_PLATFORM_SEND'
+    ) 
+    AND create_time between #{endDate}  and  #{servenDate}
+  </select>
+</mapper>

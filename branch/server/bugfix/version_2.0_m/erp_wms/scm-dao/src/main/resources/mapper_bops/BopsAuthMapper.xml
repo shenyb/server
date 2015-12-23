@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.auth.BopsAuthDAO">
+	<resultMap id="BaseResultMap" type="com.need.domain.po.bops.auth.BopsAuth">
+		<id column="auth_id" property="authId" jdbcType="INTEGER" />
+		<result column="auth_name" property="authName" jdbcType="VARCHAR" />
+		<result column="auth_status" property="authStatus" jdbcType="VARCHAR" />
+		<result column="module_name" property="moduleName" jdbcType="VARCHAR" />
+		<result column="auth_scope" property="authScope" jdbcType="VARCHAR" />
+		<result column="auth_desc" property="authDesc" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="auth_code" property="authCode" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		auth_id, auth_name, auth_status, module_name, auth_scope,
+		auth_desc, auth_code,
+		create_time
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from bops_auth
+		where auth_id = #{authId}
+	</select>
+	
+	<select id="getAuthsByIds" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from bops_auth
+		where auth_id in (${authIds})
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		bops_auth
+		where auth_id = #{authId}
+	</delete>
+	<insert id="insert" parameterType="com.need.domain.po.bops.auth.BopsAuth" useGeneratedKeys="true" keyProperty="authId">
+		insert into bops_auth
+		(auth_id, auth_name, auth_status,
+		module_name, auth_scope, auth_desc,
+		create_time, auth_code)
+		values (#{authId},
+		#{authName},
+		#{authStatus},
+		#{moduleName}, #{authScope},
+		#{authDesc},
+		NOW(),
+		#{authCode})
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.bops.auth.BopsAuth">
+	update bops_auth
+	<set>
+		<if test="authName != null">
+			auth_name = #{authName},
+		</if>
+		<if test="authStatus != null">
+			auth_status = #{authStatus},
+		</if>
+		<if test="moduleName != null">
+			module_name = #{moduleName},
+		</if>
+		<if test="authScope != null">
+			auth_scope = #{authScope},
+			</if>
+			<if test="authDesc != null">
+				auth_desc = #{authDesc},
+			</if>
+		</set>
+		where auth_id = #{authId}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.need.domain.po.bops.auth.BopsAuth">
+		update bops_auth
+		set auth_name = #{authName},
+		auth_status =
+		#{authStatus},
+		module_name =
+		#{moduleName},
+		auth_scope =
+		#{authScope},
+		auth_desc =
+		#{authDesc},
+		auth_code = #{authCode}
+		where auth_id =
+		#{authId}
+	</update>
+	<!--自己添加 -->
+	<select id="getAll"  resultMap="BaseResultMap">
+		select
+		auth_id,auth_name,auth_status,module_name,auth_scope,auth_desc,create_time,auth_code
+		from bops_auth <![CDATA[
+   		   where create_time <= NOW()
+				]]> ORDER BY  module_name 
+	</select>
+	<select id="selectByPage"  resultMap="BaseResultMap" parameterType="com.need.domain.vo.auth.BopsAuthVO">
+		select
+		auth_id,auth_name,auth_status,module_name,auth_scope,auth_desc,create_time, auth_code
+		from bops_auth
+		<![CDATA[
+   		   where create_time <= NOW()
+				]]>
+		<if test="authName != null">
+			and auth_name like '%${authName}%'
+		</if>
+		<if test="authStatus != null">
+			and auth_status = #{authStatus}
+		</if>
+		<if test="moduleName != null">
+			and module_name like '%${moduleName}%'
+		</if>
+		order by create_time desc limit
+		#{start},#{pageSize}
+	</select>
+	<select id="selectCount"  resultType="java.lang.Integer" parameterType="com.need.domain.vo.auth.BopsAuthVO">
+		select
+		count(auth_id)
+		from bops_auth
+		<![CDATA[
+   		   where create_time <= NOW()
+				]]>
+		<if test="authName != null">
+			and auth_name like '%${authName}%'
+		</if>
+		<if test="authStatus != null">
+			and auth_status = #{authStatus}
+		</if>
+		<if test="moduleName != null">
+			and module_name like '%${moduleName}%'
+		</if>
+	</select>
+
+	<select id="selectBopsAuthsByPrimaryKeys"   resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		auth_id,auth_name,auth_status,module_name,auth_scope,auth_desc,create_time, auth_code
+		from bops_auth where auth_id in (${auths})
+	</select>
+	<select id="selectAuthScopesByPrimaryKeys"  resultType="java.lang.String" parameterType="java.lang.String">
+		select auth_scope from bops_auth where auth_id in (${auths})
+	</select>
+</mapper>

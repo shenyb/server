@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.need.common.core.dao.jdbc.user.UserBaseDAO">
+	<resultMap id="BaseResultMap" type="com.need.common.domain.po.api.user.UserBasePO">
+		<id column="user_id" jdbcType="VARCHAR" property="userId" />
+		<result column="mobile" jdbcType="VARCHAR" property="mobile" />
+		<result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+		<result column="login_pwd" jdbcType="VARCHAR" property="loginPwd" />
+		<result column="user_type" jdbcType="VARCHAR" property="userType" />
+		<result column="user_status" jdbcType="VARCHAR" property="userStatus" />
+		<result column="profile_pic_key" jdbcType="VARCHAR" property="profilePicKey" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="user_sut" jdbcType="VARCHAR" property="userSut" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		user_id, mobile, nick_name, login_pwd, user_type,
+		user_status,
+		profile_pic_key, create_time,
+		update_time,user_sut
+	</sql>
+
+	<sql id="Goods_Base_List">
+		goods_name , onsale_price, discount_price,top_pic_keys ,
+		goods_id
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from user_base
+		where user_id = #{userId}
+	</select>
+	
+	<select id="queryByPhones" resultType="com.need.common.domain.vo.user.ContactsBookUserInfoVO" parameterType="java.util.Collection">
+		select
+		user_id,mobile,nick_name,profile_pic_key
+		from user_base
+		where mobile in  <foreach item="item" index="index" collection="mobiles" 
+                         open="(" separator="," close=")">
+                        #{item}
+                </foreach>
+	</select>
+
+
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		user_base
+		where user_id = #{userId}
+	</delete>
+	<insert id="insert" parameterType="com.need.common.domain.po.api.user.UserBasePO">
+		insert into user_base
+		(user_id, mobile, nick_name,
+		login_pwd, user_type, user_status,
+		profile_pic_key, create_time, update_time
+		)
+		values
+		(
+		 #{userId}, #{mobile},
+		 #{nickName},
+		 #{loginPwd},
+		 #{userType}, #{userStatus},
+		 #{profilePicKey}, now(),
+		 now()
+		)
+	</insert>
+	
+	
+	<update id="updateByPrimaryKey" parameterType="com.need.common.domain.po.api.user.UserBasePO">
+		update user_base
+		set mobile = #{mobile},
+		nick_name =
+		#{nickName},
+		login_pwd = #{loginPwd},
+		user_type = #{userType},
+		user_status =
+		#{userStatus},
+		profile_pic_key =
+		#{profilePicKey},
+		update_time =
+		now()
+		where user_id =
+		#{userId}
+	</update>
+
+	<select id="getUserInfo" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+                user_id,
+		mobile, nick_name, user_type,
+		user_status,
+		profile_pic_key
+		from user_base
+		where
+		user_id = #{userId}
+	</select>
+
+	<select id="selectFocusKolList" parameterType="java.lang.String"
+		resultType="com.need.common.domain.vo.user.KolInfoVo">
+		SELECT
+		n.`user_id`,
+		n.`kol_id`,
+		u.`nick_name`,
+		u.`user_type`,
+		u.`profile_pic_key`,
+		k.`category_id`,
+		k.`kol_brief`
+		FROM
+		user_kol k
+		LEFT JOIN need_kol_fans n
+		ON k.kol_id = n.kol_id
+		LEFT JOIN user_base u
+		ON u.user_id = n.kol_id
+		WHERE n.user_id = #{userId} and n.focus_status='FOCUS'
+		group by kol_id
+	</select>
+
+	<select id="getUserType" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		select user_type from
+		user_base where user_id=#{userId}
+	</select>
+
+	<select id="getKolInfo" parameterType="java.lang.String"
+		resultType="com.need.common.domain.vo.user.KolInfoVo">
+		select
+		user_id,nick_name,user_type,profile_pic_key,category_id,kol_brief
+		from  user_kol 
+		left join user_base on user_kol.kol_id= user_base.user_id
+		where
+		user_base.user_id = #{userId} limit 1
+	</select>
+
+     <!-- demo code  -->
+	<select id="selectUserBaseCount" resultType="java.lang.Integer">
+		select
+		count(user_id) from user_base
+	</select>
+	<select id="selectAllUserBase" parameterType="com.need.common.domain.vo.user.UserInfoParam"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from user_base
+		limit #{userInfoParam.start}, #{userInfoParam.pageSize}
+	</select>
+
+
+
+	<!-- add -->
+	<select id="selectByMobile" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from user_base where mobile=#{mobile}
+	</select>
+	<select id="selectByNickName" resultType="int" parameterType="java.lang.String">
+		select count(user_id) from user_base where nick_name=#{nickName}
+	</select>
+	<select id="userIdExists" resultType="int" parameterType="java.lang.String">
+		select
+		count(user_id) from user_base where user_id = #{userId}
+	</select>
+
+	<update id="updateLoginPwd">
+		update user_base set login_pwd =
+		#{newLoginPwd},update_time=now() where
+		mobile = #{mobile}
+	</update>
+
+	<update id="updateLoginPwdByUserId" >
+		update user_base set login_pwd =
+		#{newLoginPwd},update_time=now() where user_id =
+		#{userId}
+	</update>
+
+	<update id="updatePwdToUpdateLoginPwd">
+		update user_base set login_pwd = #{loginPwd},update_time=now() where mobile =
+		#{mobile}
+	</update>
+
+	<select id="mobileIsExist" parameterType="java.lang.String"
+		resultType="int">
+		select count(user_id) from user_base where mobile = #{mobile}
+	</select>
+
+
+	<select id="queryKolList" resultType="com.need.common.domain.vo.user.KolVo">
+		SELECT kol_id ,kol_brief,nick_name,profile_pic_key,certification kolCertification FROM
+		user_kol LEFT JOIN user_base ON user_kol.kol_id = user_base.user_id
+		WHERE user_kol.category_id = #{kolCategoryId}  order by user_kol.create_time desc
+	</select>
+	
+	
+	<select id="queryFans" resultType="com.need.common.domain.vo.user.FansInfoVO" parameterType="java.lang.String">
+		SELECT a.nick_name,a.user_id,a.profile_pic_key 
+		FROM user_base a  LEFT JOIN need_kol_fans b ON a.user_id= b.user_id  
+		WHERE b.kol_id= #{userId}
+	</select>
+	
+
+	<select id="querycategoryNameList" resultType="com.need.common.domain.po.api.kol.KolCategoryPO">
+		SELECT category_name FROM
+		user_kol a, kol_category b WHERE
+		a.category_id =b.category_id AND
+		a.kol_id = #{userId}
+	</select>
+
+	 <update id="updateProfileKey">
+		update user_base set profile_pic_key =
+		#{newProfileKey},update_time = now() where user_id = #{userId}
+	</update>
+	
+	 <update id="updateNickName" parameterType="com.need.common.domain.po.api.user.UserBasePO">
+		update user_base set nick_name =
+		#{nickName},update_time = now() where user_id = #{userId}
+	</update>
+	
+	 <select id="getUserInfoByMobile" resultMap="BaseResultMap" parameterType="java.lang.String" >
+		select user_id, mobile, nick_name, user_type,
+		user_status,
+		profile_pic_key  from
+		user_base where mobile=#{mobile} limit 0,1
+	</select>
+	 <select id="getWeiboLoginInfoBySNSId" resultType="com.need.common.domain.vo.user.UserInfoVO" parameterType="java.lang.String" >
+		select a.user_id, a.nick_name, a.user_type,a.user_status,a.mobile from
+		user_base a INNER JOIN user_oauth_login b  ON a.`user_id`=b.user_id WHERE  b.weibo_pid=#{snsId}
+	</select>
+	<select id="getQQLoginInfoBySNSId" resultType="com.need.common.domain.vo.user.UserInfoVO" parameterType="java.lang.String" >
+		select a.user_id, a.nick_name, a.user_type,a.user_status,a.mobile  from
+		user_base a INNER JOIN user_oauth_login b  ON a.`user_id`=b.user_id WHERE  b.qq_pid=#{snsId}
+	</select>
+	<select id="getWeixinLoginInfoBySNSId" resultType="com.need.common.domain.vo.user.UserInfoVO" parameterType="java.lang.String" >
+		select a.user_id, a.nick_name, a.user_type,a.user_status,a.mobile  from
+		user_base a INNER JOIN user_oauth_login b  ON a.`user_id`=b.user_id WHERE  b.weixin_pid=#{snsId}
+	</select>
+        
+	<select id="queryAllMobiles" resultType="java.util.Map">
+		select user_id, mobile,user_sut
+		from user_base
+	</select>
+	
+	<update id="updateUserSut" parameterType="java.lang.String" >
+	 update user_base 
+	  set user_sut=#{userSut}
+	  where user_id=#{userId}
+	
+	</update>
+	
+	
+	<select id="selectBysut" resultMap="BaseResultMap" parameterType="java.lang.String">
+	   select
+		<include refid="Base_Column_List" />
+		from user_base
+		where user_sut = #{userSut}
+	</select>
+	<update id="deleteUserOpenIdByOpenId" parameterType="java.lang.String" >
+	 update user_base 
+	  set wap_open_id=''
+	  where wap_open_id=#{openId}
+	
+	</update>
+	
+	<update id="updateUserOpenId" parameterType="java.lang.String" >
+	  update user_base 
+	  set wap_open_id=#{openId}
+	  where user_id=#{userId}
+	
+	</update>
+	
+	
+	<select id="getWapLoginInfoByOpenId" parameterType="java.lang.String"
+		resultType="com.need.common.domain.vo.user.UserInfoVO">
+		select
+		user_id,mobile,nick_name,user_type,user_status
+		from user_base
+		where wap_open_id = #{openId}
+	</select>
+</mapper>

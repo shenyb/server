@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.share.dao.jdbc.api.goods.GoodsMainDAO">
+	<resultMap id="BaseResultMap" type="com.need.share.dao.jdbc.api.goods.po.GoodsMainPO">
+		<id column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+		<result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+		<result column="goods_status" property="goodsStatus" jdbcType="VARCHAR" />
+		<result column="scene_id" property="sceneId" jdbcType="INTEGER" />
+		<result column="brief" property="brief" jdbcType="VARCHAR" />
+		<result column="top_pic_keys" property="topPicKeys" jdbcType="VARCHAR" />
+		<result column="discount_price" property="discountPrice" jdbcType="INTEGER" />
+		<result column="onsale_price" property="onsalePrice" jdbcType="INTEGER" />
+		<result column="store_count" property="storeCount" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="goods_code" property="goodsCode" jdbcType="VARCHAR" />
+		<result column="scene_pic_key" property="scenePicKey" jdbcType="VARCHAR" />
+		<result column="oppse_reason" property="oppseReason" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	
+	<sql id="Base_Column_List">
+		goods_id, goods_name, goods_status, scene_id, brief, top_pic_keys,
+		discount_price,
+		onsale_price, store_count, create_time, update_time, goods_code, oppse_reason,
+		scene_pic_key
+	</sql>
+	<sql id="GoodsVO_Column_List">
+		goods_id, goods_name, goods_status, brief, 
+		discount_price,onsale_price, scene_pic_key, top_pic_keys
+	</sql>
+
+	<select id="selectByGoodId" resultType="com.need.share.web.controller.goods.vo.GoodsResultVO" parameterType="java.lang.String">
+		select
+		<include refid="GoodsVO_Column_List" />
+		from goods_main
+		where goods_id = #{goodsId}
+	</select>
+
+  
+	<select id="selectByGoodIdAndUpdateTime" resultType="com.need.share.web.controller.goods.vo.GoodsResultVO" >
+		select
+		goods_id, goods_name, brief, 
+		discount_price,onsale_price,brief,scene_pic_key	,update_time
+		from goods_main
+		where goods_id = #{goodsId} 	
+		<![CDATA[
+		 and  update_time >  #{updateTime}  
+		 
+		 ]]>
+		and store_count >0 and goods_status='ONLINE'
+	</select>
+
+
+</mapper>

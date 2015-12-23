@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.cheap.BopsCheapAuditDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.bops.cheap.BopsCheapAuditPO" >
+    <id column="cheap_audit_id" property="cheapAuditId" jdbcType="INTEGER" />
+    <result column="cheap_no" property="cheapNo" jdbcType="VARCHAR" />
+    <result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="audit_user_id" property="auditUserId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    cheap_audit_id, cheap_no, audit_status, description, audit_user_id, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from bops_cheap_audit
+    where cheap_audit_id = #{cheapAuditId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from bops_cheap_audit
+    where cheap_audit_id = #{cheapAuditId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.bops.cheap.BopsCheapAuditPO" >
+    insert into bops_cheap_audit (cheap_audit_id, cheap_no, audit_status, 
+      description, audit_user_id, create_time
+      )
+    values (#{cheapAuditId,jdbcType=INTEGER}, #{cheapNo,jdbcType=VARCHAR}, #{auditStatus,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{auditUserId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.domain.po.bops.cheap.BopsCheapAuditPO" >
+    insert into bops_cheap_audit
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cheapAuditId != null" >
+        cheap_audit_id,
+      </if>
+      <if test="cheapNo != null" >
+        cheap_no,
+      </if>
+      <if test="auditStatus != null" >
+        audit_status,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="auditUserId != null" >
+        audit_user_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cheapAuditId != null" >
+        #{cheapAuditId,jdbcType=INTEGER},
+      </if>
+      <if test="cheapNo != null" >
+        #{cheapNo,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStatus != null" >
+        #{auditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="auditUserId != null" >
+        #{auditUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.bops.cheap.BopsCheapAuditPO" >
+    update bops_cheap_audit
+    <set >
+      <if test="cheapNo != null" >
+        cheap_no = #{cheapNo,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStatus != null" >
+        audit_status = #{auditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="auditUserId != null" >
+        audit_user_id = #{auditUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where cheap_audit_id = #{cheapAuditId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.domain.po.bops.cheap.BopsCheapAuditPO" >
+    update bops_cheap_audit
+    set cheap_no = #{cheapNo,jdbcType=VARCHAR},
+      audit_status = #{auditStatus,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      audit_user_id = #{auditUserId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where cheap_audit_id = #{cheapAuditId,jdbcType=INTEGER}
+  </update>
+</mapper>

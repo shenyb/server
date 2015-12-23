@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.api.feed.FeedCommentDAO" >
+    <resultMap id="BaseResultMap" type="com.need.domain.po.api.feed.FeedCommentPO" >
+        <id column="feed_comment_id" property="feedCommentId" jdbcType="VARCHAR" />
+        <result column="feed_id" property="feedId" jdbcType="VARCHAR" />
+        <result column="user_id" property="userId" jdbcType="VARCHAR" />
+        <result column="reply_user_id" property="replyUserId" jdbcType="VARCHAR" />
+        <result column="comment_content" property="commentContent" jdbcType="VARCHAR" />
+        <result column="comment_status" property="commentStatus" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        feed_comment_id, feed_id, user_id, reply_user_id, comment_content, comment_status, 
+        create_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from feed_comment
+        where feed_comment_id = #{feedCommentId,jdbcType=VARCHAR} and comment_status != 'DELETED'
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from feed_comment
+        where feed_comment_id = #{feedCommentId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.need.domain.po.api.feed.FeedCommentPO" >
+        insert into feed_comment (feed_comment_id, feed_id, user_id, 
+        reply_user_id, comment_content, comment_status, 
+        create_time)
+        values (#{feedCommentId,jdbcType=VARCHAR}, #{feedId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+        #{replyUserId,jdbcType=VARCHAR}, #{commentContent,jdbcType=VARCHAR}, #{commentStatus,jdbcType=VARCHAR}, 
+        #{createTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.need.domain.po.api.feed.FeedCommentPO" >
+        insert into feed_comment
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="feedCommentId != null" >
+                feed_comment_id,
+            </if>
+            <if test="feedId != null" >
+                feed_id,
+            </if>
+            <if test="userId != null" >
+                user_id,
+            </if>
+            <if test="replyUserId != null" >
+                reply_user_id,
+            </if>
+            <if test="commentContent != null" >
+                comment_content,
+            </if>
+            <if test="commentStatus != null" >
+                comment_status,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="feedCommentId != null" >
+                #{feedCommentId,jdbcType=VARCHAR},
+            </if>
+            <if test="feedId != null" >
+                #{feedId,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null" >
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="replyUserId != null" >
+                #{replyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="commentContent != null" >
+                #{commentContent,jdbcType=VARCHAR},
+            </if>
+            <if test="commentStatus != null" >
+                #{commentStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.api.feed.FeedCommentPO" >
+        update feed_comment
+        <set >
+            <if test="feedId != null" >
+                feed_id = #{feedId,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null" >
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="replyUserId != null" >
+                reply_user_id = #{replyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="commentContent != null" >
+                comment_content = #{commentContent,jdbcType=VARCHAR},
+            </if>
+            <if test="commentStatus != null" >
+                comment_status = #{commentStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where feed_comment_id = #{feedCommentId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.need.domain.po.api.feed.FeedCommentPO" >
+        update feed_comment
+        set feed_id = #{feedId,jdbcType=VARCHAR},
+        user_id = #{userId,jdbcType=VARCHAR},
+        reply_user_id = #{replyUserId,jdbcType=VARCHAR},
+        comment_content = #{commentContent,jdbcType=VARCHAR},
+        comment_status = #{commentStatus,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP}
+        where feed_comment_id = #{feedCommentId,jdbcType=VARCHAR}
+    </update>
+    <select id="queryByTime" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from feed_comment
+        where create_time > #{time} ORDER BY create_time DESC
+    </select>
+    <select id="queryByFeedId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from feed_comment
+        where feed_id = #{feedId} ORDER BY create_time DESC
+    </select>
+    <update id="updateDelete" parameterType="java.lang.String" >
+        update feed_comment
+        set comment_status = 'DELETED'
+        where feed_comment_id = #{feedCommentId,jdbcType=VARCHAR}
+    </update>
+</mapper>

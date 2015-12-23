@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.common.core.dao.jdbc.need.NeedFeedCommentDAO" >
+  <resultMap id="BaseResultMap" type="com.need.common.domain.po.api.need.NeedFeedCommentPO" >
+    <id column="comment_id" property="commentId" jdbcType="VARCHAR" />
+    <result column="author_id" property="authorId" jdbcType="VARCHAR" />
+    <result column="feed_id" property="feedId" jdbcType="VARCHAR" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="feed_status" property="feedStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    comment_id, author_id, feed_id, comment, create_time, feed_status
+  </sql>
+  <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from need_feed_comment
+    where comment_id = #{commentId}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.String" >
+    delete from need_feed_comment
+    where comment_id = #{commentId}
+  </delete>
+  <insert id="insert" parameterType="com.need.common.domain.po.api.need.NeedFeedCommentPO" >
+    insert into need_feed_comment (comment_id, author_id, feed_id, 
+      comment, create_time, feed_status)
+    values (#{commentId}, #{authorId}, #{feedId}, 
+      #{comment}, #{createTime}, #{feedStatus})
+  </insert>
+  
+  
+  <update id="update" parameterType="com.need.common.domain.po.api.need.NeedFeedCommentPO" >
+    update need_feed_comment
+    set author_id = #{authorId},
+      feed_id = #{feedId},
+      comment = #{comment},
+      create_time = #{createTime},
+      feed_status=#{feedStatus}
+    where comment_id = #{commentId}
+  </update>
+  
+  <select id="getcommentsByfeedId" resultMap="BaseResultMap" parameterType="java.lang.String">
+   select 
+    <include refid="Base_Column_List"/>
+  from need_feed_comment where  feed_id = #{feedId} and feed_status="VALID" order by create_time DESC
+  </select>
+  
+  
+   <select id="getcountByfeedId"  parameterType="java.lang.String" resultType="int">
+    select count(feed_id) from need_feed_comment 
+    where feed_id =#{feedId} and feed_status="VALID"
+   
+   </select>
+  
+</mapper>

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.goods.BopsGoodsDetailDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.bops.goods.BopsGoodsDetail" >
+    <id column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+    <result column="goods_desc" property="goodsDesc" jdbcType="VARCHAR" />
+    <result column="detail_pic_keys" property="detailPicKeys" jdbcType="VARCHAR" />
+    <result column="goods_params" property="goodsParams" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="publisher_id" property="publisherId" jdbcType="INTEGER" />
+    <result column="auditor_id" property="auditorId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    goods_id, goods_desc, detail_pic_keys, goods_params, create_time, update_time, publisher_id, 
+    auditor_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bops_goods_detail
+    where goods_id = #{goodsId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bops_goods_detail
+    where goods_id = #{goodsId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.bops.goods.BopsGoodsDetail" >
+    insert into bops_goods_detail (goods_id, goods_desc, detail_pic_keys, 
+      goods_params, create_time, update_time, 
+      publisher_id, auditor_id)
+    values (#{goodsId,jdbcType=VARCHAR}, #{goodsDesc,jdbcType=VARCHAR}, #{detailPicKeys,jdbcType=VARCHAR}, 
+      #{goodsParams,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{publisherId,jdbcType=INTEGER}, #{auditorId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.domain.po.bops.goods.BopsGoodsDetail" >
+    insert into bops_goods_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="goodsDesc != null" >
+        goods_desc,
+      </if>
+      <if test="detailPicKeys != null" >
+        detail_pic_keys,
+      </if>
+      <if test="goodsParams != null" >
+        goods_params,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="publisherId != null" >
+        publisher_id,
+      </if>
+      <if test="auditorId != null" >
+        auditor_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsDesc != null" >
+        #{goodsDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="detailPicKeys != null" >
+        #{detailPicKeys,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsParams != null" >
+        #{goodsParams,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="publisherId != null" >
+        #{publisherId,jdbcType=INTEGER},
+      </if>
+      <if test="auditorId != null" >
+        #{auditorId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  <insert id="insertNewGoods" parameterType="com.need.domain.po.bops.goods.BopsGoodsDetail" >
+    insert into bops_goods_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="goodsDesc != null" >
+        goods_desc,
+      </if>
+      <if test="detailPicKeys != null" >
+        detail_pic_keys,
+      </if>
+      <if test="goodsParams != null" >
+        goods_params,
+      </if>
+        create_time,
+        update_time,
+      <if test="publisherId != null" >
+        publisher_id,
+      </if>
+      <if test="auditorId != null" >
+        auditor_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsDesc != null" >
+        #{goodsDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="detailPicKeys != null" >
+        #{detailPicKeys,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsParams != null" >
+        #{goodsParams,jdbcType=VARCHAR},
+      </if>
+		NOW(),
+		NOW(),
+      <if test="publisherId != null" >
+        #{publisherId,jdbcType=INTEGER},
+      </if>
+      <if test="auditorId != null" >
+        #{auditorId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.bops.goods.BopsGoodsDetail" >
+    update bops_goods_detail
+    <set >
+      <if test="goodsDesc != null" >
+        goods_desc = #{goodsDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="detailPicKeys != null" >
+        detail_pic_keys = #{detailPicKeys,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsParams != null" >
+        goods_params = #{goodsParams,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="publisherId != null" >
+        publisher_id = #{publisherId,jdbcType=INTEGER},
+      </if>
+      <if test="auditorId != null" >
+        auditor_id = #{auditorId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where goods_id = #{goodsId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.domain.po.bops.goods.BopsGoodsDetail" >
+    update bops_goods_detail
+    set goods_desc = #{goodsDesc},
+      detail_pic_keys = #{detailPicKeys},
+      goods_params = #{goodsParams},
+      create_time = #{createTime},
+      update_time = #{updateTime},
+      publisher_id = #{publisherId},
+      auditor_id = #{auditorId}
+    where goods_id = #{goodsId}
+  </update>
+<select id="queryListByGroupGoodsId" resultType="com.need.domain.vo.goods.GroupGoodsDetailVo" parameterType="java.lang.String" >
+		   SELECT 
+		  b.goods_params param,
+		  a.goods_count count
+		FROM
+		  (SELECT 
+		    goods_id,goods_count
+		  FROM
+		    bops_goods_items
+		  WHERE goods_group_id =#{goodsGroupId}) a 
+		  LEFT JOIN bops_goods_detail b 
+		    ON a.goods_id = b.goods_id
+  </select>
+  <update id="updateWeight" parameterType="com.need.domain.po.bops.goods.BopsGoodsDetail" >
+    update bops_goods_detail
+    set 
+      goods_params = #{goodsParams},
+      update_time = NOW()
+    where goods_id = #{goodsId}
+  </update>
+</mapper>

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.trade.BopsExchangeDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.bops.trade.BopsExchange" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="bill_no" property="billNo" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="ramark" property="ramark" jdbcType="VARCHAR" />
+    <result column="bops_order_id" property="bopsOrderId" jdbcType="BIGINT" />
+    <result column="total_pay" property="totalPay" jdbcType="BIGINT" />
+    <result column="all_reject" property="allReject" jdbcType="INTEGER" />
+    <result column="bops_warehouse_id" property="bopsWarehouseId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="create_at" property="createAt" jdbcType="TIMESTAMP" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="change_at" property="changeAt" jdbcType="TIMESTAMP" />
+    <result column="change_by" property="changeBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, bill_no, status, reason, ramark, bops_order_id, total_pay, all_reject, bops_warehouse_id, 
+    user_name, address, phone, create_at, create_by, change_at, change_by
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from bops_exchange
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from bops_exchange
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.bops.trade.BopsExchange" >
+    insert into bops_exchange (id, bill_no, status, 
+      reason, ramark, bops_order_id, 
+      total_pay, all_reject, bops_warehouse_id, 
+      user_name, address, phone, 
+      create_at, create_by, change_at, 
+      change_by)
+    values (#{id,jdbcType=BIGINT}, #{billNo,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{reason,jdbcType=VARCHAR}, #{ramark,jdbcType=VARCHAR}, #{bopsOrderId,jdbcType=BIGINT}, 
+      #{totalPay,jdbcType=BIGINT}, #{allReject,jdbcType=INTEGER}, #{bopsWarehouseId,jdbcType=INTEGER}, 
+      #{userName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{createAt,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{changeAt,jdbcType=TIMESTAMP}, 
+      #{changeBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.domain.po.bops.trade.BopsExchange" >
+    insert into bops_exchange
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="billNo != null" >
+        bill_no,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+      <if test="ramark != null" >
+        ramark,
+      </if>
+      <if test="bopsOrderId != null" >
+        bops_order_id,
+      </if>
+      <if test="totalPay != null" >
+        total_pay,
+      </if>
+      <if test="allReject != null" >
+        all_reject,
+      </if>
+      <if test="bopsWarehouseId != null" >
+        bops_warehouse_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="createAt != null" >
+        create_at,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="changeAt != null" >
+        change_at,
+      </if>
+      <if test="changeBy != null" >
+        change_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="billNo != null" >
+        #{billNo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="ramark != null" >
+        #{ramark,jdbcType=VARCHAR},
+      </if>
+      <if test="bopsOrderId != null" >
+        #{bopsOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="totalPay != null" >
+        #{totalPay,jdbcType=BIGINT},
+      </if>
+      <if test="allReject != null" >
+        #{allReject,jdbcType=INTEGER},
+      </if>
+      <if test="bopsWarehouseId != null" >
+        #{bopsWarehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null" >
+        #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="changeAt != null" >
+        #{changeAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="changeBy != null" >
+        #{changeBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.bops.trade.BopsExchange" >
+    update bops_exchange
+    <set >
+      <if test="billNo != null" >
+        bill_no = #{billNo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="ramark != null" >
+        ramark = #{ramark,jdbcType=VARCHAR},
+      </if>
+      <if test="bopsOrderId != null" >
+        bops_order_id = #{bopsOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="totalPay != null" >
+        total_pay = #{totalPay,jdbcType=BIGINT},
+      </if>
+      <if test="allReject != null" >
+        all_reject = #{allReject,jdbcType=INTEGER},
+      </if>
+      <if test="bopsWarehouseId != null" >
+        bops_warehouse_id = #{bopsWarehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null" >
+        create_at = #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="changeAt != null" >
+        change_at = #{changeAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="changeBy != null" >
+        change_by = #{changeBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.domain.po.bops.trade.BopsExchange" >
+    update bops_exchange
+    set bill_no = #{billNo,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=VARCHAR},
+      ramark = #{ramark,jdbcType=VARCHAR},
+      bops_order_id = #{bopsOrderId,jdbcType=BIGINT},
+      total_pay = #{totalPay,jdbcType=BIGINT},
+      all_reject = #{allReject,jdbcType=INTEGER},
+      bops_warehouse_id = #{bopsWarehouseId,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      create_at = #{createAt,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      change_at = #{changeAt,jdbcType=TIMESTAMP},
+      change_by = #{changeBy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

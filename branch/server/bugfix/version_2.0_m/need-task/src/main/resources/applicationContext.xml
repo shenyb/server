@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+<!-- 引入properties文件 -->
+    <bean   class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+			 	<value>classpath:/properties/constants.properties</value>
+                <value>classpath*:/task/properties/jdbc.properties</value>
+				<!-- 防制遗漏其他项目下的配置文件 -->
+				<value>classpath*:/properties/*.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<import resource="classpath:spring/spring-mybatis.xml" />
+	<!--定时器 -->
+	<import resource="task/api-provider-schedule.xml" />
+
+
+	<context:annotation-config />
+	<!-- 设置使用注解的类所在的jar包 -->
+	<context:component-scan base-package="com.need.task.service" />
+	<context:component-scan base-package="com.need.task.pub" />
+</beans>

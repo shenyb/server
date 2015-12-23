@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.integration.dao.jdbc.api.coupon.CouponUserDAO" >
+    <resultMap id="BaseResultMap" type="com.need.integration.dao.jdbc.api.coupon.po.CouponUserPO" >
+        <id column="coupon_no" property="couponNo" jdbcType="VARCHAR" />
+        <result column="coupon_template_id" property="couponTemplateId" jdbcType="VARCHAR" />
+        <result column="share_user_id" property="shareUserId" jdbcType="VARCHAR" />
+        <result column="user_id" property="userId" jdbcType="VARCHAR" />
+        <result column="coupon_name" property="couponName" jdbcType="VARCHAR" />
+        <result column="coupon_pic_key" property="couponPicKey" jdbcType="VARCHAR" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
+        <result column="value" property="value" jdbcType="INTEGER" />
+        <result column="min_cost" property="minCost" jdbcType="INTEGER" />
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+        <result column="use_time" property="useTime" jdbcType="TIMESTAMP" />
+        <result column="coupon_status" property="couponStatus" jdbcType="VARCHAR" />
+        <result column="trade_no" property="tradeNo" jdbcType="VARCHAR" />
+        <result column="coupon_type" property="couponType" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    
+    <sql id="Base_Column_List" >
+        coupon_no, coupon_template_id, share_user_id, user_id, coupon_name, coupon_pic_key, description, 
+        value, min_cost , start_time, end_time, use_time, coupon_status, trade_no, coupon_type, 
+        create_time
+    </sql>
+    <select id="getByTradeNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from coupon_user
+        where trade_no = #{tradeNo} and coupon_status='used' limit 1
+    </select>
+</mapper>

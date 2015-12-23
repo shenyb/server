@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.integration.dao.jdbc.api.goods.GoodsMainDAO">
+	<resultMap id="BaseResultMap"
+		type="com.need.integration.dao.jdbc.api.goods.po.GoodsMainPO">
+		<id column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+		<result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+		<result column="goods_status" property="goodsStatus" jdbcType="VARCHAR" />
+		<result column="scene_id" property="sceneId" jdbcType="INTEGER" />
+		<result column="brief" property="brief" jdbcType="VARCHAR" />
+		<result column="top_pic_keys" property="topPicKeys" jdbcType="VARCHAR" />
+		<result column="discount_price" property="discountPrice"
+			jdbcType="INTEGER" />
+		<result column="onsale_price" property="onsalePrice" jdbcType="INTEGER" />
+		<result column="store_count" property="storeCount" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="goods_code" property="goodsCode" jdbcType="VARCHAR" />
+		<result column="scene_pic_key" property="scenePicKey" jdbcType="VARCHAR" />
+		<result column="oppse_reason" property="oppseReason" jdbcType="VARCHAR" />
+		<result column="lock_count" property="lockCount" jdbcType="INTEGER" />
+		<result column="goods_barcode" property="goodsBarcode"
+			jdbcType="VARCHAR" />
+		<result column="is_global" property="isGlobal" jdbcType="VARCHAR" />
+
+		<result column="guojian_count" property="guojianCount"
+			jdbcType="VARCHAR" />
+		<result column="haiguan_count" property="haiguanCount"
+			jdbcType="VARCHAR" />
+		<result column="guojian_country_code" property="guojianCountryCode"
+			jdbcType="VARCHAR" />
+		<result column="haiguan_country_code" property="haiguanCountryCode"
+			jdbcType="VARCHAR" />
+		<result column="goods_category_id" property="goodsCategoryId"
+			jdbcType="VARCHAR" />
+		<result column="warehouse_type" property="warehouseType"
+			jdbcType="VARCHAR" />
+
+	</resultMap>
+	
+		
+
+	<sql id="Base_Column_List">
+		goods_id, goods_name, goods_status, scene_id, brief,
+		top_pic_keys,
+		discount_price,
+		onsale_price, store_count, create_time,
+		update_time, goods_code, oppse_reason,
+		scene_pic_key,lock_count,goods_barcode,
+		is_global,guojian_count,haiguan_count,
+        guojian_country_code,haiguan_country_code,
+        goods_category_id,warehouse_type
+	</sql>
+
+	<sql id="Base_Column_List_no_id">
+		goods_name, goods_status, scene_id, brief, top_pic_keys,
+		discount_price,
+		onsale_price, store_count, create_time, update_time,
+		goods_code, oppse_reason,
+		scene_pic_key,lock_count,goods_barcode,
+		is_global,guojian_count,haiguan_count,guojian_country_code,
+        haiguan_country_code,goods_category_id,warehouse_type
+	</sql>
+
+	<select id="getByGoodsId" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from goods_main
+		where goods_id = #{goodsId}
+	</select>
+	<update id="updateLockCountByGoodsId">
+		update goods_main set
+		update_time = NOW(),
+		lock_count = lock_count-${buyCount}
+		where goods_id = #{goodsId}
+	</update>
+
+	<select id="getByUserTradeNo" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		SELECT g.goods_id,t.buy_count
+		<include refid="Base_Column_List_no_id" />
+		FROM goods_main g LEFT JOIN (SELECT goods_id,buy_count FROM trade_base tb WHERE
+		tb.user_order_no = #{user_trade_no}) t
+		ON g.goods_id = t.goods_id
+
+	</select>
+</mapper>

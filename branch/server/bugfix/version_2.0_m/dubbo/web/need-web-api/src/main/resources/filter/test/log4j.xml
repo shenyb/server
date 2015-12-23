@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+   <!--  --> 
+   <appender name="Console" class="org.apache.log4j.ConsoleAppender">
+		<param name="Threshold" value="DEBUG" />
+		<param name="Encoding" value="UTF-8" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %p $r [%t] %C.%M(%L) | %m%n" />
+		</layout>
+	</appender>
+
+    <!--
+       * 1. 一个appender子元素定义一个日志输出目的地
+       * 2. 一个logger子元素定义一个日志写出器
+    -->
+
+	<!-- 配置总 Debug和Error  日志 -->
+	<appender name="Debug" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/need/test_deploy/api/logs/debug.log" />
+		<param name="Threshold" value="DEBUG" />
+		<param name="Append" value="true" />
+		<param name="Encoding" value="UTF-8" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %p $r [%t] %C.%M(%L) | %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="DEBUG" />
+			<param name="LevelMax" value="WARN" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+	</appender>
+	
+	<appender name="Error" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/need/test_deploy/api/logs/error.log" />
+		<param name="Threshold" value="ERROR" />
+		<param name="Append" value="true" />
+		<param name="Encoding" value="UTF-8" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %p $r [%t] %C.%M(%L) | %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+	      <param name="LevelMin" value="ERROR" />
+	      <param name="LevelMax" value="ERROR" />
+	    </filter>
+	</appender>
+	
+	
+	<!-- 配置各个模块日志 -->
+	<appender name="device_debug" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/need/test_deploy/api/logs/device.log" />
+		<param name="Threshold" value="DEBUG" />
+		<param name="Append" value="true" />
+		<param name="Encoding" value="UTF-8" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %p $r [%t] %C.%M(%L) | %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="DEBUG" />
+			<param name="LevelMax" value="WARN" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+	</appender>
+   <appender name="goods_debug" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/need/test_deploy/api/logs/goods.log" />
+		<param name="Threshold" value="DEBUG" />
+		<param name="Append" value="true" />
+		<param name="Encoding" value="UTF-8" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %p $r [%t] %C.%M(%L) | %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="DEBUG" />
+			<param name="LevelMax" value="WARN" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+	</appender>
+	
+	
+   <appender name="kol_debug" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/need/test_deploy/api/logs/kol.log" />
+		<param name="Threshold" value="DEBUG" />
+		<param name="Append" value="true" />
+		<param name="Encoding" value="UTF-8" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %p $r [%t] %C.%M(%L) | %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="DEBUG" />
+			<param name="LevelMax" value="WARN" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+	</appender>
+	
+   <appender name="need_debug" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/need/test_deploy/api/logs/need.log" />
+		<param name="Threshold" value="DEBUG" />
+		<param name="Append" value="true" />
+		<param name="Encoding" value="UTF-8" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %p $r [%t] %C.%M(%L) | %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="DEBUG" />
+			<param name="LevelMax" value="WARN" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+	</appender>
+	
+   <appender name="ops_debug" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/need/test_deploy/api/logs/ops.log" />
+		<param name="Threshold" value="DEBUG" />
+		<param name="Append" value="true" />
+		<param name="Encoding" value="UTF-8" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %p $r [%t] %C.%M(%L) | %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="DEBUG" />
+			<param name="LevelMax" value="WARN" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+	</appender>
+	
+   <appender name="pub_debug" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/need/test_deploy/api/logs/pub.log" />
+		<param name="Threshold" value="DEBUG" />
+		<param name="Append" value="true" />
+		<param name="Encoding" value="UTF-8" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %p $r [%t] %C.%M(%L) | %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="DEBUG" />
+			<param name="LevelMax" value="WARN" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+	</appender>
+	
+   <appender name="scene_debug" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/need/test_deploy/api/logs/scene.log" />
+		<param name="Threshold" value="DEBUG" />
+		<param name="Append" value="true" />
+		<param name="Encoding" value="UTF-8" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %p $r [%t] %C.%M(%L) | %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="DEBUG" />
+			<param name="LevelMax" value="WARN" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+	</appender>
+	
+   <appender name="trade_debug" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/need/test_deploy/api/logs/trade.log" />
+		<param name="Threshold" value="DEBUG" />
+		<param name="Append" value="true" />
+		<param name="Encoding" value="UTF-8" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %p $r [%t] %C.%M(%L) | %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="DEBUG" />
+			<param name="LevelMax" value="WARN" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+	</appender>
+	
+   <appender name="user_debug" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/need/test_deploy/api/logs/user.log" />
+		<param name="Threshold" value="DEBUG" />
+		<param name="Append" value="true" />
+		<param name="Encoding" value="UTF-8" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %p $r [%t] %C.%M(%L) | %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="DEBUG" />
+			<param name="LevelMax" value="WARN" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+	</appender>
+
+
+	<logger name="org">
+		<level value="WARN" />
+	</logger>
+	<logger name="org.apache">
+		<level value="WARN" />
+	</logger>
+	<logger name="com.need.api.web.controller.device">
+		<level value="DEBUG" />
+		<appender-ref ref="device_debug" />
+	</logger>
+	<logger name="com.need.api.web.controller.goods">
+		<level value="DEBUG" />
+		<appender-ref ref="goods_debug" />
+	</logger>
+	<logger name="com.need.api.web.controller.kol">
+		<level value="DEBUG" />
+		<appender-ref ref="kol_debug" />
+	</logger>
+	<logger name="com.need.api.web.controller.need">
+		<level value="DEBUG" />
+		<appender-ref ref="need_debug" />
+	</logger>
+	<logger name="com.need.api.web.controller.ops">
+		<level value="DEBUG" />
+		<appender-ref ref="ops_debug" />
+	</logger>
+	<logger name="com.need.api.web.controller.pub">
+		<level value="DEBUG" />
+		<appender-ref ref="pub_debug" />
+	</logger>
+	<logger name="com.need.api.web.controller.scene">
+		<level value="DEBUG" />
+		<appender-ref ref="scene_debug" />
+	</logger>
+	<logger name="com.need.api.web.controller.trade">
+		<level value="DEBUG" />
+		<appender-ref ref="trade_debug" />
+	</logger>
+    <logger name="com.need.api.web.controller.user">
+		<level value="DEBUG" />
+		<appender-ref ref="user_debug" />
+	</logger>
+    
+    <!-- 根logger的设置--> 
+	<root>
+	    <!-- 指定默认的全局输出级 -->
+	    <priority value="DEBUG" />
+	    <!-- 总日志 -->
+		<appender-ref ref="Debug" />
+		<appender-ref ref="Error" />
+		<!-- 控制台 -->
+		<appender-ref ref="Console" />	
+		<!-- 配置各个模块 -->
+		<appender-ref ref="device_debug" />	
+		<appender-ref ref="goods_debug" />
+		<appender-ref ref="kol_debug" />
+		<appender-ref ref="need_debug" />
+		<appender-ref ref="ops_debug" />
+		<appender-ref ref="pub_debug" />
+		<appender-ref ref="scene_debug" />
+		<appender-ref ref="trade_debug" />
+		<appender-ref ref="user_debug" />
+	</root>
+</log4j:configuration>

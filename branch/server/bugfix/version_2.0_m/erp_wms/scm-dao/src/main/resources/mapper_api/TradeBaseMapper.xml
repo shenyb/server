@@ -1,0 +1,1218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.api.trade.TradeBaseDAO">
+	<resultMap id="BaseResultMap" type="com.need.domain.po.api.trade.TradeBasePO">
+		<id column="order_no" property="orderNo" jdbcType="VARCHAR" />
+		<result column="trade_no" property="tradeNo" jdbcType="VARCHAR" />
+		<result column="order_status" property="orderStatus" jdbcType="VARCHAR" />
+		<result column="trade_status" property="tradeStatus" jdbcType="VARCHAR" />
+		<result column="buyer_id" property="buyerId" jdbcType="VARCHAR" />
+		<result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+		<result column="buy_count" property="buyCount" jdbcType="INTEGER" />
+		<result column="buy_price" property="buyPrice" jdbcType="INTEGER" />
+		<result column="total_price" property="totalPrice" jdbcType="INTEGER" />
+		<result column="pay_channel" property="payChannel" jdbcType="VARCHAR" />
+		<result column="pay_price" property="payPrice" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+		<result column="trade_time" property="tradeTime" jdbcType="TIMESTAMP" />
+		<result column="address_id" property="addressId" jdbcType="VARCHAR" />
+		<result column="user_trade_no" property="userTradeNo" jdbcType="VARCHAR" />
+		<result column="user_order_no" property="userOrderNo" jdbcType="VARCHAR" />
+		<result column="alipay_retrieve_status" property="alipayRetrieveStatus"
+			jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="telephone" property="telephone" jdbcType="VARCHAR" />
+		<result column="receiver" property="receiver" jdbcType="VARCHAR" />
+		<result column="certification_card" property="certificationCard"
+			jdbcType="VARCHAR" />
+		<result column="logistics_value" property="logisticsValue"
+			jdbcType="VARCHAR" />
+		<result column="transport_fee" property="transportFee"
+			jdbcType="VARCHAR" />
+			
+		<result column="is_normal" property="isNormal"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		order_no, trade_no, order_status, trade_status, buyer_id,
+		goods_id, buy_count, buy_price,
+		total_price, pay_channel, pay_price,
+		create_time, pay_time, trade_time, address_id,
+		user_trade_no,
+		user_order_no,alipay_retrieve_status,
+		address, certification_card,
+		telephone,
+		receiver, logistics_value,transport_fee,is_normal
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from trade_base
+		where order_no = #{orderNo}
+	</select>
+
+	<select id="getGoodsSoldCount" resultType="int" parameterType="java.lang.String">
+		SELECT
+		CASE
+		WHEN SUM(buy_count) IS NULL
+		THEN 0
+		ELSE SUM(buy_count)
+		END AS
+		sum_buy_count
+		FROM
+		trade_base
+		WHERE goods_id = #{goodsId}
+		AND
+		(trade_status = 'TRADE_SUCCESS' <!-- 交易成功 -->
+		or trade_status = 'WAIT_PLATFORM_SEND'<!-- 待发货 -->
+		or trade_status = 'REFUND_SUCCESS'<!-- 退款成功 -->
+		or trade_status = 'WAIT_RECEIVE')<!-- 待收货 -->
+	</select>
+
+	<select id="getGoodsOutStoreCount" resultType="int"
+		parameterType="java.lang.String">
+		SELECT
+		CASE
+		WHEN SUM(buy_count) IS NULL
+		THEN 0
+		ELSE SUM(buy_count)
+		END AS
+		sum_buy_count
+		FROM
+		trade_base
+		WHERE goods_id = #{goodsId}
+		AND
+		(trade_status = 'TRADE_SUCCESS' <!-- 交易成功 -->
+		or trade_status = 'WAIT_RECEIVE'<!-- 待收货 -->
+		)
+	</select>
+
+	<select id="getTradeLockedCount" resultType="int" parameterType="java.lang.String">
+		select
+		sum(buy_count)
+		from trade_base
+		where goods_id =
+		#{goodsId}
+		and(
+		order_status = 'WAIT_PAY' or
+		order_status = 'WAIT_RECEIVE' )
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		trade_base
+		where order_no = #{orderNo}
+	</delete>
+	<insert id="insert" parameterType="com.need.domain.po.api.trade.TradeBasePO">
+		insert into trade_base
+		(order_no, trade_no, order_status,
+		trade_status, buyer_id, goods_id,
+		buy_count, buy_price, total_price,
+		pay_channel, pay_price, create_time,
+		pay_time, trade_time, address_id
+		)
+		values (#{orderNo},
+		#{tradeNo},
+		#{orderStatus},
+		#{tradeStatus}, #{buyerId},
+		#{goodsId},
+		#{buyCount},
+		#{buyPrice},
+		#{totalPrice},
+		#{payChannel}, #{payPrice},
+		#{createTime},
+		#{payTime},
+		#{tradeTime},
+		#{addressId}
+		)
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.api.trade.TradeBasePO">
+		update trade_base
+		<set>
+			<if test="tradeNo != null">
+				trade_no = #{tradeNo},
+			</if>
+			<if test="orderStatus != null">
+				order_status = #{orderStatus},
+			</if>
+			<if test="tradeStatus != null">
+				trade_status = #{tradeStatus},
+			</if>
+			<if test="buyerId != null">
+				buyer_id = #{buyerId},
+			</if>
+			<if test="goodsId != null">
+				goods_id = #{goodsId},
+			</if>
+			<if test="buyCount != null">
+				buy_count = #{buyCount},
+			</if>
+			<if test="buyPrice != null">
+				buy_price = #{buyPrice},
+			</if>
+			<if test="totalPrice != null">
+				total_price = #{totalPrice},
+			</if>
+			<if test="payChannel != null">
+				pay_channel = #{payChannel},
+			</if>
+			<if test="payPrice != null">
+				pay_price = #{payPrice},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime},
+			</if>
+			<if test="payTime != null">
+				pay_time = #{payTime},
+			</if>
+			<if test="tradeTime != null">
+				trade_time = #{tradeTime},
+			</if>
+			<if test="addressId != null">
+				address_id = #{addressId},
+			</if>
+		</set>
+		where order_no = #{orderNo}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.need.domain.po.api.trade.TradeBasePO">
+		update trade_base
+		set trade_no = #{tradeNo},
+		order_status =
+		#{orderStatus},
+		trade_status =
+		#{tradeStatus},
+		buyer_id =
+		#{buyerId},
+		goods_id = #{goodsId},
+		buy_count =
+		#{buyCount},
+		buy_price =
+		#{buyPrice},
+		total_price =
+		#{totalPrice},
+		pay_channel =
+		#{payChannel},
+		pay_price =
+		#{payPrice},
+		create_time =
+		#{createTime},
+		pay_time =
+		#{payTime},
+		trade_time =
+		#{tradeTime},
+		address_id =
+		#{addressId}
+		where order_no =
+		#{orderNo}
+	</update>
+	<select id="queryPageByParam" parameterType="com.need.domain.vo.trade.TradeBaseParam"
+		resultType="com.need.domain.vo.trade.TradeBaseVO">
+		SELECT
+		t.trade_no,
+		t.user_trade_no,
+		SUM(t.total_price)/100.0 total_fee,
+		t.buyer_id,
+		t.warehouse_type,
+		t.trade_status,
+		t.pay_channel,
+		t.create_time tradeTime,
+		t.address_id,
+		t.receiver,
+		t.certification_card,
+		t.telephone,
+		t.address,
+		t.goods_id,
+		t.logistics_value,
+		ub.mobile,
+		ub.nick_name
+		FROM
+		trade_base t
+		left join user_base ub on t.buyer_id = ub.user_id 
+		left join goods_main gm on gm.goods_id=t.goods_id
+		WHERE
+			<![CDATA[ t.create_time <= now()]]>
+		<if test="tradeNo != null and tradeNo != ''">
+			and t.trade_no = #{tradeNo}
+		</if>
+		<if test="warehouseType != null and warehouseType != ''">
+			and t.warehouse_type = #{warehouseType}
+		</if>
+		<if test="tradeStatus != null and tradeStatus != ''">
+			and t.trade_status = #{tradeStatus}
+		</if>
+		<if test="userTradeNo != null and userTradeNo != ''">
+			and (t.user_trade_no = #{userTradeNo} or t.user_order_no=
+			#{userTradeNo})
+		</if>
+		<if test="tradeTimeStart!=null and tradeTimeStart!='' ">
+			<![CDATA[
+				and DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i:%s') >=  DATE_FORMAT(#{tradeTimeStart}, '%Y-%m-%d %H:%i:%s')
+			]]>
+		</if>
+		<if test="tradeTimeEnd!=null and tradeTimeEnd!='' ">
+			<![CDATA[
+				and DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i:%s') <=  DATE_FORMAT(#{tradeTimeEnd}, '%Y-%m-%d %H:%i:%s')
+			]]>
+		</if>
+		<if test="telephone != null and telephone != ''">
+			and t.telephone = #{telephone}
+		</if>
+		<if test="mobile != null and mobile != ''">
+			and ub.mobile = #{mobile}
+		</if>
+		<if test="goodsCode != null and goodsCode != ''">
+			and gm.goods_code = #{goodsCode}
+		</if>
+		group by t.trade_no
+		order by t.create_time desc
+		limit #{start},#{pageSize}
+	</select>
+
+	<select id="queryPageByMobileParam" parameterType="com.need.domain.vo.trade.TradeBaseParam"
+		resultType="com.need.domain.vo.trade.TradeBaseVO">
+		SELECT
+		te.trade_no,
+		te.user_trade_no,
+		te.total_fee,
+		te.buyer_id,
+		te.trade_status,
+		te.warehouse_type,
+		te.pay_channel,
+		te.telephone as mobile,
+		ub.nick_name,
+		te.create_time as trade_time,
+		te.receiver,
+		te.certification_card,
+		te.telephone,
+		te.address
+		FROM
+		(
+		SELECT
+		trade_no,
+		user_trade_no,
+		SUM(total_price)/100.0 total_fee,
+		buyer_id,
+		warehouse_type,
+		trade_status,
+		pay_channel,
+		create_time,
+		address_id,
+		receiver,
+		certification_card,
+		telephone,
+		address
+		FROM
+		trade_base
+		WHERE
+			<![CDATA[ create_time <= now()]]>
+		<if test="tradeNo == null or tradeNo == ''">
+			and trade_status in
+			('WAIT_PLATFORM_SEND','WAIT_RECEIVE','TRADE_SUCCESS','REFUND_SUCCESS')
+		</if>
+		<if test="tradeNo != null and tradeNo != ''">
+			and trade_no = #{tradeNo}
+		</if>
+		<if test="warehouseType != null and warehouseType != ''">
+			and warehouse_type = #{warehouseType}
+		</if>
+		<if test="tradeStatus != null and tradeStatus != ''">
+			and trade_status = #{tradeStatus}
+		</if>
+		<if test="userTradeNo != null and userTradeNo != ''">
+			and (user_trade_no = #{userTradeNo} or user_order_no=
+			#{userTradeNo})
+		</if>
+		<if test="tradeTimeStart!=null and tradeTimeStart!='' ">
+			<![CDATA[
+				and DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') >=  DATE_FORMAT(#{tradeTimeStart}, '%Y-%m-%d %H:%i:%s')
+			]]>
+		</if>
+		<if test="tradeTimeEnd!=null and tradeTimeEnd!='' ">
+			<![CDATA[
+				and DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') <=  DATE_FORMAT(#{tradeTimeEnd}, '%Y-%m-%d %H:%i:%s')
+			]]>
+		</if>
+		<if test="telephone != null and telephone != ''">
+			and telephone =#{telephone}
+		</if>
+		GROUP BY trade_no ORDER BY trade_time DESC
+		) te
+		inner join user_base ub on te.buyer_id = ub.user_id
+		<if test="mobile != null and mobile != ''">
+			and ub.mobile =#{mobile}
+		</if>
+		order by te.create_time desc
+		limit #{start},#{pageSize}
+
+	</select>
+
+	<select id="queryPageCallcenter" parameterType="com.need.domain.vo.trade.CallcenterPageVO"
+		resultType="com.need.domain.vo.trade.TradeBaseVO">
+		SELECT
+		te.trade_no,
+		te.user_trade_no,
+		te.total_fee,
+		te.buyer_id,
+		te.trade_status,
+		te.warehouse_type,
+		te.pay_channel,
+		te.telephone as mobile,
+		ub.nick_name,
+		te.create_time as trade_time,
+		te.receiver,
+		te.certification_card,
+		te.telephone,
+		te.address
+		FROM
+		(
+		SELECT
+		trade_no,
+		user_trade_no,
+		SUM(total_price)/100.0 total_fee,
+		buyer_id,
+		warehouse_type,
+		trade_status,
+		pay_channel,
+		create_time,
+		address_id,
+		receiver,
+		certification_card,
+		telephone,
+		address
+		FROM
+		trade_base
+		WHERE
+			<![CDATA[ create_time <= now()]]>
+
+		and trade_status in
+		('WAIT_PLATFORM_SEND','WAIT_RECEIVE','TRADE_SUCCESS','REFUND_SUCCESS')
+
+		GROUP BY trade_no DESC
+		) te
+		inner join user_base ub on te.buyer_id = ub.user_id
+		<if test="originCallNo != null and originCallNo != ''">
+			and ub.mobile =#{originCallNo}
+		</if>
+		<if test="custNo != null and custNo != ''">
+			and ub.mobile =#{custNo}
+		</if>
+		order by te.create_time desc
+		limit #{start},#{pageSize}
+
+	</select>
+
+
+	<select id="getCountByPage" parameterType="com.need.domain.vo.trade.TradeBaseParam"
+		resultType="int">
+		select
+		count(te.trade_no)
+		from(
+		SELECT trade_no,buyer_id,create_time,goods_id
+		FROM trade_base
+		WHERE
+			<![CDATA[ create_time <= now()]]>
+		<if test="tradeNo != null and tradeNo != ''">
+			and trade_no = #{tradeNo}
+		</if>
+		<if test="warehouseType != null and warehouseType != ''">
+			and warehouse_type = #{warehouseType}
+		</if>
+		<if test="tradeStatus != null and tradeStatus != ''">
+			and trade_status = #{tradeStatus}
+		</if>
+		<if test="userTradeNo != null and userTradeNo != ''">
+			and (user_trade_no = #{userTradeNo} or user_order_no=
+			#{userTradeNo})
+		</if>
+		<if test="tradeTimeStart!=null and tradeTimeStart!='' ">
+			<![CDATA[
+				and DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s %H:%i:%s') >=  DATE_FORMAT(#{tradeTimeStart}, '%Y-%m-%d %H:%i:%s')
+			]]>
+		</if>
+		<if test="tradeTimeEnd!=null and tradeTimeEnd!='' ">
+			<![CDATA[
+				and DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') <=  DATE_FORMAT(#{tradeTimeEnd}, '%Y-%m-%d %H:%i:%s')
+			]]>
+		</if>
+		<if test="telephone != null and telephone != ''">
+			and telephone = #{telephone}
+		</if>
+		GROUP BY trade_no DESC
+		) te
+		left join user_base ub on te.buyer_id = ub.user_id left join goods_main
+		gm on gm.goods_id=te.goods_id
+		<where>1=1</where>
+		<if test="goodsCode != null and goodsCode != ''">
+			and gm.goods_code = #{goodsCode}
+		</if>
+		<if test="mobile != null and mobile != ''">
+			and ub.mobile = #{mobile}
+		</if>
+		order by te.create_time desc
+	</select>
+
+	<select id="getCountCallcenter" parameterType="com.need.domain.vo.trade.CallcenterPageVO"
+		resultType="int">
+
+		SELECT
+		count(te.trade_no)
+		FROM
+		(
+		SELECT
+		trade_no,
+		user_trade_no,
+		buyer_id
+		FROM
+		trade_base
+		WHERE
+			<![CDATA[ create_time <= now()]]>
+
+		and trade_status in
+		('WAIT_PLATFORM_SEND','WAIT_RECEIVE','TRADE_SUCCESS','REFUND_SUCCESS')
+
+		GROUP BY trade_no DESC
+		) te
+		inner join user_base ub on te.buyer_id = ub.user_id
+		<if test="originCallNo != null and originCallNo != ''">
+			and ub.mobile =#{originCallNo}
+		</if>
+		<if test="custNo != null and custNo != ''">
+			and ub.mobile =#{custNo}
+		</if>
+	</select>
+
+	<select id="getByTradeNo" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from trade_base
+		where trade_no = #{tradeNo}
+	</select>
+		<select id="getByUserTradeNoFromWms" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from trade_base
+		where user_trade_no = #{userTradeNo}
+	</select>
+	<select id="getByInfoTradeNo" resultType="com.need.domain.vo.trade.TradeVO"
+		parameterType="java.lang.String">
+		select
+		tb.order_no, tb.trade_no, tb.user_order_no,
+		tb.user_trade_no,
+		tb.order_status, tb.trade_status, tb.buyer_id,
+		tb.goods_id, tb.buy_count, tb.buy_price,
+		tb.total_price,
+		tb.pay_channel, tb.pay_price,
+		tb.create_time, tb.pay_time,
+		tb.trade_time, tb.address_id,
+		ta.receiver,
+		ta.certification_card,
+		ta.telephone,
+		ta.address,
+		ta.logistics_value,
+		case when cu.value is null
+		then 0 else cu.value/100 end as youhuiquan,
+		cu.min_cost/100 minCost
+		from trade_base tb left join trade_address ta
+		on ta.address_id=tb.address_id
+		left join coupon_user cu
+		on
+		tb.trade_no=cu.trade_no
+		where tb.trade_no = #{tradeNo}
+	</select>
+
+
+
+	<select id="getByUserTradeNo" resultType="com.need.domain.vo.trade.TradeVO"
+		parameterType="java.lang.String">
+		select
+		tb.certification_positive_key,tb.certification_negative_key,
+		tb.order_no, tb.trade_no, tb.user_order_no, tb.user_trade_no,
+		tb.order_status, tb.trade_status, tb.buyer_id,tb.is_cheap,
+		tb.goods_id, tb.buy_count, tb.buy_price,
+		tb.total_price,tb.wechat_retrieve_status,
+		tb.pay_channel, tb.pay_price/100 payPrice,
+		tb.create_time, tb.pay_time,
+		tb.trade_time, tb.address_id,
+		tb.alipay_retrieve_status,tb.transport_fee/100 as yunfei,
+
+		<!-- ta.receiver, ta.certification_card, ta.telephone, ta.address, ta.logistics_value, -->
+		tb.receiver,
+		tb.certification_card,
+		tb.telephone,
+		tb.address,
+		tb.logistics_value,
+
+		case when cu.value is null then 0 else cu.value/100 end as youhuiquan,
+		cu.min_cost/100 minCost,
+		tb.warehouse_type
+		from trade_base tb left join trade_address ta
+		on ta.address_id=tb.address_id
+		left join coupon_user cu
+		on
+		tb.trade_no=cu.trade_no
+		where tb.user_trade_no = #{userTradeNo}
+	</select>
+
+	<select id="queryTradeBaseByTradeState" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from trade_base
+		where trade_status = #{tradeState}
+	</select>
+
+	<update id="updateTradeCloseTradeNo" parameterType="java.lang.String">
+		update trade_base
+		<![CDATA[
+		set trade_status = 'TRADE_CLOSE',order_status= 'TRADE_CLOSE'
+		]]>
+		where trade_no = #{tradeNo}
+	</update>
+
+	<update id="updateTradeSuccessByTradeNo" parameterType="java.lang.String">
+		update trade_base
+		<![CDATA[
+		set trade_status = 'TRADE_SUCCESS',order_status= 'TRADE_SUCCESS',trade_time=now()
+		]]>
+		where trade_no = #{tradeNo}
+	</update>
+
+	<select id="queryByPage" parameterType="com.need.domain.vo.trade.TradeBaseParam"
+		resultType="com.need.domain.vo.trade.TradeSendVO">
+		SELECT t.trade_no,g.goods_code,g.goods_barcode,t.user_trade_no,
+		g.goods_name,t.buy_count,t.trade_status,
+		<!-- u.receiver as nick_name, u.telephone as mobile, -->
+		t.receiver as nick_name,
+		t.telephone as mobile,
+		t.trade_status, t.warehouse_type warehouse, g.goods_category_id goodsCategories,
+		t.create_time as trade_time,
+		t.pay_price/100 payPrice, t.total_price/100 totalPrice
+		FROM trade_base t,goods_main g, trade_address u
+		<where>
+			g.goods_id=t.goods_id AND t.address_id=u.address_id
+		</where>
+		<if test="tradeStatus!= null">
+			and t.trade_status in( ${tradeStatus} )
+		</if>
+		<if test="tradeTimeStart!=null and tradeTimeStart!='' ">
+         <![CDATA[
+   		   and t.create_time >=  #{tradeTimeStart}
+				]]>
+		</if>
+		<if test="tradeTimeEnd!=null and tradeTimeEnd!='' ">
+         <![CDATA[
+   		   and t.create_time <=  #{tradeTimeEnd}
+				]]>
+		</if>
+		order by t.create_time desc limit #{start},#{pageSize}
+	</select>
+	<select id="queryCountByPage" parameterType="com.need.domain.vo.trade.TradeBaseParam"
+		resultType="int">
+		SELECT count(1)
+		FROM trade_base t ,goods_main g, trade_address u
+		<where>
+			t.goods_id=g.goods_id AND t.address_id=u.address_id
+		</where>
+		<if test="tradeStatus != null">
+			and t.trade_status in( ${tradeStatus} )
+		</if>
+		<if test="tradeTimeStart!=null and tradeTimeStart!='' ">
+         <![CDATA[
+   		   and t.create_time >=  #{tradeTimeStart}
+				]]>
+		</if>
+		<if test="tradeTimeEnd!=null and tradeTimeEnd!='' ">
+         <![CDATA[
+   		   and t.create_time <=  #{tradeTimeEnd}
+				]]>
+		</if>
+
+	</select>
+
+	<select id="queryOrderByPage" parameterType="com.need.domain.vo.trade.TradeOrderParamsVO"
+		resultType="com.need.domain.vo.trade.OrderExportVO">
+		SELECT t.trade_no,t.buy_count,t.total_price/100 as
+		totalPrice,t.pay_price/100 payPrice,t.user_trade_no,
+		t.buy_price/100 as
+		buyPrice,t.buy_count,
+		g.goods_code,
+		t.trade_status, t.warehouse_type warehouse, 
+		g.goods_category_id goodsCategories,
+		<!-- a.receiver, a.telephone as mobile, a.address, a.logistics_value -->
+		t.receiver,
+		t.telephone as mobile,
+		t.address,
+		t.logistics_value
+		FROM trade_base t inner join goods_main g
+		on t.goods_id=g.goods_id
+		<!-- inner
+		join trade_address a on
+		t.address_id=a.address_id -->
+		<where>1=1</where>
+		<if test="mobile!=null">
+			and t.telephone =#{mobile}
+		</if>
+		<if test="tradeNo!=null">
+			and t.trade_no =#{tradeNo}
+		</if>
+		<if test="tradeStatus!= null">
+			and t.trade_status in( ${tradeStatus} )
+		</if>
+		<if test="tradeTimeStart!=null and tradeTimeStart!='' ">
+         <![CDATA[
+   		   and DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i:%s') >=  DATE_FORMAT(#{tradeTimeStart}, '%Y-%m-%d %H:%i:%s')
+				]]>
+		</if>
+		<if test="tradeTimeEnd!=null and tradeTimeEnd!='' ">
+         <![CDATA[
+   		   and DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i:%s') <=  DATE_FORMAT(#{tradeTimeEnd}, '%Y-%m-%d %H:%i:%s')
+				]]>
+		</if>
+		order by t.create_time desc limit #{start},#{pageSize}
+	</select>
+
+	<select id="queryOrderCountByPage" parameterType="com.need.domain.vo.trade.TradeOrderParamsVO"
+		resultType="int">
+		SELECT count(1)
+		FROM trade_base t inner join goods_main g on
+		t.goods_id=g.goods_id
+		inner join trade_address a on
+		t.address_id=a.address_id
+		<where>1=1</where>
+		<if test="mobile!=null">
+			and a.telephone =#{mobile}
+		</if>
+		<if test="tradeNo!=null">
+			and t.trade_no =#{tradeNo}
+		</if>
+		<if test="tradeStatus!= null">
+			and t.trade_status in( ${tradeStatus} )
+		</if>
+		<if test="tradeTimeStart!=null and tradeTimeStart!='' ">
+         <![CDATA[
+   		   and DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i:%s') >=  DATE_FORMAT(#{tradeTimeStart}, '%Y-%m-%d %H:%i:%s')
+				]]>
+		</if>
+		<if test="tradeTimeEnd!=null and tradeTimeEnd!='' ">
+         <![CDATA[
+   		   and DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i:%s') <=  DATE_FORMAT(#{tradeTimeEnd}, '%Y-%m-%d %H:%i:%s')
+				]]>
+		</if>
+	</select>
+
+	<select id="queryTradeExport" parameterType="com.need.domain.vo.trade.OrderExportParamVO"
+		resultType="com.need.domain.vo.trade.OrderExportResultVO">
+		SELECT
+		td.`order_no`,
+		td.user_order_no,
+		td.trade_no,
+		td.user_trade_no,
+		u.`nick_name`,
+		td.`create_time`,
+		td.`pay_time`,
+		td.`pay_channel`,
+		td.`pay_price`/100 payPrice,
+		<!-- ta.`address`, ta.`receiver`, ta.`logistics_value`, ta.`telephone`, -->
+		td.`address`,
+		td.`receiver`,
+		td.`logistics_value`,
+		td.`telephone`,
+
+		g.`goods_name`,
+		g.`goods_barcode`,
+		td.`buy_count`,
+		case when cu.value is
+		null then 0 else cu.value/100 end as youhuiquanValue
+		FROM
+		trade_base td
+		LEFT JOIN user_base u
+		ON u.`user_id` = td.`buyer_id`
+		LEFT JOIN
+		trade_address ta
+		ON
+		ta.`address_id` = td.`address_id`
+		LEFT JOIN
+		goods_main g
+		ON g.`goods_id`
+		= td.`goods_id`
+		left join coupon_user cu on
+		cu.trade_no = td.trade_no
+		<where>1=1</where>
+		<if test="tradeTimeStart!=null and tradeTimeStart!='' ">
+        <![CDATA[
+   		   and td.create_time >= #{tradeTimeStart}
+				]]>
+		</if>
+		<if test="tradeTimeEnd!=null and tradeTimeEnd!='' ">
+        <![CDATA[
+   		   and td.create_time <=  #{tradeTimeEnd}
+				]]>
+		</if>
+		order by td.create_time desc
+	</select>
+
+	<select id="countTradeExport" parameterType="com.need.domain.vo.trade.OrderExportParamVO"
+		resultType="java.lang.Integer">
+		select count(1) from (
+		SELECT
+		td.`order_no`,
+		u.`nick_name`,
+		td.`create_time`,
+		td.`pay_channel`,
+		td.`pay_price`/100 payPrice,
+		ta.`address`,
+		ta.`receiver`,
+		ta.`logistics_value`,
+		ta.`telephone`,
+		g.`goods_name`,
+		g.`goods_barcode`,
+		td.`buy_count`
+		FROM
+		trade_base td
+		LEFT
+		JOIN user_base u
+		ON u.`user_id` = td.`buyer_id`
+		LEFT JOIN trade_address
+		ta
+		ON ta.`address_id` = td.`address_id`
+		LEFT JOIN goods_main g
+		ON
+		g.`goods_id` = td.`goods_id`
+		<where>1=1</where>
+		<if test="tradeTimeStart!=null and tradeTimeStart!='' ">
+         <![CDATA[
+   		   and td.create_time >= #{tradeTimeStart}
+				]]>
+		</if>
+		<if test="tradeTimeEnd!=null and tradeTimeEnd!='' ">
+         <![CDATA[
+   		   and td.create_time <=  #{tradeTimeEnd}
+				]]>
+		</if>
+		order by td.create_time desc ) as trade
+	</select>
+
+	<select id="queryOrderByPage_v_1_1" parameterType="com.need.domain.vo.trade.TradeOrderParamsVO"
+		resultType="com.need.domain.vo.trade.OrderExportVO">
+		SELECT t.trade_no,t.buy_count,t.total_price/100 as
+		totalPrice,t.pay_price/100 as payPrice,
+		t.buy_price/100 as
+		buyPrice,t.user_trade_no,
+		t.trade_status, t.warehouse_type warehouse,
+		g.goods_code, g.goods_category_id goodsCategories,
+		<!-- a.receiver, a.telephone as mobile, a.address, a.logistics_value -->
+		t.receiver,
+		t.telephone as mobile,
+		t.address,
+		t.logistics_value
+		FROM trade_base t inner join goods_main g
+		on t.goods_id=g.goods_id
+		<!-- inner join trade_address a on t.address_id=a.address_id -->
+		<where>1=1</where>
+		<!-- and g.is_global = 'FALSE' v1.1 新加的条件 -->
+		and t.warehouse_type = #{warehouseType}
+		<if test="mobile!=null and mobile != '' ">
+			and t.telephone =#{mobile}
+		</if>
+		<if test="tradeNo!=null and tradeNo !='' ">
+			and t.trade_no =#{tradeNo}
+		</if>
+		<if test="tradeStatus!= null and tradeStatus != '' ">
+			and t.trade_status in( ${tradeStatus} )
+		</if>
+		<if test="storeStatus!= null and storeStatus != '' ">
+			and t.is_normal in( ${storeStatus} )
+		</if>
+		<if test="tradeTimeStart!=null and tradeTimeStart!='' ">
+         <![CDATA[
+   		   and DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i:%s') >=  DATE_FORMAT(#{tradeTimeStart}, '%Y-%m-%d %H:%i:%s')
+			]]>
+		</if>
+		<if test="tradeTimeEnd!=null and tradeTimeEnd!='' ">
+         <![CDATA[
+   		   and DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i:%s') <=  DATE_FORMAT(#{tradeTimeEnd}, '%Y-%m-%d %H:%i:%s')
+			]]>
+		</if>
+		order by t.create_time desc limit #{start},#{pageSize}
+	</select>
+
+
+	<select id="queryOrderCountByPage_v_1_1" parameterType="com.need.domain.vo.trade.TradeOrderParamsVO"
+		resultType="int">
+		SELECT count(1)
+		FROM trade_base t inner join goods_main g on
+		t.goods_id=g.goods_id
+		<!-- inner join trade_address a on t.address_id=a.address_id -->
+		<where>1=1</where>
+		and t.warehouse_type = #{warehouseType}
+		<!-- and g.is_global = 'FALSE' v1.1 新加的条件 -->
+		<if test="mobile!=null and mobile != '' ">
+			and t.telephone =#{mobile}
+		</if>
+		<if test="tradeNo!=null and tradeNo != '' ">
+			and t.trade_no =#{tradeNo}
+		</if>
+		<if test="tradeStatus!= null and tradeStatus != '' ">
+			and t.trade_status in( ${tradeStatus} )
+		</if>
+		<if test="storeStatus!= null and storeStatus != '' ">
+			and t.is_normal in( ${storeStatus} )
+		</if>
+		<if test="tradeTimeStart!=null and tradeTimeStart!='' ">
+         <![CDATA[
+   		   and DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i:%s') >=  DATE_FORMAT(#{tradeTimeStart}, '%Y-%m-%d %H:%i:%s')
+				]]>
+		</if>
+		<if test="tradeTimeEnd!=null and tradeTimeEnd!='' ">
+         <![CDATA[
+   		   and DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i:%s') <=  DATE_FORMAT(#{tradeTimeEnd}, '%Y-%m-%d %H:%i:%s')
+				]]>
+		</if>
+	</select>
+	
+	
+	<select id="getGoodsCountByBatch" parameterType="java.lang.String" resultType="int">
+	  select count(goods_id) from trade_base where batch_no=#{groupBatch}
+	</select>
+	
+	<!-- 根据goodsId和订单号查询need价 -->
+	<select id="selectByTradeAndGoods" parameterType="com.need.domain.po.api.trade.TradeBasePO" resultMap="BaseResultMap" >
+	  select 
+	  <include refid="Base_Column_List" />
+		from trade_base where 
+		trade_no =#{tradeNo} and goods_id=#{goodsId}
+	</select>
+
+<select id="getByUserTradeNoWms" resultType="com.need.domain.vo.trade.TradeVO"
+		parameterType="java.lang.String">
+		SELECT 
+		  b.mobile telephone,
+		  b.nick_name receiver,
+		  a.address,
+		  a.buy_count,
+		  a.user_order_no,
+		  a.pay_price tradePrice,
+		  a.buy_price  buy_price
+		FROM
+		  trade_base a 
+		  LEFT JOIN user_base b 
+		    ON a.buyer_id = b.user_id 
+			where a.user_trade_no = #{userTradeNo}
+	</select>
+	<select id="getByUserOrderNoWms" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from trade_base
+		where user_order_no = #{userOrderNo}
+	</select>
+	
+	<select id="queryCountTradeExportByPage" parameterType="com.need.domain.vo.trade.TradeBaseParam" resultType="int">
+		SELECT 
+		  COUNT(1) 
+		FROM
+		  (SELECT DISTINCT 
+		    create_time,
+		    warehouse_type,
+		    is_normal,
+		    trade_status,
+		    user_trade_no 
+		  FROM
+		    trade_base) a  
+		<where>
+			1=1
+		</where>
+		<if test="tradeStatus!= null and tradeStatus!=''">
+			and a.trade_status in( ${tradeStatus} )
+		</if>
+		<if test="storeStatus!= null and storeStatus!=''">
+			and a.is_normal in( ${storeStatus} )
+		</if>
+		<if test="warehouseType!= null and warehouseType!=''">
+			and a.warehouse_type in( ${warehouseType} )
+		</if>
+		<if test="tradeTimeStart!=null and tradeTimeStart!='' ">
+         <![CDATA[
+   		   and DATE_FORMAT(a.create_time, '%Y-%m-%d %H:%i:%s') >=  DATE_FORMAT(#{tradeTimeStart}, '%Y-%m-%d %H:%i:%s')
+				]]>
+		</if>
+		<if test="tradeTimeEnd!=null and tradeTimeEnd!='' ">
+         <![CDATA[
+   		   and DATE_FORMAT(a.create_time, '%Y-%m-%d %H:%i:%s') <=  DATE_FORMAT(#{tradeTimeEnd}, '%Y-%m-%d %H:%i:%s')
+				]]>
+		</if>
+	</select>
+	<select id="queryTradeExportByPage" parameterType="com.need.domain.vo.trade.TradeBaseParam"
+		resultType="com.need.domain.vo.trade.TradeExportVO">
+		SELECT 
+		  a.*,
+		  b.user_id,
+		  nick_name,
+		  b.mobile,
+		  c.receiver,
+		  c.telephone,
+		  a.logistics_value,
+		  c.address
+		FROM
+		  (SELECT DISTINCT trade_no,
+		    user_trade_no,
+		    pay_channel,
+		    trade_status,
+		    create_time,
+		    pay_time,
+		    warehouse_type,
+		    buyer_id,
+		    logistics_value,
+		    address_id,
+		    is_normal,
+		    (SUM(total_price) + SUM(transport_fee)) totalPrice,
+		    pay_price,
+		    SUM(buy_price * buy_count) goodsPrice,
+		    (SUM(total_price) + SUM(transport_fee) - pay_price) discountAmount,
+		    SUM(transport_fee) transportFee 
+		  FROM
+		    trade_base 
+		  GROUP BY user_trade_no) a 
+		  LEFT JOIN user_base b 
+		    ON a.buyer_id = b.user_id
+		  LEFT JOIN `trade_address` c 
+		    ON a.address_id = c.address_id
+		<where>
+			1=1
+		</where>
+		<if test="tradeStatus!= null and tradeStatus!=''">
+			and a.trade_status in( ${tradeStatus} )
+		</if>
+		<if test="storeStatus!= null and storeStatus!=''">
+			and a.is_normal in( ${storeStatus} )
+		</if>
+		<if test="warehouseType!= null and warehouseType!=''">
+			and a.warehouse_type in( ${warehouseType} )
+		</if>
+		<if test="tradeTimeStart!=null and tradeTimeStart!='' ">
+         <![CDATA[
+   		   and DATE_FORMAT(a.create_time, '%Y-%m-%d %H:%i:%s') >=  DATE_FORMAT(#{tradeTimeStart}, '%Y-%m-%d %H:%i:%s')
+				]]>
+		</if>
+		<if test="tradeTimeEnd!=null and tradeTimeEnd!='' ">
+         <![CDATA[
+   		   and DATE_FORMAT(a.create_time, '%Y-%m-%d %H:%i:%s') <=  DATE_FORMAT(#{tradeTimeEnd}, '%Y-%m-%d %H:%i:%s')
+				]]>
+		</if>
+		order by a.create_time desc limit #{start},#{pageSize}
+	</select>
+	<select id="queryCountTradeExportItemByPage" parameterType="com.need.domain.vo.trade.TradeOrderParamsVO"
+		resultType="int">
+			SELECT COUNT(1) FROM trade_base a 
+		<where>
+			1=1
+		</where>
+		<if test="tradeStatus!= null and tradeStatus!=''">
+			and a.trade_status in( ${tradeStatus} )
+		</if>
+		<if test="storeStatus!= null and storeStatus!=''">
+			and a.is_normal in( ${storeStatus} )
+		</if>
+		<if test="warehouseType!= null and warehouseType!=''">
+			and a.warehouse_type in( ${warehouseType} )
+		</if>
+		<if test="tradeTimeStart!=null and tradeTimeStart!='' ">
+         <![CDATA[
+   		   and DATE_FORMAT(a.create_time, '%Y-%m-%d %H:%i:%s') >=  DATE_FORMAT(#{tradeTimeStart}, '%Y-%m-%d %H:%i:%s')
+				]]>
+		</if>
+		<if test="tradeTimeEnd!=null and tradeTimeEnd!='' ">
+         <![CDATA[
+   		   and DATE_FORMAT(a.create_time, '%Y-%m-%d %H:%i:%s') <=  DATE_FORMAT(#{tradeTimeEnd}, '%Y-%m-%d %H:%i:%s')
+				]]>
+		</if>
+	</select>
+	<select id="queryTradeExportItemByPage" parameterType="com.need.domain.vo.trade.TradeOrderParamsVO"
+		resultType="com.need.domain.vo.trade.TradeExportItemVO">
+			SELECT 
+			  a.user_trade_no,
+			  b.goods_code,
+			  b.goods_id,
+			  b.goods_name,
+			  b.goods_barcode,
+			  a.buy_price / 100 buyPrice,
+			  a.buy_count,
+			  a.pay_time,
+			  b.goods_category_id goodsCategories,
+			  (a.buy_price * a.buy_count) / 100 salesAmount,
+			  a.trade_status,
+			  a.create_time,
+			  a.warehouse_type,
+			  c.*
+			FROM
+			  trade_base a 
+			  LEFT JOIN 
+			    (SELECT DISTINCT 
+			      user_trade_no,
+			      SUM(buy_price * buy_count) goods_total_price,
+			      SUM(total_price) + SUM(transport_fee) - pay_price goods_discount,
+			      SUM(transport_fee) transportFee 
+			    FROM
+			      trade_base 
+			    GROUP BY user_trade_no) c 
+			    ON c.user_trade_no = a.user_trade_no 
+			  LEFT JOIN goods_main b 
+			    ON a.goods_id = b.goods_id 
+		<where>
+			1=1
+		</where>
+		<if test="tradeStatus!= null and tradeStatus!='' ">
+			and a.trade_status in( ${tradeStatus} )
+		</if>
+		<if test="storeStatus!= null and storeStatus!=''">
+			and a.is_normal in( ${storeStatus} )
+		</if>
+		<if test="warehouseType!= null and warehouseType!=''">
+			and a.warehouse_type in( ${warehouseType} )
+		</if>
+		<if test="tradeTimeStart!=null and tradeTimeStart!='' ">
+         <![CDATA[
+   		   and DATE_FORMAT(a.create_time, '%Y-%m-%d %H:%i:%s') >=  DATE_FORMAT(#{tradeTimeStart}, '%Y-%m-%d %H:%i:%s')
+				]]>
+		</if>
+		<if test="tradeTimeEnd!=null and tradeTimeEnd!='' ">
+         <![CDATA[
+   		   and DATE_FORMAT(a.create_time, '%Y-%m-%d %H:%i:%s') <=  DATE_FORMAT(#{tradeTimeEnd}, '%Y-%m-%d %H:%i:%s')
+				]]>
+		</if>
+		order by a.create_time desc limit #{start},#{pageSize}
+	</select>
+	<select id="queryGoodsSales" resultType="com.need.domain.po.bops.goods.BopsGoodsSales" parameterType="com.need.domain.vo.goods.BopsGoodsSalesVO" >
+	  SELECT b.goods_id 
+	  	<if test="servenDate!=null and servenDate!='' ">
+	    	,(case when a.sales_serven is null then 0 else a.sales_serven end) sales_serven
+	    </if>
+	     <if test="fifteenDate !=null and fifteenDate!='' ">
+	   		 ,(case when a.sales_fifteen is null then 0 else a.sales_fifteen end) sales_fifteen
+	    </if>
+	     <if test="thirtyDate!=null and thirtyDate!='' ">
+	   		 ,(case when a.sales_thirty is null then 0 else a.sales_thirty end) sales_thirty
+	    </if>
+	     <if test="sixtyDate!=null and sixtyDate!='' ">
+	   		,(case when a.sales_sixty is null then 0 else a.sales_sixty end) sales_sixty
+	    </if>
+	     <if test="ninetyDate!=null and ninetyDate!='' ">
+	    	,(case when a.sales_ninety is null then 0 else a.sales_ninety end) sales_ninety
+	    </if>
+	  FROM `goods_main` b
+	LEFT JOIN (
+	   SELECT 
+	    <if test="servenDate!=null and servenDate!='' ">
+	    	SUM(buy_count) sales_serven,
+	    </if>
+	     <if test="fifteenDate !=null and fifteenDate!='' ">
+	   		 SUM(buy_count) sales_fifteen,
+	    </if>
+	     <if test="thirtyDate!=null and thirtyDate!='' ">
+	   		 SUM(buy_count) sales_thirty,
+	    </if>
+	     <if test="sixtyDate!=null and sixtyDate!='' ">
+	   		SUM(buy_count) sales_sixty,
+	    </if>
+	     <if test="ninetyDate!=null and ninetyDate!='' ">
+	    	SUM(buy_count) sales_ninety,
+	    </if>
+	    goods_id
+	  FROM
+	    trade_base 
+	  WHERE trade_status IN (
+	      'TRADE_SUCCESS',
+	      'WAIT_RECEIVE',
+	      'WAIT_PLATFORM_SEND'
+	    ) 
+	    <if test="servenDate!=null and servenDate!='' ">
+	   		   and create_time >= #{servenDate} and
+	   		  #{endDate}>= create_time 
+	    </if>
+	     <if test="fifteenDate!=null and fifteenDate!='' ">
+	   		  and create_time >= #{fifteenDate} and
+	   		  #{endDate}>= create_time
+	    </if>
+	     <if test="thirtyDate!=null and thirtyDate!='' ">
+	   		 and create_time >= #{thirtyDate} and
+	   		  #{endDate}>= create_time
+	    </if>
+	     <if test="sixtyDate!=null and sixtyDate!='' ">
+	   		 and create_time >= #{sixtyDate} and
+	   		  #{endDate}>= create_time
+	    </if>
+	     <if test="ninetyDate!=null and ninetyDate!='' ">
+	    	 and create_time >= #{ninetyDate} and
+	   		  #{endDate}>= create_time
+	    </if>
+	    group by goods_id)a ON b.goods_id=a.goods_id
+	  </select>
+  
+  
+  <select id="queryExportTrade" parameterType="com.need.domain.vo.trade.TradeBaseParam"
+		resultType="com.need.domain.vo.trade.TradeBaseVO">
+		SELECT
+		t.trade_no,
+		t.user_trade_no,
+		SUM(t.total_price) total_fee,
+		t.buyer_id,
+		t.warehouse_type,
+		t.trade_status,
+		t.pay_channel,
+		t.create_time tradeTime,
+		t.address_id,
+		t.receiver,
+		t.certification_card,
+		t.telephone,
+		t.address,
+		t.goods_id,
+		t.logistics_value,
+		ub.mobile,
+		ub.nick_name
+		FROM
+		trade_base t
+		left join user_base ub on t.buyer_id = ub.user_id 
+		left join goods_main gm on gm.goods_id=t.goods_id
+		WHERE
+			<![CDATA[ t.create_time <= now()]]>
+		<if test="tradeNo != null and tradeNo != ''">
+			and t.trade_no = #{tradeNo}
+		</if>
+		<if test="warehouseType != null and warehouseType != ''">
+			and t.warehouse_type = #{warehouseType}
+		</if>
+		<if test="tradeStatus != null and tradeStatus != ''">
+			and t.trade_status = #{tradeStatus}
+		</if>
+		<if test="userTradeNo != null and userTradeNo != ''">
+			and (t.user_trade_no = #{userTradeNo} or t.user_order_no=
+			#{userTradeNo})
+		</if>
+		<if test="tradeTimeStart!=null and tradeTimeStart!='' ">
+			<![CDATA[
+				and DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i:%s') >=  DATE_FORMAT(#{tradeTimeStart}, '%Y-%m-%d %H:%i:%s')
+			]]>
+		</if>
+		<if test="tradeTimeEnd!=null and tradeTimeEnd!='' ">
+			<![CDATA[
+				and DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i:%s') <=  DATE_FORMAT(#{tradeTimeEnd}, '%Y-%m-%d %H:%i:%s')
+			]]>
+		</if>
+		<if test="telephone != null and telephone != ''">
+			and t.telephone = #{telephone}
+		</if>
+		<if test="mobile != null and mobile != ''">
+			and ub.mobile = #{mobile}
+		</if>
+		<if test="goodsCode != null and goodsCode != ''">
+			and gm.goods_code = #{goodsCode}
+		</if>
+		group by t.trade_no
+		order by t.create_time desc
+	</select>
+	
+</mapper> 

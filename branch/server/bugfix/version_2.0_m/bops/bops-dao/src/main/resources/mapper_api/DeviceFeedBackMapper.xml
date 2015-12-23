@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.api.device.DeviceFeedBackDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.api.device.DeviceFeedBackPO" >
+    <id column="comment_id" property="commentId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+     <result column="version" property="version" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    comment_id, create_time, content,version
+  </sql> 
+  
+  
+  <select id="queryByPage" resultType="com.need.domain.vo.device.FeedBackVO" parameterType="com.need.domain.pub.Page">
+    select 
+     comment_id, a.create_time, content,version, b.nick_name,b.mobile from 
+    device_feedback a  left join user_base b on a.user_id= b.user_id 
+   where 1=1
+       <if test="mobile != null" >
+      and  mobile like '%${mobile}%'
+      </if>     
+      <if test="startTime != null">  
+       <![CDATA[
+	 AND DATE_FORMAT(a.create_time, '%Y-%m-%d') >= DATE_FORMAT(#{startTime}, '%Y-%m-%d')
+	]]>     
+      </if>
+       <if test="endTime != null">  
+       <![CDATA[
+	AND DATE_FORMAT(a.create_time, '%Y-%m-%d')<= DATE_FORMAT(#{endTime}, '%Y-%m-%d') 
+	]]>     
+      </if>
+	order by a.create_time desc
+		limit #{feedBackpage.start}, #{feedBackpage.pageSize}
+  </select>
+  
+  
+   <select id="count" resultType="int" >
+    select count(*) from device_feedback
+    where 1=1    
+      <if test="startTime != null">  
+       <![CDATA[
+	 and  DATE_FORMAT(create_time, '%Y-%m-%d') >=  DATE_FORMAT(#{startTime}, '%Y-%m-%d')
+	]]>     
+      </if>
+       <if test="endTime != null">  
+       <![CDATA[
+	 and  DATE_FORMAT(create_time, '%Y-%m-%d') <= DATE_FORMAT(#{endTime}, '%Y-%m-%d')
+	]]>     
+      </if>
+  </select>
+  
+  
+  
+</mapper>

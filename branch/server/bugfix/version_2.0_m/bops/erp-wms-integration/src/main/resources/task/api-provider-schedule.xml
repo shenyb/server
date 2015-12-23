@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+	<!-- Enables the Spring Task @Scheduled programming model -->
+	<!-- <task:executor id="executor" pool-size="30" /> <task:scheduler id="scheduler" 
+		pool-size="14" /> <task:annotation-driven executor="executor" scheduler="scheduler" 
+		proxy-target-class="true" />
+	<task:annotation-driven /> -->
+	<task:scheduled-tasks>
+		<task:scheduled ref="tradeBasePushPullTask" method="sendOrderMessage"
+			cron="0 0/1 * * * ?" />
+		 	<task:scheduled ref="tradeBasePushPullTask" method="doReceiveMessage"
+			cron="0 0/1 * * * ?" />
+		<!--<task:scheduled ref="tradeBasePushPullTask" method="pushToApilay"
+			cron="0 3/5 * * * ?" />
+		<task:scheduled ref="tradeBasePushPullTask" method="pullTradeBase"
+			cron="0 4/6 * * * ?" />
+		<task:scheduled ref="tradeBasePushPullTask" method="retrieveInfo"
+			cron="0 5/7 * * * ?" />
+		<task:scheduled ref="tradeBasePushPullTask" method="createDeliverTrade"
+			cron="0 6/8 * * * ?" />
+		<task:scheduled ref="tradeBasePushPullTask" method="getDeliverTradeListToPullStatus"
+			cron="0 7/9 * * * ?" /> -->
+	</task:scheduled-tasks>
+</beans>

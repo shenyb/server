@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.distribution.DistributionGoodsDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.bops.distribution.DistributionGoodsPO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="distribution_status" property="distributionStatus" jdbcType="VARCHAR" />
+    <result column="commission" property="commission" jdbcType="INTEGER" />
+    <result column="creator_id" property="creatorId" jdbcType="VARCHAR" />
+    <result column="creator_name" property="creatorName" jdbcType="VARCHAR" />
+    <result column="operator_id" property="operatorId" jdbcType="VARCHAR" />
+    <result column="operator_name" property="operatorName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, goods_id, goods_name, distribution_status, commission, creator_id, creator_name, 
+    operator_id, operator_name, create_time, update_time, start_time, end_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from distribution_goods
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <!-- 获取列表 -->
+  <select id="queryByPage" resultType="com.need.domain.vo.distribution.DistributionListVO" parameterType="com.need.domain.vo.distribution.DistributionPageVO" >
+   SELECT a.id, a.`goods_id`,a.`distribution_status`,a.`commission`,a.start_time,a.end_time, 
+   b.`goods_code`,b.`goods_name` ,a.creator_name 
+   FROM distribution_goods a INNER JOIN 
+   bops_goods b ON a.`goods_id`= b.`goods_id`
+   where 1=1 
+    <if test="goodsName != null and goodsName != '' " >
+      and  b.goods_name like '%${goodsName}%'
+      </if>
+       <if test="goodsCode != null and goodsCode != '' " >
+      and  b.goods_code = #{goodsCode}
+      </if>
+       <if test="creatorName != null and creatorName != '' " >
+      and  a.creator_name = #{creatorName}
+      </if>
+       <if test="distributionStatus != null and distributionStatus != '' " >
+      and  a.distribution_status = #{distributionStatus}
+      </if>
+      order by a.create_time desc
+      limit #{start},#{pageSize}
+  </select>
+  
+  <select id="count" resultType="int" parameterType="com.need.domain.vo.distribution.DistributionPageVO" >
+   SELECT count(1) 
+   FROM distribution_goods a INNER JOIN 
+   bops_goods b ON a.`goods_id`= b.`goods_id`
+   where 1=1 
+    <if test="goodsName != null and goodsName != '' " >
+      and  b.goods_name like '%${goodsName}%'
+      </if>
+       <if test="goodsCode != null and goodsCode != '' " >
+      and  b.goods_code = #{goodsCode}
+      </if>
+       <if test="creatorName != null and creatorName != '' " >
+      and  a.creator_name = #{creatorName}
+      </if>
+       <if test="distributionStatus != null and distributionStatus != '' " >
+      and  a.distribution_status = #{distributionStatus}
+      </if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from distribution_goods
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.bops.distribution.DistributionGoodsPO" >
+    insert into distribution_goods ( goods_id, goods_name, 
+      distribution_status, commission, creator_id, 
+      creator_name, operator_id, operator_name, 
+      create_time, update_time, start_time, 
+      end_time)
+    values ( #{goodsId,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, 
+      #{distributionStatus,jdbcType=VARCHAR}, #{commission,jdbcType=INTEGER}, #{creatorId,jdbcType=VARCHAR}, 
+      #{creatorName,jdbcType=VARCHAR}, #{operatorId,jdbcType=VARCHAR}, #{operatorName,jdbcType=VARCHAR}, 
+      now(), now(), #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.domain.po.bops.distribution.DistributionGoodsPO" >
+    insert into distribution_goods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="goodsName != null" >
+        goods_name,
+      </if>
+      <if test="distributionStatus != null" >
+        distribution_status,
+      </if>
+      <if test="commission != null" >
+        commission,
+      </if>
+      <if test="creatorId != null" >
+        creator_id,
+      </if>
+      <if test="creatorName != null" >
+        creator_name,
+      </if>
+      <if test="operatorId != null" >
+        operator_id,
+      </if>
+      <if test="operatorName != null" >
+        operator_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null" >
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="distributionStatus != null" >
+        #{distributionStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="commission != null" >
+        #{commission,jdbcType=INTEGER},
+      </if>
+      <if test="creatorId != null" >
+        #{creatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorName != null" >
+        #{creatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null" >
+        #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorName != null" >
+        #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.bops.distribution.DistributionGoodsPO" >
+    update distribution_goods
+    <set >
+      <if test="goodsId != null" >
+        goods_id = #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null" >
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="distributionStatus != null" >
+        distribution_status = #{distributionStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="commission != null" >
+        commission = #{commission,jdbcType=INTEGER},
+      </if>
+      <if test="creatorId != null" >
+        creator_id = #{creatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorName != null" >
+        creator_name = #{creatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null" >
+        operator_id = #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorName != null" >
+        operator_name = #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.domain.po.bops.distribution.DistributionGoodsPO" >
+    update distribution_goods
+    set goods_id = #{goodsId,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      distribution_status = #{distributionStatus,jdbcType=VARCHAR},
+      commission = #{commission,jdbcType=INTEGER},
+      creator_id = #{creatorId,jdbcType=VARCHAR},
+      creator_name = #{creatorName,jdbcType=VARCHAR},
+      operator_id = #{operatorId,jdbcType=VARCHAR},
+      operator_name = #{operatorName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateAudit" parameterType="java.lang.String" >
+    update distribution_goods
+    set 
+      distribution_status = 'ALLOW_USE'
+     
+    where id = #{id}
+  </update>
+  
+  <select id="getDistributionByGoodsId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from distribution_goods
+    where goods_id = #{goodsId} 
+     <![CDATA[
+	 and  DATE_FORMAT(start_time, '%Y-%m-%d %H:%M:%S') <= now()
+	 
+	 and  DATE_FORMAT(end_time, '%Y-%m-%d %H:%M:%S')  >= now()
+	]]>
+	
+    and distribution_status='ALLOW_USE' limit 0,1
+  </select>
+  
+   <update id="updateFrozen" parameterType="java.lang.String" >
+    update distribution_goods
+    set 
+      distribution_status = 'FREEZE'
+     
+    where id = #{id}
+  </update>
+   <update id="updateEdit" parameterType="com.need.domain.po.bops.distribution.DistributionGoodsPO" >
+    update distribution_goods
+    set 
+      commission=#{commission},
+      start_time=#{startTime},
+      end_time=#{endTime},
+      update_time=now(),
+      operator_id=#{operatorId},
+      operator_name=#{operatorName}
+    where id = #{id}
+  </update>
+   <select id="getDistributionById" resultType="com.need.domain.vo.distribution.DistributionListVO" parameterType="java.lang.String" >
+   SELECT a.id, a.`goods_id`,a.`distribution_status`,a.`commission`,a.start_time,a.end_time, 
+   b.`goods_code`,b.`goods_name` ,a.creator_name 
+   FROM distribution_goods a INNER JOIN 
+   bops_goods b ON a.`goods_id`= b.`goods_id`
+   where
+       a.id = #{id}
+      limit 0,1
+  </select>
+
+</mapper>

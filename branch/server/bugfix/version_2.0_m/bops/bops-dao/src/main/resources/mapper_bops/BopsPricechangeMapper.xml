@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.goods.BopsPricechangeDAO">
+	<resultMap id="BaseResultMap" type="com.need.domain.po.bops.goods.BopsPricechange">
+		<id column="pricechange_id" property="pricechangeId" jdbcType="INTEGER" />
+		<result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+		<result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+		<result column="excuted" property="excuted" jdbcType="VARCHAR" />
+		<result column="pricechange_status" property="pricechangeStatus"
+			jdbcType="VARCHAR" />
+		<result column="pricechange_type" property="pricechangeType"
+			jdbcType="VARCHAR" />
+		<result column="bops_user_id" property="bopsUserId" jdbcType="INTEGER" />
+		<result column="audit_user_id" property="auditUserId" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="audit_time" property="auditTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="mark" property="mark" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		pricechange_id, start_time, end_time, excuted,
+		pricechange_status, pricechange_type,
+		bops_user_id, audit_user_id,
+		create_time, audit_time, update_time, mark
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from bops_pricechange
+		where pricechange_id =
+		#{pricechangeId,jdbcType=INTEGER}
+	</select>
+	<select id="countPriceChange" resultType="java.lang.Integer"
+		parameterType="com.need.domain.vo.goods.GoodsPriceChangeParamVO">
+		select count(*)
+		from bops_pricechange p left join bops_user u
+		on u.user_id=p.bops_user_id
+		<![CDATA[ where p.create_time <= NOW()]]>
+		<if test="startTime != null and startTime != '' ">
+			<![CDATA[ and p.create_time >= #{startTime}]]>
+		</if>
+		<if test="endTime != null and endTime != '' ">
+			<![CDATA[and p.create_time <= #{endTime}]]>
+		</if>
+		<if test="pricechangeId != null and pricechangeId != '' ">
+			and p.pricechange_id like '%${pricechangeId}%'
+		</if>
+		<if test="userId != null and userId != '' ">
+			and p.bops_user_id = #{userId}
+		</if>
+		<if test="pricechangeStatus != null and pricechangeStatus != '' ">
+			and p.pricechange_status = #{pricechangeStatus}
+		</if>
+		<if test="excuted != null and excuted != '' ">
+			and p.excuted =
+			#{excuted}
+		</if>
+		<if test="pricechangeType != null and pricechangeType != '' ">
+			and
+			p.pricechange_type = #{pricechangeType}
+		</if>
+	</select>
+
+	<select id="selectChangeStartTimeRecord" resultType="com.need.domain.po.bops.goods.BopsPricechangeGoods">
+		select
+		b.pricechange_id, b.goods_id, b.start_price
+		from bops_pricechange a , bops_pricechange_goods b
+		where a.pricechange_status ='VALID'
+		and a.pricechange_id=b.pricechange_id
+		and a.excuted = 'NEITHER'
+		and now() >= a.start_time
+		and a.pricechange_type = 'SCHEDULE'
+	</select>
+
+	<update id="updateStartTimeById">
+		update bops_pricechange
+		set excuted = #{excuted},
+		update_time=now(),
+		start_time =now()
+		where pricechange_id = #{pricechangeId}
+	</update>
+
+	<update id="updateEndTimeById">
+		update bops_pricechange
+		set excuted = #{excuted},
+		update_time=now(),
+		end_time=now()
+		where pricechange_id = #{pricechangeId}
+	</update>
+
+	<select id="selectChangeEndTimeRecord" resultType="com.need.domain.po.bops.goods.BopsPricechangeGoods">
+		select
+		b.pricechange_id, b.goods_id, b.end_price
+		from bops_pricechange a , bops_pricechange_goods b
+		where a.pricechange_status ='VALID'
+		and a.pricechange_id=b.pricechange_id
+		and a.excuted = 'STARTED'
+		and now() >= a.end_time
+		and a.pricechange_type = 'SCHEDULE'
+	</select>
+
+	<select id="queryPriceChange" resultType="com.need.domain.vo.goods.GoodsPriceChangeResultVO"
+		parameterType="com.need.domain.vo.goods.GoodsPriceChangeParamVO">
+		select
+		p.pricechange_id, p.pricechange_status, p.excuted, p.pricechange_type,
+		p.bops_user_id
+		userId, u.user_real_name userName, u.user_dept, p.create_time
+		userTime,
+		p.audit_time, p.audit_user_id auditorId, p.mark
+		from
+		bops_pricechange p left join bops_user u
+		on u.user_id=p.bops_user_id
+		<![CDATA[ where p.create_time <= NOW()]]>
+		<if test="startTime != null and startTime != '' ">
+			<![CDATA[ and p.create_time >= #{startTime}]]>
+		</if>
+		<if test="endTime != null and endTime != '' ">
+			<![CDATA[and p.create_time <= #{endTime}]]>
+		</if>
+		<if test="pricechangeId != null and pricechangeId != '' ">
+			and p.pricechange_id like '%${pricechangeId}%'
+		</if>
+		<if test="userId != null and userId != '' ">
+			and p.bops_user_id = #{userId}
+		</if>
+		<if test="pricechangeStatus != null and pricechangeStatus != '' ">
+			and p.pricechange_status = #{pricechangeStatus}
+		</if>
+		<if test="excuted != null and excuted != '' ">
+			and p.excuted =
+			#{excuted}
+		</if>
+		<if test="pricechangeType != null and pricechangeType != '' ">
+			and
+			p.pricechange_type = #{pricechangeType}
+		</if>
+		order by p.create_time DESC
+		limit #{start},#{pageSize}
+	</select>
+	<select id="getPriceChangeById" resultType="com.need.domain.vo.goods.GoodsPriceChangeResultVO"
+		parameterType="int">
+		select
+		p.pricechange_id, p.pricechange_status, p.excuted, p.pricechange_type,
+		p.bops_user_id
+		userId, u.user_real_name userName, u.user_dept, p.create_time
+		userTime,
+		p.audit_time, p.audit_user_id auditorId, p.mark,
+		p.start_time, p.end_time
+		from bops_pricechange p left join bops_user u
+		on u.user_id=p.bops_user_id
+		where pricechange_id = #{pricechangeId}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		bops_pricechange
+		where pricechange_id =
+		#{pricechangeId,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.need.domain.po.bops.goods.BopsPricechange">
+		insert into bops_pricechange
+		(start_time, end_time,
+		excuted, pricechange_status, pricechange_type,
+		bops_user_id, audit_user_id, create_time
+		)
+		values
+		(#{startTime,jdbcType=TIMESTAMP},
+		#{endTime,jdbcType=TIMESTAMP},
+		#{excuted,jdbcType=VARCHAR}, #{pricechangeStatus,jdbcType=VARCHAR},
+		#{pricechangeType,jdbcType=VARCHAR},
+		#{bopsUserId,jdbcType=INTEGER},
+		#{auditUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	<insert id="insertByPriceType" parameterType="com.need.domain.po.bops.goods.BopsPricechange"
+		useGeneratedKeys="true" keyProperty="pricechangeId">
+		insert into bops_pricechange
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="startTime != null and startTime != '' ">
+				start_time,
+			</if>
+			<if test="endTime != null and endTime != '' ">
+				end_time,
+			</if>
+			excuted,
+			pricechange_status,
+			pricechange_type,
+			bops_user_id,
+			<if test="auditUserId != null and auditUserId != '' ">
+				audit_user_id,
+			</if>
+			create_time,
+			mark,
+			update_time,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="startTime != null and startTime != '' ">
+				#{startTime},
+			</if>
+			<if test="endTime != null and endTime != '' ">
+				#{endTime},
+			</if>
+			#{excuted},
+			#{pricechangeStatus},
+			#{pricechangeType},
+			#{bopsUserId},
+			<if test="auditUserId != null and auditUserId != '' ">
+				#{auditUserId},
+			</if>
+			NOW(),#{mark},NOW(),
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.bops.goods.BopsPricechange">
+		update bops_pricechange
+		<set>
+			<if test="startTime != null">
+				start_time = #{startTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endTime != null">
+				end_time = #{endTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="excuted != null">
+				excuted = #{excuted,jdbcType=VARCHAR},
+			</if>
+			<if test="pricechangeStatus != null">
+				pricechange_status =
+				#{pricechangeStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="pricechangeType != null">
+				pricechange_type = #{pricechangeType,jdbcType=VARCHAR},
+			</if>
+			<if test="bopsUserId != null">
+				bops_user_id = #{bopsUserId,jdbcType=INTEGER},
+			</if>
+			<if test="auditUserId != null">
+				audit_user_id = #{auditUserId,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where pricechange_id = #{pricechangeId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.need.domain.po.bops.goods.BopsPricechange">
+		update
+		bops_pricechange
+		set start_time = #{startTime,jdbcType=TIMESTAMP},
+		end_time = #{endTime,jdbcType=TIMESTAMP},
+		excuted =
+		#{excuted,jdbcType=VARCHAR},
+		pricechange_status =
+		#{pricechangeStatus,jdbcType=VARCHAR},
+		pricechange_type =
+		#{pricechangeType,jdbcType=VARCHAR},
+		bops_user_id =
+		#{bopsUserId,jdbcType=INTEGER},
+		audit_user_id =
+		#{auditUserId,jdbcType=INTEGER},
+		create_time =
+		#{createTime,jdbcType=TIMESTAMP}
+		where pricechange_id =
+		#{pricechangeId,jdbcType=INTEGER}
+	</update>
+	<update id="updatePricechangeStatus">
+		update bops_pricechange
+		set
+		pricechange_status = #{audit},
+		audit_user_id = #{auditorId},
+		update_time = NOW(),
+		audit_time = NOW()
+		where pricechange_id = #{pricechangeId}
+	</update>
+	<update id="updateExcuted">
+		update bops_pricechange
+		set
+		excuted = #{excuted},
+		update_time = NOW()
+		where pricechange_id =
+		#{pricechangeId}
+	</update>
+	<update id="updateStartTime">
+		update bops_pricechange
+		set
+		update_time = NOW(),
+		start_time = NOW()
+		where pricechange_id = #{pricechangeId}
+	</update>
+	<update id="updateEndTime">
+		update bops_pricechange
+		set
+		end_time = NOW(),
+		update_time = NOW()
+		where pricechange_id = #{pricechangeId}
+	</update>
+</mapper>

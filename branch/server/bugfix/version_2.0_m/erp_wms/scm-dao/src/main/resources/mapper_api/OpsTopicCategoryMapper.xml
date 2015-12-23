@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.api.ops.OpsTopicCategoryDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.bops.ops.BopsOpsTopicCategory" >
+    <id column="topic_category_id" property="topicCategoryId" jdbcType="INTEGER" />
+    <result column="topic_category_name" property="topicCategoryName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="topic_category_position" property="topicCategoryPosition" jdbcType="VARCHAR" />
+     <result column="category_score" property="categoryScore" jdbcType="INTEGER"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    topic_category_id, topic_category_name,  create_time, update_time,topic_category_position,category_score
+  </sql>
+  
+  
+  
+  <delete id="deleteById" parameterType="int" >
+    delete from ops_topic_category
+    where topic_category_id = #{topicCategoryId}
+  </delete>
+  
+  
+  
+  <insert id="insert" parameterType="com.need.domain.po.bops.ops.BopsOpsTopicCategory" >
+    insert into ops_topic_category (topic_category_id, topic_category_name, 
+      create_time, 
+      update_time,
+      topic_category_position,category_score)
+    values (#{topicCategoryId}, #{topicCategoryName},
+       now(), 
+      now(),
+      #{topicCategoryPosition},#{categoryScore})
+  </insert>
+  
+
+  <update id="update" parameterType="com.need.domain.po.bops.ops.BopsOpsTopicCategory" >
+    update ops_topic_category
+    <set >
+        topic_category_name = #{topicCategoryName},
+        update_time = now(),
+        topic_category_position=#{topicCategoryPosition},
+        category_score =#{categoryScore}
+    </set>
+    where topic_category_id = #{topicCategoryId}
+  </update>
+  
+  <select id="countById" resultType="int" parameterType="int" >
+    select count(topic_category_id) from ops_topic_category
+    where topic_category_id = #{topicCategoryId}
+  </select>
+  
+</mapper>

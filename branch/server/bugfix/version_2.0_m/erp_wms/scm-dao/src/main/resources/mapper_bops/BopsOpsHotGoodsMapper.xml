@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.ops.BopsOpsHotgoodsDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.bops.ops.BopsOpsHotgoods" >
+    <id column="popularity_id" property="popularityId" jdbcType="VARCHAR" />
+    <result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="goods_profile_pic_key" property="goodsProfilePicKey" jdbcType="VARCHAR" />
+    <result column="goods_sort" property="goodsSort" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="goods_status" property="goodsStatus" jdbcType="VARCHAR" />
+    <result column="goods_code" property="goodsCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    popularity_id, goods_id, goods_name, goods_profile_pic_key, goods_sort, create_time, 
+    goods_status,goods_code
+  </sql>
+  <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bops_ops_hotgoods
+    where popularity_id = #{popularityId}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.String" >
+    delete from bops_ops_hotgoods
+    where popularity_id = #{popularityId}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.bops.ops.BopsOpsHotgoods" >
+    insert into bops_ops_hotgoods (popularity_id, goods_id, goods_name, 
+      goods_profile_pic_key, goods_sort, create_time, 
+      goods_status, goods_code)
+    values (#{popularityId}, #{goodsId}, #{goodsName}, 
+      #{goodsProfilePicKey}, #{goodsSort}, NOW(), 
+      #{goodsStatus}, #{goodsCode}) 
+  </insert>
+  
+  <update id="update" parameterType="com.need.domain.po.bops.ops.BopsOpsHotgoods" >
+    update bops_ops_hotgoods
+    set goods_id = #{goodsId},
+      goods_name = #{goodsName},
+      goods_profile_pic_key = #{goodsProfilePicKey},
+      goods_sort = #{goodsSort},
+      create_time = #{createTime},
+      goods_status = #{goodsStatus},
+      goods_code = #{goodsCode}
+    where popularity_id = #{popularityId}
+  </update>
+  
+  <select id="getCount" resultType="int">
+  <![CDATA[  select count(popularity_id) from bops_ops_hotgoods 
+       where create_time <=now();]]> 
+  </select>
+  <resultMap id="showResultMap" type="com.need.domain.po.bops.ops.BopsOpsHotgoods" >
+    <id column="popularity_id" property="popularityId" jdbcType="VARCHAR" />
+    <result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="top_pic_keys" property="goodsProfilePicKey" jdbcType="VARCHAR" />
+    <result column="goods_sort" property="goodsSort" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="goods_status" property="goodsStatus" jdbcType="VARCHAR" />
+    <result column="goods_code" property="goodsCode" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+  <select id="queryByPage" parameterType="com.need.domain.pub.Page" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from  bops_ops_hotgoods <![CDATA[ where create_time <=now()]]>
+      ORDER BY goods_sort ASC  LIMIT #{start},#{pageSize}
+  </select>
+   <sql id="Search_List" >
+    h.popularity_id, h.goods_id, g.goods_name,  h.goods_sort, h.create_time, 
+    g.goods_status, g.goods_code
+    </sql>
+  
+  <select id="queryByParams" parameterType="com.need.domain.vo.ops.HotGoodsVO" resultMap="BaseResultMap">
+     select 
+     <include refid="Search_List"/>
+     FROM  bops_ops_hotgoods h, bops_goods g 
+     <where>h.goods_id=g.goods_id</where>  
+      <if test="goodsCode!=null">
+       and g.goods_code like CONCAT('%','${goodsCode}','%' )
+      </if>
+      <if test="goodsName!=null">
+       and g.goods_name like CONCAT('%','${goodsName}','%' )
+      </if> 
+       ORDER BY h.goods_sort ASC  LIMIT #{start},#{pageSize}
+   </select>
+   
+   <select id="getCountByParams" parameterType="com.need.domain.vo.ops.HotGoodsVO" resultType="int">
+     select COUNT(h.popularity_id)
+     from bops_ops_hotgoods h, bops_goods g 
+     <where>h.goods_id=g.goods_id</where>
+      <if test="goodsCode!=null">
+     and  g.goods_code like CONCAT('%','${goodsCode}','%' )
+      </if>
+      <if test="goodsName!=null">
+     and  g.goods_name like CONCAT('%','${goodsName}','%' )
+      </if> 
+   </select>
+   
+   
+    <select id="getBygoodsId" parameterType="java.lang.String" resultMap="BaseResultMap">
+      select 
+    <include refid="Base_Column_List" />
+    from bops_ops_hotgoods
+    where goods_id = #{goodsId} 
+    </select>
+    <select id="queryMaxSort" resultType="java.lang.Integer">
+     SELECT MAX(goods_sort) FROM bops_ops_hotgoods <![CDATA[ where create_time <=now();]]>
+     </select> 
+     
+     <select id="queryBycheck" resultMap="BaseResultMap">
+      select 
+    <include refid="Base_Column_List" />
+    from  bops_ops_hotgoods
+      ORDER BY create_time DESC  LIMIT 0,1
+     </select>
+     
+     <update id="updateSort" parameterType="java.lang.Integer"> 
+        <![CDATA[ update bops_ops_hotgoods set goods_sort= goods_sort-1
+        where goods_sort > #{goodsSort};]]>  
+     </update>
+      
+       <update id="updategoodsSortDrop" parameterType="java.lang.Integer"> 
+          <![CDATA[ update bops_ops_hotgoods set goods_sort= goods_sort-1
+          where goods_sort > #{currentSort} and goods_sort <= #{newSort};]]>  
+       </update>
+       
+       <update id="updategoodsSortRise" parameterType="java.lang.Integer"> 
+          <![CDATA[ update bops_ops_hotgoods set goods_sort= goods_sort+1
+          where goods_sort >= #{newSort} and goods_sort < #{currentSort};]]>  
+       </update>
+      
+</mapper>

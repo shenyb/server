@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.need.common.core.dao.jdbc.ops.OpsTopicDAO">
+  <resultMap id="BaseResultMap" type="com.need.common.domain.po.api.ops.OpsTopicPO">
+    <id column="topic_id" jdbcType="INTEGER" property="topicId" />
+    <result column="topic_name" jdbcType="VARCHAR" property="topicName" />
+    <result column="cover_key" jdbcType="VARCHAR" property="coverKey" />
+    <result column="topic_status" jdbcType="VARCHAR" property="topicStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="publisher_id" jdbcType="INTEGER" property="publisherId" />
+    <result column="auditor_id" jdbcType="INTEGER" property="auditorId" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.need.common.domain.po.api.ops.OpsTopicPO">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    topic_id, topic_name, cover_key, topic_status, create_time, publisher_id, auditor_id
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ops_topic
+    where topic_id = #{topicId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ops_topic
+    where topic_id = #{topicId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.need.common.domain.po.api.ops.OpsTopicPO">
+    insert into ops_topic (topic_id, topic_name, cover_key, 
+      topic_status, create_time, publisher_id, 
+      auditor_id, content)
+    values (#{topicId,jdbcType=INTEGER}, #{topicName,jdbcType=VARCHAR}, #{coverKey,jdbcType=VARCHAR}, 
+      #{topicStatus,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{publisherId,jdbcType=INTEGER}, 
+      #{auditorId,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.common.domain.po.api.ops.OpsTopicPO">
+    insert into ops_topic
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="topicId != null">
+        topic_id,
+      </if>
+      <if test="topicName != null">
+        topic_name,
+      </if>
+      <if test="coverKey != null">
+        cover_key,
+      </if>
+      <if test="topicStatus != null">
+        topic_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="publisherId != null">
+        publisher_id,
+      </if>
+      <if test="auditorId != null">
+        auditor_id,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="topicId != null">
+        #{topicId,jdbcType=INTEGER},
+      </if>
+      <if test="topicName != null">
+        #{topicName,jdbcType=VARCHAR},
+      </if>
+      <if test="coverKey != null">
+        #{coverKey,jdbcType=VARCHAR},
+      </if>
+      <if test="topicStatus != null">
+        #{topicStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="publisherId != null">
+        #{publisherId,jdbcType=INTEGER},
+      </if>
+      <if test="auditorId != null">
+        #{auditorId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.common.domain.po.api.ops.OpsTopicPO">
+    update ops_topic
+    <set>
+      <if test="topicName != null">
+        topic_name = #{topicName,jdbcType=VARCHAR},
+      </if>
+      <if test="coverKey != null">
+        cover_key = #{coverKey,jdbcType=VARCHAR},
+      </if>
+      <if test="topicStatus != null">
+        topic_status = #{topicStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="publisherId != null">
+        publisher_id = #{publisherId,jdbcType=INTEGER},
+      </if>
+      <if test="auditorId != null">
+        auditor_id = #{auditorId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where topic_id = #{topicId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.need.common.domain.po.api.ops.OpsTopicPO">
+    update ops_topic
+    set topic_name = #{topicName,jdbcType=VARCHAR},
+      cover_key = #{coverKey,jdbcType=VARCHAR},
+      topic_status = #{topicStatus,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      publisher_id = #{publisherId,jdbcType=INTEGER},
+      auditor_id = #{auditorId,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where topic_id = #{topicId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.common.domain.po.api.ops.OpsTopicPO">
+    update ops_topic
+    set topic_name = #{topicName,jdbcType=VARCHAR},
+      cover_key = #{coverKey,jdbcType=VARCHAR},
+      topic_status = #{topicStatus,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      publisher_id = #{publisherId,jdbcType=INTEGER},
+      auditor_id = #{auditorId,jdbcType=INTEGER}
+    where topic_id = #{topicId,jdbcType=INTEGER}
+  </update>
+
+</mapper>

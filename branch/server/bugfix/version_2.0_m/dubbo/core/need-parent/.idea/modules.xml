@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../need-core/need-core.iml" filepath="$PROJECT_DIR$/../need-core/need-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../facade/need-facade-trade/need-facade-trade.iml" filepath="$PROJECT_DIR$/../../facade/need-facade-trade/need-facade-trade.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../facade/need-facade-user/need-facade-user.iml" filepath="$PROJECT_DIR$/../../facade/need-facade-user/need-facade-user.iml" />
+      <module fileurl="file://$PROJECT_DIR$/need-parent.iml" filepath="$PROJECT_DIR$/need-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../service/need-service-trade/need-service-trade.iml" filepath="$PROJECT_DIR$/../../service/need-service-trade/need-service-trade.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../service/need-service-user/need-service-user.iml" filepath="$PROJECT_DIR$/../../service/need-service-user/need-service-user.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../web/need-web-api/need-web-api.iml" filepath="$PROJECT_DIR$/../../web/need-web-api/need-web-api.iml" />
+    </modules>
+  </component>
+</project>

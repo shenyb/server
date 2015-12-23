@@ -1,0 +1,76 @@
+html, body {
+	height: 100%;
+}
+
+/* 盒模型 */
+div, input, p, textarea, ul, li, span, a {
+	box-sizing: border-box;
+	-o-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+textarea {
+	resize: none;
+}
+/* 去除虚线 */
+button, a, input {
+	outline: none;
+	-moz-outline: none;
+}
+button:active, a:active, input:active {
+	outline:none;
+}
+button::-moz-focus-inner {
+	outline:none;
+	border-color:transparent!important;
+}
+button {
+	border: none;
+	margin: 0;
+	padding: 0;
+}
+input {
+    margin: 0;
+}
+a {
+	text-decoration: none;
+	color: inherit;
+	display: block;
+}
+.ani2 {
+	-webkit-transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+	transition: all 0.2s ease-in-out;
+}
+.ani5 {
+	-webkit-transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	-o-transition: all 0.5s ease-in-out;
+	transition: all 0.5s ease-in-out;
+}
+.clear:after {
+	height: 0;
+	content: "";
+	clear: both;
+	display: block;
+	visibility:	hidden;
+	zoom: 1;
+}
+.unselect {
+    user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+.hide {
+	display: none;
+}
+.fr {
+	float: right;
+}
+
+.fl {
+    float: left;
+}

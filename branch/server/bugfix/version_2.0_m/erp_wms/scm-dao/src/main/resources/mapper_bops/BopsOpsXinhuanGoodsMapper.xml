@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.xinhuan.BopsOpsXinhuanGoodsDAO">
+	<resultMap id="BaseResultMap" type="com.need.domain.po.bops.xinhuan.BopsOpsXinhuanGoods">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+		<result column="ops_id" property="opsId" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="goods_score" property="goodsScore" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, goods_id, ops_id, create_time, update_time ,goods_score
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from bops_ops_xinhuan_goods
+		where id = #{id}
+	</select>
+	
+	<select id="countOpsGoods" resultType="java.lang.Integer"
+		parameterType="com.need.domain.vo.xinhuan.XinhuanGoodsParamPageVO">
+		select
+		count(1)
+		from bops_ops_xinhuan_goods o left join bops_goods g on o.goods_id = g.goods_id
+		where o.ops_id = #{opsId}
+		<if test="goodsCode != null and goodsCode!=''" >
+			and  g.goods_code =#{goodsCode}	
+	    </if>
+	    <if test="goodsName != null and goodsName!=''" >
+			and  g.goods_name like CONCAT('%','${goodsName}','%' ) 
+	    </if>
+	    <if test="warehouseType != null and warehouseType!=''" >
+			and  g.warehouse_type = #{warehouseType}
+	    </if>	
+	</select>
+	
+	<select id="getByOpsIdAndGoodsId" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from bops_ops_xinhuan_goods
+		where ops_id = #{opsId} and goods_id = #{goodsId}
+	</select>
+	
+	<select id="queryXinhuanGoods" resultType="com.need.domain.vo.xinhuan.OpsXinhuanGoodsResultVO"
+		parameterType="com.need.domain.vo.xinhuan.XinhuanGoodsParamPageVO">
+		select
+		x.id, x.ops_id, x.goods_id, g.goods_name, g.goods_code, g.scene_pic_key,g.warehouse_type, x.goods_score
+		from bops_ops_xinhuan_goods x left join bops_goods g
+		on x.goods_id = g.goods_id
+		where x.ops_id = #{opsId} 
+		<if test="goodsCode != null and goodsCode!=''" >
+			and  g.goods_code =#{goodsCode}	
+	    </if>
+	    <if test="goodsName != null and goodsName!=''" >
+			and  g.goods_name like CONCAT('%','${goodsName}','%' ) 
+	    </if>
+	    <if test="warehouseType != null and warehouseType!=''" >
+			and  g.warehouse_type = #{warehouseType}
+	    </if>	
+	     order by x.goods_score DESC
+		limit #{start},#{pageSize}
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from bops_ops_xinhuan_goods
+		where id = #{id}
+	</delete>
+	<delete id="deleteByGoodsId" parameterType="java.lang.String">
+		delete from
+		bops_ops_xinhuan_goods
+		where goods_id = #{goodsId}
+	</delete>
+	<delete id="deletByOpsId" parameterType="java.lang.String">
+		delete from bops_ops_xinhuan_goods
+		where ops_id = #{opsId}
+	</delete>
+	
+	<insert id="insert"
+		parameterType="com.need.domain.po.bops.xinhuan.BopsOpsXinhuanGoods">
+		insert into bops_ops_xinhuan_goods (id, goods_id, ops_id,
+		create_time, update_time)
+		values (#{id}, #{goodsId,jdbcType=VARCHAR},
+		#{opsId},
+		#{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+	</insert>
+
+	<insert id="insertNewXinhuanGoods"
+		parameterType="com.need.domain.po.bops.xinhuan.BopsOpsXinhuanGoods">
+		insert into bops_ops_xinhuan_goods (id, goods_id, ops_id,
+		create_time, update_time, goods_score)
+		values (#{id}, #{goodsId}, #{opsId},
+		NOW(), NOW(),#{goodsScore})
+	</insert>
+
+	<insert id="insertSelective"
+		parameterType="com.need.domain.po.bops.xinhuan.BopsOpsXinhuanGoods">
+		insert into bops_ops_xinhuan_goods
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="goodsId != null">
+				goods_id,
+			</if>
+			<if test="opsId != null">
+				ops_id,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="goodsId != null">
+				#{goodsId,jdbcType=VARCHAR},
+			</if>
+			<if test="opsId != null">
+				#{opsId},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.need.domain.po.bops.xinhuan.BopsOpsXinhuanGoods">
+		update bops_ops_xinhuan_goods
+		<set>
+			<if test="goodsId != null">
+				goods_id = #{goodsId,jdbcType=VARCHAR},
+			</if>
+			<if test="opsId != null">
+				ops_id = #{opsId},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.need.domain.po.bops.xinhuan.BopsOpsXinhuanGoods">
+		update bops_ops_xinhuan_goods
+		set goods_id = #{goodsId,jdbcType=VARCHAR},
+		ops_id = #{opsId},
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+		update_time = #{updateTime,jdbcType=TIMESTAMP}
+		where id = #{id}
+	</update>
+	
+	 <select id="queryXinhuanGoodsNoPage" resultType="com.need.domain.vo.xinhuan.OpsXinhuanGoodsResultVO" parameterType="java.lang.String">
+	   select
+		x.id, x.ops_id, x.goods_id, g.goods_name, g.goods_code, g.scene_pic_key, x.goods_score
+		from bops_ops_xinhuan_goods x left join bops_goods g
+		on x.goods_id = g.goods_id
+		where ops_id = #{opsId}
+		order by x.goods_score DESC
+	 </select>
+	 
+	  <update id="updateGoods" parameterType="com.need.domain.vo.xinhuan.XinhuanGoodsVO">
+	     update bops_ops_xinhuan_goods
+	      set goods_score=#{goodsScore}
+	      where id = #{id}
+	  </update>
+	 
+</mapper>

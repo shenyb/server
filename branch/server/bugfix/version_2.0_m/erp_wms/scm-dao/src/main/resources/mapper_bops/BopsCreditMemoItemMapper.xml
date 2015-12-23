@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.store.BopsCreditMemoItemDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.bops.store.BopsCreditMemoItemPO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="bops_credit_memo_id" property="bopsCreditMemoId" jdbcType="BIGINT" />
+    <result column="goods_code" property="goodsCode" jdbcType="VARCHAR" />
+    <result column="bops_inventory_id" property="bopsInventoryId" jdbcType="BIGINT" />
+    <result column="goods_name" property="goodsName" jdbcType="INTEGER" />
+    <result column="normal_quantity" property="normalQuantity" jdbcType="INTEGER" />
+    <result column="demage_quantity" property="demageQuantity" jdbcType="INTEGER" />
+    <result column="normal_change" property="normalChange" jdbcType="INTEGER" />
+    <result column="demage_change" property="demageChange" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="INTEGER" />
+    <result column="cost" property="cost" jdbcType="INTEGER" />
+    <result column="source_id" property="sourceId" jdbcType="BIGINT" />
+    <result column="source_item_id" property="sourceItemId" jdbcType="BIGINT" />
+    <result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, bops_credit_memo_id, goods_code, bops_inventory_id, goods_name, normal_quantity, 
+    demage_quantity, normal_change, demage_change, price, cost, source_id, source_item_id, 
+    created_at, created_by
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from bops_credit_memo_item
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from bops_credit_memo_item
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.bops.store.BopsCreditMemoItemPO" >
+    insert into bops_credit_memo_item (id, bops_credit_memo_id, goods_code, 
+      bops_inventory_id, goods_name, normal_quantity, 
+      demage_quantity, normal_change, demage_change, 
+      price, cost, source_id, 
+      source_item_id, created_at, created_by
+      )
+    values (#{id,jdbcType=BIGINT}, #{bopsCreditMemoId,jdbcType=BIGINT}, #{goodsCode,jdbcType=VARCHAR}, 
+      #{bopsInventoryId,jdbcType=BIGINT}, #{goodsName,jdbcType=INTEGER}, #{normalQuantity,jdbcType=INTEGER}, 
+      #{demageQuantity,jdbcType=INTEGER}, #{normalChange,jdbcType=INTEGER}, #{demageChange,jdbcType=INTEGER}, 
+      #{price,jdbcType=INTEGER}, #{cost,jdbcType=INTEGER}, #{sourceId,jdbcType=BIGINT}, 
+      #{sourceItemId,jdbcType=BIGINT}, #{createdAt,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.domain.po.bops.store.BopsCreditMemoItemPO" >
+    insert into bops_credit_memo_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="bopsCreditMemoId != null" >
+        bops_credit_memo_id,
+      </if>
+      <if test="goodsCode != null" >
+        goods_code,
+      </if>
+      <if test="bopsInventoryId != null" >
+        bops_inventory_id,
+      </if>
+      <if test="goodsName != null" >
+        goods_name,
+      </if>
+      <if test="normalQuantity != null" >
+        normal_quantity,
+      </if>
+      <if test="demageQuantity != null" >
+        demage_quantity,
+      </if>
+      <if test="normalChange != null" >
+        normal_change,
+      </if>
+      <if test="demageChange != null" >
+        demage_change,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="cost != null" >
+        cost,
+      </if>
+      <if test="sourceId != null" >
+        source_id,
+      </if>
+      <if test="sourceItemId != null" >
+        source_item_id,
+      </if>
+      <if test="createdAt != null" >
+        created_at,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="bopsCreditMemoId != null" >
+        #{bopsCreditMemoId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsCode != null" >
+        #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bopsInventoryId != null" >
+        #{bopsInventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsName != null" >
+        #{goodsName,jdbcType=INTEGER},
+      </if>
+      <if test="normalQuantity != null" >
+        #{normalQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="demageQuantity != null" >
+        #{demageQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="normalChange != null" >
+        #{normalChange,jdbcType=INTEGER},
+      </if>
+      <if test="demageChange != null" >
+        #{demageChange,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=INTEGER},
+      </if>
+      <if test="cost != null" >
+        #{cost,jdbcType=INTEGER},
+      </if>
+      <if test="sourceId != null" >
+        #{sourceId,jdbcType=BIGINT},
+      </if>
+      <if test="sourceItemId != null" >
+        #{sourceItemId,jdbcType=BIGINT},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.bops.store.BopsCreditMemoItemPO" >
+    update bops_credit_memo_item
+    <set >
+      <if test="bopsCreditMemoId != null" >
+        bops_credit_memo_id = #{bopsCreditMemoId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsCode != null" >
+        goods_code = #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bopsInventoryId != null" >
+        bops_inventory_id = #{bopsInventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsName != null" >
+        goods_name = #{goodsName,jdbcType=INTEGER},
+      </if>
+      <if test="normalQuantity != null" >
+        normal_quantity = #{normalQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="demageQuantity != null" >
+        demage_quantity = #{demageQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="normalChange != null" >
+        normal_change = #{normalChange,jdbcType=INTEGER},
+      </if>
+      <if test="demageChange != null" >
+        demage_change = #{demageChange,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=INTEGER},
+      </if>
+      <if test="cost != null" >
+        cost = #{cost,jdbcType=INTEGER},
+      </if>
+      <if test="sourceId != null" >
+        source_id = #{sourceId,jdbcType=BIGINT},
+      </if>
+      <if test="sourceItemId != null" >
+        source_item_id = #{sourceItemId,jdbcType=BIGINT},
+      </if>
+      <if test="createdAt != null" >
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        created_by = #{createdBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.domain.po.bops.store.BopsCreditMemoItemPO" >
+    update bops_credit_memo_item
+    set bops_credit_memo_id = #{bopsCreditMemoId,jdbcType=BIGINT},
+      goods_code = #{goodsCode,jdbcType=VARCHAR},
+      bops_inventory_id = #{bopsInventoryId,jdbcType=BIGINT},
+      goods_name = #{goodsName,jdbcType=INTEGER},
+      normal_quantity = #{normalQuantity,jdbcType=INTEGER},
+      demage_quantity = #{demageQuantity,jdbcType=INTEGER},
+      normal_change = #{normalChange,jdbcType=INTEGER},
+      demage_change = #{demageChange,jdbcType=INTEGER},
+      price = #{price,jdbcType=INTEGER},
+      cost = #{cost,jdbcType=INTEGER},
+      source_id = #{sourceId,jdbcType=BIGINT},
+      source_item_id = #{sourceItemId,jdbcType=BIGINT},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      created_by = #{createdBy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

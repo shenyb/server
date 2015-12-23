@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.api.ops.OpsPositionDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.api.ops.OpsPositionPO" >
+    <id column="ops_id" property="opsId" jdbcType="VARCHAR" />
+    <result column="ops_type" property="opsType" jdbcType="VARCHAR" />
+    <result column="ops_pic_key" property="opsPicKey" jdbcType="VARCHAR" />
+    <result column="ops_number" property="opsNumber" jdbcType="VARCHAR" />
+    <result column="type_id" property="typeId" jdbcType="VARCHAR" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="topic_score" property="topicScore" jdbcType="INTEGER"/>
+    <result column="eff_date" property="effDate" jdbcType="TIMESTAMP"/>
+    <result column="exp_date" property="expDate" jdbcType="TIMESTAMP"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ops_id, ops_type, ops_pic_key, ops_number, type_id,category_id,topic_score,eff_date,exp_date
+  </sql>
+  <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ops_position
+    where ops_id = #{opsId}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.String" >
+    delete from ops_position
+    where ops_id = #{opsId}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.api.ops.OpsPositionPO" >
+    insert into ops_position (ops_id, ops_type, ops_pic_key, 
+      ops_number, type_id, category_id,topic_score,eff_date,exp_date)
+    values (#{opsId}, #{opsType}, #{opsPicKey}, 
+      #{opsNumber}, #{typeId}, #{categoryId},#{topicScore},#{effDate},#{expDate})
+  </insert>
+ 
+  
+  <update id="update" parameterType="com.need.domain.po.api.ops.OpsPositionPO" >
+    update ops_position
+    set ops_type = #{opsType},
+      ops_pic_key = #{opsPicKey},
+      ops_number = #{opsNumber},
+      type_id = #{typeId},
+      category_id = #{categoryId},
+      topic_score=#{topicScore},
+       eff_date=#{effDate},
+       exp_date=#{expDate}
+    where ops_id = #{opsId}
+  </update>
+   <select id="queryAll" resultMap="BaseResultMap">
+    select
+     <include refid="Base_Column_List" />
+    from ops_position 
+    
+   </select>
+   
+     <delete id="deleteByTypeId" parameterType="java.lang.String">
+     delete from ops_position
+    where ops_type ='TOPIC' AND type_id = #{typeId}
+    </delete>
+   
+</mapper>

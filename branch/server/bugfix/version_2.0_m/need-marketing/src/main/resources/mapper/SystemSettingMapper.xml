@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.marketing.dao.jdbc.api.system.SystemSettingDAO" >
+    <resultMap id="BaseResultMap" type="com.need.marketing.dao.jdbc.api.system.po.SystemSettingPO" >
+        <id column="system_setting_name" property="systemSettingName" jdbcType="VARCHAR" />
+        <result column="system_setting_value" property="systemSettingValue" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        system_setting_name, system_setting_value, create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from system_setting
+        where system_setting_name = #{systemSettingName,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from system_setting
+        where system_setting_name = #{systemSettingName,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.need.marketing.dao.jdbc.api.system.po.SystemSettingPO" >
+        replace into system_setting (system_setting_name, system_setting_value, 
+        create_time, update_time)
+        values (#{systemSettingName,jdbcType=VARCHAR}, #{systemSettingValue,jdbcType=VARCHAR}, 
+        #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.need.marketing.dao.jdbc.api.system.po.SystemSettingPO" >
+        replace into system_setting
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="systemSettingName != null" >
+                system_setting_name,
+            </if>
+            <if test="systemSettingValue != null" >
+                system_setting_value,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="updateTime != null" >
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="systemSettingName != null" >
+                #{systemSettingName,jdbcType=VARCHAR},
+            </if>
+            <if test="systemSettingValue != null" >
+                #{systemSettingValue,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null" >
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.need.marketing.dao.jdbc.api.system.po.SystemSettingPO" >
+        update system_setting
+        <set >
+            <if test="systemSettingName != null" >
+                system_setting_name = #{systemSettingName,jdbcType=VARCHAR},
+            </if>
+            <if test="systemSettingValue != null" >
+                system_setting_value = #{systemSettingValue,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null" >
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where system_setting_name = #{systemSettingName,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.need.marketing.dao.jdbc.api.system.po.SystemSettingPO" >
+        update system_setting
+        set system_setting_value = #{systemSettingValue,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where system_setting_name = #{systemSettingName,jdbcType=VARCHAR}
+    </update>
+    <select id="queryAll" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from system_setting
+    </select>
+  
+</mapper>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.show.dao.jdbc.api.trade.TradeBaseDAO">
+	<resultMap id="BaseResultMap"
+		type="com.need.show.dao.jdbc.api.trade.po.TradeBasePO">
+		<id column="order_no" property="orderNo" jdbcType="VARCHAR" />
+		<result column="trade_no" property="tradeNo" jdbcType="VARCHAR" />
+		<result column="order_status" property="orderStatus" jdbcType="VARCHAR" />
+		<result column="trade_status" property="tradeStatus" jdbcType="VARCHAR" />
+		<result column="buyer_id" property="buyerId" jdbcType="VARCHAR" />
+		<result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+		<result column="buy_count" property="buyCount" jdbcType="INTEGER" />
+		<result column="buy_price" property="buyPrice" jdbcType="INTEGER" />
+		<result column="total_price" property="totalPrice" jdbcType="INTEGER" />
+		<result column="pay_channel" property="payChannel" jdbcType="VARCHAR" />
+		<result column="pay_price" property="payPrice" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+		<result column="trade_time" property="tradeTime" jdbcType="TIMESTAMP" />
+		<result column="address_id" property="addressId" jdbcType="VARCHAR" />
+		<result column="user_trade_no" property="userTradeNo" jdbcType="VARCHAR" />
+		<result column="user_order_no" property="userOrderNo" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="showTradeInfoVO" type="com.need.show.web.controller.trade.vo.ShowTradeInfoVO">
+		<result column="total_tradeNo_count" property="totalTradeNoCount" jdbcType="INTEGER" />
+		<result column="total_trade_price" property="totalTradePrice" jdbcType="INTEGER" />
+		
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		order_no, trade_no, order_status, trade_status, buyer_id,
+		goods_id, buy_count,
+		buy_price,
+		total_price, pay_channel, pay_price,
+		create_time, pay_time, trade_time, address_id,
+		user_trade_no, user_order_no
+	</sql>
+
+
+
+
+    <select id="getShowTradeInfo" resultType="com.need.show.web.controller.trade.vo.ShowTradeInfoVO" parameterType="java.lang.String">
+		   
+		 SELECT
+	          COALESCE (sum(aa.tradeNoCount),0 ) as totalTradeNoCount ,COALESCE (sum(aa.tradePrice),0) as totalTradePrice
+         FROM
+	     (
+			SELECT
+				count(trade_no) AS tradeNoCount,
+				round(sum(total_price)) AS tradePrice
+			FROM
+				need_api.trade_base
+			WHERE
+				trade_status IN (
+					'TRADE_SUCCESS',
+					'WAIT_PLATFORM_SEND',
+					'WAIT_RECEIVE'
+				)
+				<![CDATA[
+					AND create_time >= #{beginTime}
+			   ]]>   
+			GROUP BY
+				(trade_no)
+	   ) aa
+	 		     	
+	</select>
+    
+
+
+
+
+</mapper>

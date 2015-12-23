@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.2.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+	
+	<import resource="classpath:show/mybatis/api-provider-datasource.xml"/>
+	<!-- mybatis文件配置，扫描所有mapper文件 ,configLocation为mybatis属性mapperLocations为所有mapper -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean" p:dataSource-ref="api_routingDataSource" p:configLocation="classpath:show/mybatis/mybatis_config.xml" p:mapperLocations="classpath:mapper_api/*.xml" />
+	<!-- spring与mybatis整合配置，扫描所有dao -->	
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.need.show.dao.jdbc.api" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean>
+		
+    <!-- 当之前操作是写的时候，是否强制从从库读 -->
+	<bean id="routingDataSourceTransactionProcessor"  class="com.need.jdbc.datasource.RoutingDataSourceProcessor">
+		<property name="forceChoiceReadWhenWrite" value="false" />
+	</bean>
+</beans>

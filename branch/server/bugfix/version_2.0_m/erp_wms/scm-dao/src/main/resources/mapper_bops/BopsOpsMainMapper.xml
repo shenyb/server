@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.xinhuan.BopsOpsMainDAO">
+	<resultMap id="BaseResultMap" type="com.need.domain.po.bops.xinhuan.BopsOpsMain">
+		<id column="ops_id" property="opsId" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="ops_name" property="opsName" jdbcType="VARCHAR" />
+		<result column="ops_pic" property="opsPic" jdbcType="VARCHAR" />
+		<result column="ops_type" property="opsType" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ops_id, create_time, update_time, ops_name, ops_pic,
+		ops_type
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from bops_ops_main
+		where ops_id = #{opsId}
+	</select>
+	
+	<select id="countOpsPosition" resultType="java.lang.Integer"
+		parameterType="java.lang.String">
+		select
+		count(ops_id)
+		from bops_ops_main
+		where ops_type = #{opsType}
+	</select>
+	
+	<select id="queryAllOpsPosition" resultMap="BaseResultMap"
+		parameterType="com.need.domain.vo.xinhuan.OpsXinhuanParamVO">
+		select
+		<include refid="Base_Column_List" />
+		from bops_ops_main
+		<![CDATA[ where create_time <= NOW()]]>
+		 <if test="opsName!=null and opsName!=''">
+		  and  ops_name like CONCAT('%','${opsName}','%' ) 
+		 </if>
+		 <if test="opsType!=null and opsType!=''">
+		  and ops_type = #{opsType}
+		 </if>
+		 order by create_time desc
+		 LIMIT #{start},#{pageSize} 
+	</select>
+	
+	
+	<select id="getCount" resultType="int"
+		parameterType="com.need.domain.vo.xinhuan.OpsXinhuanParamVO">
+		select
+		count(1)
+		from bops_ops_main
+		<![CDATA[ where create_time <= NOW()]]>
+		 <if test="opsName!=null and opsName!=''">
+		  and  ops_name like CONCAT('%','${opsName}','%' ) 
+		 </if>
+		 <if test="opsType!=null and opsType!=''">
+		  and ops_type = #{opsType}
+		 </if>
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		bops_ops_main
+		where ops_id = #{opsId}
+	</delete>
+	
+	<insert id="insert"
+		parameterType="com.need.domain.po.bops.xinhuan.BopsOpsMain">
+		insert into bops_ops_main (ops_id, create_time,
+		update_time,
+		ops_name, ops_pic, ops_type
+		)
+		values
+		(#{opsId}, #{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP},
+		#{opsName,jdbcType=VARCHAR},
+		#{opsPic,jdbcType=VARCHAR}, #{opsType,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertOpsPosition"
+		parameterType="com.need.domain.vo.xinhuan.OpsXinhuanParamVO">
+		insert into bops_ops_main
+		(ops_id, create_time, update_time,
+		ops_name, ops_pic, ops_type)
+		values
+		(#{opsId},NOW(),NOW(),
+		#{opsName}, #{opsPic},
+		#{opsType})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.need.domain.po.bops.xinhuan.BopsOpsMain">
+		insert into bops_ops_main
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="opsId != null">
+				ops_id,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="opsName != null">
+				ops_name,
+			</if>
+			<if test="opsPic != null">
+				ops_pic,
+			</if>
+			<if test="opsType != null">
+				ops_type,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="opsId != null">
+				#{opsId},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="opsName != null">
+				#{opsName,jdbcType=VARCHAR},
+			</if>
+			<if test="opsPic != null">
+				#{opsPic,jdbcType=VARCHAR},
+			</if>
+			<if test="opsType != null">
+				#{opsType,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.need.domain.po.bops.xinhuan.BopsOpsMain">
+		update bops_ops_main
+		<set>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="opsName != null">
+				ops_name = #{opsName,jdbcType=VARCHAR},
+			</if>
+			<if test="opsPic != null">
+				ops_pic = #{opsPic,jdbcType=VARCHAR},
+			</if>
+			<if test="opsType != null">
+				ops_type = #{opsType,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ops_id = #{opsId}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.need.domain.po.bops.xinhuan.BopsOpsMain">
+		update bops_ops_main
+		set create_time =
+		#{createTime,jdbcType=TIMESTAMP},
+		update_time =
+		#{updateTime,jdbcType=TIMESTAMP},
+		ops_name =
+		#{opsName,jdbcType=VARCHAR},
+		ops_pic = #{opsPic,jdbcType=VARCHAR},
+		ops_type = #{opsType,jdbcType=VARCHAR}
+		where ops_id =
+		#{opsId}
+	</update>
+	<update id="updateOpsPosition"
+		parameterType="com.need.domain.vo.xinhuan.OpsXinhuanParamVO">
+		update bops_ops_main
+		set
+		update_time = NOW(),
+		ops_name =
+		#{opsName},
+		ops_pic = #{opsPic},
+		ops_type = #{opsType}
+		where ops_id =
+		#{opsId}
+	</update>
+	
+	
+	 <select id="queryAllOps" resultMap="BaseResultMap" parameterType="com.need.domain.pub.Page">
+	  select
+		<include refid="Base_Column_List" />
+		from bops_ops_main
+		<![CDATA[ where create_time <= NOW()]]>
+		 order by ops_type
+	 </select>
+</mapper>

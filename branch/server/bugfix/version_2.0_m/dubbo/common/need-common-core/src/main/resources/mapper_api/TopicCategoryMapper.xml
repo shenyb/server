@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.common.core.dao.jdbc.ops.TopicCategoryDAO" >
+  <resultMap id="BaseResultMap" type="com.need.common.domain.po.api.ops.TopicCategory" >
+    <id column="relation_id" property="relationId" jdbcType="INTEGER" />
+    <result column="topic_id" property="topicId" jdbcType="INTEGER" />
+    <result column="topic_category_id" property="topicCategoryId" jdbcType="INTEGER" />
+    <result column="top_pic_key" property="topPicKey" jdbcType="VARCHAR" />
+    <result column="list_pic_key" property="listPicKey" jdbcType="VARCHAR" />
+    <result column="topic_position" property="topicPosition" jdbcType="VARCHAR" />
+    <result column="new_pic_key" property="newPicKey" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <sql id="Base_Column_List" >
+    relation_id, topic_id, topic_category_id,top_pic_key, list_pic_key, topic_position,new_pic_key
+      </sql>
+    <insert id="insert" parameterType="com.need.common.domain.po.api.ops.TopicCategory">
+        insert into topic_category (relation_id, topic_id, topic_category_id, 
+      top_pic_key, list_pic_key, topic_position, new_pic_key )
+    values (#{relationId}, #{topicId}, #{topicCategoryId}, 
+      #{topPicKey}, #{listPicKey}, #{topicPosition}, #{newPicKey})  
+      </insert>
+      
+        <update id="update" parameterType="com.need.common.domain.po.api.ops.TopicCategory" >
+        update topic_category
+    set 
+       topic_id = #{topicId},
+       topic_category_id = #{topicCategoryId},
+       top_pic_key = #{topPicKey},
+       list_pic_key = #{listPicKey},
+       new_pic_key=#{newPicKey},
+       topic_position = #{topicPosition}
+       where relation_id = #{relationId}
+       </update>
+       
+       
+        <select id="getById" parameterType="int" resultMap="BaseResultMap">
+         select 
+          <include refid="Base_Column_List"/>
+          from topic_category 
+             where relation_id = #{relationId}
+        </select>
+        
+        <delete id="delete" parameterType="int">
+        delete from topic_category
+         where relation_id = #{relationId}
+       </delete>
+       
+    <resultMap id="showMap" type="com.need.common.domain.vo.ops.CategoryTopicVO" >
+    <result column="topic_id" property="topicId" jdbcType="INTEGER" />
+    <result column="list_pic_key" property="topPicKey" jdbcType="VARCHAR" />
+    <result column="visit_url" property="topicUrl" jdbcType="VARCHAR" />
+    <result column="topic_title" property="topicName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+       
+       <select id="queryMoreTopic" parameterType="int" resultMap="showMap">
+        SELECT r.topic_id,r.list_pic_key,t.visit_url,t.topic_title 
+         FROM topic_category r 
+              INNER JOIN ops_topic1 t ON r.topic_id=t.topic_id
+               WHERE r.topic_category_id=#{categoryId}
+               AND now() between r.eff_date and r.exp_date
+               ORDER BY r.topic_score DESC
+       </select>
+       
+       
+       <select id="queryForShijian" parameterType="int" resultMap="showMap">
+         SELECT r.topic_id,r.top_pic_key as list_pic_key,t.visit_url,t.topic_title 
+         FROM topic_category r 
+              INNER JOIN ops_topic1 t ON r.topic_id=t.topic_id
+                WHERE r.topic_category_id=#{categoryId} 
+                AND now() between r.eff_date and r.exp_date
+                ORDER BY r.topic_score DESC
+                LIMIT 0,4
+       </select>
+  
+</mapper>

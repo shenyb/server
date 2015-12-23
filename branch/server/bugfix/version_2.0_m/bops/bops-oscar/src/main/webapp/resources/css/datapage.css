@@ -1,0 +1,119 @@
+.data-page-wrap {
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	background: rgb(243, 243, 243) none repeat scroll 0% 0%;
+}
+
+.page-head {
+    padding: 20px;
+    background: #E8E8E8 none repeat scroll 0% 0%;
+    position: relative;
+}
+.page-head h3 {
+    margin-top: 0px;
+    font-size: 20px;
+    font-weight: 300;
+}
+h1, h2, h3, h4, h5 {
+    font-family: "Source Sans Pro",sans-serif;
+}
+
+/* 右侧面包屑 */
+.state-information {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+.breadcrumb.bg-less {
+    padding: 0px;
+}
+.bg-less {
+    background: transparent none repeat scroll 0% 0%;
+}
+.m-b-less {
+    margin-bottom: 0px;
+}
+.breadcrumb > li {
+    display: inline-block;
+}
+.breadcrumb li a {
+    color: #4D4D4F;
+}
+.breadcrumb > .active {
+    color: #777;
+}
+
+/* 表格 */
+.wrapper {
+    padding: 20px;
+    background-color: #f3f3f3;
+}
+.panel {
+    border: medium none;
+    box-shadow: none;
+    border-radius: 0px;
+}
+.panel {
+    position: relative;
+}
+.panel-heading {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+.panel-heading {
+    border-bottom: 1px solid #F3F3F3;
+    padding: 15px;
+    text-transform: uppercase;
+    color: #232425;
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+.tools {
+    margin: -5px;
+}
+.tools a {
+    border-radius: 2px;
+    color: #C5C5CA;
+    float: left;
+    padding: 10px;
+    text-decoration: none;
+    font-size: 11px;
+}
+.tbl-head {
+    padding: 20px;
+    text-align: left;
+    min-height: 40px;
+    border-bottom: 1px solid #CCC;
+}
+table.dataTable {
+	width: 100%;
+}
+table.dataTable {
+    border-collapse: separate;
+    border-spacing: 0px;
+}
+.data-table.table > thead > tr > th {
+	border-bottom: 0px solid #CCC;
+}
+.tbl-footer {
+    padding: 0px 20px;
+}
+.tbl-info {
+    margin-top: 20px;
+}
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_paginate {
+	color: #333;
+}
+.dataTables_wrapper .dataTables_paginate {
+    float: right;
+    text-align: right;
+    padding-top: 0.25em;
+}
+.dataTables_wrapper .dataTables_info {
+    clear: both;
+    float: left;
+    padding-top: 0.755em;
+    color: #666;
+}

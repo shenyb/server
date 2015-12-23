@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.common.core.dao.jdbc.feed.FeedReportDAO" >
+  <resultMap id="BaseResultMap" type="com.need.common.domain.po.api.feed.FeedReportPO" >
+    <id column="feed_report_id" property="feedReportId" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="feed_id" property="feedId" jdbcType="VARCHAR" />
+    <result column="report_content" property="reportContent" jdbcType="VARCHAR" />
+    <result column="report_status" property="reportStatus" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    feed_report_id, user_id, feed_id, report_content, report_status, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from feed_report
+    where feed_report_id = #{feedReportId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from feed_report
+    where feed_report_id = #{feedReportId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.need.common.domain.po.api.feed.FeedReportPO" >
+    insert into feed_report (feed_report_id, user_id, feed_id, 
+      report_content, report_status, create_time)
+    values (#{feedReportId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{feedId,jdbcType=VARCHAR}, 
+      #{reportContent,jdbcType=VARCHAR}, #{reportStatus,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.common.domain.po.api.feed.FeedReportPO" >
+    insert into feed_report
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="feedReportId != null" >
+        feed_report_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="feedId != null" >
+        feed_id,
+      </if>
+      <if test="reportContent != null" >
+        report_content,
+      </if>
+      <if test="reportStatus != null" >
+        report_status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="feedReportId != null" >
+        #{feedReportId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="feedId != null" >
+        #{feedId,jdbcType=VARCHAR},
+      </if>
+      <if test="reportContent != null" >
+        #{reportContent,jdbcType=VARCHAR},
+      </if>
+      <if test="reportStatus != null" >
+        #{reportStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.common.domain.po.api.feed.FeedReportPO" >
+    update feed_report
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="feedId != null" >
+        feed_id = #{feedId,jdbcType=VARCHAR},
+      </if>
+      <if test="reportContent != null" >
+        report_content = #{reportContent,jdbcType=VARCHAR},
+      </if>
+      <if test="reportStatus != null" >
+        report_status = #{reportStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where feed_report_id = #{feedReportId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.common.domain.po.api.feed.FeedReportPO" >
+    update feed_report
+    set user_id = #{userId,jdbcType=VARCHAR},
+      feed_id = #{feedId,jdbcType=VARCHAR},
+      report_content = #{reportContent,jdbcType=VARCHAR},
+      report_status = #{reportStatus,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where feed_report_id = #{feedReportId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.api.need.NeedFeedCommentDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.api.need.NeedFeedCommentPO" >
+    <id column="comment_id" property="commentId" jdbcType="VARCHAR" />
+    <result column="author_id" property="authorId" jdbcType="VARCHAR" />
+    <result column="feed_id" property="feedId" jdbcType="VARCHAR" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="feed_status" property="feedStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    comment_id, author_id, feed_id, comment, create_time,  feed_status
+  </sql>
+  
+   <select id="queryByPage" parameterType="com.need.domain.vo.safeCenter.NeedFeedParamsVO" resultType="com.need.domain.vo.safeCenter.NeedFeedCommentVO">
+     select 
+     <include refid="Base_Column_List"/>
+     from need_feed_comment 
+      <where>1=1</where>
+      <if test="timeStart!=null">
+           <![CDATA[
+   		   and DATE_FORMAT(create_time, '%Y-%m-%d') >=  DATE_FORMAT(#{timeStart}, '%Y-%m-%d')
+				]]>
+           </if>
+           <if test="timeEnd!=null">
+           <![CDATA[
+   		   and DATE_FORMAT(create_time, '%Y-%m-%d') <=  DATE_FORMAT(#{timeEnd}, '%Y-%m-%d')
+				]]>
+           </if>
+           <if test="feedStatus!=null and feedStatus!=''">
+            and feed_status=#{feedStatus}
+           </if>
+           ORDER BY create_time DESC
+		limit #{start},#{pageSize} 
+   </select>
+   
+   <select id="getcount" parameterType="com.need.domain.vo.safeCenter.NeedFeedParamsVO" resultType="int">
+        select count(1)
+       from need_feed_comment  
+          <where>1=1</where>
+           <if test="timeStart!=null">
+           <![CDATA[
+   		   and DATE_FORMAT(create_time, '%Y-%m-%d') >=  DATE_FORMAT(#{timeStart}, '%Y-%m-%d')
+				]]>
+           </if>
+           <if test="timeEnd!=null">
+           <![CDATA[
+   		   and DATE_FORMAT(create_time, '%Y-%m-%d') <=  DATE_FORMAT(#{timeEnd}, '%Y-%m-%d')
+				]]>
+           </if>
+           <if test="feedStatus!=null and feedStatus!=''">
+            and feed_status=#{feedStatus}
+           </if>
+     
+     </select>
+     
+     <update id="updateStatus" parameterType="java.lang.String">
+        update need_feed_comment 
+        set feed_status = "INVALID"
+         where comment_id = #{commentId}
+      </update>
+    
+  
+  
+</mapper>

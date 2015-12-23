@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.common.core.dao.jdbc.coupon.CouponExchangeUserDAO" >
+    <resultMap id="BaseResultMap" type="com.need.common.domain.po.api.coupon.CouponExchangeUserPO" >
+        <id column="coupon_exchange_id" property="couponExchangeId" jdbcType="INTEGER" />
+        <id column="user_id" property="userId" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        coupon_exchange_id, user_id, create_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.need.common.domain.po.api.coupon.CouponExchangeUserPOKey" >
+        select 
+        <include refid="Base_Column_List" />
+        from coupon_exchange_user
+        where coupon_exchange_id = #{couponExchangeId,jdbcType=INTEGER}
+        and user_id = #{userId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="com.need.common.domain.po.api.coupon.CouponExchangeUserPOKey" >
+        delete from coupon_exchange_user
+        where coupon_exchange_id = #{couponExchangeId,jdbcType=INTEGER}
+        and user_id = #{userId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.need.common.domain.po.api.coupon.CouponExchangeUserPO" >
+        replace into coupon_exchange_user (coupon_exchange_id, user_id, create_time
+        )
+        values (#{couponExchangeId,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.need.common.domain.po.api.coupon.CouponExchangeUserPO" >
+        insert into coupon_exchange_user
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="couponExchangeId != null" >
+                coupon_exchange_id,
+            </if>
+            <if test="userId != null" >
+                user_id,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="couponExchangeId != null" >
+                #{couponExchangeId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null" >
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.need.common.domain.po.api.coupon.CouponExchangeUserPO" >
+        update coupon_exchange_user
+        <set >
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where coupon_exchange_id = #{couponExchangeId,jdbcType=INTEGER}
+        and user_id = #{userId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.need.common.domain.po.api.coupon.CouponExchangeUserPO" >
+        update coupon_exchange_user
+        set create_time = #{createTime,jdbcType=TIMESTAMP}
+        where coupon_exchange_id = #{couponExchangeId,jdbcType=INTEGER}
+        and user_id = #{userId,jdbcType=VARCHAR}
+    </update>
+</mapper>

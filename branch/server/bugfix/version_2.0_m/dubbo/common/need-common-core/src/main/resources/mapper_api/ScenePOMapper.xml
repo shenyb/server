@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.common.core.dao.jdbc.scene.ScenePODAO" >
+  <resultMap id="BaseResultMap" type="com.need.common.domain.po.api.scene.ScenePO" >
+    <id column="scene_id" property="sceneId" jdbcType="INTEGER" />
+    <result column="scene_name" property="sceneName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    scene_id, scene_name, create_time
+  </sql>
+  
+   <select id="queryScene" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from goods_scene
+      <![CDATA[
+	 where  DATE_FORMAT(create_time, '%Y-%m-%d') <= now()
+	]]>
+  </select>
+  
+  
+</mapper>

@@ -1,0 +1,182 @@
+.data-page-wrap {
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+*{box-sizing: border-box;}
+*{
+    outline: none!important;
+    inline:none!important;
+}
+.con{
+    width:100%;
+    padding-bottom: 20px;
+}
+.page-head {
+    padding: 10px;
+    background: #E8E8E8;
+    position: relative;
+    line-height:30px;
+}
+
+.breadcrumb{
+    margin:0;
+    padding:0;
+    background: none;
+    font-size: 14px;
+}
+.state-information a{
+    color:#000;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.info{
+    height:auto;
+    background: #fff;
+    padding:0 10px 30px;
+    min-height:500px;
+}
+.info-top{
+    width:100%;
+    height: 40px;
+    padding: 10px 0;
+    position: relative;
+    line-height: 20px;
+    border-bottom: 1px solid #E8E8E8;
+}
+.back{
+    position: absolute;
+    right:0;
+    top:8px;
+}
+.back>.button{
+    background:#eee;
+    color:#333;
+    font-weight:500;
+}
+.back>.button:hover{
+    background:#333;
+    color:#fff;
+}
+.button{
+    padding:0 10px; 
+}
+.search-form{
+    width:100%;
+    height:auto;
+    padding-top: 20px;
+    position:relative;
+}
+
+.page{
+    height:60px;
+    line-height: 30px;
+    margin: 25px 0;
+    position: relative;
+}
+.pagenum{
+    float: left;
+}
+.pagination{
+    margin:0;
+}
+/*选项卡*/
+.tabbox{
+    width:100%;
+    height:500px;
+    border:1px solid #eee;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #aaa;
+    position: relative;
+    overflow: hidden;
+}
+.tablist{
+    width:220px;
+    height:100%;
+    background: #fff;
+    padding:0;
+    z-index: 100;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-right:1px solid #eee;  
+    overflow: auto;
+}
+.tablist>li{
+    list-style: none;
+    border-bottom:1px solid #eee; 
+    position: relative;
+    padding: 10px 20px;
+}
+.tablist>li>a{
+   width:150px;
+    display: block;
+    font-size: 14px;
+    color:#000;
+    transition:all 0.2s ease;
+    line-height: 20px;
+} 
+.tablist>li>i{
+    position: absolute;
+    right: 20px;
+    top:50%;
+    margin-top:-7px;
+    color:#000;
+    cursor: pointer;
+}
+.tablist>li>a>span{
+	font-size:10px;
+	color:#aaa;
+}
+.tablist>li:hover{
+    background: rgb(104,209,169);   
+}
+.tablist>li:hover a{
+    color:#fff;
+    text-decoration: none;
+}
+.tabview{
+    width:100%;
+    height:100%;
+    border-left: 220px solid transparent;
+}
+.tabview-table{
+    width:100%;
+    height:100%;
+    padding: 10px;
+    overflow:auto; 
+}
+.table thead tr{
+    background:#e8e8e8;
+}
+.table tbody tr>td,.table thead tr>th{
+    text-align: center;
+    max-width:150px;  
+    line-height:20px;
+    padding:8px 10px;   
+    vertical-align:middle;
+    word-break:break-all;
+}
+
+.table tbody tr td:last-child a{
+    color:#547AC4;
+    font-weight: normal;
+}
+.table tbody tr td span{
+    margin: 0 4px;
+}
+.table-striped > tbody > tr:nth-of-type(2n) {
+    background: #E8E8E8 none repeat scroll 0% 0%;
+}
+.tablist>div{
+    height:40px;
+    line-height: 40px;
+    font-size: 16px;
+    padding-left: 20px;
+    border-bottom:1px solid #eee;
+}
+.table tr td img{
+	height:40px;
+}
+

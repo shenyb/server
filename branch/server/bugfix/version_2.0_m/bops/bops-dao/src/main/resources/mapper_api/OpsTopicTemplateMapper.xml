@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.api.template.OpsTopicTemplateDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.api.template.OpsTopicTemplate" >
+    <id column="topic_id" property="topicId" jdbcType="INTEGER" />
+    <result column="topic_title" property="topicTitle" jdbcType="VARCHAR" />
+    <result column="topic_code" property="topicCode" jdbcType="VARCHAR" />
+    <result column="visit_url" property="visitUrl" jdbcType="VARCHAR" />
+    <result column="goods_codes" property="goodsCodes" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="ResultMapWithBLOBs" type="com.need.domain.po.api.template.OpsTopicTemplate" extends="BaseResultMap" >
+    <result column="topic_contents" property="topicContents" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    topic_id, topic_title, topic_code, visit_url
+  </sql>
+  <sql id="Blob_Column_List" >
+    topic_contents
+  </sql>
+  
+  <select id="selectById" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ops_topic1
+    where topic_id = #{topicId,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from ops_topic1
+    where topic_id = #{topicId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.need.domain.po.api.template.OpsTopicTemplate" >
+    insert into ops_topic1 (topic_id, topic_title, topic_code, 
+      visit_url, topic_contents,goods_codes)
+    values (#{topicId,jdbcType=INTEGER}, #{topicTitle,jdbcType=VARCHAR}, #{topicCode,jdbcType=VARCHAR}, 
+      #{visitUrl,jdbcType=VARCHAR}, #{topicContents,jdbcType=LONGVARCHAR},#{goodsCodes})
+  </insert>
+ 
+  <update id="updateById" parameterType="com.need.domain.po.api.template.OpsTopicTemplate" >
+    update ops_topic1
+    set topic_title = #{topicTitle,jdbcType=VARCHAR},
+      topic_code = #{topicCode,jdbcType=VARCHAR},
+      visit_url = #{visitUrl,jdbcType=VARCHAR},
+      topic_contents = #{topicContents,jdbcType=LONGVARCHAR},
+      goods_codes = #{goodsCodes}
+    where topic_id = #{topicId,jdbcType=INTEGER}
+  </update>
+
+</mapper>

@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.purchase.BopsPurchaseDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.bops.purchase.BopsPurchasePO" >
+    <id column="purchase_id" property="purchaseId" jdbcType="INTEGER" />
+    <result column="purchase_status" property="purchaseStatus" jdbcType="VARCHAR" />
+    <result column="provider_id" property="providerId" jdbcType="INTEGER" />
+    <result column="warehouse_id" property="warehouseId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="delivery_time" property="deliveryTime" jdbcType="TIMESTAMP" />
+    <result column="purchase_user_id" property="purchaseUserId" jdbcType="INTEGER" />
+    <result column="purchase_department" property="purchaseDepartment" jdbcType="VARCHAR" />
+    <result column="purchase_is_havest" property="purchaseIsHavest" jdbcType="VARCHAR" />
+    <result column="havest_userid" property="havestUserid" jdbcType="VARCHAR" />
+    <result column="havest_username" property="havestUsername" jdbcType="VARCHAR" />
+    <result column="purchase_is_different" property="purchaseIsDifferent" jdbcType="VARCHAR" />
+    <result column="havest_count" property="havestCount" jdbcType="INTEGER" />
+    <result column="havest_time" property="havestTime" jdbcType="TIMESTAMP" />
+    <result column="havest_disability" property="havestDisability" jdbcType="INTEGER" />
+    <result column="havest_normal" property="havestNormal" jdbcType="INTEGER" />
+    <result column="purchase_price_all" property="purchasePriceAll" jdbcType="INTEGER" />
+    <result column="purchase_count_all" property="purchaseCountAll" jdbcType="INTEGER" />
+    <result column="purchase_price_real" property="purchasePriceReal" jdbcType="INTEGER" />
+    <result column="purchase_count_real" property="purchaseCountReal" jdbcType="INTEGER" />
+    <result column="purchase_freight" property="purchaseFreight" jdbcType="INTEGER" />
+    <result column="difference_price" property="differencePrice" jdbcType="INTEGER" />
+    <result column="difference_count" property="differenceCount" jdbcType="INTEGER" />
+    <result column="purchase_currency" property="purchaseCurrency" jdbcType="VARCHAR" />
+    <result column="purchase_remark" property="purchaseRemark" jdbcType="VARCHAR" />
+    <result column="purchase_price_other" property="purchasePriceOther" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    purchase_id, purchase_status, provider_id, warehouse_id, create_time, delivery_time, 
+    purchase_user_id, purchase_department, purchase_is_havest, havest_userid,havest_username, purchase_is_different, 
+    havest_count, havest_disability, havest_normal,havest_time, purchase_price_all, purchase_count_all, 
+    purchase_price_real, purchase_count_real, purchase_freight, difference_price, difference_count, 
+    purchase_currency, purchase_remark, purchase_price_other
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from bops_purchase
+    where purchase_id = #{purchaseId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from bops_purchase
+    where purchase_id = #{purchaseId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.bops.purchase.BopsPurchasePO"  keyProperty="purchaseId" useGeneratedKeys="true" >
+    insert into bops_purchase (purchase_status, provider_id, 
+      warehouse_id, create_time, delivery_time, 
+      purchase_user_id, purchase_department, purchase_is_havest, 
+      havest_userid, purchase_is_different, havest_count, 
+      havest_disability, havest_normal, purchase_price_all, 
+      purchase_count_all, purchase_price_real, purchase_count_real, 
+      purchase_freight, difference_price, difference_count, 
+      purchase_currency, purchase_remark, purchase_price_other
+      )
+    values (#{purchaseStatus}, #{providerId}, 
+      #{warehouseId}, #{createTime}, #{deliveryTime}, 
+      #{purchaseUserId}, #{purchaseDepartment}, #{purchaseIsHavest}, 
+      #{havestUserid}, #{purchaseIsDifferent}, #{havestCount}, 
+      #{havestDisability}, #{havestNormal}, #{purchasePriceAll}, 
+      #{purchaseCountAll}, #{purchasePriceReal}, #{purchaseCountReal}, 
+      #{purchaseFreight}, #{differencePrice}, #{differenceCount}, 
+      #{purchaseCurrency}, #{purchaseRemark}, #{purchasePriceOther}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.domain.po.bops.purchase.BopsPurchasePO" keyProperty="purchaseId" useGeneratedKeys="true" >
+    insert into bops_purchase
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="purchaseStatus != null" >
+        purchase_status,
+      </if>
+      <if test="providerId != null" >
+        provider_id,
+      </if>
+      <if test="warehouseId != null" >
+        warehouse_id,
+      </if>
+        create_time,
+      <if test="deliveryTime != null" >
+        delivery_time,
+      </if>
+      <if test="purchaseUserId != null" >
+        purchase_user_id,
+      </if>
+      <if test="purchaseDepartment != null" >
+        purchase_department,
+      </if>
+      <if test="purchaseIsHavest != null" >
+        purchase_is_havest,
+      </if>
+      <if test="havestUserid != null" >
+        havest_userid,
+      </if>
+      <if test="purchaseIsDifferent != null" >
+        purchase_is_different,
+      </if>
+      <if test="havestCount != null" >
+        havest_count,
+      </if>
+      <if test="havestDisability != null" >
+        havest_disability,
+      </if>
+      <if test="havestNormal != null" >
+        havest_normal,
+      </if>
+      <if test="purchasePriceAll != null" >
+        purchase_price_all,
+      </if>
+      <if test="purchaseCountAll != null" >
+        purchase_count_all,
+      </if>
+      <if test="purchasePriceReal != null" >
+        purchase_price_real,
+      </if>
+      <if test="purchaseCountReal != null" >
+        purchase_count_real,
+      </if>
+      <if test="purchaseFreight != null" >
+        purchase_freight,
+      </if>
+      <if test="differencePrice != null" >
+        difference_price,
+      </if>
+      <if test="differenceCount != null" >
+        difference_count,
+      </if>
+      <if test="purchaseCurrency != null" >
+        purchase_currency,
+      </if>
+      <if test="purchaseRemark != null" >
+        purchase_remark,
+      </if>
+      <if test="purchasePriceOther != null" >
+        purchase_price_other,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="purchaseStatus != null" >
+        #{purchaseStatus},
+      </if>
+      <if test="providerId != null" >
+        #{providerId},
+      </if>
+      <if test="warehouseId != null" >
+        #{warehouseId},
+      </if>
+        NOW(),
+      <if test="deliveryTime != null" >
+        #{deliveryTime},
+      </if>
+      <if test="purchaseUserId != null" >
+        #{purchaseUserId},
+      </if>
+      <if test="purchaseDepartment != null" >
+        #{purchaseDepartment},
+      </if>
+      <if test="purchaseIsHavest != null" >
+        #{purchaseIsHavest},
+      </if>
+      <if test="havestUserid != null" >
+        #{havestUserid},
+      </if>
+      <if test="purchaseIsDifferent != null" >
+        #{purchaseIsDifferent},
+      </if>
+      <if test="havestCount != null" >
+        #{havestCount},
+      </if>
+      <if test="havestDisability != null" >
+        #{havestDisability},
+      </if>
+      <if test="havestNormal != null" >
+        #{havestNormal},
+      </if>
+      <if test="purchasePriceAll != null" >
+        #{purchasePriceAll},
+      </if>
+      <if test="purchaseCountAll != null" >
+        #{purchaseCountAll},
+      </if>
+      <if test="purchasePriceReal != null" >
+        #{purchasePriceReal},
+      </if>
+      <if test="purchaseCountReal != null" >
+        #{purchaseCountReal},
+      </if>
+      <if test="purchaseFreight != null" >
+        #{purchaseFreight},
+      </if>
+      <if test="differencePrice != null" >
+        #{differencePrice},
+      </if>
+      <if test="differenceCount != null" >
+        #{differenceCount},
+      </if>
+      <if test="purchaseCurrency != null" >
+        #{purchaseCurrency},
+      </if>
+      <if test="purchaseRemark != null" >
+        #{purchaseRemark},
+      </if>
+      <if test="purchasePriceOther != null" >
+        #{purchasePriceOther},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.bops.purchase.BopsPurchasePO" >
+    update bops_purchase
+    <set >
+      <if test="purchaseStatus != null" >
+        purchase_status = #{purchaseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="providerId != null" >
+        provider_id = #{providerId,jdbcType=INTEGER},
+      </if>
+      <if test="warehouseId != null" >
+        warehouse_id = #{warehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliveryTime != null" >
+        delivery_time = #{deliveryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="purchaseUserId != null" >
+        purchase_user_id = #{purchaseUserId,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseDepartment != null" >
+        purchase_department = #{purchaseDepartment,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseIsHavest != null" >
+        purchase_is_havest = #{purchaseIsHavest,jdbcType=VARCHAR},
+      </if>
+      <if test="havestUserid != null" >
+        havest_userid = #{havestUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseIsDifferent != null" >
+        purchase_is_different = #{purchaseIsDifferent,jdbcType=VARCHAR},
+      </if>
+      <if test="havestCount != null" >
+        havest_count = #{havestCount,jdbcType=INTEGER},
+      </if>
+      <if test="havestDisability != null" >
+        havest_disability = #{havestDisability,jdbcType=INTEGER},
+      </if>
+      <if test="havestNormal != null" >
+        havest_normal = #{havestNormal,jdbcType=INTEGER},
+      </if>
+      <if test="purchasePriceAll != null" >
+        purchase_price_all = #{purchasePriceAll,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseCountAll != null" >
+        purchase_count_all = #{purchaseCountAll,jdbcType=INTEGER},
+      </if>
+      <if test="purchasePriceReal != null" >
+        purchase_price_real = #{purchasePriceReal,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseCountReal != null" >
+        purchase_count_real = #{purchaseCountReal,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseFreight != null" >
+        purchase_freight = #{purchaseFreight,jdbcType=INTEGER},
+      </if>
+      <if test="differencePrice != null" >
+        difference_price = #{differencePrice,jdbcType=INTEGER},
+      </if>
+      <if test="differenceCount != null" >
+        difference_count = #{differenceCount,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseCurrency != null" >
+        purchase_currency = #{purchaseCurrency,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseRemark != null" >
+        purchase_remark = #{purchaseRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="purchasePriceOther != null" >
+        purchase_price_other = #{purchasePriceOther,jdbcType=INTEGER},
+      </if>
+    </set>
+    where purchase_id = #{purchaseId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.domain.po.bops.purchase.BopsPurchasePO" >
+    update bops_purchase
+    set purchase_status = #{purchaseStatus,jdbcType=VARCHAR},
+      provider_id = #{providerId,jdbcType=INTEGER},
+      warehouse_id = #{warehouseId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      delivery_time = #{deliveryTime,jdbcType=TIMESTAMP},
+      purchase_user_id = #{purchaseUserId,jdbcType=INTEGER},
+      purchase_department = #{purchaseDepartment,jdbcType=INTEGER},
+      purchase_is_havest = #{purchaseIsHavest,jdbcType=VARCHAR},
+      havest_userid = #{havestUserid,jdbcType=VARCHAR},
+      purchase_is_different = #{purchaseIsDifferent,jdbcType=VARCHAR},
+      havest_count = #{havestCount,jdbcType=INTEGER},
+      havest_disability = #{havestDisability,jdbcType=INTEGER},
+      havest_normal = #{havestNormal,jdbcType=INTEGER},
+      purchase_price_all = #{purchasePriceAll,jdbcType=INTEGER},
+      purchase_count_all = #{purchaseCountAll,jdbcType=INTEGER},
+      purchase_price_real = #{purchasePriceReal,jdbcType=INTEGER},
+      purchase_count_real = #{purchaseCountReal,jdbcType=INTEGER},
+      purchase_freight = #{purchaseFreight,jdbcType=INTEGER},
+      difference_price = #{differencePrice,jdbcType=INTEGER},
+      difference_count = #{differenceCount,jdbcType=INTEGER},
+      purchase_currency = #{purchaseCurrency,jdbcType=VARCHAR},
+      purchase_remark = #{purchaseRemark,jdbcType=VARCHAR},
+      purchase_price_other = #{purchasePriceOther,jdbcType=INTEGER}
+    where purchase_id = #{purchaseId,jdbcType=INTEGER}
+  </update>
+  <select id="selectWareHouseType" resultType="com.need.domain.vo.purchase.BopsPurchaseVO">
+    select warehouse_id,warehouse_name,dredge
+    from bops_warehouse_base
+  </select>
+  <select id="selectPurchaseList" resultType="com.need.domain.vo.purchase.BopsPurchaseVO"  parameterType="com.need.domain.vo.purchase.BopsPurchaseVO" >
+  	SELECT a.purchase_id, a.purchase_status, a.provider_id, a.warehouse_id, a.create_time, a.delivery_time, 
+    a.purchase_user_id, a.purchase_department, a.purchase_is_havest, a.havest_userid, a.purchase_is_different, 
+    a.havest_count, a.havest_disability, a.havest_normal, a.purchase_price_all, a.purchase_count_all, 
+    a.purchase_price_real, a.purchase_count_real, a.purchase_freight, a.difference_price, a.difference_count from bops_purchase a
+    where 1=1
+	<if test="goodsCode != '' and goodsCode != null" >
+      and  exists (select b.purchase_info_id from bops_purchase_info b where a.purchase_id=b.purchase_id and b.goods_code=#{goodsCode})
+    </if>
+    <if test="warehouseId != '' and warehouseId != null" >
+      and  a.warehouse_id = #{warehouseId}
+    </if>
+    <if test="purchaseId != '' and purchaseId != null" >
+      and  a.purchase_id = #{purchaseId}
+    </if>
+    <if test="purchaseStatus != '' and purchaseStatus != null" >
+      and  a.purchase_status = #{purchaseStatus}
+    </if>
+    <if test="providerId != '' and providerId != null" >
+      and  a.provider_id = #{providerId}
+    </if>
+    <if test="createTimeStart!=null and createTimeStart!='' ">
+		<![CDATA[
+			and DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') >=  DATE_FORMAT(#{createTimeStart}, '%Y-%m-%d %H:%i:%s')
+		]]>
+	</if>
+	<if test="createTimeEnd!=null and createTimeEnd!='' ">
+		<![CDATA[
+			and DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') <=  DATE_FORMAT(#{createTimeEnd}, '%Y-%m-%d %H:%i:%s')
+		]]>
+	</if>
+     order by a.create_time desc
+   limit #{start}, #{pageSize}
+  </select>
+  <select id="selectPurchaseCount" resultType="int" parameterType="com.need.domain.vo.purchase.BopsPurchaseVO" >
+    select count(*)
+    from (SELECT a.purchase_id, a.purchase_status, a.provider_id, a.warehouse_id, a.create_time, a.delivery_time, 
+    a.purchase_user_id, a.purchase_department, a.purchase_is_havest, a.havest_userid, a.purchase_is_different, 
+    a.havest_count, a.havest_disability, a.havest_normal, a.purchase_price_all, a.purchase_count_all, 
+    a.purchase_price_real, a.purchase_count_real, a.purchase_freight, a.difference_price, a.difference_count from bops_purchase a
+    where 1=1
+	<if test="goodsCode != '' and goodsCode != null" >
+      and  exists (select b.purchase_info_id from bops_purchase_info b where a.purchase_id=b.purchase_id and b.goods_code=#{goodsCode})
+    </if>
+    <if test="warehouseId != '' and warehouseId != null" >
+      and  a.warehouse_id = #{warehouseId}
+    </if>
+    <if test="purchaseId != '' and purchaseId != null" >
+      and  a.purchase_id = #{purchaseId}
+    </if>
+    <if test="purchaseStatus != '' and purchaseStatus != null" >
+      and  a.purchase_status = #{purchaseStatus}
+    </if>
+    <if test="providerId != '' and providerId != null" >
+      and  a.provider_id = #{providerId}
+    </if>
+    <if test="createTimeStart!=null and createTimeStart!='' ">
+		<![CDATA[
+			and DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') >=  DATE_FORMAT(#{createTimeStart}, '%Y-%m-%d %H:%i:%s')
+		]]>
+	</if>
+	<if test="createTimeEnd!=null and createTimeEnd!='' ">
+		<![CDATA[
+			and DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') <=  DATE_FORMAT(#{createTimeEnd}, '%Y-%m-%d %H:%i:%s')
+		]]>
+	</if>)d
+  </select>
+  <select id="selectWareHouseTypeById" resultType="java.lang.String" parameterType="com.need.domain.vo.purchase.BopsPurchaseVO">
+    select warehouse_name
+    from bops_warehouse_base where warehouse_id=#{warehouseId}
+  </select>
+  <select id="selectVendorName" resultType="java.lang.String" parameterType="com.need.domain.vo.purchase.BopsPurchaseVO">
+    select vendor_name
+    from bops_vendor where vendor_id=#{providerId}
+  </select>
+  <select id="selectWareHouseTypeByWarehouseId" resultType="java.lang.String" parameterType="java.lang.Integer">
+    select warehouse_name
+    from bops_warehouse_base where warehouse_id=#{warehouseId}
+  </select>
+   <update id="updatePurchase" parameterType="com.need.domain.po.bops.purchase.BopsPurchasePO" >
+    update bops_purchase
+    set purchase_status = #{purchaseStatus},
+      purchase_is_havest = #{purchaseIsHavest},
+     <if test="havestUserid != '' and havestUserid != null" >
+       havest_userid = #{havestUserid} ,
+    </if>
+     <if test="havestUsername != '' and havestUsername != null" >
+       havest_username = #{havestUsername} ,
+    </if>
+      purchase_price_real = #{purchasePriceReal},
+      purchase_count_real = #{purchaseCountReal},
+      difference_price = #{differencePrice},
+      difference_count = #{differenceCount},
+      purchase_is_different = #{purchaseIsDifferent},
+      havest_time = NOW()
+    where purchase_id = #{purchaseId}
+  </update> 
+   <select id="selectDifferrent" resultType="com.need.domain.po.bops.purchase.BopsPurchasePO" parameterType="com.need.domain.vo.purchase.BopsPurchaseVO">
+    select a.purchase_price_all,a.purchase_count_all from bops_purchase a, bops_purchase_info b
+    where a.purchase_id=b.purchase_id and a.purchase_id=#{purchaseId} limit 0,1
+  </select> 
+  <insert id="insertbopsReceiveProduct" parameterType="com.need.domain.vo.purchase.BopsPurchaseVO"  keyProperty="purchaseId" useGeneratedKeys="true" >
+    insert into bops_receive_product (receive_no, purchase_id, 
+      goods_name, havest__info_count, purchase_info_id, 
+      create_time, create_by,goods_code
+      )
+    values (#{receiveNo}, #{purchaseId}, 
+      #{goodsName}, #{havestInfoCount}, #{purchaseInfoId}, 
+      NOW(), #{purchaseUserId},#{goodsCode}
+      )
+  </insert>
+   <select id="getWarehouseType" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+    select warehouse_id from bops_purchase 
+    where purchase_id=#{purchaseId}
+  </select>
+  <select id="selectProvider" resultType="com.need.domain.vo.purchase.BopsPurchaseVO">
+    select vendor_id ,vendor_name
+    from bops_vendor where v_type='supplier'
+  </select>
+   <update id="updatePurchaseFromWMS" parameterType="com.need.domain.po.bops.purchase.BopsPurchasePO" >
+    update bops_purchase
+    set purchase_status = #{purchaseStatus},
+      purchase_is_havest = #{purchaseIsHavest},
+     <if test="havestUserid != '' and havestUserid != null" >
+       havest_userid = #{havestUserid} ,
+    </if>
+     <if test="havestUsername != '' and havestUsername != null" >
+       havest_username = #{havestUsername} ,
+    </if>
+      purchase_price_real = #{purchasePriceReal},
+      purchase_count_real = #{purchaseCountReal},
+      difference_price = #{differencePrice},
+      difference_count = #{differenceCount},
+      purchase_is_different = #{purchaseIsDifferent},
+      havest_time = NOW()
+    where purchase_id = #{purchaseId}
+  </update>
+   <select id="selectWareHouseDredge" resultType="java.lang.String" parameterType="java.lang.Integer">
+    select dredge from bops_warehouse_base  where warehouse_id=#{warehouseId}
+  </select>
+</mapper>

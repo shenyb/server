@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.template.BopsTopicTemplateDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.bops.template.BopsTopicTemplatePO" >
+    <id column="topic_id" property="topicId" jdbcType="INTEGER" />
+    <result column="topic_title" property="topicTitle" jdbcType="VARCHAR" />
+    <result column="topic_code" property="topicCode" jdbcType="VARCHAR" />
+    <result column="visit_url" property="visitUrl" jdbcType="VARCHAR" />
+    <result column="publisher_id" property="publisherId" jdbcType="INTEGER" />
+    <result column="auditor_id" property="auditorId" jdbcType="INTEGER" />
+    <result column="oppose_reason" property="opposeReason" jdbcType="VARCHAR" />
+    <result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="record_status" property="recordStatus" jdbcType="INTEGER" />
+    <result column="topic_version" property="topicVersion" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="ResultMapWithBLOBs" type="com.need.domain.po.bops.template.BopsTopicTemplatePO" extends="BaseResultMap" >
+    <result column="topic_contents" property="topicContents" jdbcType="LONGVARCHAR" />
+    <result column="tmp_contents" property="tmpContents" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+     topic_id, topic_title, topic_code, visit_url, publisher_id, auditor_id, oppose_reason, 
+    audit_status, create_time, record_status,topic_version
+  </sql>
+  <sql id="Blob_Column_List" >
+    topic_contents,tmp_contents
+  </sql>
+  
+  
+   <sql id="Column_List" >
+     t.topic_id, t.topic_title, t.topic_code, t.visit_url, t.publisher_id, t.auditor_id, t.oppose_reason, 
+    t.audit_status, t.create_time, t.record_status, t.topic_contents,t.tmp_contents,r.eff_date,r.exp_date,r.topic_score
+   </sql>
+  
+  <select id="getByTempalteId" resultType="com.need.domain.vo.template.TemplateResultVO" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from bops_ops_topic1
+    where topic_id = #{topicId,jdbcType=INTEGER}
+  </select>
+  
+  
+  <select id="queryTempalte" resultType="com.need.domain.vo.template.TemplateResultVO" parameterType="com.need.domain.vo.template.TemplatePageParamVO" >
+    select 
+    <include refid="Column_List" />
+    from bops_ops_topic1 t LEFT JOIN bops_topic_category r ON t.topic_id = r.topic_id
+    where t.record_status=1
+    <![CDATA[
+	 and t.create_time <= now()
+	  ]]>
+    <if test="topicId != null">
+      and  t.topic_id =#{topicId}
+    </if>
+   <if test="topicCode != null and topicCode != ''">
+     and   t.topic_code = #{topicCode}
+    </if>
+    <if test="topicTitle != null and topicTitle != ''">
+     and   t.topic_title like "%"#{topicTitle}"%"
+     </if>
+     <if test="auditStatus != null and auditStatus!=''">
+     and   t.audit_status=#{auditStatus}
+     </if>
+     <if test="topicCategoryId != null and topicCategoryId != ''">
+     and   r.topic_category_id=#{topicCategoryId}
+     </if>
+    ORDER BY t.create_time DESC, r.topic_score DESC  LIMIT #{start},#{pageSize} 
+  </select>
+  
+  
+   <select id="countTopicCode"  parameterType="java.lang.String"  resultType="int">
+    select 
+    count(*)
+    from bops_ops_topic1
+    where topic_code = #{topicCode}
+  </select>
+  
+  <select id="countTopicCodePage"  parameterType="com.need.domain.vo.template.TemplatePageParamVO"  resultType="int">
+    select 
+    count(*)
+    from bops_ops_topic1 t LEFT JOIN bops_topic_category r ON t.topic_id = r.topic_id
+    where t.record_status=1
+     <![CDATA[
+	 and t.create_time <= now()
+	  ]]>
+	  <if test="topicId != null">
+      and  t.topic_id =#{topicId}
+    </if>
+    <if test="topicCode != null and topicCode!=''" >
+     and   t.topic_code = #{topicCode}
+    </if>
+    <if test="topicTitle != null and topicTitle!=''">
+     and  t.topic_title like "%"#{topicTitle}"%"
+     </if>
+     <if test="auditStatus != null and auditStatus!=''">
+     and   t.audit_status=#{auditStatus}
+     </if>
+      <if test="topicCategoryId != null and topicCategoryId != ''">
+     and   r.topic_category_id=#{topicCategoryId}
+     </if>
+  </select>
+  
+
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from bops_ops_topic1
+    where topic_id = #{topicId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.need.domain.po.bops.template.BopsTopicTemplatePO" keyProperty="topicId" useGeneratedKeys="true">
+    insert into bops_ops_topic1 (topic_id, topic_title, topic_code, 
+      visit_url, publisher_id, auditor_id, 
+      oppose_reason, audit_status, create_time, 
+      record_status, topic_contents,tmp_contents,topic_version)
+    values (#{topicId}, #{topicTitle}, #{topicCode}, 
+      #{visitUrl}, #{publisherId}, #{auditorId}, 
+      #{opposeReason}, #{auditStatus}, now(), 
+      #{recordStatus}, #{topicContents},#{tmpContents},#{topicVersion})
+  </insert>
+
+ 
+  <update id="updateById" parameterType="com.need.domain.po.bops.template.BopsTopicTemplatePO" >
+    update bops_ops_topic1
+    set topic_title = #{topicTitle,jdbcType=VARCHAR},
+      topic_code = #{topicCode,jdbcType=VARCHAR},
+      auditor_id = #{auditorId,jdbcType=INTEGER},
+      oppose_reason = #{opposeReason,jdbcType=VARCHAR},
+      audit_status = #{auditStatus,jdbcType=VARCHAR},
+      topic_contents = #{topicContents,jdbcType=LONGVARCHAR},
+      tmp_contents= #{tmpContents}
+    where topic_id = #{topicId,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateContentById" parameterType="com.need.domain.vo.template.TemplateParamVO" >
+    update bops_ops_topic1
+    set topic_title = #{topicTitle,jdbcType=VARCHAR},
+      topic_contents = #{topicContents,jdbcType=LONGVARCHAR},
+      tmp_contents= #{tmpContents},
+      visit_url= #{visitUrl}
+    where topic_id = #{topicId,jdbcType=INTEGER}
+  </update>
+
+</mapper>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.need.common.core.dao.jdbc.ops.OpsHotGooodsDAO">
+  <resultMap id="BaseResultMap" type="com.need.common.domain.po.api.ops.OpsHotGooodsPO">
+    <id column="popularity_id" jdbcType="VARCHAR" property="popularityId" />
+    <result column="goods_id" jdbcType="VARCHAR" property="goodsId" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="goods_profile_pic_key" jdbcType="VARCHAR" property="goodsProfilePicKey" />
+    <result column="goods_sort" jdbcType="INTEGER" property="goodsSort" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="goods_status" jdbcType="VARCHAR" property="goodsStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    popularity_id, goods_id, goods_name, goods_profile_pic_key, goods_sort, create_time, 
+    goods_status
+  </sql>
+  <select id="getById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ops_hotgoods
+    where popularity_id = #{popularityId}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.String">
+    delete from ops_hotgoods
+    where popularity_id = #{popularityId}
+  </delete>
+  <insert id="insert" parameterType="com.need.common.domain.po.api.ops.OpsHotGooodsPO">
+    insert into ops_hotgoods (popularity_id, goods_id, goods_name, 
+      goods_profile_pic_key, goods_sort, create_time, 
+      goods_status)
+    values (#{popularityId}, #{goodsId}, #{goodsName}, 
+      #{goodsProfilePicKey}, #{goodsSort}, #{createTime}, 
+      #{goodsStatus})
+  </insert>
+ 
+  <update id="update" parameterType="com.need.common.domain.po.api.ops.OpsHotGooodsPO">
+    update ops_hotgoods
+    set goods_id = #{goodsId},
+      goods_name = #{goodsName},
+      goods_profile_pic_key = #{goodsProfilePicKey},
+      goods_sort = #{goodsSort},
+      create_time = #{createTime},
+      goods_status = #{goodsStatus}
+    where popularity_id = #{popularityId}
+  </update>
+  
+   <resultMap type="com.need.common.domain.vo.ops.OpsHotGoodsVO" id="hotGoodsResulltMap">
+       <id column="goods_id" property="goodsId"/>
+       <result column="goods_name" property="goodsName"/>
+       <result column="onsale_price" property="goodsPrice"/>
+       <result column="brief" property="goodsDesc"/>
+       <result column="top_pic_keys" property="goodsImgKey"/>  
+    </resultMap>
+     
+     <select id="queyByPage" resultMap="BaseResultMap">
+       <![CDATA[SELECT 
+      h.popularity_id, h.goods_id, h.goods_name, h.goods_profile_pic_key, h.goods_sort, h.create_time, 
+      h.goods_status
+       FROM ops_hotgoods h INNER JOIN goods_main g ON h.goods_id=g.goods_id 
+       WHERE g.goods_status="ONLINE" AND g.store_count>0 AND h.create_time<=NOW() ORDER BY h.goods_sort ASC]]>
+     </select>
+ 
+</mapper>

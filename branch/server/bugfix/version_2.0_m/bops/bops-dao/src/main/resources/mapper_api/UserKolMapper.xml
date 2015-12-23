@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.api.kol.UserKolDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.api.kol.UserKol" >
+    <id column="kol_id" property="kolId" jdbcType="VARCHAR" />
+    <result column="kol_categories" property="kolCategories" jdbcType="VARCHAR" />
+    <result column="certification" property="certification" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="kol_brief" property="kolBrief" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    kol_id, kol_categories, certification, create_time,kol_brief
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_kol
+    where kol_id = #{kolId}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from user_kol
+    where kol_id = #{kolId}
+  </delete>
+  
+  <delete id="deleteByKolId" parameterType="java.lang.String" >
+    delete from need_kol_fans
+    where kol_id = #{kolId}
+  </delete>
+  
+  <insert id="insert" parameterType="com.need.domain.po.api.kol.UserKol" >
+    insert into user_kol (kol_id, kol_categories, certification, 
+      create_time,kol_brief)
+    values (#{kolId}, #{kolCategories}, #{certification}, 
+      #{createTime},#{kolBrief})
+  </insert>
+  <insert id="insertApiKOL" parameterType="com.need.domain.po.api.kol.UserKol" >
+    insert into user_kol
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="kolId != null" >
+        kol_id,
+      </if>
+      <if test="kolCategories != null" >
+        category_id,
+      </if>
+      <if test="certification != null" >
+        certification,
+      </if>
+      <if test="createTime == null" >
+        create_time,
+      </if>
+      <if test="kolBrief != null" >
+        kol_brief,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="kolId != null" >
+        #{kolId},
+      </if>
+      <if test="kolCategories != null" >
+        #{kolCategories},
+      </if>
+      <if test="certification != null" >
+        #{certification},
+      </if>
+      <if test="createTime == null" >
+        now(),
+      </if>
+       <if test="kolBrief != null" >
+        #{kolBrief},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.api.kol.UserKol" >
+    update user_kol
+    <set >
+      <if test="kolCategories != null" >
+        kol_categories = #{kolCategories,jdbcType=VARCHAR},
+      </if>
+      <if test="certification != null" >
+        certification = #{certification,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where kol_id = #{kolId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.domain.po.api.kol.UserKol" >
+    update user_kol
+    set kol_categories = #{kolCategories,jdbcType=VARCHAR},
+      certification = #{certification,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where kol_id = #{kolId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateSuccess" parameterType="java.lang.String" >
+    update user_base
+    set user_type =#{1},update_time=now() 
+    where user_Id = #{0}
+  </update>
+   <update id="updateBykolId" parameterType="java.lang.String" >
+    update user_base
+    set user_type =#{commen} 
+    where user_Id = #{kolId}
+  </update>
+  
+  
+</mapper>

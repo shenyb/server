@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-cmn">
+	<head>
+		<meta charset="utf-8">
+		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+		<meta content="portrait" name="x5-orientation">
+		<meta content="true" name="x5-fullscreen">
+		<meta content="portrait" name="screen-orientation">
+		<meta content="yes" name="full-screen">
+		<meta content="webkit" name="renderer">
+		<meta content="IE=Edge" http-equiv="X-UA-Compatible">
+		<meta content="no-siteapp" http-equiv="Cache-Control">
+		<meta content="" name="description">
+		<meta content="" name="keywords">
+		<title>Need App下载</title>
+
+		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="../app/images/common/logo_114x114.png">
+		<link rel="apple-touch-icon-precomposed" href="../app/images/common/logo_57x57.png">
+	    <link rel="shortcut icon" href="app/images/common/favicon.ico" type="image/x-icon"/>
+
+	    <link rel="stylesheet" href="app/css/normalize.css">
+		<link rel="stylesheet" href="app/css/main.css">
+
+		<script type="text/javascript" src="app/script/lib/zepto/zepto.min.js"></script>
+		<script type="text/javascript" src="app/script/auto_fontsize.js"></script>
+
+	</head>
+	<body>
+		<script>
+			var ua = window.navigator.userAgent.toLowerCase();
+			document.write('<span>'+ua+'</span>');
+			var flag = 'null';
+			if( ua.match(/need/i) == 'need'){ 
+			    flag = 'true'; 
+			}else{ 
+			    flag = 'false'; 
+			}
+			document.write('<span>'+flag+'</span>');
+		</script>
+		<div style="width:100%;height:1500px;"></div>
+		<div id="footer" style="min-height:37px;max-height:48px;min-width:320px;max-width:750px;width:22.85714285714286em;height:2.65010351966874em;display:none;">
+			<div class="footer-bar" 
+				 style="position:fixed;width:100%;max-width:750px;min-width:320px;bottom:0;left:50%;border-top: 1px solid #dcdcdc;-webkit-transform: translateX(-50%);-moz-transform: translateX(-50%);
+				 -o-transform: translateX(-50%);
+				 transform: translateX(-50%);">
+				<a href="/need-share/mp.html">
+					<img style="width:100%;display:block" 
+						 src="app/images/common/share-footer-all-1500x170.jpg" alt="">
+				</a>
+			</div>
+		</div>
+		<script>
+			var ua = window.navigator.userAgent.toLowerCase();
+			var fixed = document.getElementById('footer');
+			if( ua.match(/need/i) == 'need'){ 
+			    fixed.style.display = 'none';
+			}else{
+				fixed.style.display = '';
+			}
+		</script>
+	</body>
+</html>

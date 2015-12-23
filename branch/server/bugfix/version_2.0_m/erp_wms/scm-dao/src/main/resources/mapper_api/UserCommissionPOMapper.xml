@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.api.distribution.UserCommissionDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.api.distribution.UserCommissionPO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="trade_no" property="tradeNo" jdbcType="VARCHAR" />
+    <result column="user_trade_no" property="userTradeNo" jdbcType="VARCHAR" />
+    <result column="pay_price" property="payPrice" jdbcType="INTEGER" />
+    <result column="commission" property="commission" jdbcType="INTEGER" />
+    <result column="commission_status" property="commissionStatus" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="top_pic_key" property="topPicKey" jdbcType="VARCHAR" />
+    <result column="fail_reason" property="failReason" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, goods_id, goods_name, trade_no, user_trade_no, pay_price, commission, 
+    commission_status, create_time, update_time, top_pic_key, fail_reason
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_commission
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from user_commission
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.api.distribution.UserCommissionPO" >
+    insert into user_commission (id, user_id, goods_id, 
+      goods_name, trade_no, user_trade_no, 
+      pay_price, commission, commission_status, 
+      create_time, update_time, top_pic_key, 
+      fail_reason)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=VARCHAR}, #{goodsId,jdbcType=VARCHAR}, 
+      #{goodsName,jdbcType=VARCHAR}, #{tradeNo,jdbcType=VARCHAR}, #{userTradeNo,jdbcType=VARCHAR}, 
+      #{payPrice,jdbcType=INTEGER}, #{commission,jdbcType=INTEGER}, #{commissionStatus,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{topPicKey,jdbcType=VARCHAR}, 
+      #{failReason,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.domain.po.api.distribution.UserCommissionPO" >
+    insert into user_commission
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="goodsName != null" >
+        goods_name,
+      </if>
+      <if test="tradeNo != null" >
+        trade_no,
+      </if>
+      <if test="userTradeNo != null" >
+        user_trade_no,
+      </if>
+      <if test="payPrice != null" >
+        pay_price,
+      </if>
+      <if test="commission != null" >
+        commission,
+      </if>
+      <if test="commissionStatus != null" >
+        commission_status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="topPicKey != null" >
+        top_pic_key,
+      </if>
+      <if test="failReason != null" >
+        fail_reason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null" >
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeNo != null" >
+        #{tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userTradeNo != null" >
+        #{userTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="payPrice != null" >
+        #{payPrice,jdbcType=INTEGER},
+      </if>
+      <if test="commission != null" >
+        #{commission,jdbcType=INTEGER},
+      </if>
+      <if test="commissionStatus != null" >
+        #{commissionStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="topPicKey != null" >
+        #{topPicKey,jdbcType=VARCHAR},
+      </if>
+      <if test="failReason != null" >
+        #{failReason,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.api.distribution.UserCommissionPO" >
+    update user_commission
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null" >
+        goods_id = #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null" >
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeNo != null" >
+        trade_no = #{tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userTradeNo != null" >
+        user_trade_no = #{userTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="payPrice != null" >
+        pay_price = #{payPrice,jdbcType=INTEGER},
+      </if>
+      <if test="commission != null" >
+        commission = #{commission,jdbcType=INTEGER},
+      </if>
+      <if test="commissionStatus != null" >
+        commission_status = #{commissionStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="topPicKey != null" >
+        top_pic_key = #{topPicKey,jdbcType=VARCHAR},
+      </if>
+      <if test="failReason != null" >
+        fail_reason = #{failReason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.domain.po.api.distribution.UserCommissionPO" >
+    update user_commission
+    set user_id = #{userId,jdbcType=VARCHAR},
+      goods_id = #{goodsId,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      trade_no = #{tradeNo,jdbcType=VARCHAR},
+      user_trade_no = #{userTradeNo,jdbcType=VARCHAR},
+      pay_price = #{payPrice,jdbcType=INTEGER},
+      commission = #{commission,jdbcType=INTEGER},
+      commission_status = #{commissionStatus,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      top_pic_key = #{topPicKey,jdbcType=VARCHAR},
+      fail_reason = #{failReason,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  
+   <select id="queryDistributionGoodsStatisticsList" resultType="com.need.domain.vo.distribution.DistributionGoodsStatisticsVO" parameterType="com.need.domain.vo.distribution.DistributionPageVO" >
+   SELECT  a.`goods_id`,b.`goods_code`,b.`goods_name`,a.`commission`,COUNT( a.commission_status) tradeCount,SUM(a.`commission`) amount
+ FROM (SELECT * FROM user_commission ORDER BY create_time DESC) a INNER JOIN goods_main b ON a.`goods_id`=b.`goods_id` 
+  where 1=1 
+  <if test="goodsName != null and goodsName != '' " >
+      and  b.goods_name like '%${goodsName}%'
+      </if>
+       <if test="goodsCode != null and goodsCode != '' " >
+      and  b.goods_code = #{goodsCode}
+      </if>
+       <if test="warehouseType != null and warehouseType != '' " >
+      and  b.warehouse_type = #{warehouseType}
+      </if>
+   GROUP BY a.`goods_id`
+   limit #{start},#{pageSize}
+  </select>
+  
+    <select id="countGoods" resultType="int" parameterType="com.need.domain.vo.distribution.DistributionPageVO" >
+ SELECT  COUNT(1) FROM  ( SELECT  a.`goods_id`
+ FROM user_commission a INNER JOIN goods_main b ON a.`goods_id`=b.`goods_id`
+  where 1=1 
+  <if test="goodsName != null and goodsName != '' " >
+      and  b.goods_name like '%${goodsName}%'
+      </if>
+       <if test="goodsCode != null and goodsCode != '' " >
+      and  b.goods_code = #{goodsCode}
+      </if>
+       <if test="warehouseType != null and warehouseType != '' " >
+      and  b.warehouse_type = #{warehouseType}
+      </if>
+   GROUP BY a.`goods_id` ) as c 
+  </select>
+  
+  
+    <select id="queryDistributionUserStatisticsList" resultType="com.need.domain.vo.distribution.DistributionUserStatisticsVO" parameterType="com.need.domain.vo.distribution.DistributionPageVO" >
+    SELECT nick_name,mobile,amount FROM (SELECT a.user_id, b.nick_name,b.mobile,SUM(a.commission) amount
+ FROM (SELECT * FROM user_commission ORDER BY create_time DESC) a INNER JOIN user_base b ON a.`user_id`=b.`user_id` 
+   GROUP BY a.`user_id` ) AS c WHERE 1=1
+    <if test="minAmount != null and minAmount != '' " >
+    <![CDATA[
+     and   c.amount >= #{minAmount}
+    ]]>
+   
+      </if>
+   <if test="maxAmount != null and maxAmount != '' " >
+    <![CDATA[
+      and  c.amount <= #{maxAmount}
+    ]]>
+    
+      </if>
+      <if test="mobile != null and mobile != '' " >
+     and c.mobile = #{mobile}
+      </if>
+   limit #{start},#{pageSize}
+  </select>
+  
+    <select id="countUser" resultType="int" parameterType="com.need.domain.vo.distribution.DistributionPageVO" >
+ SELECT count(1) FROM (SELECT a.user_id, b.nick_name,b.mobile,SUM(a.commission) amount
+ FROM user_commission a INNER JOIN user_base b ON a.`user_id`=b.`user_id` 
+   GROUP BY a.`user_id`) AS c WHERE 1=1
+     <if test="minAmount != null and minAmount != '' " >
+    <![CDATA[
+     and   c.amount >= #{minAmount}
+    ]]>
+   
+      </if>
+   <if test="maxAmount != null and maxAmount != '' " >
+    <![CDATA[
+      and  c.amount <= #{maxAmount}
+    ]]>
+    
+      </if>
+      <if test="mobile != null and mobile != '' " >
+     and c.mobile = #{mobile}
+      </if>
+   </select>
+</mapper>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.common.core.dao.jdbc.goods.GoodsDetailDAO" >
+  <resultMap id="BaseResultMap" type="com.need.common.domain.po.api.goods.GoodsDetailPO" >
+    <id column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+    <result column="goods_desc" property="goodsDesc" jdbcType="VARCHAR" />
+    <result column="detail_pic_keys" property="detailPicKeys" jdbcType="VARCHAR" />
+    <result column="goods_params" property="goodsParams" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    goods_id, goods_desc, detail_pic_keys, goods_params, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from goods_detail
+    where goods_id = #{goodsId}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from goods_detail
+    where goods_id = #{goodsId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.need.common.domain.po.api.goods.GoodsDetailPO" >
+    insert into goods_detail (goods_id, goods_desc, detail_pic_keys, 
+      goods_params, create_time)
+    values (#{goodsId,jdbcType=VARCHAR}, #{goodsDesc,jdbcType=VARCHAR}, #{detailPicKeys,jdbcType=VARCHAR}, 
+      #{goodsParams,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.common.domain.po.api.goods.GoodsDetailPO" >
+    insert into goods_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="goodsDesc != null" >
+        goods_desc,
+      </if>
+      <if test="detailPicKeys != null" >
+        detail_pic_keys,
+      </if>
+      <if test="goodsParams != null" >
+        goods_params,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsDesc != null" >
+        #{goodsDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="detailPicKeys != null" >
+        #{detailPicKeys,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsParams != null" >
+        #{goodsParams,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.common.domain.po.api.goods.GoodsDetailPO" >
+    update goods_detail
+    <set >
+      <if test="goodsDesc != null" >
+        goods_desc = #{goodsDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="detailPicKeys != null" >
+        detail_pic_keys = #{detailPicKeys,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsParams != null" >
+        goods_params = #{goodsParams,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where goods_id = #{goodsId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.common.domain.po.api.goods.GoodsDetailPO" >
+    update goods_detail
+    set goods_desc = #{goodsDesc,jdbcType=VARCHAR},
+      detail_pic_keys = #{detailPicKeys,jdbcType=VARCHAR},
+      goods_params = #{goodsParams,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where goods_id = #{goodsId,jdbcType=VARCHAR}
+  </update>
+</mapper>

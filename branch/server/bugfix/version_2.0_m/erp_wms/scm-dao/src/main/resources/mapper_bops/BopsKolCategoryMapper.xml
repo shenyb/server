@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.basedata.BopsKolCategoryDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.bops.basedata.BopsKolCategory" >
+    <id column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+    <result column="publisher_id" property="publisherId" jdbcType="INTEGER" />
+    <result column="category_desc" property="categoryDesc" jdbcType="VARCHAR" />
+     <result column="category_profile_key" property="categoryProfileKey" jdbcType="VARCHAR" />
+    <result column="auditor_id" property="auditorId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    category_id, category_name, publisher_id, category_desc, auditor_id, create_time, 
+    update_time,category_profile_key
+  </sql>
+  <select id="selectByCategoryId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from bops_kol_category
+    where category_id = #{categoryId}
+  </select>
+
+
+	<select id="queryByPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from bops_kol_category
+		 <![CDATA[
+	 where  DATE_FORMAT(create_time, '%Y-%m-%d') <= now()
+	]]>
+		<if test="search != null">
+			and category_name like  '%${search}%'
+		</if>
+		order by create_time desc
+		limit #{start}, #{pagesize}
+	</select>
+  
+  
+  
+  <select id="selectCount" resultType="int" parameterType="java.lang.String">
+    select count(category_id)  from bops_kol_category 
+   <![CDATA[
+	 where  DATE_FORMAT(create_time, '%Y-%m-%d') <= now()
+	]]>
+    <if test="search != null">
+		and	category_name like  '%${search}%' 
+		</if>
+  </select>
+  
+  
+   <select id="selectByCatgoryName" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from bops_kol_category
+    where category_name=#{categoryName}
+  </select>
+  
+  <select id="selectByIds" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from bops_kol_category
+    where category_id in (${categoryIds})
+  </select>
+  
+  
+  
+  <delete id="removeByCategoryId" parameterType="java.lang.String" >
+    delete from bops_kol_category
+    where category_id = #{categoryId}
+  </delete>
+  
+  
+  <insert id="insert" parameterType="com.need.domain.po.bops.basedata.BopsKolCategory"  keyProperty="categoryId" useGeneratedKeys="true"  >
+    insert into bops_kol_category 
+    (category_name,publisher_id,create_time,update_time,category_profile_key)
+     values (#{categoryName},#{publisherId}, now(),now(),#{categoryProfileKey})   
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.need.domain.po.bops.basedata.BopsKolCategory" >
+    insert into bops_kol_category
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="categoryId != null" >
+        category_id,
+      </if>
+      <if test="categoryName != null" >
+        category_name,
+      </if>
+      <if test="publisherId != null" >
+        publisher_id,
+      </if>
+       <if test="categoryProfileKey != null" >
+        category_profile_key,
+      </if>
+      <if test="categoryDesc != null" >
+        category_desc,
+      </if>
+      <if test="auditorId != null" >
+        auditor_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="categoryId != null" >
+        #{categoryId},
+      </if>
+      <if test="categoryName != null" >
+        #{categoryName},
+      </if>
+      <if test="publisherId != null" >
+        #{publisherId},
+      </if>
+      <if test="categoryProfileKey != null" >
+        #{categoryProfileKey},
+      </if>
+      <if test="categoryDesc != null" >
+        #{categoryDesc},
+      </if>
+      <if test="auditorId != null" >
+        #{auditorId},
+      </if>
+      <if test="createTime != null" >
+        #{createTime},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  <update id="updateByCategoryId" parameterType="com.need.domain.po.bops.basedata.BopsKolCategory" >
+    update bops_kol_category
+    <set >
+      <if test="categoryName != null" >
+        category_name = #{categoryName},
+      </if>
+       <if test="categoryProfileKey != null" >
+        category_profile_key = #{categoryProfileKey},
+      </if>
+      <if test="updateTime != null" >
+        update_time = now()
+      </if>
+    </set>
+    where category_id = #{categoryId}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.domain.po.bops.basedata.BopsKolCategory" >
+    update bops_kol_category
+    set category_name = #{categoryName},
+      publisher_id = #{publisherId},
+      category_desc = #{categoryDesc},
+      auditor_id = #{auditorId},
+      create_time = #{createTime},
+      update_time = #{updateTime}
+    where category_id = #{categoryId}
+  </update>
+  
+  <select id="queryKolCategory" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from bops_kol_category
+		 <![CDATA[
+	 where  DATE_FORMAT(create_time, '%Y-%m-%d') <= now()
+	]]>
+		
+	</select>
+  
+</mapper>

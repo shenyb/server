@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.common.core.dao.jdbc.distribution.UserCommissionAccountLogDAO">
+    <resultMap id="BaseResultMap" type="com.need.common.domain.po.api.distribution.UserCommissionAccountLogPO">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="account_id" property="accountId" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="price" property="price" jdbcType="INTEGER"/>
+        <result column="trade_no" property="tradeNo" jdbcType="VARCHAR"/>
+        <result column="operate_status" property="operateStatus" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, account_id, user_id, price,trade_no, operate_status, create_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from user_commission_account_log
+        where id = #{id}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from user_commission_account_log
+        where id = #{id}
+    </delete>
+    <insert id="insert" parameterType="com.need.common.domain.po.api.distribution.UserCommissionAccountLogPO">
+        insert into user_commission_account_log (id, account_id, user_id,
+        price, trade_no,operate_status, create_time
+        )
+        values (#{id}, #{accountId}, #{userId},
+        #{price},#{tradeNo}, #{operateStatus}, #{createTime}
+        )
+    </insert>
+
+    <update id="updateByPrimaryKey"
+            parameterType="com.need.common.domain.po.api.distribution.UserCommissionAccountLogPO">
+        update user_commission_account_log
+        set account_id = #{accountId},
+        user_id = #{userId},
+        price = #{price},
+        trade_no=#{tradeNo}
+        operate_status = #{operateStatus},
+        create_time = #{createTime}
+        where id = #{id}
+    </update>
+</mapper>

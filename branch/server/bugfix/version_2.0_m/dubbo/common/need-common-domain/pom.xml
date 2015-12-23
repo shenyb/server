@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.need</groupId>
+		<artifactId>bops-base</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	
+  <groupId>com.need</groupId>
+  <artifactId>need-common-domain</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>need-common-domain</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+	
+     <!-- hibernate 校验字段 add shenyb 20150822 -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+		</dependency>
+		<!-- 项目内的公共模块 jar  begin  -->
+		<dependency>
+			<groupId>com.need</groupId>
+			<artifactId>need-framework</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.need</groupId>
+			<artifactId>need-utils</artifactId>
+		</dependency>
+		
+		
+  </dependencies>
+</project>

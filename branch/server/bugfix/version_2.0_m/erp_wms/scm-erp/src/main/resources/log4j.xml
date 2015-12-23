@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+   <!--配置控制台输出  --> 
+   <appender name="Console" class="org.apache.log4j.ConsoleAppender">
+		<param name="Threshold" value="DEBUG" />
+		<param name="Encoding" value="UTF-8" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ABSOLUTE} %5p %c:%L - %m%n" />
+		</layout>
+	</appender>
+	
+    <!--
+       * 1. 一个appender子元素定义一个日志输出目的地
+       * 2. 一个logger子元素定义一个日志写出器
+    -->
+
+	<!-- 配置总 Debug和Error  日志 -->
+	<appender name="Debug" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="debug.log" />
+		<param name="Threshold" value="DEBUG" />
+		<param name="Append" value="true" />
+		<param name="Encoding" value="UTF-8" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %p $r [%t] %C.%M(%L) | %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="DEBUG" />
+			<param name="LevelMax" value="WARN" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+	</appender>
+
+	<logger name="org">
+		<level value="WARN" />
+	</logger>
+	<logger name="org.apache">
+		<level value="WARN" />
+	</logger>
+	
+    <!-- 根logger的设置--> 
+	<root>
+	    <!-- 指定默认的全局输出级 -->
+	    <priority value="DEBUG" />
+	    <!-- 总日志 -->
+		<appender-ref ref="Debug" />
+		<!-- 控制台 -->
+		<appender-ref ref="Console" />	
+	</root>
+</log4j:configuration>

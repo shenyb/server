@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.common.core.dao.jdbc.kol.KolCategoryPODAO" >
+  <resultMap id="BaseResultMap" type="com.need.common.domain.po.api.kol.KolCategoryPO" >
+    <id column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+     <result column="category_profile_key" property="categoryProfileKey" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    category_id, category_name, create_time, category_profile_key
+  </sql>
+
+   <select id="queryKolcategory" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from kol_category
+      <![CDATA[
+	 where  DATE_FORMAT(create_time, '%Y-%m-%d') <= now()
+	]]>
+  </select>
+  
+  
+</mapper>

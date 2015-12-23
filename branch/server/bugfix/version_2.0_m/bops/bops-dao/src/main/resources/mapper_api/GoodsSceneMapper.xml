@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.api.goods.GoodsSceneDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.api.goods.GoodsScenePO" >
+    <id column="scene_id" property="sceneId" jdbcType="INTEGER" />
+    <result column="scene_name" property="sceneName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    scene_id, scene_name, create_time
+  </sql>
+  <insert id="insert" parameterType="com.need.domain.po.bops.basedata.BopsScene"  >
+    insert into goods_scene (scene_id, scene_name, create_time )
+    values (#{sceneId}, #{sceneName}, #{createTime})
+  </insert>
+  
+    <delete id="removeScenebySceneid" parameterType="java.lang.String" >
+    delete from goods_scene
+    where scene_id = #{sceneId}
+  </delete>
+  
+  <update id="update" parameterType="com.need.domain.po.bops.basedata.BopsScene" >
+    update goods_scene
+    <set >
+      <if test="sceneName != null" >
+        scene_name = #{sceneName}
+      </if>     
+    </set>
+    where scene_id = #{sceneId}
+  </update>
+  
+</mapper>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.task.dao.jdbc.api.distribution.UserCommissionAccountLogDAO">
+    <resultMap id="BaseResultMap" type="com.need.task.dao.jdbc.api.distribution.po.UserCommissionAccountLogPO">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="account_id" property="accountId" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="price" property="price" jdbcType="INTEGER"/>
+        <result column="operate_status" property="operateStatus" jdbcType="VARCHAR"/>
+        <result column="trade_no" property="tradeNo" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, account_id, user_id, price, operate_status, trade_no, create_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from user_commission_account_log
+        where id = #{id}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE FROM user_commission_account_log
+        WHERE id = #{id}
+    </delete>
+    <insert id="insert" parameterType="com.need.task.dao.jdbc.api.distribution.po.UserCommissionAccountLogPO">
+        INSERT INTO user_commission_account_log (id, account_id, user_id,
+        price, operate_status, trade_no, create_time
+        )
+        VALUES (#{id}, #{accountId}, #{userId},
+        #{price}, #{operateStatus},#{tradeNo}, #{createTime}
+        )
+    </insert>
+    <update id="updateByPrimaryKey"
+            parameterType="com.need.task.dao.jdbc.api.distribution.po.UserCommissionAccountLogPO">
+        UPDATE user_commission_account_log
+        SET account_id = #{accountId},
+        user_id = #{userId},
+        price = #{price},
+        operate_status = #{operateStatus},
+        create_time = #{createTime}
+        WHERE id = #{id}
+    </update>
+    <select id="getByUserIdAndOperateStatusAndTradeNo" parameterType="java.lang.String"
+            resultType="com.need.task.dao.jdbc.api.distribution.po.UserCommissionAccountLogPO">
+        select
+        <include refid="Base_Column_List"/>
+        from user_commission_account_log
+        where user_id=#{userId} and operate_status = #{operateStatus} and trade_no=#{tradeNo}
+    </select>
+</mapper>

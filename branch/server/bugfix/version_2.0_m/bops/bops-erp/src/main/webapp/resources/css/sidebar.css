@@ -1,0 +1,143 @@
+/*
+ * 导航栏样式表 
+ */
+
+/* 导航栏 */
+.sidebar {
+	position: relative;
+	width: 240px;
+	height: 100%;
+	overflow: hidden;
+	background-color: #32323a;
+}
+
+.sidebar-top {
+	position: absolute;
+	width: 100%;
+	height: 60px;
+	top: 0;
+	left: 0;
+}
+
+.sidebar-main {
+	height: 100%;
+	border-top: 60px solid transparent;
+	overflow: hidden;
+}
+
+.sidebar-main-inner {
+	height: 100%;
+	overflow-y: auto;
+}
+
+.sidebar-info {
+	height: auto;
+}
+
+.sidebar-info .navigation-title {
+	padding: 10px 20px;
+	margin: 0px;
+	font-size: 11px;
+}
+
+/* 菜单列表布局样式 */
+.side-navigation {
+	margin-bottom: 10px;
+	margin-top: 1px;
+}
+
+.side-navigation>li+li {
+	margin-top: 0px;
+}
+
+.side-navigation .child-list {
+	list-style: outside none none;
+	padding: 0;
+}
+
+.side-navigation li .fa {
+	font-size: 14px;
+	vertical-align: middle;
+	margin-right: 10px;
+	width: 16px;
+	text-align: center;
+}
+
+/* 颜色样式 */
+.sidebar-top {
+	border-bottom: 1px solid #3c3c44;
+}
+
+.sidebar-info .navigation-title {
+	border-bottom: 1px solid #3c3c44;
+	font-size: 10px;
+	font-weight: 100;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	color: rgba(255, 255, 255, 0.5);
+}
+
+.side-navigation>li>a {
+	color: #FFF;
+	padding: 15px 20px;
+	border-radius: 0px;
+	transition: all 0.2s ease-out 0s;
+}
+/* 一级导航 右侧尖头 */
+.side-navigation>li.menu-list>a>.ico {
+	float: right;
+	margin: 0;
+	transition: all 0.2s ease-out 0s;
+}
+/* 一级菜单 鼠标悬浮样式 */
+.side-navigation>li>a:link,.side-navigation>li>a:visited {
+	background-color: #32323a;
+}
+
+.side-navigation>li:hover>a {
+	background-color: #29282E;
+}
+
+/* 二级菜单 及 a 标签样式 */
+.side-navigation>li>.child-list {
+	transition: all 0.2s ease-out 0s;
+	display: none;
+}
+
+.side-navigation .child-list>li>a {
+	color: #FFF;
+	font-size: 13px;
+	display: block;
+	padding: 10px 5px 10px 50px;
+	text-decoration: none;
+	transition: all 0.2s ease-out 0s;
+}
+/* 二级菜单 li 标签鼠标悬停样式 */
+.side-navigation .child-list>li:hover>a {
+	color: #7CD8A9;
+	background-color: #202024;
+}
+/* 一级菜单 menu-list 样式点击为 nav-active 状态下的文字颜色和背景颜色 */
+.side-navigation>li.active>a,.side-navigation>li.nav-active>a {
+	color: #7CD8A9;
+	background-color: #29282E;
+}
+/* active 状态下的一级导航右侧尖头 */
+.side-navigation>li.nav-active>a>.ico {
+	transform: rotate(90deg);
+	-moz-transform: rotate(90deg);
+	-webkit-transform: rotate(90deg);
+}
+/* 一级菜单 menu-list 点击状态下 二级菜单北背景颜色 */
+.side-navigation>li.nav-active>ul {
+	background-color: #29282E;
+}
+
+.side-navigation>li.nav-active>ul.child-list {
+	display: block;
+}
+
+.side-navigation>li.nav-active>ul.child-list>li.active a {
+	color: #7CD8A9;
+	background-color: #202024;
+}

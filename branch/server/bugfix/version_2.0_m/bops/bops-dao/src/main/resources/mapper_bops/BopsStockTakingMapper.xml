@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.stock.BopsStockTakingDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.bops.stock.BopsStockTakingPO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="stock_taking_no" property="stockTakingNo" jdbcType="VARCHAR" />
+    <result column="stock_status" property="stockStatus" jdbcType="VARCHAR" />
+    <result column="create_At" property="createAt" jdbcType="TIMESTAMP" />
+    <result column="create_By" property="createBy" jdbcType="VARCHAR" />
+    <result column="audit_At" property="auditAt" jdbcType="TIMESTAMP" />
+    <result column="audit_By" property="auditBy" jdbcType="VARCHAR" />
+    <result column="warehouseId" property="warehouseid" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, stock_taking_no, stock_status, create_At, create_By, audit_At, audit_By, warehouseId, 
+    remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from bops_stock_taking
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from bops_stock_taking
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.bops.stock.BopsStockTakingPO"  keyProperty="id" useGeneratedKeys="true" >
+    insert into bops_stock_taking (stock_taking_no, stock_status, 
+      create_At, create_By,
+      warehouseId, remark
+      )
+    values (#{stockTakingNo}, #{stockStatus}, 
+      #{createAt}, #{createBy},
+      #{warehouseid}, #{remark}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.domain.po.bops.stock.BopsStockTakingPO" >
+    insert into bops_stock_taking
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="stockTakingNo != null" >
+        stock_taking_no,
+      </if>
+      <if test="stockStatus != null" >
+        stock_status,
+      </if>
+      <if test="createAt != null" >
+        create_At,
+      </if>
+      <if test="createBy != null" >
+        create_By,
+      </if>
+      <if test="auditAt != null" >
+        audit_At,
+      </if>
+      <if test="auditBy != null" >
+        audit_By,
+      </if>
+      <if test="warehouseid != null" >
+        warehouseId,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="stockTakingNo != null" >
+        #{stockTakingNo,jdbcType=VARCHAR},
+      </if>
+      <if test="stockStatus != null" >
+        #{stockStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null" >
+        #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="auditAt != null" >
+        #{auditAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditBy != null" >
+        #{auditBy,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseid != null" >
+        #{warehouseid,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.bops.stock.BopsStockTakingPO" >
+    update bops_stock_taking
+    <set >
+      <if test="stockTakingNo != null" >
+        stock_taking_no = #{stockTakingNo,jdbcType=VARCHAR},
+      </if>
+      <if test="stockStatus != null" >
+        stock_status = #{stockStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null" >
+        create_At = #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        create_By = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="auditAt != null" >
+        audit_At = #{auditAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditBy != null" >
+        audit_By = #{auditBy,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseid != null" >
+        warehouseId = #{warehouseid,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.domain.po.bops.stock.BopsStockTakingPO" >
+    update bops_stock_taking
+    set stock_taking_no = #{stockTakingNo,jdbcType=VARCHAR},
+      stock_status = #{stockStatus,jdbcType=VARCHAR},
+      create_At = #{createAt,jdbcType=TIMESTAMP},
+      create_By = #{createBy,jdbcType=VARCHAR},
+      audit_At = #{auditAt,jdbcType=TIMESTAMP},
+      audit_By = #{auditBy,jdbcType=VARCHAR},
+      warehouseId = #{warehouseid,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

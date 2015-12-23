@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.integration.dao.jdbc.api.trade.TradeBaseDAO">
+	<resultMap id="BaseResultMap"
+		type="com.need.integration.dao.jdbc.api.trade.po.TradeBasePO">
+		<id column="order_no" property="orderNo" jdbcType="VARCHAR" />
+		<result column="trade_no" property="tradeNo" jdbcType="VARCHAR" />
+		<result column="order_status" property="orderStatus" jdbcType="VARCHAR" />
+		<result column="trade_status" property="tradeStatus" jdbcType="VARCHAR" />
+		<result column="push_status" property="pushStatus" jdbcType="VARCHAR" />
+		<result column="deliver_status" property="deliverStatus"
+			jdbcType="VARCHAR" />
+		<result column="memo_deliver" property="memoDeliver" jdbcType="VARCHAR" />
+		<result column="buyer_id" property="buyerId" jdbcType="VARCHAR" />
+		<result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+		<result column="buy_count" property="buyCount" jdbcType="INTEGER" />
+		<result column="buy_price" property="buyPrice" jdbcType="INTEGER" />
+		<result column="total_price" property="totalPrice" jdbcType="INTEGER" />
+		<result column="pay_channel" property="payChannel" jdbcType="VARCHAR" />
+		<result column="pay_price" property="payPrice" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+		<result column="trade_time" property="tradeTime" jdbcType="TIMESTAMP" />
+		<result column="address_id" property="addressId" jdbcType="VARCHAR" />
+		<result column="alipay_retrieve_status" property="alipayRetrieveStatus"
+			jdbcType="VARCHAR" />
+		<result column="memo_alipay_retrieve" property="memoAlipayRetrieve"
+			jdbcType="VARCHAR" />
+		<result column="userTradeNo" property="user_trade_no" jdbcType="VARCHAR" />
+		<result column="userOrderNo" property="user_order_no" jdbcType="VARCHAR" />
+
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="logistics_value" property="logisticsValue"
+			jdbcType="VARCHAR" />
+		<result column="telephone" property="telephone" jdbcType="VARCHAR" />
+		<result column="receiver" property="receiver" jdbcType="VARCHAR" />
+		<result column="certification_card" property="certificationCard"
+			jdbcType="VARCHAR" />
+		<result column="transport_fee" property="transportFee"
+			jdbcType="INTEGER" />
+		<result column="certification_positive_key" property="certificationPositiveKey"
+			jdbcType="VARCHAR" />
+		<result column="certification_negative_key" property="certificationNegativeKey"
+			jdbcType="VARCHAR" />
+		<result column="warehouse_type" property="warehouseType"
+			jdbcType="VARCHAR" />
+		<result column="wechat_retrieve_status" property="wechatRetrieveStatus"
+			jdbcType="VARCHAR" />
+		<result column="memo_wechat_retrieve" property="memoWechatRetrieve"
+			jdbcType="VARCHAR" />
+
+		<result column="push_time" property="pushTime" jdbcType="TIMESTAMP" />
+		<result column="is_cheap" property="isCheap" jdbcType="VARCHAR" />
+
+		<result column="discount_amount" property="discountAmount"
+			jdbcType="INTEGER" />
+		<result column="commission" property="commission" jdbcType="INTEGER" />
+		<result column="batch_no" property="batchNo" jdbcType="VARCHAR" />
+		<result column="order_type" property="orderType" jdbcType="VARCHAR" />
+		<!-- <result column="distribution_share_id" property="distributionShareId"
+			jdbcType="VARCHAR" /> -->
+	</resultMap>
+	<sql id="Base_Column_List">
+		order_no, trade_no, order_status,
+		trade_status,deliver_status,memo_deliver,
+		push_status,buyer_id,
+		goods_id, buy_count,
+		buy_price,
+		total_price,
+		pay_channel, pay_price,
+		create_time, pay_time, trade_time,
+		address_id,user_trade_no,user_order_no,address,
+		certification_card
+		,certification_positive_key,
+		certification_negative_key,
+		telephone ,
+		logistics_value ,
+		receiver,transport_fee,warehouse_type,push_time,is_cheap,
+		wechat_retrieve_status,memo_wechat_retrieve,
+		discount_amount,commission,batch_no,order_type<!-- ,distribution_share_id -->
+	</sql>
+	<select id="getByOrderNo" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from trade_base
+		where order_no = #{orderNo}
+	</select>
+
+
+	<update id="updateAlipayRetrieveStatusByOrderNo" parameterType="java.lang.String">
+		update trade_base
+		set
+		alipay_retrieve_status =
+		#{alipayRetrieveStatus},
+		memo_alipay_retrieve=#{memoAlipayRetrieve},
+		trade_time =
+		now()
+		where
+		order_no =
+		#{orderNo}
+	</update>
+	
+	<update id="updateWechatRetrieveStatusByOrderNo" parameterType="java.lang.String">
+		update trade_base
+		set
+		wechat_retrieve_status = #{wechatRetrieveStatus},
+		memo_wechat_retrieve = #{memoWechatRetrieve},
+		trade_time = now()
+		where
+		trade_no = #{tradeNo}
+	</update>
+	<update id="updateByOrderNo" parameterType="java.lang.String">
+		update trade_base
+		set
+		push_status =
+		#{pushStatus},
+		trade_time =
+		now(),
+		push_time=now()
+		where
+		order_no =
+		#{orderNo}
+	</update>
+	<select id="queryByTradeNo" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from trade_base
+		where trade_no = #{tradeNo}
+	</select>
+	<!-- 保税仓的商品交易并且时待发货的未推送成功交易 -->
+	<select id="queryGlobalTradeToPush" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		SELECT
+		tb.*
+		FROM
+		trade_base tb left join goods_main gm on
+		tb.goods_id=gm.goods_id
+		WHERE gm.warehouse_type='TAX_WAREHOUSE' and
+		tb.trade_status = 'WAIT_PLATFORM_SEND'
+		AND tb.push_status='FALSE' and is_normal='IN_STORE'
+	</select>
+
+	<select id="queryListToDelievr" resultMap="BaseResultMap">
+		SELECT
+		tb.*
+		FROM
+		trade_base tb
+		LEFT JOIN goods_main gm ON tb.goods_id = gm.goods_id
+		WHERE
+		tb.trade_status = #{tradeStatus} AND gm.is_global='TRUE'
+	</select>
+	<update id="updateByPO"
+		parameterType="com.need.integration.dao.jdbc.api.trade.po.TradeBasePO">
+		UPDATE trade_base
+		SET
+		order_status = #{orderStatus},
+		trade_status = #{tradeStatus},
+		trade_time = #{tradeTime}
+		WHERE
+		order_no =
+		#{orderNo}
+	</update>
+
+	<update id="updatePushStatus"
+		parameterType="com.need.integration.dao.jdbc.api.trade.po.TradeBasePO">
+		UPDATE trade_base
+		SET push_status = 'TRUE'
+		WHERE
+		user_trade_no = #{userTradeNo}
+	</update>
+	<select id="queryListToPushToAlipay" resultMap="BaseResultMap">
+		SELECT
+		tb.*
+		FROM
+		trade_base tb left join goods_main gm on tb.goods_id=gm.goods_id
+		WHERE
+		tb.alipay_retrieve_status = 'FALSE'
+		AND tb.pay_channel='ALIPAY'
+		AND
+		tb.trade_status = 'WAIT_PLATFORM_SEND'
+		AND gm.warehouse_type
+		in('TAX_WAREHOUSE','OVERSEA_WAREHOUSE')
+	</select>
+	
+	<select id="queryListToPushToWechat" resultMap="BaseResultMap">
+		SELECT
+		tb.*
+		FROM
+		trade_base tb
+		WHERE
+		tb.wechat_retrieve_status = 'FALSE'
+		AND tb.pay_channel='WECHAT'
+		AND tb.trade_status = 'WAIT_PLATFORM_SEND'
+		AND tb.warehouse_type = 'TAX_WAREHOUSE' group by trade_no
+	</select>
+	
+	<select id="getByUserOrderNo" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from trade_base
+		where user_order_no = #{userOrderNo}
+	</select>
+
+
+	<!-- LV================================================================ -->
+	<!--香港仓的商品交易并且时待发货的未推送成功交易 -->
+	<select id="queryGlobalTradeToPush_HONGKONG" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		trade_base
+		WHERE
+		trade_status = 'WAIT_PLATFORM_SEND'
+		AND
+		warehouse_type = 'OVERSEA_WAREHOUSE' and is_normal='IN_STORE'
+		AND push_status='FALSE' order by
+		create_time
+	</select>
+
+
+
+	<select id="getByUserTradeNo" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from trade_base
+		where user_trade_no = #{userTradeNo}
+	</select>
+</mapper>

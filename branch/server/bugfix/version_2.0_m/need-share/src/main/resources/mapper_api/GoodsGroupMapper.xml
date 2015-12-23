@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.share.dao.jdbc.api.goodsGroup.GoodsGroupDAO" >
+  <resultMap id="BaseResultMap" type="com.need.share.dao.jdbc.api.goodsGroup.po.GoodsGroup" >
+    <id column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+    <id column="group_batch" property="groupBatch" jdbcType="VARCHAR" />
+    <result column="goods_code" property="goodsCode" jdbcType="VARCHAR" />
+    <result column="goods_pic_key" property="goodsPicKey" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    goods_id, group_batch, goods_code, goods_pic_key, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.need.share.dao.jdbc.api.goodsGroup.po.GoodsGroupKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from goods_group
+    where goods_id = #{goodsId,jdbcType=VARCHAR}
+      and group_batch = #{groupBatch,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.need.share.dao.jdbc.api.goodsGroup.po.GoodsGroupKey" >
+    delete from goods_group
+    where goods_id = #{goodsId,jdbcType=VARCHAR}
+      and group_batch = #{groupBatch,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.need.share.dao.jdbc.api.goodsGroup.po.GoodsGroup" >
+    insert into goods_group (goods_id, group_batch, goods_code, 
+      goods_pic_key, create_time)
+    values (#{goodsId,jdbcType=VARCHAR}, #{groupBatch,jdbcType=VARCHAR}, #{goodsCode,jdbcType=VARCHAR}, 
+      #{goodsPicKey,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.share.dao.jdbc.api.goodsGroup.po.GoodsGroup" >
+    insert into goods_group
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="groupBatch != null" >
+        group_batch,
+      </if>
+      <if test="goodsCode != null" >
+        goods_code,
+      </if>
+      <if test="goodsPicKey != null" >
+        goods_pic_key,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupBatch != null" >
+        #{groupBatch,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCode != null" >
+        #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPicKey != null" >
+        #{goodsPicKey,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.share.dao.jdbc.api.goodsGroup.po.GoodsGroup" >
+    update goods_group
+    <set >
+      <if test="goodsCode != null" >
+        goods_code = #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPicKey != null" >
+        goods_pic_key = #{goodsPicKey,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where goods_id = #{goodsId,jdbcType=VARCHAR}
+      and group_batch = #{groupBatch,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.share.dao.jdbc.api.goodsGroup.po.GoodsGroup" >
+    update goods_group
+    set goods_code = #{goodsCode,jdbcType=VARCHAR},
+      goods_pic_key = #{goodsPicKey,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where goods_id = #{goodsId,jdbcType=VARCHAR}
+      and group_batch = #{groupBatch,jdbcType=VARCHAR}
+  </update>
+  
+   <select id="getByBatch" parameterType="java.lang.String" resultType="com.need.share.web.controller.goodsGroup.vo.GoodsShowVO">
+      select g.goods_id,g.goods_name,g.onsale_price,g.discount_price,g.scene_pic_key,g.warehouse_type,g.store_count,g.goods_status,g.update_time
+      from goods_group c inner join goods_main g on c.goods_id=g.goods_id
+      where c.group_batch=#{groupBatch}
+   </select>
+</mapper>

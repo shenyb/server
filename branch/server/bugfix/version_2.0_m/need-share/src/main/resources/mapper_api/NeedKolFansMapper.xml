@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.share.dao.jdbc.api.need.NeedKolFansDAO" >
+  
+  <sql id="Base_Column_List" >
+    id, kol_id, user_id, create_time, focus_status
+  </sql>
+ 
+  
+   <select id="getConcernCount" parameterType="java.lang.String" resultType="int">
+    select count(*) from need_kol_fans 
+    where user_id=#{userId} and focus_status='FOCUS'
+   </select>
+   
+   <select id="getKolFansCount" parameterType="java.lang.String" resultType="int">
+    select count(*) from need_kol_fans 
+    where kol_id=#{kolId} and focus_status='FOCUS'
+   </select>
+   
+
+  
+</mapper>

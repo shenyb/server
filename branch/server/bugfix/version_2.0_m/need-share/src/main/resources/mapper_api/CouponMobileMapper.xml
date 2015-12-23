@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.share.dao.jdbc.api.coupon.CouponMobileDAO" >
+    <resultMap id="BaseResultMap" type="com.need.share.dao.jdbc.api.coupon.po.CouponMobilePO" >
+        <id column="coupon_mobile_id" property="couponMobileId" jdbcType="INTEGER" />
+        <result column="coupon_template_id" property="couponTemplateId" jdbcType="VARCHAR" />
+        <result column="share_user_id" property="shareUserId" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+        <result column="coupon_status" property="couponStatus" jdbcType="VARCHAR" />
+    </resultMap>
+	
+	<resultMap id="ReceiveCouponUserResultMap" type="com.need.share.web.controller.coupon.vo.ReceiveCouponUserVO">
+		<id column="mobile" property="mobile" jdbcType="VARCHAR" />
+		<result column="receive_time" property="receiveTime" jdbcType="TIMESTAMP"/>
+		<result column="value" property="value" jdbcType="INTEGER" />
+		<result column="coupon_name" property="couponName" jdbcType="VARCHAR" />
+		<result column="coupon_pic_key" property="couponPicKey" jdbcType="VARCHAR" />
+		<result column="disabled_pic_key" property="disabledPicKey" jdbcType="VARCHAR" />
+	</resultMap>
+    
+    <sql id="Base_Column_List" >
+        coupon_mobile_id, coupon_template_id, share_user_id, create_time, mobile, coupon_status
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from coupon_mobile
+        where coupon_mobile_id = #{couponMobileId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from coupon_mobile
+        where coupon_mobile_id = #{couponMobileId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.need.share.dao.jdbc.api.coupon.po.CouponMobilePO" >
+        insert into coupon_mobile (coupon_mobile_id, coupon_template_id, 
+        share_user_id, create_time, mobile, coupon_status
+        )
+        values (#{couponMobileId,jdbcType=INTEGER}, #{couponTemplateId,jdbcType=VARCHAR}, 
+        #{shareUserId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{mobile,jdbcType=VARCHAR}, #{couponStatus,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.need.share.dao.jdbc.api.coupon.po.CouponMobilePO" >
+        insert into coupon_mobile
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="couponMobileId != null" >
+                coupon_mobile_id,
+            </if>
+            <if test="couponTemplateId != null" >
+                coupon_template_id,
+            </if>
+            <if test="shareUserId != null" >
+                share_user_id,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="mobile != null" >
+                mobile,
+            </if>
+            <if test="couponStatus != null" >
+                coupon_status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="couponMobileId != null" >
+                #{couponMobileId,jdbcType=INTEGER},
+            </if>
+            <if test="couponTemplateId != null" >
+                #{couponTemplateId,jdbcType=VARCHAR},
+            </if>
+            <if test="shareUserId != null" >
+                #{shareUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="mobile != null" >
+                #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="couponStatus != null" >
+                #{couponStatus,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.need.share.dao.jdbc.api.coupon.po.CouponMobilePO" >
+        update coupon_mobile
+        <set >
+            <if test="couponTemplateId != null" >
+                coupon_template_id = #{couponTemplateId,jdbcType=VARCHAR},
+            </if>
+            <if test="shareUserId != null" >
+                share_user_id = #{shareUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="mobile != null" >
+                mobile = #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="coupon_status != null" >
+                coupon_status = #{couponStatus,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where coupon_mobile_id = #{couponMobileId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.need.share.dao.jdbc.api.coupon.po.CouponMobilePO" >
+        update coupon_mobile
+        set coupon_template_id = #{couponTemplateId,jdbcType=VARCHAR},
+        share_user_id = #{shareUserId,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        mobile = #{mobile,jdbcType=VARCHAR},
+        coupon_status = #{couponStatus,jdbcType=VARCHAR}
+        where coupon_mobile_id = #{couponMobileId,jdbcType=INTEGER}
+    </update>
+
+    <select id="getCouponMobileListByMobile" resultType="com.need.share.dao.jdbc.api.coupon.po.CouponMobilePO">
+        select 
+        <include refid="Base_Column_List" />
+        from coupon_mobile
+        where mobile = #{mobile,jdbcType=VARCHAR} and coupon_status = 'unRegister'
+    </select>
+    
+    <select id="getCountByParams" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1)
+        from coupon_mobile
+        where coupon_template_id = #{couponTemplateId,jdbcType=VARCHAR} 
+        <if test="mobile != null" >
+            and mobile = #{mobile,jdbcType=VARCHAR}
+        </if>
+        <if test="createTime != null" >
+            and create_time > #{createTime}
+        </if>
+        <if test="shareUserId != null" >
+            and share_user_id = #{shareUserId,jdbcType=VARCHAR}
+        </if>
+        and coupon_status = 'unRegister'
+    </select>
+
+    <select id="getCouponMobileListByShareUserIdAndTemplateId" resultMap="ReceiveCouponUserResultMap">
+        select m.mobile, m.create_time receive_time, t.value, t.coupon_name, t.coupon_pic_key, t.disabled_pic_key
+        from coupon_mobile as m left join coupon_template as t on m.coupon_template_id = t.coupon_template_id
+        where m.share_user_id = #{shareUserId,jdbcType=VARCHAR} and m.coupon_template_id = #{couponTemplateId,jdbcType=VARCHAR} and m.coupon_status = 'unRegister'
+        order by m.create_time desc
+    </select>
+</mapper>

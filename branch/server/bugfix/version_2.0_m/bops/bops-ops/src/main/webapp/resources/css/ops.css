@@ -1,0 +1,32 @@
+body {
+	font-family: 'Source Sans Pro', sans-serif;
+    color: #323232;
+    line-height: 20px;
+    overflow-x: hidden;
+    font-size: 14px;
+    font-weight: 400;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-font-smoothing: antialiased;
+}
+/* 去除虚线 */
+a{blr:expression(this.onFocus=this.close());}
+
+a{blr:expression(this.onFocus=this.blur());}
+
+a:focus { -moz-outline-style: none; }
+
+a:focus { outline: none; }
+.ops-pub-btn a{
+  display: inline-block;
+  margin-top: 4px;
+  color: #333!importent;
+  border: 1px solid #DDD;
+  background-color: #F7F7F7;
+  font-size: 12px;
+  border-radius: 0px;
+  padding: 8px 16px;
+  height: 32px;
+  line-height: 14px;
+  cursor: pointer;
+}

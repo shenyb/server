@@ -1,0 +1,165 @@
+
+.data-page-wrap {
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	background: rgb(243, 243, 243) none repeat scroll 0% 0%;
+}
+*{box-sizing: border-box;}
+*{
+    outline: none!important;
+    inline:none!important;
+}
+.con{
+    width:100%;
+    padding-bottom: 20px;
+}
+.page-head {
+    padding: 10px 30px;
+    background: #E8E8E8;
+    position: relative;
+    height:60px;
+}
+.m-b-less{
+    font-size: 20px;
+    margin-top: 10px;
+    font-weight:300;
+}
+.state-information {
+    position: absolute;
+    right: 30px;
+    top: 20px;
+}
+.breadcrumb{
+    margin:0;
+    padding:0;
+    background: none;
+    font-size: 14px;
+}
+.state-information a{
+    color:#000;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.info{
+    height:auto;
+    margin: 20px 30px;
+    background: #fff;
+    padding:0 10px;
+}
+.info-top{
+    width:100%;
+    height: 40px;
+    padding: 10px 0;
+    position: relative;
+    line-height: 20px;
+    border-bottom: 1px solid #E8E8E8;
+}
+.back{
+    position: absolute;
+    right:0;
+    top:5px;
+}
+.button{
+	padding:0 10px;
+	
+}
+/*导航*/
+.nava {
+	width: 100%;
+	padding: 20px;
+	font-size: 14px;
+}
+
+*:focus {
+	outline: none !important;
+	text-decoration: none !important;
+}
+.nava ,panel-group{
+	padding:0 100px;
+}
+.nava .panel-default {
+	margin: 0 !important;
+	padding: 0;
+	border: none !important;
+	box-shadow: none;
+	border-radius: inherit;
+}
+
+.nava .panel-heading {
+	background: none !important;
+	margin: 0;
+	height: 30px;
+	line-height: 30px;
+	padding: 0;
+}
+
+.nava .panel-title {
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+
+.lists {
+	width: auto;
+	list-style: none;
+	line-height: 30px;
+	display: block;
+	background: #fff;
+	padding: 0;
+	margin-left: 30px;
+}
+
+.lists>li {
+	position: relative;
+}
+
+.nava  .panel-title>a,.nava .panel-body>a,.nava .lists>li>a {
+	display: block;
+	color: #000;
+	width: 100%;
+	line-height: 30px;
+	padding-left: 20px;
+	cursor: pointer;
+	transition: background 0.2s ease, color 0.2s ease;
+	font-size: 14px;
+}
+
+.nava  .panel-default a:hover {
+	text-decoration: none;
+}
+
+.editor {
+	position: absolute;
+	top: 0;
+	right: 26px;
+}
+
+.nava .panel-title>.editor {
+	right: 27px;
+}
+.lists .editor {
+	right: 49px;
+}
+.editor>a {
+	display: inline;
+	text-align: center;
+	color: #32323A;
+	font-size: 14px;
+	line-height: 30px;
+	padding: 0 3px;
+}
+
+.nava .panel-body {
+	margin: 0 30px;
+	padding: 0;
+	border: 0 !important;
+	line-height: 30px;
+	background: #F3F3F3;
+	position: relative;
+}
+
+.panel-collapse{
+	display:block;
+}
