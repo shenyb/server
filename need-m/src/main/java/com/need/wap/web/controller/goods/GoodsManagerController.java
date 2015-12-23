@@ -59,11 +59,6 @@ public class GoodsManagerController {
 	  //商品评级集合
 		PageHelper.startPage(1, 10);
 		Page<GoodsJudgementListResultVO> page = (Page<GoodsJudgementListResultVO>)tradeJudgementService.getGoodsJudgementOpsList(goodsId);
-		for(GoodsJudgementListResultVO goodsJudgementListResultVO :page.getResult()){
-			UserBasePO user= userBaseDAO.selectByPrimaryKey(goodsJudgementListResultVO.getUserId());
-			goodsJudgementListResultVO.setProfilePicKey(user!=null?user.getProfilePicKey():"");
-			goodsJudgementListResultVO.setUserName(user!=null?user.getNickName():"");
-		}
 		success.addData("commentList", page.getResult());
 		return success;
 	}
