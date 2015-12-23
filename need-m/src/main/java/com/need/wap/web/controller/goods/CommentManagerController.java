@@ -27,9 +27,8 @@ public class CommentManagerController {
 	public Message getGoodsComment(@RequestParam(required = true)String goodsId,@RequestParam(required = true) Integer pageNum, @RequestParam(required = true) Integer pageSize) {
 		logger.info("getGoodsComment.....in CommentManagerController goodsId:"+goodsId+"&&&&&pageNum:"+pageNum+"&&&&pageSize:"+pageSize);
 		//商品评级集合
-	//	Message message=tradeJudgementService.getCommentBypage(goodsId,pageNum,pageSize);
-	//	return message;
-		return null;
+	Message message=tradeJudgementService.getCommentBypage(goodsId,pageNum,pageSize);
+	return message;
 	}
 	
 
