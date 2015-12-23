@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.need.common.core.constant.BizReturnCode;
 import com.need.common.core.dao.jdbc.user.UserBaseDAO;
 import com.need.common.core.service.goods.GoodsDetailService;
 import com.need.common.core.service.goods.GoodsMainService;
@@ -48,7 +49,7 @@ public class GoodsManagerController {
 		//详情页面
 		GoodsProfileResultVO goodsProfileResultVO= goodsMainService.getgoodsProfiled(goodsId);
 		if(goodsProfileResultVO==null){
-			return Message.error(3003);	
+			return Message.error(BizReturnCode.NOT_FIND_GOODS);	
 		}
 		GoodsDetailVO goodsDetailVO = goodsDetailService.getGoodsDetailById(goodsId);
 		JSONObject goodsParam = goodsDetailService.getGoodsParamsById(goodsId);
