@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.user.BopsUserDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.bops.user.BopsUser" >
+    <id column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_status" property="userStatus" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_email" property="userEmail" jdbcType="VARCHAR" />
+    <result column="user_pwd" property="userPwd" jdbcType="VARCHAR" />
+    <result column="user_dept" property="userDept" jdbcType="VARCHAR" />
+    <result column="role_names" property="roleNames" jdbcType="VARCHAR" />
+    <result column="role_ids" property="roleIds" jdbcType="VARCHAR" />
+    <result column="user_token" property="userToken" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="user_mobile" property="userMobile" jdbcType="VARCHAR" />
+    <result column="user_real_name" property="userRealName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    user_id, user_status, user_name, user_email, user_pwd, user_dept, role_names, role_ids, 
+    user_token, create_time, update_time, user_mobile, user_real_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from bops_user
+    where user_id = #{userId}
+  </select>
+  
+  <select id="selectByUserName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bops_user
+    where user_name = #{userName}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from bops_user
+    where user_id = #{userId}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.bops.user.BopsUser"  useGeneratedKeys="true" keyProperty="userId">
+    insert into bops_user (user_id, user_status, user_name, 
+      user_email, user_pwd, user_dept, 
+      role_names, role_ids, user_token, 
+      create_time, update_time, user_mobile, user_real_name)
+    values (#{userId}, #{userStatus}, #{userName}, 
+      #{userEmail}, #{userPwd}, #{userDept}, 
+      #{roleNames}, #{roleIds}, #{userToken}, 
+      NOW(),NOW(), #{userMobile},
+      #{userRealName})
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.bops.user.BopsUser" >
+    update bops_user
+    <set >
+      <if test="userStatus != null" >
+        user_status = #{userStatus},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName},
+      </if>
+      <if test="userEmail != null" >
+        user_email = #{userEmail},
+      </if>
+      <if test="userPwd != null" >
+        user_pwd = #{userPwd},
+      </if>
+      <if test="userDept != null" >
+        user_dept = #{userDept},
+      </if>
+      <if test="roleNames != null" >
+        role_names = #{roleNames},
+      </if>
+      <if test="roleIds != null" >
+        role_ids = #{roleIds},
+      </if>
+      <if test="userToken != null" >
+        user_token = #{userToken},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime},
+      </if>
+      <if test="userMobile != null" >
+        user_mobile = #{userMobile},
+      </if>
+      <if test="userRealName != null" >
+        user_real_name = #{userRealName},
+      </if>
+    </set>
+    where user_id = #{userId}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.domain.po.bops.user.BopsUser"  >
+    update bops_user
+    set user_status = #{userStatus},
+      user_name = #{userName},
+      user_email = #{userEmail},
+      user_dept = #{userDept},
+      role_names = #{roleNames},
+      role_ids = #{roleIds},
+      update_time = NOW(),
+      user_mobile = #{userMobile},
+      user_real_name = #{userRealName}
+    where user_id = #{userId}
+  </update>
+  
+  <update id="updatePwdByPrimaryKey" parameterType="java.util.Map"  >
+    update bops_user
+    set user_pwd = #{newPwd}
+    where user_id = #{userId} and user_pwd = #{oldPwd}
+  </update>
+  
+  <select id="getPageOfBopsUser" resultMap="BaseResultMap" parameterType="com.need.domain.vo.user.QueryBopsUserVO" >
+    select 
+    <include refid="Base_Column_List" />
+    from bops_user
+    <where>
+    1 = 1
+    </where>
+    <if test="userName != null" >
+       and user_name like '%${userName}%'
+   </if>
+    <if test="userDept != null" >
+       and user_dept = #{userDept}
+   </if>
+    limit #{start}, #{pageSize}
+  </select>
+  
+  <select id="queryCountBospUser" resultType="int" parameterType="com.need.domain.vo.user.QueryBopsUserVO" >
+    select 
+    count(user_id)
+    from bops_user
+    <where>
+    1 = 1
+    </where>
+    <if test="userName != null" >
+       and user_name like '%${userName}%'
+   </if>
+    <if test="userDept != null" >
+       and user_dept = #{userDept}
+   </if>
+  </select>
+  
+  <select id="countBospUser" resultType="int" >
+    select 
+    count(user_id)
+    from bops_user
+  </select>
+  
+  <select id="queryBopsUer" resultMap="BaseResultMap" parameterType="com.need.domain.vo.user.QueryBopsUserVO" >
+    select 
+    <include refid="Base_Column_List" />
+    from bops_user
+    where user_name like '%${userName}%' and user_dept = #{userDept}
+  </select> 
+  <!-- 查询所有用户 -->
+  <select id="getAllUser" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bops_user
+  </select>
+  
+  <select id="getOpsUser" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bops_user where user_dept='平台运营部'
+  </select>
+</mapper>

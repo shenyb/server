@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.ops.BopsOpsTopicDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.bops.ops.BopsOpsTopic" >
+    <id column="topic_id" property="topicId" jdbcType="INTEGER" />
+    <result column="topic_name" property="topicName" jdbcType="VARCHAR" />
+    <result column="cover_key" property="coverKey" jdbcType="VARCHAR" />
+    <result column="topic_status" property="topicStatus" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="publisher_id" property="publisherId" jdbcType="INTEGER" />
+    <result column="auditor_id" property="auditorId" jdbcType="INTEGER" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="topic_desc" property="topicDesc" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.need.domain.po.bops.ops.BopsOpsTopic" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    topic_id, topic_name, cover_key, topic_status, create_time, publisher_id, auditor_id, 
+    reason
+  </sql>
+  <sql id="Blob_Column_List" >
+   topic_desc ,content
+  </sql>
+ 
+  <!--  -->
+  <select id="selectByTopicId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+      topic_id, topic_name, cover_key, topic_status, create_time, reason,
+    <include refid="Blob_Column_List" />
+    from bops_ops_topic
+    where topic_id = #{topicId}
+  </select>
+  <!--  -->
+  <select id="queryByPage" resultMap="ResultMapWithBLOBs" parameterType="com.need.domain.po.bops.ops.BopsOpsTopic" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from bops_ops_topic
+    <![CDATA[
+	 where  DATE_FORMAT(create_time, '%Y-%m-%d') <= now()
+	]]>
+    <if test="topicName != null and topicName != ''">
+      and  topic_name like  CONCAT('%','${topicName}','%' )
+    </if>
+    <if test="topicStatus != null and topicStatus != ''">
+      and  topic_status = #{topicStatus}
+    </if>
+     order by create_time desc  limit #{start}, #{pageSize}
+  </select>
+  <select id="selectCount" resultType="int" parameterType="com.need.domain.vo.ops.PageTopicVO" >
+    select count(topic_id)   from bops_ops_topic
+   <![CDATA[
+	 where  DATE_FORMAT(create_time, '%Y-%m-%d') <= now()
+	]]>
+    <if test="topicName != null and topicName != ''">
+      and  topic_name like  CONCAT('%','${topicName}','%' )
+    </if>
+    <if test="topicStatus != null and topicStatus != ''">
+      and  topic_status = #{topicStatus}
+    </if>  
+  </select>
+  <!--  -->
+  <delete id="deleteByTopicId" parameterType="java.lang.String" >
+    delete from bops_ops_topic
+    where topic_id = #{topicId}
+  </delete>
+ 
+  <!--  -->
+  <insert id="insertTopic" parameterType="com.need.domain.po.bops.ops.BopsOpsTopic"  keyProperty="topicId" useGeneratedKeys="true">
+    insert into bops_ops_topic
+    <trim prefix="(" suffix=")" suffixOverrides="," >     
+        topic_name,
+        cover_key,
+        topic_status,
+        create_time,
+      <if test="publisherId != null" >
+        publisher_id,
+      </if>
+        content,
+       <if test="topicDesc != null" >
+        topic_desc
+      </if>
+      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        #{topicName},
+        #{coverKey},
+        #{topicStatus},
+        now(),
+      <if test="publisherId != null" >
+        #{publisherId},
+      </if>
+        #{content},
+      <if test="topicDesc != null" >
+        #{topicDesc}
+      </if>
+    </trim>
+  </insert>
+  <!--  -->
+  <update id="updateByTopicIdSelective" parameterType="com.need.domain.po.bops.ops.BopsOpsTopic" >
+    update bops_ops_topic
+    <set >
+        topic_name = #{topicName},
+        cover_key = #{coverKey},
+        topic_status = #{topicStatus},
+      <if test="publisherId != null" >
+        publisher_id = #{publisherId},
+      </if>
+      <if test="topicDesc != null" >
+        topic_desc = #{topicDesc},
+      </if>
+      <if test="auditorId != null" >
+        auditor_id = #{auditorId},
+      </if>
+        content = #{content}
+    </set>
+    where topic_id = #{topicId}
+  </update>
+ 
+  
+   <update id="updateByTopicId" parameterType="com.need.domain.po.bops.ops.BopsOpsTopic" >
+    update bops_ops_topic
+    set 
+      topic_status = #{topicStatus},
+      auditor_id = #{auditorId}
+    where topic_id = #{topicId}
+  </update>
+  
+  
+</mapper>

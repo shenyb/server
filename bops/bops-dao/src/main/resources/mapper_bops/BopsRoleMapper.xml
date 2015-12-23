@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.role.BopsRoleDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.bops.role.BopsRole" >
+    <id column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="role_status" property="roleStatus" jdbcType="VARCHAR" />
+    <result column="role_desc" property="roleDesc" jdbcType="VARCHAR" />
+    <result column="role_dept" property="roleDept" jdbcType="VARCHAR" />
+    <result column="auth_ids" property="authIds" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <resultMap id="StringBaseResultMap" type="com.need.domain.po.bops.role.BopsRole" >
+    <id column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="role_status" property="roleStatus" jdbcType="VARCHAR" />
+    <result column="role_desc" property="roleDesc" jdbcType="VARCHAR" />
+    <result column="role_dept" property="roleDept" jdbcType="VARCHAR" />
+    <result column="auth_ids" property="authIds" jdbcType="VARCHAR" 
+    	typeHandler="com.need.common.mybatisTypeHandler.StringArrayTypeHandler" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    role_id, role_name, role_status, role_desc, role_dept, auth_ids, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from bops_role
+    where role_id = #{roleId}
+  </select>
+  
+    <select id="getCountBopsRole" resultType="int" >
+   select count(role_id) from bops_role <![CDATA[
+   		   where create_time <= NOW()
+				]]>
+  </select>
+  
+  <select id="queryCountBopsRole" resultType="int"  parameterType="com.need.domain.vo.role.PageBopsRoleVO" >
+   select count(role_id)
+   from bops_role
+   <![CDATA[
+   		   where create_time <= NOW()
+				]]>
+   <if test="roleName != null" >
+       and role_name like '%${roleName}%'
+   </if>
+  </select>
+  
+  <select id="getPageOfBopsRole" resultType="com.need.domain.vo.role.RoleResultVO"  parameterType="com.need.domain.vo.role.PageBopsRoleVO" >
+   select <include refid="Base_Column_List" />
+   from bops_role
+   <![CDATA[
+   		   where create_time <= NOW()
+				]]>
+   <if test="roleName != null" >
+       and role_name like '%${roleName}%'
+   </if>
+   order by create_time desc
+    limit #{start}, #{pageSize}
+  </select>
+  
+  <select id="selectBopsRoleByPrimaryKeys" resultMap="BaseResultMap"  parameterType="java.lang.Integer" >
+   select <include refid="Base_Column_List" />
+   from bops_role where role_id in ( ${roleIds} )
+  </select>
+  
+  <select id="findRoleByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+   select <include refid="Base_Column_List" />
+   from bops_role where role_name like '%${roleName}%'
+  </select>
+  
+  <select id="selectRoleByPrimaryKeys" parameterType="java.lang.String" resultType="java.lang.String">
+     select auth_ids from bops_role where role_id in (${roleIds})
+  </select>
+  
+  <select id="selectAuthIdsByPrimaryKeys" parameterType="java.lang.String" resultType="java.lang.String">
+     select auth_ids from bops_role where role_id in (${roleIds})
+  </select>
+  
+   <select id="selectAuthByPrimaryKeys" parameterType="java.lang.String"  resultMap="BaseResultMap">
+     select  <include refid="Base_Column_List" />
+     from bops_role where role_id in (${roleIs})
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from bops_role
+    where role_id = #{roleId}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.bops.role.BopsRole" keyProperty="roleId" useGeneratedKeys="true" >
+    insert into bops_role (role_id, role_name, role_status, 
+      role_desc, role_dept, auth_ids, 
+      create_time, update_time)
+    values (#{roleId}, #{roleName}, #{roleStatus}, 
+      #{roleDesc}, #{roleDept}, #{authIds}, 
+      NOW(), NOW())
+  </insert>
+  
+  <insert id="insertNewRole" parameterType="com.need.domain.vo.role.RoleParamVO" keyProperty="roleId" useGeneratedKeys="true" >
+    insert into bops_role (role_id, role_name, role_status, 
+      role_desc, role_dept, auth_ids, 
+      create_time, update_time)
+    values (#{roleId}, #{roleName}, #{roleStatus}, 
+      #{roleDesc}, #{roleDept}, #{authIds,javaType=[Ljava.lang.String;,
+      	jdbcType=VARCHAR,typeHandler=com.need.common.mybatisTypeHandler.StringArrayTypeHandler}, 
+      NOW(), NOW())
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.need.domain.po.bops.role.BopsRole" >
+    insert into bops_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        role_id,
+      </if>
+      <if test="roleName != null" >
+        role_name,
+      </if>
+      <if test="roleStatus != null" >
+        role_status,
+      </if>
+      <if test="roleDesc != null" >
+        role_desc,
+      </if>
+      <if test="roleDept != null" >
+        role_dept,
+      </if>
+      <if test="authIds != null" >
+        auth_ids,
+      </if>
+        create_time,
+        update_time,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        #{roleId,},
+      </if>
+      <if test="roleName != null" >
+        #{roleName},
+      </if>
+      <if test="roleStatus != null" >
+        #{roleStatus},
+      </if>
+      <if test="roleDesc != null" >
+        #{roleDesc},
+      </if>
+      <if test="roleDept != null" >
+        #{roleDept},
+      </if>
+      <if test="authIds != null" >
+        #{authIds},
+      </if>
+     	NOW(),
+      	NOW(),
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.bops.role.BopsRole" >
+    update bops_role
+    <set >
+      <if test="roleName != null" >
+        role_name = #{roleName},
+      </if>
+      <if test="roleStatus != null" >
+        role_status = #{roleStatus},
+      </if>
+      <if test="roleDesc != null" >
+        role_desc = #{roleDesc},
+      </if>
+      <if test="roleDept != null" >
+        role_dept = #{roleDept},
+      </if>
+      <if test="authIds != null" >
+        auth_ids = #{authIds},
+      </if>
+      <if test="updateTime != null" >
+        update_time = NOW(),
+      </if>
+    </set>
+    where role_id = #{roleId}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.need.domain.po.bops.role.BopsRole" >
+    update bops_role set role_name = #{roleName}, role_status = #{roleStatus}, role_desc = #{roleDesc}, role_dept = #{roleDept}, auth_ids = #{authIds}, update_time = NOW() where role_id = #{roleId}
+  </update>
+  
+  <update id="updateById" parameterType="com.need.domain.po.bops.role.BopsRole" >
+    update bops_role
+    <set >
+      <if test="roleName != null" >
+        role_name = #{roleName},
+      </if>
+      <if test="roleStatus != null" >
+        role_status = #{roleStatus},
+      </if>
+      <if test="roleDesc != null" >
+        role_desc = #{roleDesc},
+      </if>
+      <if test="roleDept != null" >
+        role_dept = #{roleDept},
+      </if>
+      <if test="authIds != null" >
+        auth_ids = #{authIds},
+      </if>
+        update_time = NOW()
+    </set>
+    where role_id = #{roleId}
+  </update>
+  
+   <select id="getAllRole" resultType="com.need.domain.vo.role.RoleResultVO"  >
+   select <include refid="Base_Column_List" />
+   from bops_role
+   <![CDATA[
+   		   where create_time <= NOW()
+				]]>
+   order by create_time desc
+  </select>
+  
+</mapper>

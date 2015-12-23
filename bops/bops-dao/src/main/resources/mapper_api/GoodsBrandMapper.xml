@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.api.goods.GoodsBrandDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.api.goods.GoodsBrandPO" >
+    <id column="brand_id" property="brandId" jdbcType="INTEGER" />
+    <result column="brand_name" property="brandName" jdbcType="VARCHAR" />
+    <result column="brand_area" property="brandArea" jdbcType="VARCHAR" />
+    <result column="brand_website" property="brandWebsite" jdbcType="VARCHAR" />
+    <result column="after_phone" property="afterPhone" jdbcType="VARCHAR" />
+    <result column="brand_status" property="brandStatus" jdbcType="VARCHAR" />
+    <result column="brand_description_text" property="brandDescriptionText" jdbcType="VARCHAR" />
+    <result column="brand_pic_key" property="brandPicKey" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    brand_id, brand_name, brand_area, brand_website, after_phone, brand_status, brand_description_text, 
+    brand_pic_key, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from goods_brand
+    where brand_id = #{brandId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from goods_brand
+    where brand_id = #{brandId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.api.goods.GoodsBrandPO" >
+    insert into goods_brand (brand_id, brand_name, brand_area, 
+      brand_website, after_phone, brand_status, 
+      brand_description_text, brand_pic_key, 
+      create_time)
+    values (#{brandId,jdbcType=INTEGER}, #{brandName,jdbcType=VARCHAR}, #{brandArea,jdbcType=VARCHAR}, 
+      #{brandWebsite,jdbcType=VARCHAR}, #{afterPhone,jdbcType=VARCHAR}, #{brandStatus,jdbcType=VARCHAR}, 
+      #{brandDescriptionText,jdbcType=VARCHAR}, #{brandPicKey,jdbcType=VARCHAR}, 
+      now())
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.domain.po.api.goods.GoodsBrandPO" >
+    insert into goods_brand
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="brandId != null" >
+        brand_id,
+      </if>
+      <if test="brandName != null" >
+        brand_name,
+      </if>
+      <if test="brandArea != null" >
+        brand_area,
+      </if>
+      <if test="brandWebsite != null" >
+        brand_website,
+      </if>
+      <if test="afterPhone != null" >
+        after_phone,
+      </if>
+      <if test="brandStatus != null" >
+        brand_status,
+      </if>
+      <if test="brandDescriptionText != null" >
+        brand_description_text,
+      </if>
+      <if test="brandPicKey != null" >
+        brand_pic_key,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="brandId != null" >
+        #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="brandName != null" >
+        #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandArea != null" >
+        #{brandArea,jdbcType=VARCHAR},
+      </if>
+      <if test="brandWebsite != null" >
+        #{brandWebsite,jdbcType=VARCHAR},
+      </if>
+      <if test="afterPhone != null" >
+        #{afterPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="brandStatus != null" >
+        #{brandStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="brandDescriptionText != null" >
+        #{brandDescriptionText,jdbcType=VARCHAR},
+      </if>
+      <if test="brandPicKey != null" >
+        #{brandPicKey,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.api.goods.GoodsBrandPO" >
+    update goods_brand
+    <set >
+      <if test="brandName != null" >
+        brand_name = #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandArea != null" >
+        brand_area = #{brandArea,jdbcType=VARCHAR},
+      </if>
+      <if test="brandWebsite != null" >
+        brand_website = #{brandWebsite,jdbcType=VARCHAR},
+      </if>
+      <if test="afterPhone != null" >
+        after_phone = #{afterPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="brandStatus != null" >
+        brand_status = #{brandStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="brandDescriptionText != null" >
+        brand_description_text = #{brandDescriptionText,jdbcType=VARCHAR},
+      </if>
+      <if test="brandPicKey != null" >
+        brand_pic_key = #{brandPicKey,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where brand_id = #{brandId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.domain.po.api.goods.GoodsBrandPO" >
+    update goods_brand
+    set brand_name = #{brandName},
+      brand_area = #{brandArea},
+      brand_website = #{brandWebsite},
+      after_phone = #{afterPhone},
+      brand_description_text = #{brandDescriptionText},
+      brand_pic_key = #{brandPicKey}
+    where brand_id = #{brandId}
+  </update>
+</mapper>

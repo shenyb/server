@@ -1,0 +1,259 @@
+.bops-pub-wrap {
+	padding: 0px 15px;
+	height: 100%;
+	overflow-y: auto;
+}
+.bops-pub-title {
+	min-height: 70px;
+	padding: 16px 0;
+}
+.bops-pub-left {
+	float: left;
+}
+.bops-pub-right {
+	float: right;
+}
+.bops-pub-title h5 {
+	margin: 8px 0;
+	text-indent: 15px;
+	border-left: 4px solid #4294C7;	
+	font-size: 15px;
+}
+.bops-pub-boder {
+	border-bottom: 1px solid #DDD;
+}
+/* 通用表格 */
+.bops-pub-table {
+	background: #FFF;
+    font-size: 12px;
+    border-top: 1px solid #e1e6eb;
+    margin-top: 8px;
+    margin-bottom: 20px;
+    width: 100%;
+    text-align: left;
+}
+.bops-pub-table tr {
+	border: 1px solid #e1e6eb;
+}
+.bops-pub-table thead {
+	background-color: #f5f6fa;
+}
+.bops-pub-table thead tr th,.bops-pub-table tbody tr td,.bops-pub-table tfoot tr td {
+	padding: 8px 8px 8px 10px;
+}
+.bops-pub-table a {
+	display: inline-block;
+	color: #006fc5;
+	cursor: pointer;
+}
+.bops-pub-table a:hover {
+	color: #11588f;
+	text-decoration: underline;
+}
+/* 分页 */
+.pagenation-info,.pagenation {
+	display: inline-block;
+	height: 32px;
+	line-height: 32px;
+	vertical-align: middle;
+	color: #666;
+}
+.pagenation-info {
+	vertical-align: -14px;
+	overflow: hidden;
+}
+.pagenation {
+	border-left: 1px solid #e1e6eb;
+	border-right: 1px solid #e1e6eb;
+	margin-left: 20px;
+}
+.pagenation a {
+	display: inline-block;
+	height: 100%;
+	color: #666;
+}
+.pagenation li {
+	float: left;
+	width: 31px;
+	height: 32px;
+	text-align: center;
+	border: 1px solid #e1e6eb;
+	border-left: 0;
+	cursor: pointer;
+}
+.pagenation li.disabled {
+	cursor: not-allowed;
+}
+.pagenation li:last-child {
+	border-right: 0;
+}
+.pagenation li.active {
+	border-top: 1px solid #4294c7;
+	border-bottom: 1px solid #4294c7;
+	background-color: #4294c7;
+}
+.pagenation li.active a {
+	color: #FFFFFF;
+}
+.pagenation li a:hover {
+	text-decoration: none;
+}
+/* 通用按钮样式 */
+.bops-pub-btn {
+	display: inline-block;
+	margin-top: 4px;
+	color: #333;
+	border: 1px solid #DDD;
+	background-color: #F7F7F7;
+	font-size: 12px;
+	border-radius: 0px;
+	padding: 8px 16px;
+	height: 32px;
+	line-height: 14px;
+	cursor: pointer;
+}
+.bops-pub-btn.disabled {
+	cursor: not-allowed;
+}
+.bops-pub-btn span {
+	margin-left: 5px;
+}
+
+/* 通用表单样式 */
+.bops-pub-rows {
+	line-height: 32px;
+}
+
+/* 通用弹窗样式 */
+.bops-pub-dialog {
+	float: left;
+	border-radius: 0px;
+	border: 1px solid rgba(0, 0, 0, 0.3);
+	box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+	background-color: #fff;
+	min-width: 550px;
+}
+.bops-pub-dialog-inner {
+	position: relative;
+}
+.bops-pub-dialog-head {
+	min-height: 16.4286px;
+	padding: 15px;
+	border-bottom: 1px solid #E5E5E5;
+	position: relative;
+}
+.bops-pub-dialog-head h5 {
+	font-size: 14px;
+	float: left;
+}
+.bops-pub-dialog-body {
+	position: relative;
+	padding: 20px;
+}
+.bops-pub-dialog-foot {
+	padding: 19px 20px 20px;
+	text-align: right;
+	border-top: 1px solid #E5E5E5;
+}
+.bops-pub-dialog .closebtn {
+	float: right;
+	font-size: 18px;
+	line-height: 1;
+	color: #000;
+	opacity: 0.2;
+	cursor: pointer;
+}
+/* 弹出层中的表格样式 */
+.bops-pub-dialog-table tr {
+	height: 30px;
+}
+.bops-pub-dialog-table th {
+	min-width: 75px;
+	text-align: right;
+	padding-right: 10px
+}
+.btn-primary {
+    color: #FFF;
+    border: 1px solid #09C;
+    background-color: #09C;
+}
+.btn-primary:hover {
+	color: #FFF;
+	background-color: #3276B1;
+	border-color: #285E8E;
+}
+/* 操作页body */
+.bops-pub-param-body {
+	padding: 10px 0 30px 0;
+}
+.bops-pub-param-table {
+	margin: 10px 0;
+}
+.bops-pub-param-header {
+	height: 30px;
+	background: #F5F6FA none repeat scroll 0% 0%;
+	line-height: 28px;
+	border-left: 4px solid #6D7781;
+	border-image: none;
+	position: relative;
+}
+.bops-pub-param-tips-line {
+	height: 1px;
+	background: #DDD none repeat scroll 0% 0%;
+}
+.bops-pub-param-table {
+	width: 100%;
+	background-color: #FFF;
+}
+.bops-pub-param-table tr {
+	min-height: 32px;
+}
+.bops-pub-param-table th {
+	width: 100px;
+	text-align: right;
+	padding: 8px 8px 8px 0;
+}
+.bops-pub-param-table td {
+	padding: 8px;
+}
+.bops-pub-param-table textarea {
+	min-height: 60px;
+	width: 400px;
+	border: 1px solid #e1e1e1;
+	padding: 4px;
+}
+.bops-pub-param-btn {
+	color: #FFF;
+	border: 1px solid #09C;
+	background-color: #09C;
+	padding: 8px 30px;
+}
+.bops-pub-param-btnlist {
+	margin: 10px 0;
+}
+.bops-pub-param-title {
+	font-size: 14px;
+	color: #333;
+	display: inline-block;
+	margin-left: 16px;
+}
+.bops-pub-prama-img-wrap {
+	float: left;
+}
+.bops-pub-param-table .fa-times-circle {
+	margin-right: 10px;
+}
+/* 搜索 loading */
+.search-loading {
+	margin: 0 7px;
+}
+.search-loading .container1 > div,.search-loading .container2 > div,.search-loading .container3 > div{
+	background-color: #000;
+}
+.search-loading.disabled {
+	opacity: 0.6;
+	color: #FFF;
+	background-image: none;
+	box-shadow: none;
+	pointer-events: none;
+}

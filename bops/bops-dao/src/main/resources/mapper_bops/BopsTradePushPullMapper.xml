@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.trade.BopsTradePushPullDAO">
+	<resultMap id="BaseResultMap"
+		type="com.need.domain.po.bops.trade.BopsTradePushPull">
+		<id column="order_no" property="orderNo" jdbcType="VARCHAR" />
+		<result column="trade_no" property="tradeNo" jdbcType="VARCHAR" />
+		<result column="out_trade_no" property="outTradeNo" jdbcType="VARCHAR" />
+		<result column="logistics_no" property="logisticsNo" jdbcType="VARCHAR" />
+		<result column="order_status" property="orderStatus" jdbcType="VARCHAR" />
+		<result column="trade_status" property="tradeStatus" jdbcType="VARCHAR" />
+		<result column="retrieve_status" property="retrieveStatus"
+			jdbcType="VARCHAR" />
+		<result column="deliver_status" property="deliverStatus"
+			jdbcType="VARCHAR" />
+		<result column="memo_deliver" property="memoDeliver" jdbcType="VARCHAR" />
+		<result column="push_return_status" property="pushReturnStatus"
+			jdbcType="VARCHAR" />
+		<result column="memo_push" property="memoPush" jdbcType="VARCHAR" />
+		<result column="memo_retrieve" property="memoRetrieve"
+			jdbcType="VARCHAR" />
+		<result column="memo_logistics" property="memoLogistics"
+			jdbcType="VARCHAR" />
+		<result column="batch_no" property="batchNo" jdbcType="VARCHAR" />
+		<result column="batch_count" property="batchCount" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		order_no, trade_no, out_trade_no, logistics_no,
+		order_status, trade_status,
+		retrieve_status,
+		deliver_status,
+		memo_deliver, push_return_status, memo_push, memo_retrieve,
+		memo_logistics,batch_no,batch_count,
+		create_time, update_time
+	</sql>
+
+	<sql id="Show_Column_List">
+		trade_no,logistics_no,
+		trade_status,
+		retrieve_status,
+		deliver_status,
+		memo_deliver, push_return_status,
+		memo_logistics,batch_no,
+		create_time
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from bops_trade_push_pull
+		where order_no = #{orderNo,jdbcType=VARCHAR}
+	</select>
+
+	<select id="queryOrderNosByRetrieveStatus" resultType="java.lang.String"
+		parameterType="java.lang.String">
+		select
+		trade_no
+		from bops_trade_push_pull
+		where
+		retrieve_status in (${retrieveStatus})
+	</select>
+
+	<select id="getlogisticsNo" resultType="java.lang.String"
+		parameterType="java.lang.String">
+		select
+		logistics_no
+		from bops_trade_push_pull
+		where
+		order_no = #{orderNo}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		bops_trade_push_pull
+		where order_no = #{orderNo,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.need.domain.po.bops.trade.BopsTradePushPull">
+		insert into
+		bops_trade_push_pull (order_no, trade_no,
+		out_trade_no,
+		logistics_no,
+		order_status, trade_status,
+		retrieve_status, deliver_status,
+		memo_deliver,
+		push_return_status,
+		memo_push, memo_retrieve,
+		memo_logistics, create_time, update_time
+		)
+		values
+		(#{orderNo,jdbcType=VARCHAR}, #{tradeNo,jdbcType=VARCHAR},
+		#{outTradeNo,jdbcType=VARCHAR},
+		#{logisticsNo,jdbcType=VARCHAR},
+		#{orderStatus,jdbcType=VARCHAR}, #{tradeStatus,jdbcType=VARCHAR},
+		#{retrieveStatus,jdbcType=VARCHAR}, #{deliverStatus,jdbcType=VARCHAR},
+		#{memoDeliver,jdbcType=VARCHAR},
+		#{pushReturnStatus,jdbcType=VARCHAR},
+		#{memoPush,jdbcType=VARCHAR}, #{memoRetrieve,jdbcType=VARCHAR},
+		#{memoLogistics,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.need.domain.po.bops.trade.BopsTradePushPull">
+		insert into bops_trade_push_pull
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="orderNo != null">
+				order_no,
+			</if>
+			<if test="tradeNo != null">
+				trade_no,
+			</if>
+			<if test="outTradeNo != null">
+				out_trade_no,
+			</if>
+			<if test="logisticsNo != null">
+				logistics_no,
+			</if>
+			<if test="orderStatus != null">
+				order_status,
+			</if>
+			<if test="tradeStatus != null">
+				trade_status,
+			</if>
+			<if test="retrieveStatus != null">
+				retrieve_status,
+			</if>
+			<if test="deliverStatus != null">
+				deliver_status,
+			</if>
+			<if test="memoDeliver != null">
+				memo_deliver,
+			</if>
+			<if test="pushReturnStatus != null">
+				push_return_status,
+			</if>
+			<if test="memoPush != null">
+				memo_push,
+			</if>
+			<if test="memoRetrieve != null">
+				memo_retrieve,
+			</if>
+			<if test="memoLogistics != null">
+				memo_logistics,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="orderNo != null">
+				#{orderNo,jdbcType=VARCHAR},
+			</if>
+			<if test="tradeNo != null">
+				#{tradeNo,jdbcType=VARCHAR},
+			</if>
+			<if test="outTradeNo != null">
+				#{outTradeNo,jdbcType=VARCHAR},
+			</if>
+			<if test="logisticsNo != null">
+				#{logisticsNo,jdbcType=VARCHAR},
+			</if>
+			<if test="orderStatus != null">
+				#{orderStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="tradeStatus != null">
+				#{tradeStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="retrieveStatus != null">
+				#{retrieveStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="deliverStatus != null">
+				#{deliverStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="memoDeliver != null">
+				#{memoDeliver,jdbcType=VARCHAR},
+			</if>
+			<if test="pushReturnStatus != null">
+				#{pushReturnStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="memoPush != null">
+				#{memoPush,jdbcType=VARCHAR},
+			</if>
+			<if test="memoRetrieve != null">
+				#{memoRetrieve,jdbcType=VARCHAR},
+			</if>
+			<if test="memoLogistics != null">
+				#{memoLogistics,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.bops.trade.BopsTradePushPull">
+		update bops_trade_push_pull
+		<set>
+			<if test="tradeNo != null">
+				trade_no = #{tradeNo,jdbcType=VARCHAR},
+			</if>
+			<if test="outTradeNo != null">
+				out_trade_no = #{outTradeNo,jdbcType=VARCHAR},
+			</if>
+			<if test="logisticsNo != null">
+				logistics_no = #{logisticsNo,jdbcType=VARCHAR},
+			</if>
+			<if test="orderStatus != null">
+				order_status = #{orderStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="tradeStatus != null">
+				trade_status = #{tradeStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="retrieveStatus != null">
+				retrieve_status = #{retrieveStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="deliverStatus != null">
+				deliver_status = #{deliverStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="memoDeliver != null">
+				memo_deliver = #{memoDeliver,jdbcType=VARCHAR},
+			</if>
+			<if test="pushReturnStatus != null">
+				push_return_status =
+				#{pushReturnStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="memoPush != null">
+				memo_push = #{memoPush,jdbcType=VARCHAR},
+			</if>
+			<if test="memoRetrieve != null">
+				memo_retrieve = #{memoRetrieve,jdbcType=VARCHAR},
+			</if>
+			<if test="memoLogistics != null">
+				memo_logistics = #{memoLogistics,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where order_no = #{orderNo,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.need.domain.po.bops.trade.BopsTradePushPull">
+		update
+		bops_trade_push_pull
+		set trade_no =
+		#{tradeNo,jdbcType=VARCHAR},
+		out_trade_no =
+		#{outTradeNo,jdbcType=VARCHAR},
+		logistics_no =
+		#{logisticsNo,jdbcType=VARCHAR},
+		order_status =
+		#{orderStatus,jdbcType=VARCHAR},
+		trade_status =
+		#{tradeStatus,jdbcType=VARCHAR},
+		retrieve_status =
+		#{retrieveStatus,jdbcType=VARCHAR},
+		deliver_status =
+		#{deliverStatus,jdbcType=VARCHAR},
+		memo_deliver =
+		#{memoDeliver,jdbcType=VARCHAR},
+		push_return_status =
+		#{pushReturnStatus,jdbcType=VARCHAR},
+		memo_push =
+		#{memoPush,jdbcType=VARCHAR},
+		memo_retrieve =
+		#{memoRetrieve,jdbcType=VARCHAR},
+		memo_logistics =
+		#{memoLogistics,jdbcType=VARCHAR},
+		create_time =
+		#{createTime,jdbcType=TIMESTAMP},
+		update_time =
+		#{updateTime,jdbcType=TIMESTAMP}
+		where order_no =
+		#{orderNo,jdbcType=VARCHAR}
+	</update>
+
+	<!-- xml中不需要的可全部删除，shenyb -->
+	<select id="queryBatchInfoList" resultMap="BaseResultMap"
+		parameterType="com.need.domain.vo.trade.TradeBatchNoParamsVO">
+		SELECT
+		trade_no,
+		logistics_no,
+		push_return_status,
+		warehouse_type,
+		batch_no,
+		<if test="tradeNo != null and tradeNo != ''">
+			(select count(1) from bops_trade_push_pull where
+			batch_no=bp.batch_no) AS batch_count
+		</if>
+		<if test="tradeNo == null or tradeNo == ''">
+			count(1) AS batch_count
+		</if>
+		FROM
+		bops_trade_push_pull bp
+		WHERE 1=1 and batch_no is not null
+		<if test="batchNo != null and batchNo != ''">
+			and batch_no = #{batchNo}
+		</if>
+		<if test="tradeNo != null and tradeNo != ''">
+			and trade_no = #{tradeNo}
+		</if>
+		GROUP BY
+		batch_no
+		ORDER BY
+		create_time DESC
+		limit #{start}, #{pageSize}
+	</select>
+
+
+	<select id="getbyBatchNo" parameterType="String" resultMap="BaseResultMap">
+		select
+		<include refid="Show_Column_List" />
+		from bops_trade_push_pull where batch_no = #{batchNo}
+	</select>
+
+	<select id="getBatchInfoCount" parameterType="com.need.domain.vo.trade.TradeBatchNoParamsVO"
+		resultType="int">
+		SELECT COUNT(1) FROM (SELECT
+		trade_no,logistics_no,
+		push_return_status,
+		batch_no,batch_count,create_time
+		FROM
+		bops_trade_push_pull WHERE
+		1=1
+		<if test="batchNo != null and batchNo != ''">
+			and batch_no = #{batchNo}
+		</if>
+		<if test="tradeNo != null and tradeNo != ''">
+			and trade_no = #{tradeNo}
+		</if>
+		group by batch_no ) tp
+	</select>
+	<!-- 有运单号的，清关通过，并且未发货的处理的 -->
+	<select id="queryListToDeliver" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from bops_trade_push_pull
+		where logistics_no is not null and
+		logistics_no!='' and (retrieve_status='OK')
+		and (deliver_status is null
+		or deliver_status!='500') and (deliver_push_status='FALSE' or deliver_push_status is null) and 
+		trade_status='WAIT_PLATFORM_SEND' and create_time >'2015-09-06'  and  warehouse_type='TAX_WAREHOUSE' and trade_no  
+	IN (15110504593238,15110514254860,15110517118363,15110518490671,15110518759979,15110519741604)
+	</select>
+<update id="updateByTradeNo"
+		parameterType="com.need.domain.po.bops.trade.BopsTradePushPull">
+		update bops_trade_push_pull
+		set trade_no = #{tradeNo},
+		create_time = #{createTime},
+		update_time=now(),
+		out_trade_no =
+		#{outTradeNo},
+		logistics_no= #{logisticsNo},
+		order_status =
+		#{orderStatus},
+		trade_status =#{tradeStatus},
+		retrieve_status=#{retrieveStatus},
+		deliver_status=#{deliverStatus},
+		memo_deliver=#{memoDeliver},
+		<if test="memoPush != null and memoPush != '' " >
+        	memo_push=#{memoPush},
+      	</if>
+		memo_retrieve=#{memoRetrieve},
+		memo_logistics=#{memoLogistics},
+		memo_deliver_push=#{memoDeliverPush},
+		push_return_status=#{pushReturnStatus},
+		batch_no=#{batchNo},
+		batch_count=#{batchCount},
+		deliver_push_status=#{deliverPushStatus},
+		deliver_pull_status=#{memoDeliverPush},
+		deliver_pull_status=#{deliverPullStatus}
+		where trade_no =
+		#{tradeNo}
+	</update>
+	<update id="updateByOrderNo"
+		parameterType="com.need.domain.po.bops.trade.BopsTradePushPull">
+		update bops_trade_push_pull
+		set trade_no = #{tradeNo},
+		create_time = #{createTime},
+		update_time=now(),
+		out_trade_no =
+		#{outTradeNo},
+		logistics_no= #{logisticsNo},
+		order_status =
+		#{orderStatus},
+		trade_status =#{tradeStatus},
+		retrieve_status=#{retrieveStatus},
+		deliver_status=#{deliverStatus},
+		memo_deliver=#{memoDeliver},
+		<if test="memoPush != null and memoPush != '' " >
+        	memo_push=#{memoPush},
+      	</if>
+		memo_retrieve=#{memoRetrieve},
+		memo_logistics=#{memoLogistics},
+		memo_deliver_push=#{memoDeliverPush},
+		push_return_status=#{pushReturnStatus},
+		batch_no=#{batchNo},
+		batch_count=#{batchCount},
+		deliver_push_status=#{deliverPushStatus},
+		deliver_pull_status=#{memoDeliverPush},
+		deliver_pull_status=#{deliverPullStatus}
+		where order_no =
+		#{orderNo}
+	</update>
+</mapper>

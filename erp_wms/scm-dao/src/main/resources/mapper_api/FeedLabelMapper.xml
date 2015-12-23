@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.api.feed.FeedLabelDAO" >
+    <resultMap id="BaseResultMap" type="com.need.domain.po.api.feed.FeedLabelPO" >
+        <id column="feed_label_id" property="feedLabelId" jdbcType="VARCHAR" />
+        <result column="feed_label_content" property="feedLabelContent" jdbcType="VARCHAR" />
+        <result column="feed_label_type" property="feedLabelType" jdbcType="VARCHAR" />
+        <result column="feed_id" property="feedId" jdbcType="VARCHAR" />
+        <result column="width_percent" property="widthPercent" jdbcType="VARCHAR" />
+        <result column="height_percent" property="heightPercent" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        feed_label_id, feed_label_content, feed_label_type, feed_id, width_percent, height_percent
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from feed_label
+        where feed_label_id = #{feedLabelId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from feed_label
+        where feed_label_id = #{feedLabelId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.need.domain.po.api.feed.FeedLabelPO" >
+        insert into feed_label (feed_label_id, feed_label_content, feed_label_type, feed_id, 
+        width_percent, height_percent)
+        values (#{feedLabelId,jdbcType=VARCHAR}, #{feedLabelContent,jdbcType=VARCHAR}, #{feedLabelType,jdbcType=VARCHAR}, #{feedId,jdbcType=VARCHAR}, 
+        #{widthPercent,jdbcType=VARCHAR}, #{heightPercent,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.need.domain.po.api.feed.FeedLabelPO" >
+        insert into feed_label
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="feedLabelId != null" >
+                feed_label_id,
+            </if>
+            <if test="feedLabelContent != null" >
+                feed_label_content,
+            </if>
+            <if test="feedLabelType != null" >
+                feed_label_type,
+            </if>
+            <if test="feedId != null" >
+                feed_id,
+            </if>
+            <if test="widthPercent != null" >
+                width_percent,
+            </if>
+            <if test="heightPercent != null" >
+                height_percent,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="feedLabelId != null" >
+                #{feedLabelId,jdbcType=VARCHAR},
+            </if>
+            <if test="feedLabelContent != null" >
+                #{feedLabelContent,jdbcType=VARCHAR},
+            </if>
+            <if test="feedLabelType != null" >
+                #{feedLabelType,jdbcType=VARCHAR},
+            </if>
+            <if test="feedId != null" >
+                #{feedId,jdbcType=VARCHAR},
+            </if>
+            <if test="widthPercent != null" >
+                #{widthPercent,jdbcType=VARCHAR},
+            </if>
+            <if test="heightPercent != null" >
+                #{heightPercent,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.api.feed.FeedLabelPO" >
+        update feed_label
+        <set >
+            <if test="feedLabelContent != null" >
+                feed_label_content = #{feedLabelContent,jdbcType=VARCHAR},
+            </if>
+            <if test="feedLabelType != null" >
+                feed_label_type = #{feedLabelType,jdbcType=VARCHAR},
+            </if>
+            <if test="feedId != null" >
+                feed_id = #{feedId,jdbcType=VARCHAR},
+            </if>
+            <if test="widthPercent != null" >
+                width_percent = #{widthPercent,jdbcType=VARCHAR},
+            </if>
+            <if test="heightPercent != null" >
+                height_percent = #{heightPercent,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where feed_label_id = #{feedLabelId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.need.domain.po.api.feed.FeedLabelPO" >
+        update feed_label
+        set feed_label_content = #{feedLabelContent,jdbcType=VARCHAR},
+        feed_label_type = #{feedLabelType,jdbcType=VARCHAR},
+        feed_id = #{feedId,jdbcType=VARCHAR},
+        width_percent = #{widthPercent,jdbcType=VARCHAR},
+        height_percent = #{heightPercent,jdbcType=VARCHAR}
+        where feed_label_id = #{feedLabelId,jdbcType=VARCHAR}
+    </update>
+    <select id="queryByTime" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from feed_label
+        where create_time > #{time} ORDER BY create_time DESC
+    </select>
+    <select id="queryByFeedId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from feed_label
+        where feed_id = #{feedId} ORDER BY feed_label_id DESC
+    </select>
+</mapper>

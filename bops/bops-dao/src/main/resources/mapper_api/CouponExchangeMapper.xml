@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.api.coupon.CouponExchangeDAO" >
+    <resultMap id="BaseResultMap" type="com.need.domain.po.api.coupon.CouponExchangePO" >
+        <id column="coupon_exchange_id" property="couponExchangeId" jdbcType="INTEGER" />
+        <result column="coupon_exchange_template_id" property="couponExchangeTemplateId" jdbcType="VARCHAR" />
+        <result column="coupon_exchange_code" property="couponExchangeCode" jdbcType="VARCHAR" />
+        <result column="coupon_template_ids" property="couponTemplateIds" jdbcType="VARCHAR" />
+        <result column="coupon_exchange_type" property="couponExchangeType" jdbcType="VARCHAR" />
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+        <result column="user_id" property="userId" jdbcType="VARCHAR" />
+        <result column="coupon_exchange_status" property="couponExchangeStatus" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        coupon_exchange_id, coupon_exchange_template_id, coupon_exchange_code, coupon_template_ids, coupon_exchange_type, start_time, 
+        end_time, user_id, coupon_exchange_status
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select 
+        <include refid="Base_Column_List" />
+        from coupon_exchange
+        where coupon_exchange_id = #{couponExchangeId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from coupon_exchange
+        where coupon_exchange_id = #{couponExchangeId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.need.domain.po.api.coupon.CouponExchangePO" >
+        insert into coupon_exchange (coupon_exchange_id, coupon_exchange_code, coupon_exchange_template_id,
+        coupon_template_ids, coupon_exchange_type, start_time, 
+        end_time, user_id, coupon_exchange_status)
+        values (#{couponExchangeId,jdbcType=INTEGER}, #{couponExchangeCode,jdbcType=VARCHAR}, #{couponExchangeTemplateId,jdbcType=VARCHAR}, 
+        #{couponTemplateIds,jdbcType=VARCHAR}, #{couponExchangeType,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
+        #{endTime,jdbcType=TIMESTAMP}, #{userId,jdbcType=VARCHAR}, #{couponExchangeStatus,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.need.domain.po.api.coupon.CouponExchangePO" >
+        insert into coupon_exchange
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="couponExchangeId != null" >
+                coupon_exchange_id,
+            </if>
+            <if test="couponExchangeTemplateId != null" >
+                coupon_exchange_template_id,
+            </if>
+            <if test="couponExchangeCode != null" >
+                coupon_exchange_code,
+            </if>
+            <if test="couponTemplateIds != null" >
+                coupon_template_ids,
+            </if>
+            <if test="couponExchangeType != null" >
+                coupon_exchange_type,
+            </if>
+            <if test="startTime != null" >
+                start_time,
+            </if>
+            <if test="endTime != null" >
+                end_time,
+            </if>
+            <if test="userId != null" >
+                user_id,
+            </if>
+            <if test="couponExchangeStatus != null" >
+                coupon_exchange_status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="couponExchangeId != null" >
+                #{couponExchangeId,jdbcType=INTEGER},
+            </if>
+            <if test="couponExchangeTemplateId != null" >
+                #{couponExchangeTemplateId,jdbcType=VARCHAR},
+            </if>
+            <if test="couponExchangeCode != null" >
+                #{couponExchangeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="couponTemplateIds != null" >
+                #{couponTemplateIds,jdbcType=VARCHAR},
+            </if>
+            <if test="couponExchangeType != null" >
+                #{couponExchangeType,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null" >
+                #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null" >
+                #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userId != null" >
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="couponExchangeStatus != null" >
+                #{couponExchangeStatus,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.api.coupon.CouponExchangePO" >
+        update coupon_exchange
+        <set >
+            <if test="couponExchangeTemplateId != null" >
+                coupon_exchange_template_id = #{couponExchangeTemplateId,jdbcType=VARCHAR},
+            </if>
+            <if test="couponExchangeCode != null" >
+                coupon_exchange_code = #{couponExchangeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="couponTemplateIds != null" >
+                coupon_template_ids = #{couponTemplateIds,jdbcType=VARCHAR},
+            </if>
+            <if test="couponExchangeType != null" >
+                coupon_exchange_type = #{couponExchangeType,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null" >
+                start_time = #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null" >
+                end_time = #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userId != null" >
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="couponExchangeStatus != null" >
+                coupon_exchange_status = #{couponExchangeStatus,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where coupon_exchange_id = #{couponExchangeId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.need.domain.po.api.coupon.CouponExchangePO" >
+        update coupon_exchange
+        set coupon_exchange_template_id = #{couponExchangeTemplateId,jdbcType=VARCHAR},
+        coupon_exchange_code = #{couponExchangeCode,jdbcType=VARCHAR},
+        coupon_template_ids = #{couponTemplateIds,jdbcType=VARCHAR},
+        coupon_exchange_type = #{couponExchangeType,jdbcType=VARCHAR},
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+        user_id = #{userId,jdbcType=VARCHAR},
+        coupon_exchange_status = #{couponExchangeStatus,jdbcType=VARCHAR}
+        where coupon_exchange_id = #{couponExchangeId,jdbcType=INTEGER}
+    </update>
+    <select id="queryByCouponExchangeCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from coupon_exchange
+        where coupon_exchange_code = #{couponExchangeCode,jdbcType=VARCHAR}
+    </select>
+    <select id="queryByCouponExchangeTemplateId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from coupon_exchange
+        where coupon_exchange_template_id = #{couponExchangeTemplateId,jdbcType=VARCHAR}
+    </select>
+    <update id="updateFrozenByTemplateId" parameterType="java.lang.String">
+        update coupon_exchange
+        set coupon_exchange_status = 'FROZEN'
+        where coupon_exchange_template_id = #{couponExchangeTemplateId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateFrozen" parameterType="java.lang.Integer">
+        update coupon_exchange
+        set coupon_exchange_status = 'FROZEN'
+        where coupon_exchange_id = #{couponExchangeId,jdbcType=INTEGER}
+    </update>
+</mapper>

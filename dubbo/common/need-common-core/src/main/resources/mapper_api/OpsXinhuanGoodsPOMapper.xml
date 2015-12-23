@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.common.core.dao.jdbc.ops.OpsXinhuanGoodsDAO">
+	<resultMap id="BaseResultMap"
+		type="com.need.common.domain.po.api.ops.OpsXinhuanGoodsPO">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+		<result column="ops_id" property="opsId" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, goods_id, ops_id, create_time, update_time
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from ops_xinhuan_goods
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="queryXinhuanGoods" resultType="com.need.common.domain.vo.ops.GoodsVO"
+		parameterType="java.lang.String">
+		SELECT
+		g.goods_id,
+		g.goods_name,
+		g.onsale_price,
+		g.discount_price,
+		g.brief,
+		g.is_global,
+		g.scene_pic_key topPicKey
+		FROM
+		ops_xinhuan_goods h
+		LEFT JOIN goods_main g
+		ON h.`goods_id` = g.`goods_id`
+		WHERE h.`ops_id` = #{opsId}
+		 AND  g.goods_status='ONLINE'
+	</select>
+	
+	
+	
+    <select id="queryXinhuanGoods_V1_3" resultType="com.need.common.domain.vo.ops.GoodsVO"
+		parameterType="java.lang.String">
+		SELECT
+		g.goods_id,
+		g.goods_name,
+		g.onsale_price,
+		g.discount_price,
+		g.brief,
+		g.is_global,
+		g.scene_pic_key topPicKey,
+		g.warehouse_type 
+		FROM
+		ops_xinhuan_goods h
+		LEFT JOIN goods_main g
+		ON h.`goods_id` = g.`goods_id`
+		WHERE h.`ops_id` = #{opsId}
+		 AND  g.goods_status='ONLINE'
+		order by h.goods_score DESC
+	   </select>
+	   
+	   <select id="queryPrefectureGoods_V1_3" resultType="com.need.common.domain.vo.ops.GoodsVO"
+		parameterType="java.lang.String">
+		SELECT
+		g.goods_id,
+		g.goods_name,
+		g.onsale_price,
+		g.discount_price,
+		g.brief,
+		g.is_global,
+		g.scene_pic_key topPicKey,
+		g.warehouse_type,
+		o.ops_name
+		FROM
+		ops_xinhuan_goods h
+		LEFT JOIN goods_main g
+		ON h.goods_id = g.goods_id
+		LEFT JOIN ops_main o ON h.ops_id = o.ops_id
+		WHERE o.ops_type='XINHUAN_PREFECTURE'
+		 AND  g.goods_status='ONLINE'
+		order by h.goods_score DESC
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from ops_xinhuan_goods
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.need.common.domain.po.api.ops.OpsXinhuanGoodsPO">
+		insert into ops_xinhuan_goods (id, goods_id, ops_id,
+		create_time, update_time)
+		values (#{id,jdbcType=VARCHAR}, #{goodsId,jdbcType=VARCHAR},
+		#{opsId,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.need.common.domain.po.api.ops.OpsXinhuanGoodsPO">
+		insert into ops_xinhuan_goods
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="goodsId != null">
+				goods_id,
+			</if>
+			<if test="opsId != null">
+				ops_id,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsId != null">
+				#{goodsId,jdbcType=VARCHAR},
+			</if>
+			<if test="opsId != null">
+				#{opsId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.need.common.domain.po.api.ops.OpsXinhuanGoodsPO">
+		update ops_xinhuan_goods
+		<set>
+			<if test="goodsId != null">
+				goods_id = #{goodsId,jdbcType=VARCHAR},
+			</if>
+			<if test="opsId != null">
+				ops_id = #{opsId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.need.common.domain.po.api.ops.OpsXinhuanGoodsPO">
+		update ops_xinhuan_goods
+		set goods_id = #{goodsId,jdbcType=VARCHAR},
+		ops_id = #{opsId,jdbcType=VARCHAR},
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+		update_time = #{updateTime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+</mapper>

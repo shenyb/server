@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration >
+
+   <!--配置时 修改到项目的 mysql jar 下  指定数据连接驱动jar地址 -->  
+
+    <classPathEntry location="C:\Program Files (x86)\MySQL\Connector.J 5.1\mysql-connector-java-5.1.36-bin.jar" /> 
+  
+  <context id="context1" >   
+     <commentGenerator >  
+            <property name="suppressAllComments" value="true"/><!-- 是否取消注释 -->  
+            <property name="suppressDate" value="false" /> <!-- 是否生成注释代时间戳-->  
+     </commentGenerator>  
+    <!-- jdbc连接 -->      
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://101.200.182.96:3306/need_api?useUnicode=true&amp;characterEncoding=utf-8" 
+    userId="need" password="needdev" />   
+    
+    <!-- 配置model的位置 -->
+    <javaModelGenerator targetPackage="com.need.share.dao.jdbc.api.coupon.po" targetProject="D:\work\server\need-share\src\main\java\" />
+
+   <!--  配置mapper.xml的位置 -->
+    <sqlMapGenerator targetPackage="mapper_api" targetProject="D:\work\server\need-share\src\main\resources\mapper_api\" >
+     <property name="enableSubPackages" value="true" /> 
+    </sqlMapGenerator>
+   
+    <!-- 配置dao的位置   -->
+    <javaClientGenerator targetPackage="com.need.share.dao.jdbc.api.coupon"  type="XMLMAPPER" targetProject="D:\work\server\need-share\src\main\java\">
+    <property name="enableSubPackages" value="true" /> 
+    </javaClientGenerator> 
+  
+    <!-- 设置转换的表名 -->
+    <table schema="need" tableName="coupon_receive_info"   enableCountByExample="false"  domainObjectName="CouponReceiveInfo" 
+            enableDeleteByExample="false" enableSelectByExample="false"  
+            enableUpdateByExample="false" >
+       <!-- <property name="useActualColumnNames" value="true"/> 如果数据是驼峰式规则则开启此项-->
+    </table>
+  
+   
+
+   
+  </context>
+</generatorConfiguration>

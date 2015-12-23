@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.common.core.dao.jdbc.trade.TradeLogisticsDAO" >
+  <resultMap id="BaseResultMap" type="com.need.common.domain.po.api.trade.TradeLogisticsPO" >
+    <id column="logistics_id" property="logisticsId" jdbcType="INTEGER" />
+    <result column="logistics_name" property="logisticsName" jdbcType="VARCHAR" />
+    <result column="logistics_value" property="logisticsValue" jdbcType="BIGINT" />
+    <result column="logistics_type" property="logisticsType" jdbcType="VARCHAR" />
+    <result column="logistics_type_desc" property="logisticsTypeDesc" jdbcType="VARCHAR" />
+    <result column="logistics_type_value" property="logisticsTypeValue" jdbcType="INTEGER" />
+    <result column="parent_logistics_id" property="parentLogisticsId" jdbcType="INTEGER" />
+    <result column="city_code" property="cityCode" jdbcType="INTEGER" />
+    <result column="logistics_sort" property="logisticsSort" jdbcType="INTEGER" />
+    <result column="city_area" property="cityArea" jdbcType="VARCHAR" />
+    <result column="city_area_value" property="cityAreaValue" jdbcType="INTEGER" />
+    <result column="logistics_letter" property="logisticsLetter" jdbcType="VARCHAR" />
+    <result column="record_state" property="recordState" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    logistics_id, logistics_name, logistics_value, logistics_type, logistics_type_desc, 
+    logistics_type_value, parent_logistics_id, city_code, logistics_sort, city_area, 
+    city_area_value, logistics_letter, record_state
+  </sql>
+  
+  <sql id="Base_Column_List_VO" >
+    logistics_id, logistics_name, logistics_value, logistics_type, 
+    logistics_type_value, parent_logistics_id, city_code, logistics_letter
+  </sql>
+  
+  
+  <select id="getTradeLogisticsPOById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from trade_logistics
+    where logistics_id = #{logisticsId}
+  </select>
+  
+  <select id="queryTradeLogisticsPOByLogisType" resultType="com.need.common.domain.po.api.trade.TradeLogisticsVO" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List_VO" />
+    from trade_logistics
+    where logistics_type = #{logisticsType} order by logistics_sort, logistics_letter
+  </select>
+  
+  <select id="queryTradeLogisticsPOByTypeAndParent" resultType="com.need.common.domain.po.api.trade.TradeLogisticsVO" >
+    select 
+    <include refid="Base_Column_List_VO" />
+    from trade_logistics
+    where logistics_type = #{0} and parent_logistics_id=#{1} order by logistics_letter
+  </select>
+  
+  
+  
+  
+  <delete id="deleteByLogisticsId" parameterType="java.lang.Integer" >
+    delete from trade_logistics
+    where logistics_id = #{logisticsId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.need.common.domain.po.api.trade.TradeLogisticsPO" >
+    insert into trade_logistics (logistics_id, logistics_name, logistics_value, 
+      logistics_type, logistics_type_desc, logistics_type_value, 
+      parent_logistics_id, city_code, logistics_sort, 
+      city_area, city_area_value, logistics_letter, 
+      record_state)
+    values (#{logisticsId,jdbcType=INTEGER}, #{logisticsName,jdbcType=VARCHAR}, #{logisticsValue,jdbcType=BIGINT}, 
+      #{logisticsType,jdbcType=VARCHAR}, #{logisticsTypeDesc,jdbcType=VARCHAR}, #{logisticsTypeValue,jdbcType=INTEGER}, 
+      #{parentLogisticsId,jdbcType=INTEGER}, #{cityCode,jdbcType=INTEGER}, #{logisticsSort,jdbcType=INTEGER}, 
+      #{cityArea,jdbcType=VARCHAR}, #{cityAreaValue,jdbcType=INTEGER}, #{logisticsLetter,jdbcType=VARCHAR}, 
+      #{recordState,jdbcType=INTEGER})
+  </insert>
+ 
+
+
+  <update id="updateBylogisticsId" parameterType="com.need.common.domain.po.api.trade.TradeLogisticsPO" >
+    update trade_logistics
+    set logistics_name = #{logisticsName,jdbcType=VARCHAR},
+      logistics_value = #{logisticsValue,jdbcType=BIGINT},
+      logistics_type = #{logisticsType,jdbcType=VARCHAR},
+      logistics_type_desc = #{logisticsTypeDesc,jdbcType=VARCHAR},
+      logistics_type_value = #{logisticsTypeValue,jdbcType=INTEGER},
+      parent_logistics_id = #{parentLogisticsId,jdbcType=INTEGER},
+      city_code = #{cityCode,jdbcType=INTEGER},
+      logistics_sort = #{logisticsSort,jdbcType=INTEGER},
+      city_area = #{cityArea,jdbcType=VARCHAR},
+      city_area_value = #{cityAreaValue,jdbcType=INTEGER},
+      logistics_letter = #{logisticsLetter,jdbcType=VARCHAR},
+      record_state = #{recordState,jdbcType=INTEGER}
+    where logistics_id = #{logisticsId,jdbcType=INTEGER}
+  </update>
+  
+ 
+ 
+ 
+</mapper>

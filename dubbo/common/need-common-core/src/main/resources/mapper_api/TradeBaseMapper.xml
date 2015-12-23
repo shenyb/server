@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.common.core.dao.jdbc.trade.TradeBaseDAO">
+	<resultMap id="BaseResultMap" type="com.need.common.domain.po.api.trade.TradeBasePO">
+		<id column="order_no" property="orderNo" jdbcType="VARCHAR" />
+		<result column="trade_no" property="tradeNo" jdbcType="VARCHAR" />
+		<result column="order_status" property="orderStatus" jdbcType="VARCHAR" />
+		<result column="trade_status" property="tradeStatus" jdbcType="VARCHAR" />
+		<result column="buyer_id" property="buyerId" jdbcType="VARCHAR" />
+		<result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+		<result column="buy_count" property="buyCount" jdbcType="INTEGER" />
+		<result column="buy_price" property="buyPrice" jdbcType="INTEGER" />
+		<result column="total_price" property="totalPrice" jdbcType="INTEGER" />
+		<result column="pay_channel" property="payChannel" jdbcType="VARCHAR" />
+		<result column="pay_price" property="payPrice" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+		<result column="trade_time" property="tradeTime" jdbcType="TIMESTAMP" />
+		<result column="address_id" property="addressId" jdbcType="VARCHAR" />
+		<result column="user_trade_no" property="userTradeNo" jdbcType="VARCHAR" />
+		<result column="user_order_no" property="userOrderNo" jdbcType="VARCHAR" />
+
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="logistics_value" property="logisticsValue"
+			jdbcType="VARCHAR" />
+		<result column="telephone" property="telephone" jdbcType="VARCHAR" />
+		<result column="receiver" property="receiver" jdbcType="VARCHAR" />
+		<result column="certification_card" property="certificationCard"
+			jdbcType="VARCHAR" />
+		<result column="certification_positive_key" property="certificationPositiveKey"
+			jdbcType="VARCHAR" />
+		<result column="certification_negative_key" property="certificationNegativeKey"
+			jdbcType="VARCHAR" />
+
+		<result column="is_cheap" property="isCheap" jdbcType="VARCHAR" />
+		<result column="warehouse_type" property="warehouseType"
+			jdbcType="VARCHAR" />
+		<result column="transport_fee" property="transportFee"
+			jdbcType="INTEGER" />
+
+		<result column="discount_amount" property="discountAmount"
+			jdbcType="INTEGER" />
+		<result column="commission" property="commission" jdbcType="INTEGER" />
+		<result column="batch_no" property="batchNo" jdbcType="VARCHAR" />
+		<result column="order_type" property="orderType" jdbcType="VARCHAR" />
+		<result column="distribution_share_id" property="distributionShareId" jdbcType="VARCHAR" />		
+		<result column="is_normal" property="isNormal" jdbcType="VARCHAR" />		
+		
+
+	</resultMap>
+
+	<resultMap id="TradeBaseMap"
+		type="com.need.common.domain.vo.trade.TradeBaseResult">
+		<id column="order_no" property="orderNo" jdbcType="VARCHAR" />
+		<result column="trade_no" property="tradeNo" jdbcType="VARCHAR" />
+		<result column="trade_status" property="tradeStatus" jdbcType="VARCHAR" />
+		<result column="buyer_id" property="buyerId" jdbcType="VARCHAR" />
+		<result column="pay_channel" property="payChannel" jdbcType="VARCHAR" />
+		<result column="create_time" property="tradeTime" jdbcType="TIMESTAMP" />
+		<result column="address_id" property="addressId" jdbcType="VARCHAR" />
+		<result column="pay_price" property="payAmount" jdbcType="INTEGER" />
+
+		<result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+		<result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+		<result column="scene_pic_key" property="topPicKey" jdbcType="VARCHAR" />
+		<result column="buy_count" property="buyCount" jdbcType="INTEGER" />
+		<result column="buy_price" property="discountPrice" jdbcType="INTEGER" />
+		<result column="onsale_price" property="onsalePrice" jdbcType="INTEGER" />
+		<result column="total_price" property="totalPrice" jdbcType="INTEGER" />
+		<result column="is_global" property="isGlobal" jdbcType="VARCHAR" />
+		<result column="user_trade_no" property="userTradeNo" jdbcType="VARCHAR" />
+		<result column="user_order_no" property="userOrderNo" jdbcType="VARCHAR" />
+
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="logistics_value" property="logisticsValue"
+			jdbcType="VARCHAR" />
+		<result column="telephone" property="telephone" jdbcType="VARCHAR" />
+		<result column="receiver" property="receiver" jdbcType="VARCHAR" />
+		<result column="certification_card" property="certificationCard"
+			jdbcType="VARCHAR" />
+		<result column="warehouse_type" property="warehouseType"
+			jdbcType="VARCHAR" />
+		<result column="transport_fee" property="transportFee"
+			jdbcType="VARCHAR" />
+
+		<!-- <result column="discount_amount" property="discountAmount" jdbcType="INTEGER" 
+			/> <result column="commission" property="commission" jdbcType="INTEGER" /> 
+			<result column="batch_no" property="batchNo" jdbcType="VARCHAR" /> <result 
+			column="order_type" property="orderType" jdbcType="VARCHAR" /> -->
+	</resultMap>
+
+
+	<sql id="Base_Column_List">
+		order_no, trade_no, order_status, trade_status, buyer_id,
+		goods_id, buy_count,
+		buy_price,
+		total_price, pay_channel, pay_price,
+		create_time, pay_time, trade_time,
+		address_id,user_trade_no,user_order_no,address
+		,certification_card ,
+		telephone , logistics_value ,
+		receiver,certification_positive_key,certification_negative_key,is_cheap,warehouse_type,transport_fee
+		,discount_amount,commission,batch_no,order_type,distribution_share_id
+	</sql>
+	<select id="getByorderNo" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from trade_base
+		where order_no = #{orderNo}
+	</select>
+
+	<select id="getTotalPayPrice" resultType="INTEGER"
+		parameterType="java.lang.String">
+		select
+		sum(pay_price)
+		from trade_base
+		where trade_no =
+		#{tradeNo}
+	</select>
+	<select id="getTradeBaseByTradeNo" resultMap="TradeBaseMap"
+		parameterType="java.lang.String">
+		select
+		a.trade_no,a.create_time,a.address_id,a.pay_price,a.pay_channel,a.trade_status
+		,a.order_no,a.goods_id,b.goods_name,b.scene_pic_key,
+		b.onsale_price,a.buy_price,a.buy_count,
+		a.total_price,a.user_trade_no,a.user_order_no ,
+		b.is_global,a.address,a.logistics_value,a.telephone,a.receiver,a.certification_card,a.certification_positive_key,a.certification_negative_key
+		,a.transport_fee,a.commission
+		from
+		trade_base a
+		,goods_main b
+		where
+		a.goods_id=b.goods_id and
+		a.trade_no=#{tradeNo} and
+		a.buyer_id=#{userId}
+		order by a.transport_fee desc,a.commission desc
+	</select>
+
+	<select id="getOrderBaseByOrderNo" resultType="com.need.common.domain.vo.trade.OrderBaseResult"
+		parameterType="java.lang.String">
+		select
+		a.order_no,
+		a.goods_id,a.buy_count
+		,a.buy_price,a.total_price
+		from trade_base a
+		where a.order_no =
+		#{orderNo}
+	</select>
+
+	<select id="countTrade" resultType="int" parameterType="java.lang.String">
+		SELECT
+		COUNT(*) FROM (
+		SELECT order_no FROM trade_base WHERE buyer_id =
+		#{userId} GROUP
+		BY trade_no) AS aa
+	</select>
+
+	<select id="countRealTrade" resultType="int" parameterType="java.lang.String">
+		SELECT
+		COUNT(1) FROM trade_base WHERE buyer_id = #{userId} AND 
+                （trade_status = 'WAIT_RECEIVE' OR trade_status = 'WAIT_PLATFORM_SEND' OR trade_status = 'TRADE_SUCCESS')
+	</select>
+
+	<delete id="deleteByOrderNo" parameterType="java.lang.String">
+		delete from
+		trade_base
+		where order_no = #{orderNo}
+	</delete>
+	<insert id="insert" parameterType="com.need.common.domain.po.api.trade.TradeBasePO">
+		insert into trade_base
+		(order_no, trade_no, order_status,
+		trade_status,
+		buyer_id, goods_id,
+		buy_count, buy_price, total_price,
+		pay_channel,
+		pay_price, create_time,
+		pay_time, trade_time, address_id,user_trade_no,user_order_no
+		,address
+		,certification_card ,
+		certification_positive_key,certification_negative_key, telephone ,
+		logistics_value , receiver,is_cheap,warehouse_type,transport_fee,
+		discount_amount,commission,batch_no,order_type,distribution_share_id
+		)
+		values
+		(#{orderNo},
+		#{tradeNo},
+		#{orderStatus},
+		#{tradeStatus},
+		#{buyerId},
+		#{goodsId},
+		#{buyCount},
+		#{buyPrice},
+		#{totalPrice},
+		#{payChannel},
+		#{payPrice},
+		NOW(),
+		#{payTime},
+		#{tradeTime},
+		#{addressId},
+		#{userTradeNo},
+		#{userOrderNo},
+
+		#{address},
+		#{certificationCard},
+		#{certificationPositiveKey},
+		#{certificationNegativeKey},
+		#{telephone},
+		#{logisticsValue},
+		#{receiver},
+		#{isCheap},
+		#{warehouseType},
+		#{transportFee},
+		#{discountAmount},
+		#{commission},
+		#{batchNo},
+		#{orderType},
+		#{distributionShareId}
+		)
+	</insert>
+	
+	<insert id="insertByBatch" parameterType="java.util.List">
+		insert into trade_base
+		(order_no, trade_no, order_status,
+		trade_status,
+		buyer_id, goods_id,
+		buy_count, buy_price, total_price,
+		pay_channel,
+		pay_price, create_time,
+		pay_time, trade_time,
+		address_id,user_trade_no,user_order_no
+		,address
+		,certification_card ,
+		certification_positive_key,certification_negative_key, telephone ,
+		logistics_value , receiver,is_cheap,warehouse_type,transport_fee,
+		discount_amount,commission,batch_no,order_type,distribution_share_id
+		)
+		values
+		<foreach collection="list" item="trade" index="index"
+			separator=",">
+			(#{trade.orderNo},
+			#{trade.tradeNo},
+			#{trade.orderStatus},
+			#{trade.tradeStatus},
+			#{trade.buyerId},
+			#{trade.goodsId},
+			#{trade.buyCount},
+			#{trade.buyPrice},
+			#{trade.totalPrice},
+			#{trade.payChannel},
+			#{trade.payPrice},
+			NOW(),
+			#{trade.payTime},
+			#{trade.tradeTime},
+			#{trade.addressId},
+			#{trade.userTradeNo},
+			#{trade.userOrderNo},
+
+			#{trade.address},
+			#{trade.certificationCard},
+			#{trade.certificationPositiveKey},
+			#{trade.certificationNegativeKey},
+			#{trade.telephone},
+			#{trade.logisticsValue},
+			#{trade.receiver},
+			#{trade.isCheap},
+			#{trade.warehouseType},
+			#{trade.transportFee},
+			#{trade.discountAmount},
+			#{trade.commission},
+			#{trade.batchNo},
+			#{trade.orderType},
+			#{trade.distributionShareId}
+			)
+		</foreach>
+	</insert>
+	<update id="updateByOrderNo" parameterType="com.need.common.domain.po.api.trade.TradeBasePO">
+		update trade_base set
+		trade_no = #{tradeNo},
+		order_status =#{orderStatus},
+		trade_status
+		=#{tradeStatus},
+		buyer_id = #{buyerId},
+		goods_id = #{goodsId},
+		buy_count
+		= #{buyCount},
+		buy_price = #{buyPrice},
+		total_price = #{totalPrice},
+		pay_channel = #{payChannel},
+		pay_price = #{payPrice},
+		create_time =
+		#{createTime},
+		pay_time = #{payTime},
+		trade_time = #{tradeTime},
+		address_id = #{addressId}
+		where order_no = #{orderNo}
+	</update>
+
+	<update id="updateAddressAndChannelByTradeNo">
+		update trade_base set
+		pay_channel = #{payChannel},
+		address_id = #{addressId}
+		where trade_no = #{tradeNo}
+	</update>
+
+
+	<!-- 地址，手机身份信息保存到交易表 -->
+	<update id="updateAddressAndChannelByTradeNo_V1_1"
+		parameterType="com.need.common.domain.vo.trade.TradeAdrressAndPayChannelParamVO">
+		update trade_base set
+		pay_channel = #{payChannel},
+		address_id = #{addressId},
+		address=#{address},
+		certification_card=#{certificationCard},
+		telephone=#{telephone},
+		logistics_value=#{logisticsValue},
+		receiver=#{receiver},
+		certification_Positive_Key=#{certificationPositiveKey},
+		certification_Negative_Key=#{certificationNegativeKey}
+		where trade_no =
+		#{tradeNo}
+	</update>
+
+
+	<update id="updateBuyPriceAndTotalPriceByTradeNo">
+		update trade_base set
+		buy_price = #{buyPrice},
+		total_price = #{totalPrice}
+		where order_no = #{orderNo}
+	</update>
+	<update id="updateTransportFeeByUserOrderNo">
+		update trade_base set
+		transport_fee = #{transportFee}
+		where user_order_no = #{userOrderNo}
+	</update>
+	<update id="updateTransportFeeByUserTradeNo">
+		update trade_base set
+		transport_fee = #{transportFee}
+		where user_trade_no = #{userTradeNo}
+	</update>
+	<!-- 签名成功后修改价格 -->
+	<update id="updateBuyPriceAndTotalPriceAndPayPriceByTradeNo">
+		update trade_base set
+		buy_price = #{buyPrice},
+		total_price = #{totalPrice},
+		pay_price=#{payPrice}
+		where order_no =
+		#{orderNo}
+	</update>
+
+	<update id="updatePayPriceByTradeNo">
+		update trade_base set
+		pay_price=#{payPrice}
+		where
+		user_trade_no =
+		#{userTradeNo}
+	</update>
+	<update id="updatePayPriceByUserOrderNo">
+		update trade_base set
+		pay_price=#{payPrice}
+		where
+		user_order_no =
+		#{userOrderNo}
+	</update>
+	<!-- add by shenyb modify liyongran 20150923 临时修改支持userTradeNo和tradeNo 1.0 -->
+	<select id="getByTradeNo" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from trade_base
+		where trade_no = #{tradeNo} or user_trade_no =
+		#{tradeNo}
+	</select>
+
+	<select id="getByOrderNo" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from trade_base
+		where order_no = #{orderNo}
+	</select>
+
+
+	<select id="queryBaseTradeBybuyerId" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		trade_no ,user_trade_no,trade_status,buyer_id,sum(total_price)
+		as
+		total_price,pay_channel,create_time,pay_time,trade_time,address_id,pay_price
+		from trade_base
+		where buyer_id = #{buyerId}
+		<if test="tradeStatus != null">
+			and trade_status= #{tradeStatus}
+		</if>
+		group by trade_no
+		order by create_time DESC
+	</select>
+
+	<select id="queryTradeSendAndReceiveBybuyerId" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		trade_no ,trade_status,buyer_id,sum(total_price) as
+		total_price,pay_channel,create_time,pay_time,trade_time,address_id
+		from trade_base
+		where buyer_id = #{buyerId}
+		and trade_status in
+		('WAIT_PLATFORM_SEND','WAIT_RECEIVE')
+		group by trade_no
+		order by
+		create_time DESC
+	</select>
+
+	<select id="queryOrderBaseByTradeNo" parameterType="java.lang.String"
+		resultMap="TradeBaseMap">
+		select
+		a.order_no,a.goods_id,b.goods_name
+		,b.onsale_price,b.scene_pic_key as top_pic_key ,a.buy_price as
+		discount_price,a.buy_count, a.total_price,b.is_global
+		from trade_base
+		a,goods_main
+		b
+		where a.goods_id=b.goods_id and a.trade_no = #{tradeNo}
+	</select>
+
+
+	<select id="getByBuyerId" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from trade_base
+		where buyer_id = #{buyerId}
+	</select>
+
+	<select id="selectTradeGoods" parameterType="java.lang.String"
+		resultType="com.need.common.domain.vo.trade.TradeGoodVO">
+		SELECT g.goods_name,g.top_pic_keys
+		ownPicKey,g.goods_id,g.onsale_price,g.discount_price FROM goods_main g
+		INNER JOIN
+		trade_base t ON t.goods_id=g.goods_id WHERE
+		t.buyer_id=#{userId}
+		AND t.trade_status IN (
+		'TRADE_SUCCESS','WAIT_RECEIVE','REFUND_SUCCESS','WAIT_PLATFORM_SEND' )
+		GROUP BY g.goods_id
+
+	</select>
+	<update id="updateTradeStatusByTradeNo">
+		update trade_base set
+		order_status = #{orderStatus},
+		trade_status = #{tradeStatus}
+		where trade_no = #{tradeNo}
+	</update>
+	<select id="selectByTradeNos" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from trade_base
+		where trade_status='WAIT_PAY' and trade_no in
+		(${tradeNos})
+	</select>
+	<select id="selectByUserTradeNo" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from trade_base
+		where user_trade_no = #{userTradeNo}
+	</select>
+
+	<select id="selectBytradeNo" parameterType="java.lang.String"
+		resultType="com.need.common.domain.vo.distribution.DistributionTradeVO">
+		select
+		t.buyer_id ,u.nick_name
+		from trade_base t inner join
+		user_base u on t.buyer_id=u.user_id
+		where
+		t.user_trade_no
+		=#{userOrderNo}
+
+	</select>
+	
+	<select id="queryConsumeByUserId" parameterType="java.lang.String" resultType="com.need.common.domain.vo.trade.TradeBaseResult">
+	  select t.user_order_no, t.create_time as trade_time, t.commission, g.goods_id,g.goods_name
+	  from trade_base t left join goods_main g ON t.goods_id=g.goods_id 
+	  where t.commission>0 AND t.trade_status IN ('TRADE_SUCCESS','WAIT_RECEIVE','REFUND_SUCCESS','WAIT_PLATFORM_SEND' ) 
+	  and  buyer_id =#{userId}
+	
+	</select>
+	<update id="updateISNormalByTradeNo">
+		update trade_base set
+		is_normal = #{tradeNo}
+		where trade_no = #{tradeNo}
+	</update>
+	
+	
+	<select id="getBytradeNoAndGoodsId" parameterType="java.lang.String" resultMap="BaseResultMap">
+	  select
+		<include refid="Base_Column_List" />
+		from trade_base
+		where trade_no = #{tradeNo} and goods_id=#{goodsId}
+	</select>
+</mapper>

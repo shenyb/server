@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.goods.BopsGoodsStoreDAO">
+	<resultMap id="BaseResultMap"
+		type="com.need.domain.po.bops.goods.BopsGoodsStore">
+		<id column="store_id" property="storeId" jdbcType="INTEGER" />
+		<result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="now_store_count" property="nowStoreCount"
+			jdbcType="INTEGER" />
+		<result column="on_way_count" property="onWayCount" jdbcType="INTEGER" />
+		<result column="author_id" property="authorId" jdbcType="INTEGER" />
+		<result column="history_store" property="historyStore" jdbcType="INTEGER" />
+		<result column="defective_store" property="defectiveStore" jdbcType="INTEGER" />
+		<result column="warehouse_id" property="warehouseId" jdbcType="INTEGER" />
+		<result column="store_type" property="storeType" jdbcType="VARCHAR" />
+		<result column="store_no" property="storeNo" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		store_id, goods_id, create_time,
+		now_store_count, author_id, history_store,
+		defective_store, store_type, store_no, warehouse_id
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from bops_goods_store
+		where store_id = #{storeId,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getByGoodsId" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from bops_goods_store
+		where goods_id = #{goodsId,jdbcType=VARCHAR}
+		order by create_time desc limit 1
+	</select>
+	
+	<select id="countDefectiveStore" resultType="java.lang.Integer"
+		parameterType="java.lang.String">
+		select
+		case when sum(defective_store) is null then 0
+		else sum(defective_store) end as allDefectiveStore
+		from bops_goods_store
+		where goods_id = #{goodsId}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		bops_goods_store
+		where goods_id = #{goodsId,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.need.domain.po.bops.goods.BopsGoodsStore">
+
+		insert into bops_goods_store
+		(
+		goods_id,
+		create_time,
+		now_store_count
+		)
+		values
+		(
+		#{goodsId},
+		NOW()
+		#{nowStoreCount},
+		)
+	</insert>
+
+	<insert id="insertNewStore"
+		parameterType="com.need.domain.vo.goods.GoodsStorePageVO">
+		insert into bops_goods_store
+		(
+		create_time,
+		now_store_count,
+		goods_id,
+		author_id,
+		history_store
+		)
+		values(
+		NOW(),
+		#{nowStoreCount},
+		#{goodsId},
+		#{authorId},
+		#{historyStore}
+		)
+	</insert>
+	
+	<insert id="insertBadStore"
+		parameterType="com.need.domain.vo.goods.GoodsStorePageVO">
+		insert into bops_goods_store
+		(
+		create_time,
+		defective_store,
+		goods_id,
+		author_id,
+		history_store
+		)
+		values(
+		NOW(),
+		#{defectiveStore},
+		#{goodsId},
+		#{authorId},
+		#{historyStore}
+		)
+	</insert>
+	
+	<insert id="saveStoreChange"
+		parameterType="com.need.domain.vo.goods.GoodsStorePageVO">
+		insert into bops_goods_store
+		(
+		goods_id, create_time, now_store_count,
+		author_id, history_store, defective_store,
+		store_type, store_no, warehouse_id
+		)
+		values(
+		#{goodsId}, NOW(), #{nowStoreCount},
+		#{authorId}, #{historyStore}, #{defectiveStore},
+		#{storeType}, #{storeNo}, #{warehouseId}
+		)
+	</insert>
+
+	<insert id="insertSelective"
+		parameterType="com.need.domain.vo.goods.GoodsStorePageVO">
+		insert into bops_goods_store
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="goodsId != null">
+				goods_id,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="nowStoreCount != null">
+				now_store_count,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="goodsId != null">
+				#{goodsId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="nowStoreCount != null">
+				#{nowStoreCount,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.bops.goods.BopsGoodsStore">
+		update bops_goods_store
+		<set>
+			<if test="nowStoreCount != null">
+				now_store_count = #{nowStoreCount,jdbcType=INTEGER},
+			</if>
+		</set>
+		where store_id = #{storeId,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateAuditStore"
+		parameterType="com.need.domain.vo.goods.GoodsStorePageVO">
+		update bops_goods_store
+		<set>
+			now_store_count = #{nowStoreCount}
+		</set>
+		where store_id =
+		( SELECT te.store_id FROM
+		(SELECT
+		store_id
+		FROM
+		bops_goods_store
+		WHERE goods_id = #{goodsId}
+		ORDER BY create_time DESC
+		LIMIT 1) AS te);
+
+	</update>
+
+	<update id="updateByPrimaryKey" parameterType="com.need.domain.po.bops.goods.BopsGoodsStore">
+		update
+		bops_goods_store
+		set
+		create_time =
+		NOW(),
+		now_store_count =
+		#{nowStoreCount},
+		where
+		store_id =
+		#{storeId}
+	</update>
+	<!-- add -->
+
+	<select id="queryPageBopsGoodsStore"
+		resultType="com.need.domain.vo.goods.GoodsStoreResultVO"
+		parameterType="com.need.domain.vo.goods.GoodsStorePageVO">
+		SELECT tt.* FROM
+		(SELECT bg.`goods_id`, bg.discount_price/100
+		discountPrice, bg.create_time,
+		bg.onsale_price/100 onsalePrice,
+		bg.`goods_code`, bg.goods_barcode,
+		bg.`goods_name`, bg.`top_pic_keys`,
+		bg.scene_pic_key,
+		bgs.`now_store_count`,
+		bg.warehouse_type
+		FROM
+		bops_goods bg LEFT JOIN
+		bops_goods_store bgs
+		ON
+		bg.`goods_id`=bgs.`goods_id` <!-- WHERE bg.audit_status = 'SUCCESS' -->
+		ORDER BY
+		bgs.`create_time` DESC) AS tt
+		<![CDATA[ where tt.create_time <= NOW()]]>
+		<if test="goodsName != null and goodsName != '' ">
+			and tt.goods_name like '%${goodsName}%'
+		</if>
+		<if test="goodsCode != null and goodsCode != '' ">
+			and tt.goods_code = #{goodsCode}
+		</if>
+		<if test="goodsBarcode != null and goodsBarcode != '' ">
+			and tt.goods_barcode = #{goodsBarcode}
+		</if>
+		<if test="warehouseType != null and warehouseType != '' ">
+			and tt.warehouse_type = #{warehouseType}
+		</if>
+		GROUP BY tt.goods_id
+		limit #{start},#{pageSize}
+	</select>
+
+	<select id="queryStoreLog"
+		resultType="com.need.domain.vo.goods.GoodsStoreResultVO"
+		parameterType="com.need.domain.vo.goods.GoodsStorePageVO">
+		SELECT tt.* FROM
+		(SELECT bg.`goods_id`,
+		bg.discount_price/100 discountPrice,
+		bg.onsale_price/100 onsalePrice,
+		bg.`goods_code`,
+		bg.goods_barcode,
+		bg.`goods_name`, bg.`top_pic_keys`,
+		bgs.`now_store_count`, bgs.create_time,
+		bgs.defective_store,
+		case when bgs.history_store is
+		null
+		then 0 else bgs.history_store end as historyStore,
+		bu.user_id authorId,
+		bu.user_real_name,
+		bu.user_dept
+		FROM
+		bops_goods_store bgs left JOIN
+		bops_goods bg
+		ON bg.`goods_id`=bgs.`goods_id`
+		left join 
+		bops_user bu on
+		bu.user_id = bgs.author_id
+		WHERE bgs.goods_id = #{goodsId}
+		ORDER BY
+		bgs.`create_time` DESC) AS tt
+	</select>
+
+	<select id="queryPageBopsGoodsStoreCount" resultType="int"
+		parameterType="com.need.domain.vo.goods.GoodsPageVO">
+		select count(*) from (
+		SELECT tt.* FROM
+		(SELECT bg.`goods_id`,
+		bg.discount_price, bg.onsale_price, bg.`goods_code`,
+		bg.`goods_name`,bg.`create_time`, bg.goods_barcode,
+		bg.`top_pic_keys`,
+		bgs.`now_store_count`,
+		bg.warehouse_type
+		FROM
+		bops_goods bg LEFT JOIN
+		bops_goods_store bgs
+		ON bg.`goods_id`=bgs.`goods_id` 
+		<!-- WHERE bg.audit_status = 'SUCCESS' -->
+		ORDER BY bgs.`create_time` DESC) AS tt
+		<![CDATA[ where tt.create_time <= NOW()]]>
+		<if test="goodsName != null and goodsName != '' ">
+			and tt.goods_name like '%${goodsName}%'
+		</if>
+		<if test="goodsCode != null and goodsCode != '' ">
+			and tt.goods_code = #{goodsCode}
+		</if>
+		<if test="goodsBarcode != null and goodsBarcode != '' ">
+			and tt.goods_barcode = #{goodsBarcode}
+		</if>
+		<if test="warehouseType != null and warehouseType != '' ">
+			and tt.warehouse_type = #{warehouseType}
+		</if>
+		GROUP BY tt.goods_id) as tta;
+	</select>
+
+	<select id="queryExportStore" parameterType="com.need.domain.vo.goods.GoodsStorePageVO"
+		resultType="com.need.domain.vo.goods.GoodsStoreResultVO">
+		SELECT
+		s.goods_id,
+		s.now_store_count,
+		g.`goods_name`,
+		g.`goods_barcode`,
+		g.`goods_code`,
+		g.`discount_price`/100 discount_price ,
+		g.`onsale_price`/100 onsale_price,
+		g.warehouse_type
+		FROM
+		(SELECT
+		store_id,
+		goods_id,
+		SUM(now_store_count) now_store_count,
+		create_time
+		FROM
+		bops_goods_store
+		<![CDATA[ where create_time <= NOW()]]>
+		GROUP BY goods_id) AS s
+		LEFT JOIN bops_goods g
+		ON s.goods_id =	g.`goods_id`
+		where 1 = 1 
+		<if test="warehouseType != null and warehouseType != '' ">
+			and g.warehouse_type in (${warehouseType})
+		</if>
+		order by g.warehouse_type
+		limit #{start},#{pageSize}
+	</select>
+	<select id="selectByGoodsId" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from bops_goods_store
+		where goods_id = #{goodsId} limit 0,1
+	</select>
+</mapper>

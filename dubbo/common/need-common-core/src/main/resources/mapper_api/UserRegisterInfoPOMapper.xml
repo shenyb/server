@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.common.core.dao.jdbc.user.UserRegisterInfoDAO" >
+  <resultMap id="BaseResultMap" type="com.need.common.domain.po.api.user.UserRegisterInfoPO" >
+    <id column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="register_channel" property="registerChannel" jdbcType="VARCHAR" />
+    <result column="register_type" property="registerType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    user_id, register_channel, register_type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_register_info
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from user_register_info
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.need.common.domain.po.api.user.UserRegisterInfoPO" >
+    insert into user_register_info (user_id, register_channel, register_type
+      )
+    values (#{userId,jdbcType=VARCHAR}, #{registerChannel,jdbcType=VARCHAR}, #{registerType,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.common.domain.po.api.user.UserRegisterInfoPO" >
+    insert into user_register_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="registerChannel != null" >
+        register_channel,
+      </if>
+      <if test="registerType != null" >
+        register_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="registerChannel != null" >
+        #{registerChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="registerType != null" >
+        #{registerType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.common.domain.po.api.user.UserRegisterInfoPO" >
+    update user_register_info
+    <set >
+      <if test="registerChannel != null" >
+        register_channel = #{registerChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="registerType != null" >
+        register_type = #{registerType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.common.domain.po.api.user.UserRegisterInfoPO" >
+    update user_register_info
+    set register_channel = #{registerChannel,jdbcType=VARCHAR},
+      register_type = #{registerType,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+</mapper>

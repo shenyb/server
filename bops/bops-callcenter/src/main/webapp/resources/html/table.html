@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html lang="zh-cmn-Hans">
+    <head>
+        <meta charset="utf-8">
+        
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <!-- IE=edge告诉IE使用最新的引擎渲染网页 -->
+        <!-- chrome=1则可以激活Chrome Frame , Chrome Frame可以让旧版IE浏览器使用Chrome的WebKit渲染引擎处理网页 -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- 强制让文档的宽度与浏览器的宽度保持 1:1 的比例 用于支持移动端显示 -->
+
+        <title>H5 结构示例页面</title>
+
+        <link rel="stylesheet" href="../css/bootstrap.min.css" >
+
+        <!-- 此部分注释内容兼容IE低版本 H5相关 **不要删除**-->
+        <!--[if lt IE 9]>
+          <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <blockquote>
+                <h3 class="sub-header">商品列表</h3>
+            </blockquote>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>商品主图</th>
+                            <th>商品ID</th>
+                            <th>商品编号</th>
+                            <th>商品名称</th>
+                            <th>商品状态</th>
+                            <th>场景分类</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <img class="img-rounded"
+                                     alt="100x100"
+                                     style="width:100px;"
+                                     src="http://m3.biz.itc.cn/pic/new/n/50/72/Img7927250_n.jpg">
+                            </td>
+                            <td>e78582c7fa</td>
+                            <td>ipsum</td>
+                            <td>dolor</td>
+                            <td>ipsum</td>
+                            <td>dolor</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img class="img-rounded"
+                                     alt="100x100"
+                                     style="width:100px;"
+                                     src="http://m3.biz.itc.cn/pic/new/n/50/72/Img7927250_n.jpg">
+                            </td>
+                            <td>e78582c7fa</td>
+                            <td>ipsum</td>
+                            <td>dolor</td>
+                            <td>ipsum</td>
+                            <td>dolor</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img class="img-rounded"
+                                     alt="100x100"
+                                     style="width:100px;"
+                                     src="http://m3.biz.itc.cn/pic/new/n/50/72/Img7927250_n.jpg">
+                            </td>
+                            <td>e78582c7fa</td>
+                            <td>ipsum</td>
+                            <td>dolor</td>
+                            <td>ipsum</td>
+                            <td>dolor</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="6">
+                                <ul class="pagination pull-right">
+                                    <!--  class="disabled" 样式代表当前样式不可点击 -->
+                                    <li class="disabled"><a href="#">&laquo;</a></li>
+                                    <li><a href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <!--  class="active" 样式代表当前样式为选中 -->
+                                    <li class="active"><a href="#">3</a></li>
+                                    <li><a href="#">4</a></li>
+                                    <li><a href="#">5</a></li>
+                                    <li><a href="#">&raquo;</a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <!-- 在 body的最底部引入js文件且一定保持 jquery 在 bootstrap 之前引入 -->
+        <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
+    </body>
+</html>

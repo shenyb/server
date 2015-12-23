@@ -1,0 +1,76 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+ <parent>
+		<groupId>com.need</groupId>
+		<artifactId>scm-base</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+  <artifactId>scm-dao</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>scm-dao</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     <definition.scope>provided</definition.scope>
+  </properties>
+
+
+<profiles>
+<!-- sonarqube 配置 -->
+		<profile>
+				<id>sonar</id>
+				<activation>
+					<activeByDefault>true</activeByDefault>
+				</activation>
+				<properties>
+					<sonar.jdbc.url>
+						jdbc:mysql://101.200.182.96:3306/sonarqube?useUnicode=true&amp;characterEncoding=utf8
+					</sonar.jdbc.url>
+					<sonar.jdbc.username>sonar</sonar.jdbc.username>
+					<sonar.jdbc.password>sonar</sonar.jdbc.password>
+					<!-- Optional URL to server. Default value is http://localhost:9000 -->
+					<sonar.host.url>
+						http://101.200.182.96:9000
+					</sonar.host.url>
+				</properties>
+			</profile>	
+</profiles>
+
+
+
+  <dependencies>
+        
+        <!-- 基础domain项目 -->
+    	<dependency>
+			<groupId>com.need</groupId>
+		   	<artifactId>scm-domain</artifactId>
+		</dependency>
+   
+		<!-- mtbatis 配置 -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+		</dependency>
+		<!-- mtbatis 配置 end -->
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+    
+        
+    
+    
+  </dependencies>
+</project>

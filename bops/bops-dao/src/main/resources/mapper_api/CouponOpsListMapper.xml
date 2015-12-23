@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.api.coupon.CouponOpsListDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.api.coupon.CouponOpsListPO" >
+    <id column="coupon_id" property="couponId" jdbcType="INTEGER" />
+    <result column="coupon_template_id" property="couponTemplateId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    coupon_id, coupon_template_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from coupon_ops_list
+    where coupon_id = #{couponId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from coupon_ops_list
+    where coupon_id = #{couponId}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.vo.coupon.CouponOpsListVO" >
+    insert into coupon_ops_list (coupon_template_id)
+    values (#{couponTemplateId})
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.domain.po.api.coupon.CouponOpsListPO" >
+    insert into coupon_ops_list
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="couponId != null" >
+        coupon_id,
+      </if>
+      <if test="couponTemplateId != null" >
+        coupon_template_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="couponId != null" >
+        #{couponId,jdbcType=INTEGER},
+      </if>
+      <if test="couponTemplateId != null" >
+        #{couponTemplateId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.api.coupon.CouponOpsListPO" >
+    update coupon_ops_list
+    <set >
+      <if test="couponTemplateId != null" >
+        coupon_template_id = #{couponTemplateId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where coupon_id = #{couponId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.domain.po.api.coupon.CouponOpsListPO" >
+    update coupon_ops_list
+    set coupon_template_id = #{couponTemplateId,jdbcType=VARCHAR}
+    where coupon_id = #{couponId,jdbcType=INTEGER}
+  </update>
+   <!-- 优惠券列表查询 -->
+  <select id="selectCouponOpsList" resultType="com.need.domain.vo.coupon.CouponOpsListVO">
+    select a.coupon_id,a.coupon_template_id,b.coupon_name,b.value,b.min_cost,b.start_time,b.end_time
+    from coupon_ops_list a,coupon_template b
+    where a.coupon_template_id=b.coupon_template_id
+  </select>
+  
+  <!-- 优惠券模板查询 -->
+  <select id="selectCouponTemplate" resultType="com.need.domain.vo.coupon.CouponOpsListVO">
+    select coupon_template_id,coupon_name
+    from coupon_template where coupon_status = 'valid'
+  </select>
+  <delete id="deleteCouponOpsList" >
+    delete from coupon_ops_list
+  </delete>
+</mapper>

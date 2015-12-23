@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.marketing.dao.jdbc.goods.GoodsMainDAO">
+	<resultMap id="BaseResultMap" type="com.need.marketing.dao.jdbc.goods.po.GoodsMainPO">
+		<id column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+		<result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+		<result column="goods_status" property="goodsStatus" jdbcType="VARCHAR" />
+		<result column="scene_id" property="sceneId" jdbcType="INTEGER" />
+		<result column="brief" property="brief" jdbcType="VARCHAR" />
+		<result column="top_pic_keys" property="topPicKeys" jdbcType="VARCHAR" />
+		<result column="discount_price" property="discountPrice"
+			jdbcType="INTEGER" />
+		<result column="onsale_price" property="onsalePrice" jdbcType="INTEGER" />
+		<result column="store_count" property="storeCount" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="goods_code" property="goodsCode" jdbcType="VARCHAR" />
+		<result column="scene_pic_key" property="scenePicKey" jdbcType="VARCHAR" />
+		<result column="oppse_reason" property="oppseReason" jdbcType="VARCHAR" />
+		<result column="lock_count" property="lockCount" jdbcType="INTEGER" />
+		<result column="is_global" property="isGlobal" jdbcType="VARCHAR" />
+		<result column="warehouse_type" property="warehouseType" jdbcType="VARCHAR" />
+	</resultMap>
+	 <select id="getById" parameterType="java.lang.String" resultMap="BaseResultMap">
+	   SELECT goods_id,store_count FROM  goods_main WHERE  goods_id=#{goodsId} AND goods_status='ONLINE'
+	 </select>
+	
+	
+</mapper>

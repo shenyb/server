@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.2.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+    http://www.springframework.org/schema/mvc   
+    http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd 
+    http://www.springframework.org/schema/security  
+	http://www.springframework.org/schema/security/spring-security-3.2.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+
+	<!-- 启用spring mvc 注解 -->
+	<context:annotation-config />
+	<context:component-scan base-package="com.need.customer.web.controller"></context:component-scan>
+
+	<!-- 获取所有的HandlerMapping -->
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"></bean>
+	<!-- 异常处理 -->
+	<bean id="exceptionResolver" class="com.need.customer.common.exception.ParteamHandlerExceptionResolver"></bean>
+
+	<!-- 配置JSON视图 此处需要配置支持restful风格 Content-Type=application/json -->
+	<mvc:annotation-driven>
+		<!-- 启动JSON格式的配置 -->
+		<mvc:message-converters register-defaults="true">
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter" />
+			<bean
+				class="org.springframework.http.converter.ResourceHttpMessageConverter" />
+			<!-- 配置fastjosn 转换器 -->
+			<bean id="fastJsonHttpMessageConverter"
+				class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<bean class="org.springframework.http.MediaType">
+							<constructor-arg index="0" value="application" />
+							<constructor-arg index="1" value="json" />
+							<constructor-arg index="2" value="UTF-8" />
+						</bean>
+						<!-- 避免IE出现下载JSON文件的情况 -->
+						<bean class="org.springframework.http.MediaType">
+							<constructor-arg index="0" value="text" />
+							<constructor-arg index="1" value="html" />
+							<constructor-arg index="2" value="UTF-8" />
+						</bean>
+					</list>
+				</property>
+				<property name="features">
+					<list>
+						<value>WriteNullStringAsEmpty</value> <!-- 字符类型字段如果为null,输出为”“,而非null -->
+						<value>QuoteFieldNames</value>        <!-- 输出key时是否使用双引号,默认为true -->
+						<value>DisableCircularReferenceDetect</value>
+						<value>WriteDateUseDateFormat</value> <!-- 使用默认的时间处理方式 dateFormat = "yyyy-MM-dd HH:mm:ss"; -->
+						<!-- 自定义实现方式 <property name="dateFormat"> <bean class="java.text.SimpleDateFormat"> 
+							<constructor-arg index="0" type="java.lang.String" value="yyyy-MM-dd HH:mm:ss"/> 
+							</bean> </property> -->
+						<!-- <value>WriteNullNumberAsZero</value> 数值字段如果为null,输出为0,而非null -->
+					</list>
+				</property>
+			</bean>
+		</mvc:message-converters>
+
+	</mvc:annotation-driven>
+
+
+
+	<!-- 文件上传配置注意:这里申明的id必须为multipartResolver -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="10485760" /><!--10M -->
+		<property name="maxInMemorySize" value="10096" />
+	</bean>
+
+ <!-- 访问静态文件     -->
+    <mvc:resources  mapping="/resources/**"   location="/resources/"  />
+ <!-- 权限拦截器 -->
+	<bean id="bopsAuthCheckInterceptor" class="com.need.customer.interceptors.AuthorityInterceptor">
+		<property name="allowUrls">
+			<list>
+				<!-- 配置不被拦截的 路径 <value>/trade/callcenter</value> -->
+				
+			</list>
+		</property>
+	</bean>
+
+	<!-- SpringMVC拦截器 -->
+    	 <mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/resources/**"/>
+			<mvc:exclude-mapping path="/WEB-INF/**"/>
+			<mvc:exclude-mapping path="/session/**"/>
+			<bean class="com.need.customer.interceptors.SpendTimeInterceptor"></bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+		    <mvc:mapping path="/**" /> 
+			<mvc:exclude-mapping path="/resources/**"/>
+			<mvc:exclude-mapping path="/WEB-INF/**"/>
+			<mvc:exclude-mapping path="/trade/callcenter/page/**"/>
+			<mvc:exclude-mapping path="/session/**"/>
+			<mvc:exclude-mapping path="/favicon.ico"/>
+			<ref bean="bopsAuthCheckInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/trade/callcenter/page/**" />			
+			<bean class="com.need.customer.interceptors.ThirdpartyAuthorityInterceptor"></bean>
+		</mvc:interceptor>
+		
+	</mvc:interceptors> 
+	<!-- 对静态资源文件的访问 不支持访问WEB-INF目录 -->
+	<mvc:default-servlet-handler />
+
+	<mvc:annotation-driven validator="validator"/>  
+  
+<!-- 以下 validator  ConversionService 在使用 mvc:annotation-driven 会 自动注册-->  
+<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">  
+    <property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>  
+    <!-- 如果不加默认到 使用classpath下的 ValidationMessages.properties -->  
+    <property name="validationMessageSource" ref="messageSource"/>  
+</bean>  
+  
+<!-- 国际化的消息资源文件（本系统中主要用于显示/错误消息定制） -->  
+<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">  
+    <property name="basenames">  
+        <list>  
+            <!-- 在web环境中一定要定位到classpath 否则默认到当前web应用下找  -->  
+            <value>classpath:properties/message</value>  
+        </list>  
+    </property>  
+    <property name="useCodeAsDefaultMessage" value="false"/>  
+    <property name="defaultEncoding" value="UTF-8"/>  
+    <property name="cacheSeconds" value="60"/>  
+</bean>  
+
+   <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/> 
+		<property name="prefix" value="/WEB-INF/view"></property>
+		<property name="suffix" value=".jsp"></property>		
+	</bean>
+	
+
+</beans>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.ops.BopsTopicCategoryDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.bops.ops.BopsTopicCategory" >
+    <id column="relation_id" property="relationId" jdbcType="INTEGER" />
+    <result column="topic_id" property="topicId" jdbcType="INTEGER" />
+    <result column="topic_category_id" property="topicCategoryId" jdbcType="INTEGER" />
+    <result column="top_pic_key" property="topPicKey" jdbcType="VARCHAR" />
+    <result column="list_pic_key" property="listPicKey" jdbcType="VARCHAR" />
+    <result column="topic_position" property="topicPosition" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="publisher_id" property="publisherId" jdbcType="VARCHAR" />
+    <result column="new_pic_key" property="newPicKey" jdbcType="VARCHAR" />
+    <result column="topic_score" property="topicScore" jdbcType="INTEGER"/>
+    <result column="eff_date" property="effDate" jdbcType="TIMESTAMP"/>
+    <result column="exp_date" property="expDate" jdbcType="TIMESTAMP"/>
+  </resultMap>
+       <sql id="Base_Column_List" >
+    relation_id, topic_id, topic_category_id,top_pic_key, list_pic_key, topic_position, create_time, 
+    update_time,publisher_id,new_pic_key,topic_score,eff_date,exp_date
+      </sql>
+     
+      <insert id="insert" parameterType="com.need.domain.po.bops.ops.BopsTopicCategory" useGeneratedKeys="true" keyProperty="relationId">
+        insert into bops_topic_category (relation_id, topic_id, topic_category_id, 
+      top_pic_key, list_pic_key, topic_position, create_time, update_time,
+      publisher_id,new_pic_key,topic_score,eff_date,exp_date )
+    values (#{relationId}, #{topicId}, #{topicCategoryId}, 
+      #{topPicKey}, #{listPicKey}, #{topicPosition}, NOW(), NOW(), 
+      #{publisherId},#{newPicKey},#{topicScore},#{effDate},#{expDate})  
+      </insert>
+      
+      <select id="getByParams" parameterType="int" resultType="com.need.domain.po.bops.ops.BopsTopicCategory">
+        select 
+         <include refid="Base_Column_List"/>
+         from bops_topic_category where topic_category_id =#{topicCategoryId} and topic_id=#{topicId}
+         
+      </select>
+      
+      
+       <select id="getById" parameterType="int" resultType="com.need.domain.po.bops.ops.BopsTopicCategory">
+         select 
+         <include refid="Base_Column_List"/>
+         from bops_topic_category where relation_id=#{relationId}
+       </select>
+       
+       <select id="getCountByparams" resultType="int" parameterType="com.need.domain.vo.ops.TopicCategroyVO">
+         select count(1)
+          from bops_topic_category 
+           <![CDATA[
+	 where create_time <= now()
+	]]>
+     <if test="topicPosition!=null">
+       and topic_position =#{topicPosition}
+      </if>
+       </select>
+       
+        <select id="queryByPage" resultType="com.need.domain.po.bops.ops.BopsTopicCategory" parameterType="com.need.domain.vo.ops.TopicCategroyVO">
+         select 
+          <include refid="Base_Column_List"/>
+          from bops_topic_category 
+           <![CDATA[
+	 where  DATE_FORMAT(create_time, '%Y-%m-%d') <= now()
+	]]>
+     <if test="topicPosition!=null">
+       and topic_position =#{topicPosition}
+      </if>
+       ORDER BY create_time DESC  LIMIT #{start},#{pageSize}
+       </select>
+       
+       <update id="update" parameterType="com.need.domain.po.bops.ops.BopsTopicCategory" >
+        update bops_topic_category
+    set 
+       topic_id = #{topicId},
+       topic_category_id = #{topicCategoryId},
+       top_pic_key = #{topPicKey},
+       list_pic_key = #{listPicKey},
+       topic_position = #{topicPosition},
+       new_pic_key=#{newPicKey},
+       update_time = NOW(),
+       topic_score = #{topicScore},
+       eff_date = #{effDate},
+       exp_date = #{expDate}
+       where relation_id = #{relationId}
+       </update>
+       
+       <delete id="delete" parameterType="int">
+        delete from bops_topic_category
+         where relation_id = #{relationId}
+       </delete>
+   
+     <select id="getByTopicId" parameterType="int" resultType="com.need.domain.po.bops.ops.BopsOpsTopicCategory">
+        SELECT  c.topic_category_id, c.topic_category_name, c.publisher_id, c.create_time, c.update_time
+        FROM  bops_ops_topic_category c INNER JOIN  bops_topic_category t ON c.topic_category_id=t.topic_category_id
+         WHERE t.topic_id=#{topicId}
+     </select>
+    
+     <sql id="Show_Column_List" >
+      r.relation_id, r.topic_id, r.topic_category_id,r.top_pic_key, r.list_pic_key, c.topic_category_position as topic_position, r.create_time, 
+       r.update_time,r.publisher_id,r.new_pic_key,r.topic_score,r.eff_date,r.exp_date
+      </sql>
+         <select id="getRelationByTopicId" parameterType="int" resultType="com.need.domain.po.bops.ops.BopsTopicCategory">
+        select 
+         <include refid="Show_Column_List"/>
+         from bops_topic_category r left join bops_ops_topic_category c on r.topic_category_id =c.topic_category_id  WHERE topic_id=#{topicId}
+     </select>
+     
+     
+     <delete id="deleteByTopicId" parameterType="int" >
+       select 
+         <include refid="Base_Column_List"/>
+         from bops_topic_category WHERE topic_id=#{topicId}
+     </delete>
+     
+     
+      <select id="getCountByCategoryId" parameterType="int" resultType="int">
+       select count(1)
+        from bops_topic_category
+         where topic_category_id = #{topicCategoryId}
+     </select>
+  
+  
+  
+  
+</mapper>

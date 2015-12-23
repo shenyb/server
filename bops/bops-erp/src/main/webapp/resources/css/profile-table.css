@@ -1,0 +1,41 @@
+*{box-sizing: border-box;}
+
+.back{
+    position: absolute;
+    right:20px;
+    top:15px;
+}
+/*内容*/
+.info{
+    height:auto;
+    background: #fff;
+    padding:0 10px 20px;
+}
+.table{
+    margin: 0!important;
+}
+.table td{
+    vertical-align: middle!important;
+    padding-left:15px!important;
+    position:relative;
+}
+
+.table td>i{
+	margin-right:10px;
+	font-size:10px;
+}
+.table-title{
+    background: #E8E8E8;
+}
+.table-title td{
+    text-align: left;
+}
+
+.form-control{
+    width: 200px;
+    float: left;
+    margin-right: 20px;
+}
+.huanguanGuojian{
+	display:none;
+}

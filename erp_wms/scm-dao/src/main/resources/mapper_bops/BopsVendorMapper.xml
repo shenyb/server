@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.vendor.BopsVendorDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.bops.vendor.BopsVendorPO" >
+    <id column="vendor_id" property="vendorId" jdbcType="INTEGER" />
+    <result column="v_type" property="vType" jdbcType="VARCHAR" />
+    <result column="vendor_type" property="vendorType" jdbcType="VARCHAR" />
+    <result column="vendor_name" property="vendorName" jdbcType="VARCHAR" />
+    <result column="short_name" property="shortName" jdbcType="VARCHAR" />
+    <result column="link_man" property="linkMan" jdbcType="VARCHAR" />
+    <result column="link_phone" property="linkPhone" jdbcType="VARCHAR" />
+    <result column="link_address" property="linkAddress" jdbcType="VARCHAR" />
+    <result column="law_man" property="lawMan" jdbcType="VARCHAR" />
+    <result column="identification" property="identification" jdbcType="VARCHAR" />
+    <result column="warehouse_id" property="warehouseId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    vendor_id, v_type, vendor_type, vendor_name, short_name, link_man, link_phone, link_address, 
+    law_man, identification, warehouse_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from bops_vendor
+    where vendor_id = #{vendorId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from bops_vendor
+    where vendor_id = #{vendorId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.bops.vendor.BopsVendorPO" >
+    insert into bops_vendor (vendor_id, v_type, vendor_type, 
+      vendor_name, short_name, link_man, 
+      link_phone, link_address, law_man, 
+      identification, warehouse_id)
+    values (#{vendorId,jdbcType=INTEGER}, #{vType,jdbcType=VARCHAR}, #{vendorType,jdbcType=VARCHAR}, 
+      #{vendorName,jdbcType=VARCHAR}, #{shortName,jdbcType=VARCHAR}, #{linkMan,jdbcType=VARCHAR}, 
+      #{linkPhone,jdbcType=VARCHAR}, #{linkAddress,jdbcType=VARCHAR}, #{lawMan,jdbcType=VARCHAR}, 
+      #{identification,jdbcType=VARCHAR}, #{warehouseId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.domain.po.bops.vendor.BopsVendorPO" >
+    insert into bops_vendor
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="vendorId != null" >
+        vendor_id,
+      </if>
+      <if test="vType != null" >
+        v_type,
+      </if>
+      <if test="vendorType != null" >
+        vendor_type,
+      </if>
+      <if test="vendorName != null" >
+        vendor_name,
+      </if>
+      <if test="shortName != null" >
+        short_name,
+      </if>
+      <if test="linkMan != null" >
+        link_man,
+      </if>
+      <if test="linkPhone != null" >
+        link_phone,
+      </if>
+      <if test="linkAddress != null" >
+        link_address,
+      </if>
+      <if test="lawMan != null" >
+        law_man,
+      </if>
+      <if test="identification != null" >
+        identification,
+      </if>
+      <if test="warehouseId != null" >
+        warehouse_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="vendorId != null" >
+        #{vendorId,jdbcType=INTEGER},
+      </if>
+      <if test="vType != null" >
+        #{vType,jdbcType=VARCHAR},
+      </if>
+      <if test="vendorType != null" >
+        #{vendorType,jdbcType=VARCHAR},
+      </if>
+      <if test="vendorName != null" >
+        #{vendorName,jdbcType=VARCHAR},
+      </if>
+      <if test="shortName != null" >
+        #{shortName,jdbcType=VARCHAR},
+      </if>
+      <if test="linkMan != null" >
+        #{linkMan,jdbcType=VARCHAR},
+      </if>
+      <if test="linkPhone != null" >
+        #{linkPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="linkAddress != null" >
+        #{linkAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="lawMan != null" >
+        #{lawMan,jdbcType=VARCHAR},
+      </if>
+      <if test="identification != null" >
+        #{identification,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseId != null" >
+        #{warehouseId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.bops.vendor.BopsVendorPO" >
+    update bops_vendor
+    <set >
+      <if test="vType != null" >
+        v_type = #{vType,jdbcType=VARCHAR},
+      </if>
+      <if test="vendorType != null" >
+        vendor_type = #{vendorType,jdbcType=VARCHAR},
+      </if>
+      <if test="vendorName != null" >
+        vendor_name = #{vendorName,jdbcType=VARCHAR},
+      </if>
+      <if test="shortName != null" >
+        short_name = #{shortName,jdbcType=VARCHAR},
+      </if>
+      <if test="linkMan != null" >
+        link_man = #{linkMan,jdbcType=VARCHAR},
+      </if>
+      <if test="linkPhone != null" >
+        link_phone = #{linkPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="linkAddress != null" >
+        link_address = #{linkAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="lawMan != null" >
+        law_man = #{lawMan,jdbcType=VARCHAR},
+      </if>
+      <if test="identification != null" >
+        identification = #{identification,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseId != null" >
+        warehouse_id = #{warehouseId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where vendor_id = #{vendorId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.domain.po.bops.vendor.BopsVendorPO" >
+    update bops_vendor
+    set v_type = #{vType,jdbcType=VARCHAR},
+      vendor_type = #{vendorType,jdbcType=VARCHAR},
+      vendor_name = #{vendorName,jdbcType=VARCHAR},
+      short_name = #{shortName,jdbcType=VARCHAR},
+      link_man = #{linkMan,jdbcType=VARCHAR},
+      link_phone = #{linkPhone,jdbcType=VARCHAR},
+      link_address = #{linkAddress,jdbcType=VARCHAR},
+      law_man = #{lawMan,jdbcType=VARCHAR},
+      identification = #{identification,jdbcType=VARCHAR},
+      warehouse_id = #{warehouseId,jdbcType=VARCHAR}
+    where vendor_id = #{vendorId,jdbcType=INTEGER}
+  </update>
+    <select id="selectVendorAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bops_vendor
+  </select>
+</mapper>

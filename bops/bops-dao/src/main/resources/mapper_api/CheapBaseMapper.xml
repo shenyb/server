@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.api.cheap.CheapBaseDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.api.cheap.CheapBasePO" >
+    <id column="cheap_no" property="cheapNo" jdbcType="VARCHAR" />
+    <result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="goods_pic_key" property="goodsPicKey" jdbcType="VARCHAR" />
+    <result column="goods_brief" property="goodsBrief" jdbcType="VARCHAR" />
+    <result column="cheap_count" property="cheapCount" jdbcType="INTEGER" />
+    <result column="cheap_price" property="cheapPrice" jdbcType="INTEGER" />
+    <result column="cheap_share_title" property="cheapShareTitle" jdbcType="VARCHAR" />
+    <result column="cheap_share_content" property="cheapShareContent" jdbcType="VARCHAR" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="during_time" property="duringTime" jdbcType="INTEGER" />
+    <result column="cheap_pic_key" property="cheapPicKey" jdbcType="VARCHAR" />
+    <result column="cheap_description" property="cheapDescription" jdbcType="VARCHAR" />
+    <result column="join_description" property="joinDescription" jdbcType="VARCHAR" />
+    <result column="open_description" property="openDescription" jdbcType="VARCHAR" />
+    <result column="cheap_status" property="cheapStatus" jdbcType="VARCHAR" />
+    <result column="warehouse_type" property="warehouseType" jdbcType="VARCHAR" />
+    <result column="cheap_share_pic_key" property="cheapSharePicKey" jdbcType="VARCHAR" />
+    <result column="onsale_price" property="onsalePrice" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    cheap_no, goods_id, goods_name, goods_pic_key, goods_brief, cheap_count, cheap_price, 
+    cheap_share_title, cheap_share_content, end_time, during_time, cheap_pic_key, cheap_description, 
+    join_description, open_description, cheap_status, warehouse_type, cheap_share_pic_key, 
+    onsale_price
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from cheap_base
+    where cheap_no = #{cheapNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from cheap_base
+    where cheap_no = #{cheapNo,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.api.cheap.CheapBasePO" >
+    insert into cheap_base (cheap_no, goods_id, goods_name, 
+      goods_brief, cheap_count, 
+      cheap_price, cheap_share_title, cheap_share_content, 
+      end_time, during_time, cheap_pic_key, goods_pic_key,
+      cheap_description, join_description, open_description, 
+      cheap_status, warehouse_type, cheap_share_pic_key, 
+      onsale_price,start_time,goods_code,create_time)
+    values (#{cheapNo,jdbcType=VARCHAR}, #{goodsId,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, 
+       #{goodsBrief,jdbcType=VARCHAR}, #{cheapCount,jdbcType=INTEGER}, 
+      #{cheapPrice,jdbcType=INTEGER}, #{cheapShareTitle,jdbcType=VARCHAR}, #{cheapShareContent,jdbcType=VARCHAR}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{duringTime,jdbcType=INTEGER}, #{cheapPicKey,jdbcType=VARCHAR}, #{goodsPicKey,jdbcType=VARCHAR},
+      #{cheapDescription,jdbcType=VARCHAR}, #{joinDescription,jdbcType=VARCHAR}, #{openDescription,jdbcType=VARCHAR}, 
+      #{cheapStatus,jdbcType=VARCHAR}, #{warehouseType,jdbcType=VARCHAR}, #{cheapSharePicKey,jdbcType=VARCHAR}, 
+      #{onsalePrice,jdbcType=INTEGER},#{startTime},#{goodsCode},#{createTime})
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.domain.po.api.cheap.CheapBasePO" >
+    insert into cheap_base
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cheapNo != null" >
+        cheap_no,
+      </if>
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="goodsName != null" >
+        goods_name,
+      </if>
+      <if test="goodsPicKey != null" >
+        goods_pic_key,
+      </if>
+      <if test="goodsBrief != null" >
+        goods_brief,
+      </if>
+      <if test="cheapCount != null" >
+        cheap_count,
+      </if>
+      <if test="cheapPrice != null" >
+        cheap_price,
+      </if>
+      <if test="cheapShareTitle != null" >
+        cheap_share_title,
+      </if>
+      <if test="cheapShareContent != null" >
+        cheap_share_content,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="duringTime != null" >
+        during_time,
+      </if>
+      <if test="cheapPicKey != null" >
+        cheap_pic_key,
+      </if>
+      <if test="cheapDescription != null" >
+        cheap_description,
+      </if>
+      <if test="joinDescription != null" >
+        join_description,
+      </if>
+      <if test="openDescription != null" >
+        open_description,
+      </if>
+      <if test="cheapStatus != null" >
+        cheap_status,
+      </if>
+      <if test="warehouseType != null" >
+        warehouse_type,
+      </if>
+      <if test="cheapSharePicKey != null" >
+        cheap_share_pic_key,
+      </if>
+      <if test="onsalePrice != null" >
+        onsale_price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cheapNo != null" >
+        #{cheapNo,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null" >
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPicKey != null" >
+        #{goodsPicKey,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsBrief != null" >
+        #{goodsBrief,jdbcType=VARCHAR},
+      </if>
+      <if test="cheapCount != null" >
+        #{cheapCount,jdbcType=INTEGER},
+      </if>
+      <if test="cheapPrice != null" >
+        #{cheapPrice,jdbcType=INTEGER},
+      </if>
+      <if test="cheapShareTitle != null" >
+        #{cheapShareTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="cheapShareContent != null" >
+        #{cheapShareContent,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="duringTime != null" >
+        #{duringTime,jdbcType=INTEGER},
+      </if>
+      <if test="cheapPicKey != null" >
+        #{cheapPicKey,jdbcType=VARCHAR},
+      </if>
+      <if test="cheapDescription != null" >
+        #{cheapDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="joinDescription != null" >
+        #{joinDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="openDescription != null" >
+        #{openDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="cheapStatus != null" >
+        #{cheapStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseType != null" >
+        #{warehouseType,jdbcType=VARCHAR},
+      </if>
+      <if test="cheapSharePicKey != null" >
+        #{cheapSharePicKey,jdbcType=VARCHAR},
+      </if>
+      <if test="onsalePrice != null" >
+        #{onsalePrice,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.api.cheap.CheapBasePO" >
+    update cheap_base
+    <set >
+      <if test="goodsId != null" >
+        goods_id = #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null" >
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPicKey != null" >
+        goods_pic_key = #{goodsPicKey,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsBrief != null" >
+        goods_brief = #{goodsBrief,jdbcType=VARCHAR},
+      </if>
+      <if test="cheapCount != null" >
+        cheap_count = #{cheapCount,jdbcType=INTEGER},
+      </if>
+      <if test="cheapPrice != null" >
+        cheap_price = #{cheapPrice,jdbcType=INTEGER},
+      </if>
+      <if test="cheapShareTitle != null" >
+        cheap_share_title = #{cheapShareTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="cheapShareContent != null" >
+        cheap_share_content = #{cheapShareContent,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="duringTime != null" >
+        during_time = #{duringTime,jdbcType=INTEGER},
+      </if>
+      <if test="cheapPicKey != null" >
+        cheap_pic_key = #{cheapPicKey,jdbcType=VARCHAR},
+      </if>
+      <if test="cheapDescription != null" >
+        cheap_description = #{cheapDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="joinDescription != null" >
+        join_description = #{joinDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="openDescription != null" >
+        open_description = #{openDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="cheapStatus != null" >
+        cheap_status = #{cheapStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseType != null" >
+        warehouse_type = #{warehouseType,jdbcType=VARCHAR},
+      </if>
+      <if test="cheapSharePicKey != null" >
+        cheap_share_pic_key = #{cheapSharePicKey,jdbcType=VARCHAR},
+      </if>
+      <if test="onsalePrice != null" >
+        onsale_price = #{onsalePrice,jdbcType=INTEGER},
+      </if>
+    </set>
+    where cheap_no = #{cheapNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.domain.po.api.cheap.CheapBasePO" >
+    update cheap_base
+    set goods_id = #{goodsId,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_pic_key = #{goodsPicKey,jdbcType=VARCHAR},
+      goods_brief = #{goodsBrief,jdbcType=VARCHAR},
+      cheap_count = #{cheapCount,jdbcType=INTEGER},
+      cheap_price = #{cheapPrice,jdbcType=INTEGER},
+      cheap_share_title = #{cheapShareTitle,jdbcType=VARCHAR},
+      cheap_share_content = #{cheapShareContent,jdbcType=VARCHAR},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      during_time = #{duringTime,jdbcType=INTEGER},
+      cheap_pic_key = #{cheapPicKey,jdbcType=VARCHAR},
+      cheap_description = #{cheapDescription,jdbcType=VARCHAR},
+      join_description = #{joinDescription,jdbcType=VARCHAR},
+      open_description = #{openDescription,jdbcType=VARCHAR},
+      cheap_status = #{cheapStatus,jdbcType=VARCHAR},
+      warehouse_type = #{warehouseType,jdbcType=VARCHAR},
+      cheap_share_pic_key = #{cheapSharePicKey,jdbcType=VARCHAR},
+      onsale_price = #{onsalePrice,jdbcType=INTEGER}
+    where cheap_no = #{cheapNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateFrozen" parameterType="java.lang.String" >
+    update cheap_base
+    set 
+      cheap_status = 'FROZEN'  where cheap_no = #{cheapNo,jdbcType=VARCHAR}
+  </update>
+  <!-- 团便宜统计 -->
+  <select id="queryCheapStatPage" resultType="com.need.domain.vo.cheap.CheapStatVO" parameterType="com.need.domain.vo.cheap.CheapStatVO" >
+    SELECT b.goods_code,b.cheap_no,b.`create_time`,b.goods_id,b.goods_name,b.during_time/1000/60/60 during_time,COUNT(o.cheap_no) openCount,COUNT(o.`complete_time`) completeCount,cheap_price/onsale_price discount,cheap_price/100,onsale_price/100 FROM
+   cheap_base b LEFT JOIN cheap_open o ON b.cheap_no= o.cheap_no 
+   WHERE 1=1
+    <if test="goodsName!='' and goodsName!=null" >
+       and  b.goods_name like '%${goodsName}%'
+      </if>
+      <if test="goodsCode!='' and goodsCode!=null" >
+       and  b.goods_Code like '%${goodsCode}%'
+      </if>
+    GROUP BY b.cheap_no  ORDER BY b.create_time DESC ,b.cheap_no DESC 
+   limit #{start}, #{pageSize}
+   
+  
+   
+  
+  </select>
+  
+   <select id="queryJoinAndPay" resultType="com.need.domain.vo.cheap.CheapStatVO" parameterType="com.need.domain.vo.cheap.CheapStatVO" >
+   SELECT b.goods_code,b.cheap_no,b.`create_time`, COUNT(u.cheap_no) joinCount,COUNT(CASE WHEN u.traded='true' THEN u.traded END ) payCount FROM
+ cheap_base b  LEFT JOIN cheap_open_user u ON b.cheap_no= u.`cheap_no` 
+  WHERE 1=1
+    <if test="goodsName!='' and goodsName!=null" >
+       and  b.goods_name like '%${goodsName}%'
+      </if>
+      <if test="goodsCode!='' and goodsCode!=null" >
+       and  b.goods_Code like '%${goodsCode}%'
+      </if> 
+ GROUP BY b.cheap_no  ORDER BY b.create_time DESC ,b.cheap_no DESC
+
+ limit #{start}, #{pageSize}
+  </select>
+  
+  <select id="cheapStatCount" resultType="int" parameterType="com.need.domain.vo.cheap.CheapStatVO" >
+   SELECT COUNT(1) FROM
+   cheap_base
+   where 1=1
+    <if test="goodsName!='' and goodsName!=null" >
+       and  goods_name like '%${goodsName}%'
+      </if>
+  </select>
+  
+</mapper>

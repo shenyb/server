@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.api.kol.KolCategoryDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.api.kol.KolCategoryPO" >
+    <id column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+     <result column="category_profile_key" property="categoryProfileKey" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    category_id, category_name, create_time, category_profile_key
+  </sql> 
+    
+  <delete id="removeByCategoryId" parameterType="java.lang.String" >
+    delete from kol_category
+    where category_id = #{categoryId}
+  </delete>
+  
+  
+  <insert id="insert" parameterType="com.need.domain.po.bops.basedata.BopsKolCategory"   >
+    insert into kol_category (category_id,category_name,create_time,category_profile_key)
+     values (#{categoryId},#{categoryName},#{createTime},#{categoryProfileKey} )   
+  </insert>
+  
+  
+  <update id="updateByCategoryId" parameterType="com.need.domain.po.bops.basedata.BopsKolCategory" >
+    update kol_category
+    <set >
+      <if test="categoryName != null" >
+        category_name = #{categoryName},
+      </if>
+       <if test="categoryProfileKey != null" >
+        category_profile_key = #{categoryProfileKey}
+      </if>
+    </set>
+    where category_id = #{categoryId}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.domain.po.bops.basedata.BopsKolCategory" >
+    update bops_kol_category
+    set category_name = #{categoryName},
+      publisher_id = #{publisherId},
+      category_desc = #{categoryDesc},
+      auditor_id = #{auditorId},
+      create_time = #{createTime},
+      update_time = #{updateTime}
+    where category_id = #{categoryId}
+  </update>
+  
+  
+  
+  <select id="selectCategoryName" resultType="int" parameterType="java.lang.String">
+    select count(category_name)  from kol_category 
+   <where> 
+   1 = 1
+   </where>    
+		and category_name = #{categoryName}	
+  </select>
+  
+    <select id="selectCategoryNameByCategoryId" resultType="String" parameterType="java.lang.String">
+    select category_name  from kol_category 
+   <where> 
+   1 = 1
+   </where>    
+		and category_id = #{categoryId}	
+  </select>
+  
+</mapper>

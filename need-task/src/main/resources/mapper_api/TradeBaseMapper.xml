@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.task.dao.jdbc.api.trade.TradeBaseDAO">
+	<resultMap id="BaseResultMap"
+		type="com.need.task.dao.jdbc.api.trade.po.TradeBasePO">
+		<id column="order_no" property="orderNo" jdbcType="VARCHAR" />
+		<result column="trade_no" property="tradeNo" jdbcType="VARCHAR" />
+		<result column="order_status" property="orderStatus" jdbcType="VARCHAR" />
+		<result column="trade_status" property="tradeStatus" jdbcType="VARCHAR" />
+		<result column="buyer_id" property="buyerId" jdbcType="VARCHAR" />
+		<result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+		<result column="buy_count" property="buyCount" jdbcType="INTEGER" />
+		<result column="buy_price" property="buyPrice" jdbcType="INTEGER" />
+		<result column="total_price" property="totalPrice" jdbcType="INTEGER" />
+		<result column="pay_channel" property="payChannel" jdbcType="VARCHAR" />
+		<result column="pay_price" property="payPrice" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+		<result column="trade_time" property="tradeTime" jdbcType="TIMESTAMP" />
+		<result column="address_id" property="addressId" jdbcType="VARCHAR" />
+		<result column="distribution_share_id" property="distributionShareId" jdbcType="VARCHAR" />
+		<result column="is_normal" property="isNormal" jdbcType="VARCHAR" />
+		<result column="commission" property="commission" jdbcType="VARCHAR" />
+
+	</resultMap>
+	<sql id="Base_Column_List">
+		order_no, trade_no, order_status, trade_status, buyer_id,
+		goods_id, buy_count,
+		buy_price,
+		total_price, pay_channel, pay_price,
+		create_time, pay_time, trade_time, address_id,distribution_share_id,commission
+	</sql>
+
+	<select id="queryTradeBaseByTradeState" resultType="java.lang.String">
+		select
+		distinct trade_no
+		from trade_base
+		where trade_status = #{tradeState}
+		and TIMESTAMPDIFF(MINUTE,create_time,now()) >= #{interval}
+		order by
+		create_time
+		LIMIT #{start},#{pageSize}
+	</select>
+	<select id="queryTradeBaseByTradeStatus" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from trade_base
+		where trade_status = #{tradeStatus}
+		order by
+		create_time
+		DESC
+	</select>
+	<update id="updateTradeCloseTradeNo" parameterType="List">
+		update trade_base
+		<![CDATA[
+		set trade_status = 'TRADE_CLOSE',order_status= 'TRADE_CLOSE'
+		]]>
+		where trade_no in
+		<foreach collection="list" item="id" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</update>
+
+	<update id="updateTradeSuccessByTradeNo" parameterType="java.lang.String">
+		update trade_base
+		<![CDATA[
+		set trade_status = 'TRADE_SUCCESS',order_status= 'TRADE_SUCCESS',trade_time=now()
+		]]>
+		where trade_no in
+		<foreach collection="list" item="id" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</update>
+
+	<select id="countTradeBaseByTradeState" resultType="int">
+		select
+		count(distinct trade_no)
+		from trade_base
+		where trade_status =
+		#{tradeState}
+		and TIMESTAMPDIFF(MINUTE,create_time,now()) >= #{interval}
+	</select>
+	<select id="queryByTradeNo" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from trade_base
+		where trade_no = #{tradeNo} 
+	</select>
+	<update id="updateISNormalByTradeNo">
+		update trade_base set
+		is_normal = #{isNormal}
+		where trade_no = #{tradeNo}
+	</update>
+	<select id="queryOutOfStoreTrade" resultType="java.lang.String">
+		SELECT DISTINCT 
+		  trade_no 
+		FROM
+		  trade_base 
+		WHERE is_normal = 'OUT_STORE' 
+	</select>
+</mapper>

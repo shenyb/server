@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.common.core.dao.jdbc.user.UserContactsDAO" >
+  <resultMap id="BaseResultMap" type="com.need.common.domain.po.api.user.UserContactsPO" >
+    <id column="phone" property="phone" jdbcType="VARCHAR" />
+    <id column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="rel_name" property="relName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    phone, user_id, rel_name, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.need.common.domain.po.api.user.UserContactsPOKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_contacts
+    where phone = #{phone,jdbcType=VARCHAR}
+      and user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.need.common.domain.po.api.user.UserContactsPOKey" >
+    delete from user_contacts
+    where phone = #{phone,jdbcType=VARCHAR}
+      and user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.need.common.domain.vo.user.ContactsBookVO" >
+    replace into user_contacts (phone, user_id, rel_name, 
+      create_time)
+    values (#{contactUser.phone}, #{userId}, #{contactUser.name}, 
+      now())
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.common.domain.po.api.user.UserContactsPO" >
+    insert into user_contacts
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="relName != null" >
+        rel_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="relName != null" >
+        #{relName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.common.domain.po.api.user.UserContactsPO" >
+    update user_contacts
+    <set >
+      <if test="relName != null" >
+        rel_name = #{relName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where phone = #{phone,jdbcType=VARCHAR}
+      and user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.common.domain.po.api.user.UserContactsPO" >
+    update user_contacts
+    set rel_name = #{relName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where phone = #{phone,jdbcType=VARCHAR}
+      and user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+</mapper>

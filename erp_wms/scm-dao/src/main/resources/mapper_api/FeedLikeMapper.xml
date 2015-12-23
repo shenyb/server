@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.api.feed.FeedLikeDAO" >
+    <resultMap id="BaseResultMap" type="com.need.domain.po.api.feed.FeedLikePO" >
+        <result column="feed_id" property="feedId" jdbcType="VARCHAR" />
+        <result column="user_id" property="userId" jdbcType="VARCHAR" />
+        <result column="feed_like_status" property="feedLikeStatus" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        feed_id, user_id, feed_like_status, create_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.need.domain.po.api.feed.FeedLikePOKey" >
+        select 
+        <include refid="Base_Column_List" />
+        from feed_like
+        where feed_id = #{feedId,jdbcType=VARCHAR}
+        and user_id = #{userId,jdbcType=VARCHAR}
+        and feed_like_status != 'CANCELED'
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="com.need.domain.po.api.feed.FeedLikePOKey" >
+        delete from feed_like
+        where feed_id = #{feedId,jdbcType=VARCHAR}
+        and user_id = #{userId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.need.domain.po.api.feed.FeedLikePO" >
+        replace into feed_like (feed_id, user_id, feed_like_status, 
+        create_time)
+        values (#{feedId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{feedLikeStatus,jdbcType=VARCHAR}, 
+        #{createTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.need.domain.po.api.feed.FeedLikePO" >
+        replace into feed_like
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="feedId != null" >
+                feed_id,
+            </if>
+            <if test="userId != null" >
+                user_id,
+            </if>
+            <if test="feedLikeStatus != null" >
+                feed_like_status,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="feedId != null" >
+                #{feedId,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null" >
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="feedLikeStatus != null" >
+                #{feedLikeStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.api.feed.FeedLikePO" >
+        update feed_like
+        <set >
+            <if test="feedLikeStatus != null" >
+                feed_like_status = #{feedLikeStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where feed_id = #{feedId,jdbcType=VARCHAR}
+        and user_id = #{userId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.need.domain.po.api.feed.FeedLikePO" >
+        update feed_like
+        set feed_like_status = #{feedLikeStatus,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP}
+        where feed_id = #{feedId,jdbcType=VARCHAR}
+        and user_id = #{userId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateDelete" parameterType="com.need.domain.po.api.feed.FeedLikePOKey" >
+        update feed_like
+        set feed_like_status = 'DELETED'
+        where feed_id = #{feedId,jdbcType=VARCHAR}
+        and user_id = #{userId,jdbcType=VARCHAR}
+    </update>
+    <select id="queryByTime" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from feed_like
+        where create_time > #{time} ORDER BY create_time DESC
+    </select>
+    <select id="queryByFeedId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from feed_like
+        where feed_id = #{feedId} ORDER BY create_time DESC
+    </select>
+</mapper>

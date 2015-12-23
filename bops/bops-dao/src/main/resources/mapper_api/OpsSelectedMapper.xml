@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.need.dao.api.ops.OpsSelectedDAO">
+  <resultMap id="BaseResultMap" type="com.need.domain.po.api.ops.OpsSelectedPO">
+    <id column="selection_id" jdbcType="VARCHAR" property="selectionId" />
+    <result column="goods_id" jdbcType="VARCHAR" property="goodsId" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="goods_profile_pic_key" jdbcType="VARCHAR" property="goodsProfilePicKey" />
+    <result column="goods_price" jdbcType="INTEGER" property="goodsPrice" />
+    <result column="goods_sort" jdbcType="INTEGER" property="goodsSort" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="goods_status" jdbcType="VARCHAR" property="goodsStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    selection_id, goods_id, goods_name, goods_profile_pic_key, goods_price, goods_sort, 
+    create_time, goods_status
+  </sql>
+  <select id="getById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ops_selected
+    where selection_id = #{selectionId}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.String">
+    delete from ops_selected
+    where selection_id = #{selectionId}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.api.ops.OpsSelectedPO">
+    insert into ops_selected (selection_id, goods_id, goods_name, 
+      goods_profile_pic_key, goods_price, goods_sort, 
+      create_time, goods_status)
+    values (#{selectionId}, #{goodsId}, #{goodsName}, 
+      #{goodsProfilePicKey}, #{goodsPrice}, #{goodsSort}, 
+      #{createTime}, #{goodsStatus})
+  </insert>
+ 
+  <update id="update" parameterType="com.need.domain.po.api.ops.OpsSelectedPO">
+    update ops_selected
+    set goods_id = #{goodsId},
+      goods_name = #{goodsName},
+      goods_profile_pic_key = #{goodsProfilePicKey},
+      goods_price = #{goodsPrice},
+      goods_sort = #{goodsSort},
+      create_time = #{createTime},
+      goods_status = #{goodsStatus}
+    where selection_id = #{selectionId}
+  </update>
+  
+  
+     <update id="updateSort" parameterType="java.lang.Integer"> 
+         <![CDATA[ update ops_selected set goods_sort= goods_sort-1
+        where goods_sort > #{goodsSort};]]>  
+          </update>
+          
+          <update id="updategoodsSort" parameterType="java.lang.Integer"> 
+        <![CDATA[ update ops_selected set goods_sort= goods_sort-1
+        where goods_sort > #{0} and goods_sort <= #{1};]]>  
+     </update>  
+    
+    <update id="updategoodsSortRise" parameterType="java.lang.Integer"> 
+        <![CDATA[ update ops_selected set goods_sort= goods_sort+1
+        where goods_sort >= #{1} and goods_sort < #{0};]]>  
+     </update>
+</mapper>

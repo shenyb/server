@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+	<!-- Enables the Spring Task @Scheduled programming model -->	
+	<task:executor id="executor" pool-size="5" />	
+	<!--  线程池使用 
+	<task:scheduler id="scheduler" pool-size="10" />
+	-->
+		
+	<!-- Spring定时器注解开关-->
+	<task:annotation-driven  scheduler="zkScheduleManager" />
+	
+	<!--任务调度线程池使用 --> 
+	<bean id="zkScheduleManager" class="com.need.schedule.ZKScheduleManager" init-method="init">
+		<property name="zkConfig">
+	           <map>
+	              <entry key="zkConnectString" value="${zkConnectString}" />
+	              <entry key="rootPath" value="${taskRootPath}" />
+	              <entry key="zkSessionTimeout" value="60000" />
+	              <entry key="userName" value="${pathUserName}" />
+	              <entry key="password" value="${pathPassword}" />
+	              <!-- 必须使用false -->
+	              <entry key="autoRegisterTask" value="false" />	              
+	           </map>
+		</property>
+	</bean>	
+	
+</beans>

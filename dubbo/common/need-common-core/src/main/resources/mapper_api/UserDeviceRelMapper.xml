@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.common.core.dao.jdbc.user.UserDeviceRelDAO" >
+  <resultMap id="BaseResultMap" type="com.need.common.domain.po.api.user.UserDeviceRel" >
+    <id column="rel_id" property="relId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="device_id" property="deviceId" jdbcType="VARCHAR" />
+    <result column="app_version" property="appVersion" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="device_channel" property="deviceChannle" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    rel_id, user_id, device_id, app_version, create_time
+  </sql>
+  
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_device_rel
+    where rel_id = #{relId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_device_rel
+    where user_id = #{userId}
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from user_device_rel
+    where rel_id = #{relId,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insert" parameterType="com.need.common.domain.po.api.user.UserDeviceRel" >
+    insert into user_device_rel ( user_id, device_id, 
+      app_version, create_time,device_channel,update_time)
+    values ( #{userId,jdbcType=VARCHAR}, #{deviceId,jdbcType=VARCHAR}, 
+      #{appVersion,jdbcType=VARCHAR}, now(),#{deviceChannle},now())
+  </insert>
+  
+
+  <update id="updateById" parameterType="com.need.common.domain.po.api.user.UserDeviceRel" >
+    update user_device_rel
+    set user_id = #{userId,jdbcType=VARCHAR},
+      device_id = #{deviceId,jdbcType=VARCHAR},
+      app_version = #{appVersion,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where rel_id = #{relId,jdbcType=BIGINT}
+  </update>
+  
+   <update id="updateByUserId" parameterType="com.need.common.domain.po.api.user.UserDeviceRel" >
+    update user_device_rel
+    set device_id = #{deviceId,jdbcType=VARCHAR},
+        app_version = #{appVersion,jdbcType=VARCHAR},
+        device_channel=#{deviceChannle},
+        update_time=now() 
+    where  user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  
+     <update id="updateDeviceByUserId" parameterType="com.need.common.domain.po.api.user.UserDeviceRel" >
+    update user_device_rel
+    set device_id = #{deviceId,jdbcType=VARCHAR},
+      app_version = #{appVersion,jdbcType=VARCHAR},
+      device_channel=#{deviceChannle},
+      update_time=now() 
+    where rel_id = #{relId,jdbcType=BIGINT}
+  </update>
+  
+</mapper>

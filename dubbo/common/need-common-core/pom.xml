@@ -1,0 +1,144 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+ <parent>
+		<groupId>com.need</groupId>
+		<artifactId>site-base</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+  </parent>
+  
+  <groupId>com.need</groupId>
+  <artifactId>need-common-core</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>need-common-core</name>
+  <url>http://maven.apache.org</url>
+
+ <properties>
+		<skipTests>true</skipTests>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<svn.base.url>svn://101.200.182.96/trunk/</svn.base.url>
+		<maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>		
+		<sonar.jdbc.url>jdbc:mysql://101.200.182.96:3306/sonarqube?useUnicode=true&amp;characterEncoding=utf8</sonar.jdbc.url>
+		<sonar.jdbc.username>sonar</sonar.jdbc.username>
+		<sonar.jdbc.password>sonar</sonar.jdbc.password>
+		<sonar.host.url>http://101.200.182.96:9000</sonar.host.url>		
+	</properties>
+
+  <dependencies>
+    <!-- log4j -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+		<!-- slf4j 和slf4j到log4j的转换 -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+		</dependency>
+
+
+		<!-- spring core -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+		</dependency>
+		<!-- alibaba fastjson -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+		</dependency>
+		
+		<!-- 项目内的公共模块 jar  begin  -->
+		<dependency>
+			<groupId>com.need</groupId>
+			<artifactId>need-framework</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.need</groupId>
+			<artifactId>need-gateway</artifactId>
+		</dependency>
+		<!-- fst序列化 -->
+		<dependency>
+			<groupId>de.ruedigermoeller</groupId>
+			<artifactId>fst</artifactId>
+		</dependency>
+		<!-- 工具类 -->
+		<dependency>
+			<groupId>com.need</groupId>
+			<artifactId>need-utils</artifactId>
+		</dependency>
+        <!-- need jedis 多点jedis -->
+		<dependency>
+			<groupId>com.need</groupId>
+			<artifactId>need-jedis</artifactId>
+		</dependency>
+      <!-- 项目内的公共模块 jar  end  -->
+		
+    	 <dependency>
+			<groupId>com.need</groupId>
+		    <artifactId>need-common-domain</artifactId>
+		</dependency>
+		
+   <!-- mybatis分页 -->
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+    	<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>jdom</groupId>
+			<artifactId>jdom</artifactId>
+			<version>1.1</version>
+		</dependency>
+    
+  </dependencies>
+</project>

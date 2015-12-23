@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="need-service-trade:war exploded">
+    <output-path>$PROJECT_DIR$/../../service/need-service-trade/target/need-service-trade</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="need-service-trade" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/../../service/need-service-trade/target/need-service-trade/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="need-service-trade/web/Web" />
+    </root>
+  </artifact>
+</component>

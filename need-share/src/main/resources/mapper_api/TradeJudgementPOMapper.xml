@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.share.dao.jdbc.api.trade.TradeJudgementDAO" >
+  <resultMap id="BaseResultMap" type="com.need.share.dao.jdbc.api.trade.po.TradeJudgementPO" >
+    <id column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="judgement" property="judgement" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    order_no, user_id, judgement, create_time, goods_id
+  </sql>
+
+  
+  <select id="queryJudgementByGoodsId" resultType="com.need.share.web.controller.goods.vo.GoodsJudgementListVO" parameterType="java.lang.String" >
+    select 
+    t.user_id userId, t.judgement content, t.create_time dateJudgementTime, 
+    u.nick_name userName, u.profile_pic_key profilePickey
+    from trade_judgement t left join user_base u on t.user_id = u.user_id
+    where t.goods_id = #{goodsId} order by t.create_time desc   
+  </select>
+  
+  <select id="getJudgementCount" resultType="int" parameterType="java.lang.String" >
+    select 
+    count(*)
+    from trade_judgement
+    where goods_id = #{goodsId}
+  </select>
+  
+</mapper>

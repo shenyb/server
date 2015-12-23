@@ -1,0 +1,34 @@
+.form-page-wrap {
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	background: rgb(243, 243, 243) none repeat scroll 0% 0%;
+}
+.page-head {
+    padding: 20px;
+    background: #E8E8E8 none repeat scroll 0% 0%;
+    position: relative;
+}
+.page-head h3 {
+    margin-top: 0px;
+    font-size: 20px;
+    font-weight: 300;
+}
+.form-group label {
+	text-align: right;
+	font-weight: 100;
+	font-size: 12px;
+}
+.form-page-wrap .panel-heading {
+	font-size: 14px;
+}
+.form-page-wrap .btnlist {
+	border-top: 1px solid #F3F3F3;
+	padding: 15px 0 0 0;
+}
+.form-page-wrap .btn.btn-info {
+    background-color: #69C2FE;
+    border-color: #69C2FE;
+    color: #FFF;
+    margin-left: 15px;
+}

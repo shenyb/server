@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.coupon.BopsCouponAuditDAO" >
+    <resultMap id="BaseResultMap" type="com.need.domain.po.bops.coupon.BopsCouponAuditPO" >
+        <id column="coupon_audit_id" property="couponAuditId" jdbcType="INTEGER" />
+        <result column="coupon_template_id" property="couponTemplateId" jdbcType="VARCHAR" />
+        <result column="audit_user_id" property="auditUserId" jdbcType="INTEGER" />
+        <result column="coupon_status" property="couponStatus" jdbcType="VARCHAR" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        coupon_audit_id, coupon_template_id, audit_user_id, coupon_status, description, create_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select 
+        <include refid="Base_Column_List" />
+        from bops_coupon_audit
+        where coupon_audit_id = #{couponAuditId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from bops_coupon_audit
+        where coupon_audit_id = #{couponAuditId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.need.domain.po.bops.coupon.BopsCouponAuditPO" >
+        insert into bops_coupon_audit (coupon_audit_id, coupon_template_id, 
+        audit_user_id, coupon_status, description, 
+        create_time)
+        values (#{couponAuditId,jdbcType=INTEGER}, #{couponTemplateId,jdbcType=VARCHAR}, 
+        #{auditUserId,jdbcType=INTEGER}, #{couponStatus,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+        #{createTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.need.domain.po.bops.coupon.BopsCouponAuditPO" >
+        insert into bops_coupon_audit
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="couponAuditId != null" >
+                coupon_audit_id,
+            </if>
+            <if test="couponTemplateId != null" >
+                coupon_template_id,
+            </if>
+            <if test="auditUserId != null" >
+                audit_user_id,
+            </if>
+            <if test="couponStatus != null" >
+                coupon_status,
+            </if>
+            <if test="description != null" >
+                description,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="couponAuditId != null" >
+                #{couponAuditId,jdbcType=INTEGER},
+            </if>
+            <if test="couponTemplateId != null" >
+                #{couponTemplateId,jdbcType=VARCHAR},
+            </if>
+            <if test="auditUserId != null" >
+                #{auditUserId,jdbcType=INTEGER},
+            </if>
+            <if test="couponStatus != null" >
+                #{couponStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null" >
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.bops.coupon.BopsCouponAuditPO" >
+        update bops_coupon_audit
+        <set >
+            <if test="couponTemplateId != null" >
+                coupon_template_id = #{couponTemplateId,jdbcType=VARCHAR},
+            </if>
+            <if test="auditUserId != null" >
+                audit_user_id = #{auditUserId,jdbcType=INTEGER},
+            </if>
+            <if test="couponStatus != null" >
+                coupon_status = #{couponStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null" >
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where coupon_audit_id = #{couponAuditId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.need.domain.po.bops.coupon.BopsCouponAuditPO" >
+        update bops_coupon_audit
+        set coupon_template_id = #{couponTemplateId,jdbcType=VARCHAR},
+        audit_user_id = #{auditUserId,jdbcType=INTEGER},
+        coupon_status = #{couponStatus,jdbcType=VARCHAR},
+        description = #{description,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP}
+        where coupon_audit_id = #{couponAuditId,jdbcType=INTEGER}
+    </update>
+    <select id="selectByCouponTemplateId" resultType="com.need.domain.vo.coupon.CouponAuditUserVO" parameterType="java.lang.String" >
+        select a.description, u.user_name user_name, u.user_dept user_dept, u.user_id user_id
+        from bops_coupon_audit as a left join bops_user as u on a.audit_user_id = u.user_id
+        where coupon_template_id = #{couponTemplateId,jdbcType=VARCHAR} ORDER BY a.`create_time` desc
+    </select>
+</mapper>

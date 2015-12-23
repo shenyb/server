@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.common.core.dao.jdbc.goods.GoodsMainDAO">
+	<resultMap id="BaseResultMap" type="com.need.common.domain.po.api.goods.GoodsMainPO">
+		<id column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+		<result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+		<result column="goods_status" property="goodsStatus" jdbcType="VARCHAR" />
+		<result column="scene_id" property="sceneId" jdbcType="INTEGER" />
+		<result column="brief" property="brief" jdbcType="VARCHAR" />
+		<result column="top_pic_keys" property="topPicKeys" jdbcType="VARCHAR" />
+		<result column="discount_price" property="discountPrice"
+			jdbcType="INTEGER" />
+		<result column="onsale_price" property="onsalePrice" jdbcType="INTEGER" />
+		<result column="store_count" property="storeCount" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="goods_code" property="goodsCode" jdbcType="VARCHAR" />
+		<result column="scene_pic_key" property="scenePicKey" jdbcType="VARCHAR" />
+		<result column="oppse_reason" property="oppseReason" jdbcType="VARCHAR" />
+		<result column="lock_count" property="lockCount" jdbcType="INTEGER" />
+		<result column="is_global" property="isGlobal" jdbcType="VARCHAR" />
+		<result column="warehouse_type" property="warehouseType"
+			jdbcType="VARCHAR" />
+		<result column="is_share" property="isShare" jdbcType="VARCHAR" />
+		<result column="goods_online_time" property="goodsOnlineTime"
+			jdbcType="TIMESTAMP" />
+		<result column="goods_type" property="goodsType"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="PicListResultMap" type="com.need.common.domain.vo.goods.GoodsPicListResultVO">
+		<id column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+		<result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+		<result column="goods_status" property="goodsStatus" jdbcType="VARCHAR" />
+		<result column="scene_id" property="sceneId" jdbcType="INTEGER" />
+		<result column="brief" property="brief" jdbcType="VARCHAR" />
+		<result column="top_pic_keys" property="topPicKeys" jdbcType="VARCHAR" 
+			javaType="[Ljava.lang.String;" typeHandler="com.need.common.mybatisTypeHandler.StringArrayTypeHandler"/>
+		<result column="discount_price" property="discountPrice"
+			jdbcType="INTEGER" />
+		<result column="onsale_price" property="onsalePrice" jdbcType="INTEGER" />
+		<result column="store_count" property="storeCount" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="goods_code" property="goodsCode" jdbcType="VARCHAR" />
+		<result column="scene_pic_key" property="scenePicKey" jdbcType="VARCHAR" />
+		<result column="oppse_reason" property="oppseReason" jdbcType="VARCHAR" />
+		<result column="is_share" property="isShare" jdbcType="VARCHAR" />
+		<result column="goods_online_time" property="goodsOnlineTime"
+			jdbcType="TIMESTAMP" />	
+
+	</resultMap>
+	
+	<resultMap id="GoodsVOMap" type="com.need.common.domain.vo.goods.GoodsVO">
+		<id column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+		<result column="brief" property="brief" jdbcType="VARCHAR" />
+		<result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+		<result column="onsale_price" property="onsalePrice" jdbcType="INTEGER" />
+		<result column="top_pic_keys" property="topPicKeys" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		goods_id, goods_name, goods_status, scene_id, brief,
+		top_pic_keys,
+		discount_price,
+		onsale_price, store_count, create_time,
+		update_time, goods_code, oppse_reason,
+		scene_pic_key, lock_count,
+		is_global,warehouse_type,is_share,
+		goods_type
+	</sql>
+	<sql id="GoodsVO_Column_List">
+		goods_id, goods_name, onsale_price, top_pic_keys, brief
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from goods_main
+		where goods_id = #{goodsId}
+	</select>
+	
+	<select id="selectByPrimaryKeyForTrade" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from goods_main
+		where goods_id = #{goodsId} and store_count>0 and goods_status='ONLINE'
+	</select>
+	
+	<select id="getGoodsPicListByGoodsId" resultMap="PicListResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from goods_main
+		where goods_id = #{goodsId} and store_count>0 and goods_status='ONLINE'
+	</select>
+
+	<select id="getGoodsById" resultType="com.need.common.domain.vo.goods.GoodsResultVO"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from goods_main
+		where goods_id = #{goodsId}
+	</select>
+	
+	<select id="getGoodsProfileById" resultType="com.need.common.domain.vo.goods.GoodsProfileResultVO"
+		parameterType="java.lang.String">
+		select
+		goods_id, goods_name, onsale_price, brief, 
+		is_global, discount_price, 
+		top_pic_keys topPicKeyString,
+		scene_pic_key,goods_type,
+		CASE WHEN store_count > 0 THEN 'FALSE'
+		ELSE 'TRUE' END AS is_soldout,
+		goods_status,is_share
+		from goods_main
+		where goods_id = #{goodsId}
+	</select>
+
+	<select id="getGoodsProfileById_V1_3"
+		resultType="com.need.common.domain.vo.goods.GoodsProfileResultVO"
+		parameterType="java.lang.String">
+		select
+		g.goods_id, g.goods_name, g.onsale_price, g.brief,
+		g.is_global, g.discount_price,
+		g.top_pic_keys topPicKeyString,
+		g.scene_pic_key,
+		CASE WHEN g.store_count > 0 THEN
+		'FALSE' ELSE 'TRUE' END AS is_soldout,
+		g.goods_status,
+		g.warehouse_type,
+		g.goods_type,g.is_share
+		from goods_main g
+		where g.goods_id = #{goodsId}
+	</select>
+	<select id="getGoodsProfileById_V2_0"
+		resultType="com.need.common.domain.vo.goods.GoodsProfileResultVO"
+		parameterType="java.lang.String">
+		select
+		g.goods_id, g.goods_name, g.onsale_price, g.brief,
+		g.is_global, g.discount_price,
+		g.top_pic_keys topPicKeyString,
+		g.scene_pic_key,
+		CASE WHEN g.store_count > 0 THEN
+		'FALSE' ELSE 'TRUE' END AS is_soldout,
+		g.goods_status, g.goods_type,
+		g.warehouse_type,g.goods_online_time,g.is_share
+		from goods_main g
+		where g.goods_id = #{goodsId}
+	</select>
+	<select id="getDiscountPriceByGoodsId" resultType="java.lang.Integer"
+		parameterType="java.lang.String">
+		select
+		discount_price
+		from goods_main
+		where goods_id =
+		#{goodsId}
+	</select>
+
+	<select id="getGoodsListByGoodsIds" resultType="com.need.common.domain.vo.goods.GoodsVO"
+		parameterType="java.lang.String">
+		select
+		goods_id, goods_name, scene_pic_key topicPicKey,
+		brief, onsale_price,
+		discount_price
+		from goods_main
+		where goods_id in
+		(${goodsIds}) and store_count>0 and goods_status='ONLINE'
+	</select>
+
+	<select id="queryGoodsListBySceneId" resultType="com.need.common.domain.vo.goods.GoodsVO"
+		parameterType="int">
+		select
+		goods_id, goods_name, scene_pic_key topicPicKey,
+		brief, onsale_price,
+		discount_price, is_global
+		from goods_main
+		where
+		goods_id in (select
+		goods_id
+		from goods_scene_relation
+		where scene_id =
+		#{sceneId}) and goods_status = 'ONLINE' and store_count>0
+	</select>
+	
+	  <!-- 根据goodsId和购买数，计算总价  -->
+	<select id="getByGoodsIdAndBuyCount" resultType="java.lang.Integer" >
+		select
+		discount_price*#{buyCount}
+		from goods_main
+		where goods_id = #{goodsId}
+		and store_count>= #{buyCount} and goods_status='ONLINE'
+	</select>
+
+    <select id="getGoodsGlobal" resultType="java.lang.String"  parameterType="java.lang.String">
+		select
+         is_global
+		from goods_main
+		where goods_id = #{goodsId} and  goods_status='ONLINE'
+	</select>
+
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		goods_main
+		where goods_id = #{goodsId}
+	</delete>
+	<insert id="insert" parameterType="com.need.common.domain.po.api.goods.GoodsMainPO">
+		insert into goods_main
+		(goods_id, goods_name, goods_status,
+		scene_id, brief, top_pic_keys,
+		discount_price, onsale_price, store_count,
+		create_time, update_time,
+		goods_code,
+		oppse_reason, scene_pic_key,lock_count)
+		values (#{goodsId},
+		#{goodsName},
+		#{goodsStatus},
+		#{sceneId}, #{brief}, #{topPicKeys},
+		#{discountPrice}, #{onsalePrice},
+		#{storeCount},
+		#{createTime},
+		#{updateTime}, #{goodsCode},
+		#{oppseReason},
+		#{scenePicKey},#{lockCount})
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.need.common.domain.po.api.goods.GoodsMainPO">
+		update goods_main
+		<set>
+			<if test="goodsName != null">
+				goods_name = #{goodsName},
+			</if>
+			<if test="goodsStatus != null">
+				goods_status = #{goodsStatus},
+			</if>
+			<if test="sceneId != null">
+				scene_id = #{sceneId},
+			</if>
+			<if test="brief != null">
+				brief = #{brief},
+			</if>
+			<if test="topPicKeys != null">
+				top_pic_keys = #{topPicKeys},
+			</if>
+			<if test="discountPrice != null">
+				discount_price = #{discountPrice},
+			</if>
+			<if test="onsalePrice != null">
+				onsale_price = #{onsalePrice},
+			</if>
+			<if test="storeCount != null">
+				store_count = #{storeCount},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime},
+			</if>
+			<if test="goodsCode != null">
+				goods_code = #{goodsCode},
+			</if>
+			<if test="oppseReason != null">
+				oppse_reason = #{oppseReason},
+			</if>
+			<if test="scenePicKey != null">
+				scene_pic_key = #{scenePicKey}
+			</if>
+		</set>
+		where goods_id = #{goodsId}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.need.common.domain.po.api.goods.GoodsMainPO">
+		update goods_main
+		set goods_name = #{goodsName},
+		goods_status = #{goodsStatus},
+		scene_id =
+		#{sceneId},
+		brief = #{brief},
+		top_pic_keys = #{topPicKeys},
+		discount_price = #{discountPrice},
+		onsale_price = #{onsalePrice},
+		store_count = #{storeCount},
+		create_time = #{createTime},
+		update_time =
+		#{updateTime},
+		goods_code = #{goodsCode},
+		oppse_reason = #{oppseReason},
+		scene_pic_key = #{scenePicKey},
+		lock_count = #{lockCount}
+		where goods_id
+		= #{goodsId}
+	</update>
+	<update id="updateStoreCountAndLockCountByGoodsId">
+		update goods_main
+		set 
+		store_count = store_count - #{buyCount},
+		update_time = NOW(),
+		lock_count =
+		lock_count + #{buyCount}
+		where goods_id = #{goodsId}
+	</update>
+	
+	<select id="getgoodsByGoodsIds" parameterType="java.util.List" resultMap="BaseResultMap">
+	  select
+		<include refid="Base_Column_List" />
+		from goods_main
+		where   goods_id in 
+          <foreach collection="goodsIds" index="index" item="item" open="(" separator="," close=")">  
+            #{item}   
+         </foreach>
+         order by discount_price ASC
+	</select>
+	
+	<select id="getByCategory" parameterType="java.lang.Integer" resultType="com.need.common.domain.vo.goods.GoodsVO">
+	 select
+		goods_id, goods_name, scene_pic_key topPicKey,
+		brief, onsale_price, warehouse_type,
+		discount_price
+		from goods_main
+		where goods_status='ONLINE' and goods_index_category =#{categoryId}
+	
+	</select>
+	
+	
+</mapper>

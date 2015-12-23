@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.need.common.core.dao.jdbc.ops.OpsSelectedDAO">
+  <resultMap id="BaseResultMap" type="com.need.common.domain.po.api.ops.OpsSelectedPO">
+    <id column="selection_id" jdbcType="VARCHAR" property="selectionId" />
+    <result column="goods_id" jdbcType="VARCHAR" property="goodsId" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="goods_profile_pic_key" jdbcType="VARCHAR" property="goodsProfilePicKey" />
+    <result column="goods_price" jdbcType="INTEGER" property="goodsPrice" />
+    <result column="goods_sort" jdbcType="INTEGER" property="goodsSort" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="goods_status" jdbcType="VARCHAR" property="goodsStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    selection_id, goods_id, goods_name, goods_profile_pic_key, goods_price, goods_sort, 
+    create_time, goods_status
+  </sql>
+  <select id="getById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ops_selected
+    where selection_id = #{selectionId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.String">
+    delete from ops_selected
+    where selection_id = #{selectionId}
+  </delete>
+  <insert id="insert" parameterType="com.need.common.domain.po.api.ops.OpsSelectedPO">
+    insert into ops_selected (selection_id, goods_id, goods_name, 
+      goods_profile_pic_key, goods_price, goods_sort, 
+      create_time, goods_status)
+    values (#{selectionId}, #{goodsId}, #{goodsName}, 
+      #{goodsProfilePicKey}, #{goodsPrice}, #{goodsSort}, 
+      #{createTime}, #{goodsStatus})
+  </insert>
+  
+  <update id="update" parameterType="com.need.common.domain.po.api.ops.OpsSelectedPO">
+    update ops_selected
+    set goods_id = #{goodsId},
+      goods_name = #{goodsName},
+      goods_profile_pic_key = #{goodsProfilePicKey},
+      goods_price = #{goodsPrice},
+      goods_sort = #{goodsSort},
+      create_time = #{createTime},
+      goods_status = #{goodsStatus}
+    where selection_id = #{selectionId}
+  </update>
+   
+    <resultMap type="com.need.common.domain.vo.ops.OpsSelectedGoodsVO" id="selectGoodsResulltMap">
+       <result column="goods_id" property="goodsId"/>
+       <result column="goods_name" property="goodsName"/>
+       <result column="brief" property="goodsDesc"/>
+       <result column="onsale_price" property="goodsOriginalPrice"/>
+       <result column="discount_price" property="goodsDiscountPrice"/>
+       <result column="top_pic_keys" property="goodsImgKey"/>
+    </resultMap>
+
+     
+     <select id="queyByPage" resultMap="BaseResultMap">
+      <![CDATA[ SELECT 
+       s.selection_id, s.goods_id, s.goods_name, s.goods_profile_pic_key, s.goods_price, s.goods_sort, 
+    s.create_time, s.goods_status
+       FROM ops_selected s INNER JOIN goods_main g ON s.goods_id=g.goods_id WHERE g.goods_status="ONLINE" AND g.store_count>0 AND s.create_time<=NOW()  ORDER BY s.goods_sort ASC ]]>
+     </select>
+</mapper>

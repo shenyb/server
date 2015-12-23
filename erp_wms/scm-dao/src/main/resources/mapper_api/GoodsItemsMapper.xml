@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.api.goods.GoodsItemsDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.api.goods.GoodsItemsPO" >
+    <id column="goods_items_id" property="goodsItemsId" jdbcType="INTEGER" />
+    <result column="goods_group_id" property="goodsGroupId" jdbcType="VARCHAR" />
+    <result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+    <result column="goods_code" property="goodsCode" jdbcType="VARCHAR" />
+    <result column="goods_count" property="goodsCount" jdbcType="INTEGER" />
+    <result column="create_id" property="createId" jdbcType="INTEGER" />
+    <result column="update_id" property="updateId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    goods_items_id, goods_group_id, goods_id, goods_code, goods_count, create_id, update_id, 
+    create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from goods_items
+    where goods_items_id = #{goodsItemsId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from goods_items
+    where goods_items_id = #{goodsItemsId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.api.goods.GoodsItemsPO" >
+    insert into goods_items (goods_items_id, goods_group_id, goods_id, 
+      goods_code, goods_count, create_id, 
+      update_id, create_time, update_time
+      )
+    values (#{goodsItemsId,jdbcType=INTEGER}, #{goodsGroupId,jdbcType=VARCHAR}, #{goodsId,jdbcType=VARCHAR}, 
+      #{goodsCode,jdbcType=VARCHAR}, #{goodsCount,jdbcType=INTEGER}, #{createId,jdbcType=INTEGER}, 
+      #{updateId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.domain.po.api.goods.GoodsItemsPO" >
+    insert into goods_items
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="goodsItemsId != null" >
+        goods_items_id,
+      </if>
+      <if test="goodsGroupId != null" >
+        goods_group_id,
+      </if>
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="goodsCode != null" >
+        goods_code,
+      </if>
+      <if test="goodsCount != null" >
+        goods_count,
+      </if>
+      <if test="createId != null" >
+        create_id,
+      </if>
+      <if test="updateId != null" >
+        update_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="goodsItemsId != null" >
+        #{goodsItemsId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsGroupId != null" >
+        #{goodsGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCode != null" >
+        #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCount != null" >
+        #{goodsCount,jdbcType=INTEGER},
+      </if>
+      <if test="createId != null" >
+        #{createId,jdbcType=INTEGER},
+      </if>
+      <if test="updateId != null" >
+        #{updateId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.api.goods.GoodsItemsPO" >
+    update goods_items
+    <set >
+      <if test="goodsGroupId != null" >
+        goods_group_id = #{goodsGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null" >
+        goods_id = #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCode != null" >
+        goods_code = #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCount != null" >
+        goods_count = #{goodsCount,jdbcType=INTEGER},
+      </if>
+      <if test="createId != null" >
+        create_id = #{createId,jdbcType=INTEGER},
+      </if>
+      <if test="updateId != null" >
+        update_id = #{updateId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where goods_items_id = #{goodsItemsId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.domain.po.api.goods.GoodsItemsPO" >
+    update goods_items
+    set goods_group_id = #{goodsGroupId,jdbcType=VARCHAR},
+      goods_id = #{goodsId,jdbcType=VARCHAR},
+      goods_code = #{goodsCode,jdbcType=VARCHAR},
+      goods_count = #{goodsCount,jdbcType=INTEGER},
+      create_id = #{createId,jdbcType=INTEGER},
+      update_id = #{updateId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where goods_items_id = #{goodsItemsId,jdbcType=INTEGER}
+  </update>
+   <delete id="deleteByGroupId" parameterType="java.lang.String" >
+    delete from goods_items
+    where goods_group_id = #{goodsGroupId}
+  </delete>
+</mapper>

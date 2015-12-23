@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.basedata.BopsSceneDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.bops.basedata.BopsScene" >
+    <id column="scene_id" property="sceneId" jdbcType="INTEGER" />
+    <result column="scene_name" property="sceneName" jdbcType="VARCHAR" />
+    <result column="publisher_id" property="publisherId" jdbcType="INTEGER" />
+    <result column="scene_desc" property="sceneDesc" jdbcType="VARCHAR" />
+    <result column="auditor_id" property="auditorId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    scene_id, scene_name, publisher_id, scene_desc, auditor_id, create_time, update_time
+  </sql>
+  <select id="selectBySceneName" resultMap="BaseResultMap" parameterType="com.need.domain.po.bops.basedata.BopsScene" >
+    select 
+    <include refid="Base_Column_List" />
+    from bops_scene
+    where scene_name = #{sceneName}
+  </select>
+  <select id="queryByPage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+    select 
+    <include refid="Base_Column_List" />
+    from bops_scene
+    <![CDATA[
+	 where  DATE_FORMAT(create_time, '%Y-%m-%d') <= now()
+	]]>
+     <if test="search != null">
+		and	scene_name like  '%${search}%'
+		</if>
+		order by create_time desc
+		limit #{start}, #{pagesize}
+  </select>
+  
+  
+  <select id="selectCount" resultType="int" parameterType="java.lang.String" >
+    select count(scene_id)
+    from bops_scene
+     <![CDATA[
+	 where  DATE_FORMAT(create_time, '%Y-%m-%d') <= now()
+	]]>
+     <if test="search != null">
+		and	scene_name like  CONCAT('%','${search}','%' )
+		</if>
+     
+  </select>
+  
+  <delete id="removeScenebySceneid" parameterType="java.lang.String" >
+    delete from bops_scene
+    where scene_id = #{sceneId}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.bops.basedata.BopsScene"   keyProperty="sceneId" useGeneratedKeys="true" >
+    insert into bops_scene (scene_id, scene_name, publisher_id, 
+      scene_desc, auditor_id, create_time, 
+      update_time)
+    values (#{sceneId}, #{sceneName}, #{publisherId}, 
+      #{sceneDesc}, #{auditorId}, now(), 
+      now())
+  </insert>
+  
+
+  <update id="update" parameterType="com.need.domain.po.bops.basedata.BopsScene" >
+    update bops_scene
+    <set >
+        scene_name = #{sceneName},
+        update_time = now()
+    </set>
+    where scene_id = #{sceneId}
+  </update>
+  
+  
+ <select id="selectCategoryName" resultType="int" parameterType="java.lang.String" >
+    select count(scene_name)
+    from bops_scene
+     where 1=1     
+		and	scene_name = #{sceneName}
+
+  </select>
+  
+</mapper>

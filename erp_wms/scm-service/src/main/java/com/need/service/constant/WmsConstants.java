@@ -1,0 +1,49 @@
+package com.need.service.constant;
+
+public class WmsConstants {
+		public final static String BUSINESS_TYPE_SALE_BARTER = "100";//退货换货拒收的
+	    public final static String BUSINESS_TYPE_IN_PURCHASE_RECEIPT = "101";//采购收货入库
+	    public final static String BUSINESS_TYPE_IN_ALLOCATE_RECEIPT = "102";//调拨收货入库
+	    public final static String BUSINESS_TYPE_IN_DISTRIBUTORS_BACK = "103";//分销商还回入库
+	    public final static String BUSINESS_TYPE_IN_BORROW_BACK = "104";//领借用还回入库
+	    public final static String BUSINESS_TYPE_IN_CUSTOMER_SALE_EXCHANGE = "105";//顾客退货入库
+	    public final static String BUSINESS_TYPE_IN_CUSTOMER_BARTER = "106";//顾客换货入库
+	    public final static String BUSINESS_TYPE_IN_LOGISTICS_REJECT = "107";//物流拒收入库
+	    public final static String BUSINESS_TYPE_IN_JPY = "108";            //巨便宜
+	    public final static String BUSINESS_TYPE_PURCHASE_CLOSE = "109";            //采购单关闭
+	    public final static String BUSINESS_TYPE_OUT_ORDER = "201";//普通订单出库
+	    public final static String BUSINESS_TYPE_OUT_SUNING_ORDER = "202";//苏宁订单出库
+	    public final static String BUSINESS_TYPE_OUT_ALLOCATE_INITIATIVE = "203";//主动调拨出库
+	    public final static String BUSINESS_TYPE_OUT_DISTRIBUTOR = "204";//分销商出库
+	    public final static String BUSINESS_TYPE_OUT_BORROW = "205";//领借用出库
+	    public final static String BUSINESS_TYPE_OUT_ALLOCATE_PASSIVE = "206";//被动调拨出库
+	    public final static String BUSINESS_TYPE_OUT_SUPPLIER_REJECT = "207";//供应商退货出库
+	    public final static String BUSINESS_TYPE_INV_REPLENISH_INITIATIVE = "208";//主动补货
+	    public final static String BUSINESS_TYPE_INV_REPLENISH_URGENT = "209";//紧急补货
+	    public final static String BUSINESS_TYPE_INV_REPLENISH_PASSIVE = "210";//被动补货
+	    public final static String BUSINESS_TYPE_INV_MOVE = "211";//移库
+	    public final static String BUSINESS_TYPE_INV_TAKING = "212";//盘点
+	    public final static String BUSINESS_TYPE_INV_ACCOUNT = "213";//走账
+	    public final static String BUSINESS_TYPE_EXCEPTION_BACK = "214";//异常回库
+	    public final static String BUSINESS_TYPE_NORMAL_TO_DAMAGE = "215";//正转残
+	    public final static String BUSINESS_TYPE_DAMAGE_TO_NORMAL = "216";//残转正
+	    public final static String BUSINESS_TYPE_DAMAGE_TO_WASTER = "217";//残转报废
+	    public final static String BUSINESS_TYPE_DAMAGE_TO_TRANSFERALLOC = "218";//残品转巨便宜
+	    public final static String BUSINESS_TYPE_INV_TAKING_INVENTORY = "219";//盘点锁定释放库存
+	    public final static String BUSINESS_TYPE_RETURN_WASTER = "222";//残转单退回
+	    public final static String BUSINESS_TYPE_DAMAGE_TO_TRANSFERALLOC_CANCEL = "223";//取消残转巨便宜
+	    public final static String BUSINESS_TYPE_DAMAGE_TO_TRANSFERALLOC_AUDIT = "224";//审核残转巨便宜
+	    public final static String BUSINESS_TYPE_NONE = "255";//无
+	    public final static String BUSINESS_TYPE_IM_SKU = "001";//导入SKU
+	    public final static String BUSINESS_TYPE_IM_VENDOR = "002";//导入供应商
+	    public final static String BUSINESS_TYPE_IM_DEALER = "003";//导入分销商
+	    public final static String BUSINESS_TYPE_OUT_TO_EXPREE_CORP = "268";//物流商交接出库
+	    public final static String BUSINESS_TYPE_IM_DEALER_ADDR = "004";//导入分销商地址
+	    public final static String BUSINESS_TYPE_INVOICE="005";    //发票业务
+	    public final static String BUSINESS_TYPE_ORDER_DELIVER_CHANGED = "220";//改派物流商
+	    public final static String BUSINESS_TYPE_PRODUCT_PERIOD = "230";//商品有效期
+	    public final static String BUSINESS_TYPE_CONSUMBLE_SUBTRACT="231";//耗材自动扣除
+	    public final static String BUSINESS_TYPE_OUT_STOCK_UP = "232";//订单外包备货出库
+	    public final static String BUSINESS_TYPE_GIFT_CARD_VIRTUAL  = "301";//虚拟礼品卡订单
+	    public final static String BUSINESS_TYPE_RED_PACKET = "302";//红包订单
+}

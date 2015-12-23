@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.coupon.BopsCouponExchangeDAO" >
+    <resultMap id="BaseResultMap" type="com.need.domain.po.bops.coupon.BopsCouponExchangePO" >
+        <id column="coupon_exchange_id" property="couponExchangeId" jdbcType="INTEGER" />
+        <result column="coupon_exchange_code" property="couponExchangeCode" jdbcType="VARCHAR" />
+        <result column="coupon_template_ids" property="couponTemplateIds" jdbcType="VARCHAR" />
+        <result column="coupon_exchange_type" property="couponExchangeType" jdbcType="VARCHAR" />
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+        <result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
+        <result column="bops_user_id" property="bopsUserId" jdbcType="INTEGER" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        coupon_exchange_id, coupon_exchange_code, coupon_template_ids, coupon_exchange_type, 
+        start_time, end_time, audit_status, bops_user_id, create_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select 
+        <include refid="Base_Column_List" />
+        from bops_coupon_exchange
+        where coupon_exchange_id = #{couponExchangeId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from bops_coupon_exchange
+        where coupon_exchange_id = #{couponExchangeId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.need.domain.po.bops.coupon.BopsCouponExchangePO" >
+        insert into bops_coupon_exchange (coupon_exchange_code, 
+        coupon_template_ids, coupon_exchange_type, start_time, 
+        end_time, audit_status, bops_user_id, create_time)
+        values (#{couponExchangeCode}, 
+        #{couponTemplateIds}, #{couponExchangeType}, #{startTime}, 
+        #{endTime}, #{auditStatus}, #{bopsUserId}, #{createTime})
+    </insert>
+    <insert id="insertSelective" parameterType="com.need.domain.po.bops.coupon.BopsCouponExchangePO" >
+        insert into bops_coupon_exchange
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="couponExchangeId != null" >
+                coupon_exchange_id,
+            </if>
+            <if test="couponExchangeCode != null" >
+                coupon_exchange_code,
+            </if>
+            <if test="couponTemplateIds != null" >
+                coupon_template_ids,
+            </if>
+            <if test="couponExchangeType != null" >
+                coupon_exchange_type,
+            </if>
+            <if test="startTime != null" >
+                start_time,
+            </if>
+            <if test="endTime != null" >
+                end_time,
+            </if>
+            <if test="auditStatus != null" >
+                auditStatus,
+            </if>
+            <if test="bopsUserId != null" >
+                bops_user_id,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="couponExchangeId != null" >
+                #{couponExchangeId,jdbcType=INTEGER},
+            </if>
+            <if test="couponExchangeCode != null" >
+                #{couponExchangeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="couponTemplateIds != null" >
+                #{couponTemplateIds,jdbcType=VARCHAR},
+            </if>
+            <if test="couponExchangeType != null" >
+                #{couponExchangeType,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null" >
+                #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null" >
+                #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="auditStatus != null" >
+                #{auditStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="bopsUserId != null" >
+                #{bopsUserId,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.bops.coupon.BopsCouponExchangePO" >
+        update bops_coupon_exchange
+        <set >
+            <if test="couponExchangeCode != null" >
+                coupon_exchange_code = #{couponExchangeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="couponTemplateIds != null" >
+                coupon_template_ids = #{couponTemplateIds,jdbcType=VARCHAR},
+            </if>
+            <if test="couponExchangeType != null" >
+                coupon_exchange_type = #{couponExchangeType,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null" >
+                start_time = #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null" >
+                end_time = #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="auditStatus != null" >
+                audit_status = #{auditStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="bopsUserId != null" >
+                bops_user_id = #{bopsUserId,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where coupon_exchange_id = #{couponExchangeId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.need.domain.po.bops.coupon.BopsCouponExchangePO" >
+        update bops_coupon_exchange
+        set coupon_exchange_code = #{couponExchangeCode,jdbcType=VARCHAR},
+        coupon_template_ids = #{couponTemplateIds,jdbcType=VARCHAR},
+        coupon_exchange_type = #{couponExchangeType,jdbcType=VARCHAR},
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+        audit_status = #{auditStatus,jdbcType=VARCHAR},
+        bops_user_id = #{bopsUserId,jdbcType=INTEGER},
+        create_time = #{createTime,jdbcType=TIMESTAMP}
+        where coupon_exchange_id = #{couponExchangeId,jdbcType=INTEGER}
+    </update>
+    <select id="queryByCouponExchangeCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from bops_coupon_exchange
+        where coupon_exchange_code = #{couponExchangeCode}
+    </select>
+    <select id="getCouponExchangeDetail" resultType="com.need.domain.vo.coupon.CouponExchangeVO" parameterType="java.lang.Integer" >
+        select e.coupon_exchange_id, e.coupon_exchange_code, e.coupon_template_ids, e.coupon_exchange_type, e.start_time, 
+        e.end_time, e.audit_status, e.bops_user_id, e.create_time, u.user_name, u.user_dept
+        from bops_coupon_exchange as e left join bops_user as u on t.bops_user_id = u.user_id
+        where coupon_exchange_id = #{couponExchangeId,jdbcType=INTEGER}
+    </select>
+    <select id="queryPageCouponExchange" resultType="com.need.domain.vo.coupon.CouponExchangeVO" parameterType="com.need.domain.vo.coupon.CouponExchangePageVO">
+        select c.coupon_exchange_id, c.coupon_exchange_code, c.coupon_template_ids, c.coupon_exchange_type, c.start_time, 
+        c.end_time, c.audit_status, c.bops_user_id, c.create_time, u.user_real_name  user_name
+        from bops_coupon_exchange c left join bops_user u on c.bops_user_id = u.user_id where 1 = 1
+        <if test="auditStatus != null">
+            and audit_status = #{auditStatus}
+        </if>
+        ORDER BY `create_time` DESC
+		limit #{start},#{pageSize}
+    </select>
+    <select id="queryPageCouponExchangeCount" resultType="int" parameterType="com.need.domain.vo.coupon.CouponExchangePageVO">
+        select count(1)
+        from bops_coupon_exchange where 1 = 1
+        <if test="auditStatus != null">
+            and audit_status = #{auditStatus}
+        </if>
+        ORDER BY `create_time` DESC
+    </select>
+    <update id="updateFrozen" parameterType="java.lang.Integer">
+        update bops_coupon_exchange
+        set audit_status = 'FROZEN'
+        where coupon_exchange_id = #{couponExchangeId,jdbcType=INTEGER}
+    </update>
+</mapper>

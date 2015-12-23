@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.common.core.dao.jdbc.trade.TradeRefundDAO" >
+  <resultMap id="BaseResultMap" type="com.need.common.domain.po.api.trade.TradeRefundPO" >
+    <id column="trade_no" property="tradeNo" jdbcType="VARCHAR" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="refund_amount" property="refundAmount" jdbcType="INTEGER" />
+    <result column="trade_status" property="tradeStatus" jdbcType="VARCHAR" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    trade_no, order_no, refund_amount, trade_status, memo, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from trade_refund
+    where trade_no = #{tradeNo}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from trade_refund
+    where trade_no = #{tradeNo}
+  </delete>
+  <insert id="insert" parameterType="com.need.common.domain.po.api.trade.TradeRefundPO" >
+    insert into trade_refund (trade_no, order_no, refund_amount, 
+      trade_status, memo, create_time, 
+      update_time)
+    values (#{tradeNo}, #{orderNo}, #{refundAmount}, 
+      #{tradeStatus}, #{memo}, NOW(), 
+      NOW())
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.common.domain.po.api.trade.TradeRefundPO" >
+    update trade_refund
+    <set >
+      <if test="orderNo != null" >
+        order_no = #{orderNo},
+      </if>
+      <if test="refundAmount != null" >
+        refund_amount = #{refundAmount},
+      </if>
+      <if test="tradeStatus != null" >
+        trade_status = #{tradeStatus},
+      </if>
+      <if test="memo != null" >
+        memo = #{memo},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime},
+      </if>
+    </set>
+    where trade_no = #{tradeNo}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.common.domain.po.api.trade.TradeRefundPO" >
+    update trade_refund
+    set order_no = #{orderNo},
+      refund_amount = #{refundAmount},
+      trade_status = #{tradeStatus},
+      memo = #{memo},
+      create_time = #{createTime},
+      update_time = NOW()
+    where trade_no = #{tradeNo}
+  </update>
+</mapper>

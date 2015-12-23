@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.marketing.dao.jdbc.api.coupon.CouponReceiveInfoDAO" >
+    <resultMap id="BaseResultMap" type="com.need.marketing.dao.jdbc.api.coupon.po.CouponReceiveInfoPO" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+        <result column="icon_url" property="iconUrl" jdbcType="VARCHAR" />
+        <result column="share_user_id" property="shareUserId" jdbcType="VARCHAR" />
+        <result column="coupon_template_id" property="couponTemplateId" jdbcType="VARCHAR" />
+        <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+        <result column="trade_no" property="tradeNo" jdbcType="VARCHAR" />
+        <result column="receive_time" property="receiveTime" jdbcType="TIMESTAMP" />
+        <result column="value" property="value" jdbcType="INTEGER" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, nick_name, icon_url, share_user_id, coupon_template_id, mobile, trade_no, receive_time, value
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select 
+        <include refid="Base_Column_List" />
+        from coupon_receive_info
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from coupon_receive_info
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.need.marketing.dao.jdbc.api.coupon.po.CouponReceiveInfoPO" >
+        insert into coupon_receive_info (id, nick_name, icon_url, 
+        share_user_id, coupon_template_id, mobile, 
+        trade_no, receive_time, value)
+        values (#{id,jdbcType=INTEGER}, #{nickName,jdbcType=VARCHAR}, #{iconUrl,jdbcType=VARCHAR}, 
+        #{shareUserId,jdbcType=VARCHAR}, #{couponTemplateId,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+        #{tradeNo,jdbcType=VARCHAR}, #{receiveTime}, #{value})
+    </insert>
+    <insert id="insertSelective" parameterType="com.need.marketing.dao.jdbc.api.coupon.po.CouponReceiveInfoPO" >
+        insert into coupon_receive_info
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="nickName != null" >
+                nick_name,
+            </if>
+            <if test="iconUrl != null" >
+                icon_url,
+            </if>
+            <if test="shareUserId != null" >
+                share_user_id,
+            </if>
+            <if test="couponTemplateId != null" >
+                coupon_template_id,
+            </if>
+            <if test="mobile != null" >
+                mobile,
+            </if>
+            <if test="tradeNo != null" >
+                trade_no,
+            </if>
+            <if test="receiveTime != null" >
+                receive_time,
+            </if>
+            <if test="value != null" >
+                value,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="nickName != null" >
+                #{nickName,jdbcType=VARCHAR},
+            </if>
+            <if test="iconUrl != null" >
+                #{iconUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="shareUserId != null" >
+                #{shareUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="couponTemplateId != null" >
+                #{couponTemplateId,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null" >
+                #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeNo != null" >
+                #{tradeNo,jdbcType=VARCHAR},
+            </if>
+            <if test="receiveTime != null" >
+                #{receiveTime,jdbcType=VARCHAR},
+            </if>
+            <if test="value != null" >
+                #{value,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.need.marketing.dao.jdbc.api.coupon.po.CouponReceiveInfoPO" >
+        update coupon_receive_info
+        <set >
+            <if test="nickName != null" >
+                nick_name = #{nickName,jdbcType=VARCHAR},
+            </if>
+            <if test="iconUrl != null" >
+                icon_url = #{iconUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="shareUserId != null" >
+                share_user_id = #{shareUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="couponTemplateId != null" >
+                coupon_template_id = #{couponTemplateId,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null" >
+                mobile = #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeNo != null" >
+                trade_no = #{tradeNo,jdbcType=VARCHAR},
+            </if>
+            <if test="receiveTime != null" >
+                receive_time = #{receiveTime,jdbcType=VARCHAR},
+            </if>
+            <if test="value != null" >
+                value = #{value,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.need.marketing.dao.jdbc.api.coupon.po.CouponReceiveInfoPO" >
+        update coupon_receive_info
+        set nick_name = #{nickName,jdbcType=VARCHAR},
+        icon_url = #{iconUrl,jdbcType=VARCHAR},
+        share_user_id = #{shareUserId,jdbcType=VARCHAR},
+        coupon_template_id = #{couponTemplateId,jdbcType=VARCHAR},
+        mobile = #{mobile,jdbcType=VARCHAR},
+        trade_no = #{tradeNo,jdbcType=VARCHAR},
+        receive_time = #{receiveTime,jdbcType=VARCHAR},
+        value = #{value,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="getCouponReceiveInfoByParam" resultMap="BaseResultMap"  parameterType="java.util.Map" >
+        select 
+        <include refid="Base_Column_List" />
+        from coupon_receive_info
+        where coupon_template_id = #{couponTemplateId,jdbcType=VARCHAR}
+        <if test="mobile != null" >
+            and mobile = #{mobile,jdbcType=VARCHAR}
+        </if>
+        <if test="tradeNo != null" >
+            and trade_no = #{tradeNo}
+        </if>
+        <if test="shareUserId != null" >
+            and share_user_id = #{shareUserId,jdbcType=VARCHAR}
+        </if>
+        order by receive_time desc
+    </select>
+    <select id="getCountByParams" parameterType="java.util.Map" resultType="java.lang.Integer" >
+        select count(1)
+        from coupon_receive_info
+        where 1=1
+        <if test="couponTemplateId != null" >
+            and coupon_template_id = #{couponTemplateId,jdbcType=VARCHAR}
+        </if>
+        <if test="mobile != null" >
+            and mobile = #{mobile,jdbcType=VARCHAR}
+        </if>
+        <if test="tradeNo != null" >
+            and trade_no = #{tradeNo}
+        </if>
+        <if test="shareUserId != null" >
+            and share_user_id = #{shareUserId,jdbcType=VARCHAR}
+        </if>
+        <if test="receiveTime != null" >
+            and receive_time > #{receiveTime}
+        </if>
+    </select>
+</mapper>

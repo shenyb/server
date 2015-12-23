@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.stock.BopsStockTakingItemDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.bops.stock.BopsStockTakingItemPO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="stock_taking_id" property="stockTakingId" jdbcType="BIGINT" />
+    <result column="goods_code" property="goodsCode" jdbcType="VARCHAR" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="inventory_state" property="inventoryState" jdbcType="INTEGER" />
+    <result column="qty" property="qty" jdbcType="INTEGER" />
+    <result column="plan_qty" property="planQty" jdbcType="INTEGER" />
+    <result column="real_qty" property="realQty" jdbcType="INTEGER" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, stock_taking_id, goods_code, goods_name, inventory_state, qty, plan_qty, real_qty, 
+    reason
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from bops_stock_taking_item
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from bops_stock_taking_item
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.bops.stock.BopsStockTakingItemPO" >
+    insert into bops_stock_taking_item (stock_taking_id, goods_code, 
+      goods_name, inventory_state, qty, 
+      plan_qty, real_qty, reason
+      )
+    values (#{stockTakingId}, #{goodsCode}, 
+      #{goodsName}, #{inventoryState}, #{qty}, 
+      #{planQty}, #{realQty}, #{reason}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.domain.po.bops.stock.BopsStockTakingItemPO" >
+    insert into bops_stock_taking_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="stockTakingId != null" >
+        stock_taking_id,
+      </if>
+      <if test="goodsCode != null" >
+        goods_code,
+      </if>
+      <if test="goodsName != null" >
+        goods_name,
+      </if>
+      <if test="inventoryState != null" >
+        inventory_state,
+      </if>
+      <if test="qty != null" >
+        qty,
+      </if>
+      <if test="planQty != null" >
+        plan_qty,
+      </if>
+      <if test="realQty != null" >
+        real_qty,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="stockTakingId != null" >
+        #{stockTakingId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsCode != null" >
+        #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null" >
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryState != null" >
+        #{inventoryState,jdbcType=INTEGER},
+      </if>
+      <if test="qty != null" >
+        #{qty,jdbcType=INTEGER},
+      </if>
+      <if test="planQty != null" >
+        #{planQty,jdbcType=INTEGER},
+      </if>
+      <if test="realQty != null" >
+        #{realQty,jdbcType=INTEGER},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.bops.stock.BopsStockTakingItemPO" >
+    update bops_stock_taking_item
+    <set >
+      <if test="stockTakingId != null" >
+        stock_taking_id = #{stockTakingId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsCode != null" >
+        goods_code = #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null" >
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryState != null" >
+        inventory_state = #{inventoryState,jdbcType=INTEGER},
+      </if>
+      <if test="qty != null" >
+        qty = #{qty,jdbcType=INTEGER},
+      </if>
+      <if test="planQty != null" >
+        plan_qty = #{planQty,jdbcType=INTEGER},
+      </if>
+      <if test="realQty != null" >
+        real_qty = #{realQty,jdbcType=INTEGER},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.domain.po.bops.stock.BopsStockTakingItemPO" >
+    update bops_stock_taking_item
+    set stock_taking_id = #{stockTakingId,jdbcType=BIGINT},
+      goods_code = #{goodsCode,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      inventory_state = #{inventoryState,jdbcType=INTEGER},
+      qty = #{qty,jdbcType=INTEGER},
+      plan_qty = #{planQty,jdbcType=INTEGER},
+      real_qty = #{realQty,jdbcType=INTEGER},
+      reason = #{reason,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

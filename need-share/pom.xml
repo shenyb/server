@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0  http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  
+  <modelVersion>4.0.0</modelVersion>
+ <!-- 父项目 -->
+	<parent>
+		<groupId>com.need</groupId>
+		<artifactId>site-base</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+  <!-- 统一编码配置 -->
+	<properties>
+		<skipTests>true</skipTests>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
+  
+  <artifactId>need-share</artifactId>
+  <packaging>war</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>need-share Maven Webapp</name>
+  
+  
+  <!-- jar依赖 -->
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+		<!-- slf4j 和slf4j到log4j的转换 -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+		<!-- redis 相关 -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>opensymphony</groupId>
+			<artifactId>sitemesh</artifactId>
+		</dependency>
+
+        <!--spring  的aspectj 面向切面框架  -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+		</dependency>
+		<!-- commons 基础扩展系列 -->
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-pool</groupId>
+			<artifactId>commons-pool</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+		</dependency>
+		<!-- JDK的动态代理 -->
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+		<!-- alibaba 多数据源支持 -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+		</dependency>
+		<!-- alibaba fastjson -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+		</dependency>
+		<!-- jackon 相关 -->
+		<dependency>
+			<artifactId>jackson-core-asl</artifactId>
+			<groupId>org.codehaus.jackson</groupId>
+		</dependency>
+
+		<dependency>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<groupId>org.codehaus.jackson</groupId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+
+		<!-- 配置springMVC jar -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+		</dependency>
+		<!-- 配置springMVC jar -->
+
+		<!-- mtbatis 配置 -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+		</dependency>
+		<!-- mtbatis 配置 end -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+
+
+		<!--provided servlet -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- json处理 -->
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<classifier>jdk15</classifier>
+		</dependency>
+		<!-- fst序列化 -->
+		<dependency>
+			<groupId>de.ruedigermoeller</groupId>
+			<artifactId>fst</artifactId>
+		</dependency>
+	<!-- mybatis分页 -->
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper</artifactId>
+		</dependency>
+		<!-- freemarker -->
+		 <dependency>
+		  <groupId>org.freemarker</groupId>
+		  <artifactId>freemarker-gae</artifactId>
+	    </dependency>
+	  	
+	  	<dependency>
+	      <groupId>com.github.abel533</groupId>
+	      <artifactId>mapper</artifactId>
+	    </dependency>
+	    
+	    <!-- 项目内的公共模块 jar -->
+		<dependency>
+			<groupId>com.need</groupId>
+			<artifactId>need-framework</artifactId>
+		</dependency>
+	    <!-- 第三方网关 -->
+       <dependency>
+			<groupId>com.need</groupId>
+			<artifactId>need-gateway</artifactId>
+		</dependency>
+		
+		
+	</dependencies>
+	
+		
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<deploy.env>dev</deploy.env>
+			</properties>
+		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<deploy.env>test</deploy.env>
+			</properties>
+		</profile>
+		<profile>
+			<id>prev</id>
+			<properties>
+				<deploy.env>prev</deploy.env>
+			</properties>
+		</profile>
+		<profile>
+			<id>pro</id>
+			<properties>
+				<deploy.env>pro</deploy.env>
+			</properties>
+		</profile>
+		<!-- sonarqube 配置 -->
+		<profile>
+				<id>sonar</id>
+				<activation>
+					<activeByDefault>true</activeByDefault>
+				</activation>
+				<properties>
+					<sonar.jdbc.url>
+						jdbc:mysql://101.200.182.96:3306/sonarqube?useUnicode=true&amp;characterEncoding=utf8
+					</sonar.jdbc.url>
+					<sonar.jdbc.username>sonar</sonar.jdbc.username>
+					<sonar.jdbc.password>sonar</sonar.jdbc.password>
+					<!-- Optional URL to server. Default value is http://localhost:9000 -->
+					<sonar.host.url>
+						http://101.200.182.96:9000
+					</sonar.host.url>
+				</properties>
+			</profile>	
+		
+	</profiles>
+	
+  <build>
+    <finalName>need-share</finalName>
+    <!-- 指定 filter 过滤打包指定环境下的配置文件 -->
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		    <resource>
+				<directory>src/main/resources/filter/${deploy.env}</directory>
+				<targetPath>properties/</targetPath>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		
+    <!-- jetty plugin 服务前端 -->
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.mortbay.jetty</groupId>
+					<artifactId>maven-jetty-plugin</artifactId>
+					<version>6.1.22</version>
+					<configuration>
+						<!-- 这里根据工程web根目录对应 -->
+						<webAppSourceDirectory>src/main/webapp</webAppSourceDirectory>
+						<!-- 设置发布 -->
+						<contextPath>/need-share</contextPath>
+						<!-- 设置web.xml所在位置 -->
+						<descriptor>src/main/webapp/WEB-INF/web.xml</descriptor>
+						<connectors>
+							<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+								<port>8090</port>
+							</connector>
+						</connectors>
+						<scanIntervalSeconds>10</scanIntervalSeconds>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+  </build>
+</project>

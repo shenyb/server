@@ -1,0 +1,63 @@
+/* * {
+	box-sizing: border-box;
+}
+
+.con {
+	width: 100%;
+	border-left: 240px solid #eee;
+	margin-top: 60px;
+	background: #fff;
+	padding: 20px 40px 20px 20px;
+	padding-top: 0;
+}
+
+.page-head {
+	padding: 10px 20px;
+	background: #E8E8E8;
+	position: relative;
+	height: 60px;
+}
+
+.m-b-less {
+	font-size: 20px;
+	margin-top: 10px;
+	font-weight: 300;
+} */
+
+.back {
+	position: absolute;
+	right: 20px;
+	top: 15px;
+}
+/*内容*/
+.info {
+	width: 100%;
+	height: auto;
+	line-height: 40px;
+	background: #fff;
+}
+
+.table {
+	margin: 0 !important;
+}
+
+.table td,.table th {
+	text-align: center;
+}
+
+.table:last-child tbody tr td:last-child {
+	color: #000;
+	font-weight: 600;
+}
+
+.table-title {
+	background: #E8E8E8;
+}
+
+.table-title td {
+	text-align: left;
+}
+
+.table:first-child tr:last-of-type td {
+	line-height: 90px;
+}

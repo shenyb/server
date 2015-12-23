@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.common.core.dao.jdbc.goods.GoodsSceneDAO" >
+  <resultMap id="BaseResultMap" type="com.need.common.domain.po.api.goods.GoodsScenePO" >
+    <id column="scene_id" property="sceneId" jdbcType="INTEGER" />
+    <result column="scene_name" property="sceneName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    scene_id, scene_name, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from goods_scene
+    where scene_id = #{sceneId}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from goods_scene
+    where scene_id = #{sceneId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.need.common.domain.po.api.goods.GoodsScenePO" >
+    insert into goods_scene (scene_id, scene_name, create_time
+      )
+    values (#{sceneId,jdbcType=INTEGER}, #{sceneName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.common.domain.po.api.goods.GoodsScenePO" >
+    insert into goods_scene
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sceneId != null" >
+        scene_id,
+      </if>
+      <if test="sceneName != null" >
+        scene_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sceneId != null" >
+        #{sceneId,jdbcType=INTEGER},
+      </if>
+      <if test="sceneName != null" >
+        #{sceneName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.common.domain.po.api.goods.GoodsScenePO" >
+    update goods_scene
+    <set >
+      <if test="sceneName != null" >
+        scene_name = #{sceneName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where scene_id = #{sceneId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.common.domain.po.api.goods.GoodsScenePO" >
+    update goods_scene
+    set scene_name = #{sceneName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where scene_id = #{sceneId,jdbcType=INTEGER}
+  </update>
+</mapper>

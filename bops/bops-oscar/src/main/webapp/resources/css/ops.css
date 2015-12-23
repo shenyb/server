@@ -1,0 +1,19 @@
+body {
+	font-family: 'Source Sans Pro', sans-serif;
+    color: #323232;
+    line-height: 20px;
+    overflow-x: hidden;
+    font-size: 14px;
+    font-weight: 400;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-font-smoothing: antialiased;
+}
+/* 去除虚线 */
+a{blr:expression(this.onFocus=this.close());}
+
+a{blr:expression(this.onFocus=this.blur());}
+
+a:focus { -moz-outline-style: none; }
+
+a:focus { outline: none; }

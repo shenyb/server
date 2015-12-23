@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.trade.bopsTradeLogisticsInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.bops.trade.bopsTradeLogisticsInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="trade_no" property="tradeNo" jdbcType="VARCHAR" />
+    <result column="user_trade_no" property="userTradeNo" jdbcType="VARCHAR" />
+    <result column="logisticsNums" property="logisticsnums" jdbcType="VARCHAR" />
+    <result column="logisticsServiceId" property="logisticsserviceid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, trade_no, user_trade_no, logisticsNums, logisticsServiceId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from bops_trade_logistics_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from bops_trade_logistics_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.bops.trade.bopsTradeLogisticsInfo" >
+    insert into bops_trade_logistics_info (id, trade_no, user_trade_no, 
+      logisticsNums, logisticsServiceId)
+    values (#{id,jdbcType=INTEGER}, #{tradeNo,jdbcType=VARCHAR}, #{userTradeNo,jdbcType=VARCHAR}, 
+      #{logisticsnums,jdbcType=VARCHAR}, #{logisticsserviceid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.domain.po.bops.trade.bopsTradeLogisticsInfo" >
+    insert into bops_trade_logistics_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="tradeNo != null" >
+        trade_no,
+      </if>
+      <if test="userTradeNo != null" >
+        user_trade_no,
+      </if>
+      <if test="logisticsnums != null" >
+        logisticsNums,
+      </if>
+      <if test="logisticsserviceid != null" >
+        logisticsServiceId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="tradeNo != null" >
+        #{tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userTradeNo != null" >
+        #{userTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsnums != null" >
+        #{logisticsnums,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsserviceid != null" >
+        #{logisticsserviceid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.bops.trade.bopsTradeLogisticsInfo" >
+    update bops_trade_logistics_info
+    <set >
+      <if test="tradeNo != null" >
+        trade_no = #{tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userTradeNo != null" >
+        user_trade_no = #{userTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsnums != null" >
+        logisticsNums = #{logisticsnums,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsserviceid != null" >
+        logisticsServiceId = #{logisticsserviceid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.domain.po.bops.trade.bopsTradeLogisticsInfo" >
+    update bops_trade_logistics_info
+    set trade_no = #{tradeNo,jdbcType=VARCHAR},
+      user_trade_no = #{userTradeNo,jdbcType=VARCHAR},
+      logisticsNums = #{logisticsnums,jdbcType=VARCHAR},
+      logisticsServiceId = #{logisticsserviceid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

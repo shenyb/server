@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.ops.BopsOpsSelectedDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.bops.ops.BopsOpsSelected" >
+    <id column="selection_id" property="selectionId" jdbcType="VARCHAR" />
+    <result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="goods_profile_pic_key" property="goodsProfilePicKey" jdbcType="VARCHAR" />
+    <result column="goods_price" property="goodsPrice" jdbcType="INTEGER" />
+    <result column="goods_sort" property="goodsSort" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="goods_status" property="goodsStatus" jdbcType="VARCHAR" />
+     <result column="goods_code" property="goodsCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    selection_id, goods_id, goods_name, goods_profile_pic_key, goods_price, goods_sort, 
+    create_time, goods_status,goods_code
+  </sql>
+  <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bops_ops_selected
+    where selection_id = #{selectionId}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.String" >
+    delete from bops_ops_selected
+    where selection_id = #{selectionId}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.bops.ops.BopsOpsSelected" >
+    insert into bops_ops_selected (selection_id, goods_id, goods_name, 
+      goods_profile_pic_key, goods_price, goods_sort, 
+      create_time, goods_status, goods_code)
+    values (#{selectionId}, #{goodsId}, #{goodsName}, 
+      #{goodsProfilePicKey}, #{goodsPrice}, #{goodsSort}, 
+      #{createTime}, #{goodsStatus}, #{goodsCode})
+  </insert>
+  <update id="update" parameterType="com.need.domain.po.bops.ops.BopsOpsSelected" >
+    update bops_ops_selected
+    set goods_id = #{goodsId},
+      goods_name = #{goodsName},
+      goods_profile_pic_key = #{goodsProfilePicKey},
+      goods_price = #{goodsPrice},
+      goods_sort = #{goodsSort},
+      create_time = #{createTime},
+      goods_status = #{goodsStatus},
+       goods_code = #{goodsCode}
+    where selection_id = #{selectionId}
+  </update>
+  
+  <select id="getCount" resultType="int">
+  <![CDATA[ select count(selection_id) from bops_ops_selected
+        where create_time <=now();]]> 
+  </select>
+  
+   <select id="getAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bops_ops_selected <![CDATA[ where create_time <=now() ]]> order by goods_sort 
+     
+   </select>
+   
+   
+   <resultMap id="showResultMap" type="com.need.domain.po.bops.ops.BopsOpsSelected" >
+    <id column="selection_id" property="selectionId" jdbcType="VARCHAR" />
+    <result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="top_pic_keys" property="goodsProfilePicKey" jdbcType="VARCHAR" />
+    <result column="goods_sort" property="goodsSort" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="goods_status" property="goodsStatus" jdbcType="VARCHAR" />
+    <result column="goods_code" property="goodsCode" jdbcType="VARCHAR" />
+  </resultMap>   
+  
+   <sql id="Search_List" >
+    h.selection_id, h.goods_id, g.goods_name,  h.goods_sort, h.create_time, 
+    g.goods_status, g.goods_code
+    </sql>
+  
+   <select id="queryByParams" parameterType="com.need.domain.vo.ops.SelectedGoodsVO" resultMap="BaseResultMap">
+     select 
+     <include refid="Search_List"/>
+     from bops_ops_selected h, bops_goods g
+     <where>h.goods_id=g.goods_id</where>
+     <if test="goodsCode!=null">
+       and g.goods_code like CONCAT('%','${goodsCode}','%' )
+      </if>
+      <if test="goodsName!=null">
+       and g.goods_name like CONCAT('%','${goodsName}','%' )
+      </if> 
+       ORDER BY h.goods_sort ASC  LIMIT #{start},#{pageSize}
+   </select>
+   
+    <select id="getCountByParams" parameterType="com.need.domain.vo.ops.SelectedGoodsVO" resultType="int">
+     select COUNT(h.selection_id)
+        from bops_ops_selected h, bops_goods g
+     <where>h.goods_id=g.goods_id</where>
+      <if test="goodsCode!=null">
+       and g.goods_code like CONCAT('%','${goodsCode}','%' )
+      </if>
+      <if test="goodsName!=null">
+       and g.goods_name like CONCAT('%','${goodsName}','%' )
+      </if>
+     </select>
+     
+     
+      <select id="getSelectedGoods" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select 
+       <include refid="Base_Column_List"/>
+       from  bops_ops_selected where goods_id=#{goodsId}
+      </select>
+      
+       <select id="queryByPage" parameterType="com.need.domain.pub.Page" resultMap="BaseResultMap">
+         select 
+    <include refid="Base_Column_List" />
+    from  bops_ops_selected <![CDATA[ where create_time <=now()]]>
+      ORDER BY goods_sort ASC  LIMIT #{start},#{pageSize}
+       </select>
+       
+       
+        <select id="queryBycheck" resultMap="BaseResultMap">
+           select 
+           <include refid="Base_Column_List" />
+              from  bops_ops_selected
+              ORDER BY create_time DESC  LIMIT 0,1
+        </select> 
+        
+         <select id="queryMaxSort" resultType="int">
+          SELECT MAX(goods_sort) FROM bops_ops_selected <![CDATA[ where create_time <=now()]]>
+         </select>
+         
+         
+          <update id="updateSort" parameterType="java.lang.Integer"> 
+         <![CDATA[ update bops_ops_selected set goods_sort= goods_sort-1
+        where goods_sort > #{goodsSort};]]>  
+          </update> 
+          
+          <update id="updategoodsSortDrop" parameterType="java.lang.Integer"> 
+          <![CDATA[ update bops_ops_selected set goods_sort= goods_sort-1
+          where goods_sort > #{currentSort} and goods_sort <= #{newSort};]]>  
+       </update>
+       
+       <update id="updategoodsSortRise" parameterType="java.lang.Integer"> 
+          <![CDATA[ update bops_ops_selected set goods_sort= goods_sort+1
+          where goods_sort >= #{newSort} and goods_sort < #{currentSort};]]>  
+       </update>
+</mapper>

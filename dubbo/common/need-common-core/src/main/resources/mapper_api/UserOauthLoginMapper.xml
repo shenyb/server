@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.common.core.dao.jdbc.user.UserOauthLoginDAO" >
+  <resultMap id="BaseResultMap" type="com.need.common.domain.po.api.user.UserOauthLogin" >
+    <id column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="weibo_pid" property="weiboPid" jdbcType="VARCHAR" />
+    <result column="qq_pid" property="qqPid" jdbcType="VARCHAR" />
+    <result column="weixin_pid" property="weixinPid" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    user_id, weibo_pid, qq_pid, weixin_pid, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_oauth_login
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from user_oauth_login
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertWeixin" parameterType="java.lang.String" >
+    REPLACE into user_oauth_login (user_id,
+      weixin_pid, create_time)
+    values (#{userId},
+      #{snsId}, now())
+  </insert>
+  <insert id="insertWeibo" parameterType="java.lang.String" >
+    REPLACE into user_oauth_login (user_id,
+      weibo_pid, create_time)
+    values (#{userId},
+      #{snsId}, now())
+  </insert>
+  <insert id="insertQq" parameterType="java.lang.String" >
+    REPLACE into user_oauth_login (user_id,
+      qq_pid, create_time)
+    values (#{userId},
+      #{snsId}, now())
+  </insert>
+  <update id="updateWeixin" parameterType="java.lang.String" >
+      update user_oauth_login set weixin_pid=#{snsId} where user_id=#{userId}
+  </update>
+   <update id="updateWeibo" parameterType="java.lang.String" >
+      update user_oauth_login set weibo_pid=#{snsId} where user_id=#{userId}
+  </update>
+   <update id="updateQq" parameterType="java.lang.String" >
+      update user_oauth_login set qq_pid=#{snsId} where user_id=#{userId}
+  </update>
+  
+  <update id="updateUnBoundWeixin" parameterType="java.lang.String" >
+      update user_oauth_login set weixin_pid=NULL where user_id=#{userId}
+  </update>
+  <update id="updateUnBoundWeibo" parameterType="java.lang.String" >
+      update user_oauth_login set weibo_pid=NULL where user_id=#{userId}
+  </update>
+  <update id="updateUnBoundQq" parameterType="java.lang.String" >
+      update user_oauth_login set qq_pid=NULL  where user_id=#{userId}
+  </update>
+  
+  <insert id="insertSelective" parameterType="com.need.common.domain.po.api.user.UserOauthLogin" >
+    insert into user_oauth_login
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="weiboPid != null" >
+        weibo_pid,
+      </if>
+      <if test="qqPid != null" >
+        qq_pid,
+      </if>
+      <if test="weixinPid != null" >
+        weixin_pid,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="weiboPid != null" >
+        #{weiboPid,jdbcType=VARCHAR},
+      </if>
+      <if test="qqPid != null" >
+        #{qqPid,jdbcType=VARCHAR},
+      </if>
+      <if test="weixinPid != null" >
+        #{weixinPid,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.common.domain.po.api.user.UserOauthLogin" >
+    update user_oauth_login
+    <set >
+      <if test="weiboPid != null" >
+        weibo_pid = #{weiboPid,jdbcType=VARCHAR},
+      </if>
+      <if test="qqPid != null" >
+        qq_pid = #{qqPid,jdbcType=VARCHAR},
+      </if>
+      <if test="weixinPid != null" >
+        weixin_pid = #{weixinPid,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.common.domain.po.api.user.UserOauthLogin" >
+    update user_oauth_login
+    set weibo_pid = #{weiboPid,jdbcType=VARCHAR},
+      qq_pid = #{qqPid,jdbcType=VARCHAR},
+      weixin_pid = #{weixinPid,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+   <select id="getOauthInfo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    user_id, weibo_pid, qq_pid, weixin_pid
+    from user_oauth_login
+    where user_id = #{userId}
+  </select>
+  
+   <select id="getCountByWeiXinId" resultType="int" parameterType="java.lang.String" >
+    select count(1)
+    from user_oauth_login
+    where weixin_pid = #{snsId}
+  </select>
+   <select id="getCountByWeiBoId" resultType="int" parameterType="java.lang.String" >
+    select 
+    count(1)
+    from user_oauth_login
+    where weibo_pid = #{snsId}
+  </select>
+   <select id="getCountByQQId" resultType="int" parameterType="java.lang.String" >
+    select 
+    count(1)
+    from user_oauth_login
+    where qq_pid = #{snsId}
+  </select>
+  
+</mapper>

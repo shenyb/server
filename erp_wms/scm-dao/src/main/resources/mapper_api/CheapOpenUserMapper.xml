@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.api.cheap.CheapOpenUserDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.api.cheap.CheapOpenUser" >
+    <id column="cheap_open_id" property="cheapOpenId" jdbcType="INTEGER" />
+    <id column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="cheap_no" property="cheapNo" jdbcType="VARCHAR" />
+    <result column="profile_pic_key" property="profilePicKey" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="traded" property="traded" jdbcType="VARCHAR" />
+    <result column="open_id" property="openId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    cheap_open_id, mobile, cheap_no, profile_pic_key, create_time, traded, open_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.need.domain.po.api.cheap.CheapOpenUserKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from cheap_open_user
+    where cheap_open_id = #{cheapOpenId,jdbcType=INTEGER}
+      and mobile = #{mobile,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.need.domain.po.api.cheap.CheapOpenUserKey" >
+    delete from cheap_open_user
+    where cheap_open_id = #{cheapOpenId,jdbcType=INTEGER}
+      and mobile = #{mobile,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.api.cheap.CheapOpenUser" >
+    insert into cheap_open_user (cheap_open_id, mobile, cheap_no, 
+      profile_pic_key, create_time, traded, 
+      open_id)
+    values (#{cheapOpenId,jdbcType=INTEGER}, #{mobile,jdbcType=VARCHAR}, #{cheapNo,jdbcType=VARCHAR}, 
+      #{profilePicKey,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{traded,jdbcType=VARCHAR}, 
+      #{openId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.domain.po.api.cheap.CheapOpenUser" >
+    insert into cheap_open_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cheapOpenId != null" >
+        cheap_open_id,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="cheapNo != null" >
+        cheap_no,
+      </if>
+      <if test="profilePicKey != null" >
+        profile_pic_key,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="traded != null" >
+        traded,
+      </if>
+      <if test="openId != null" >
+        open_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cheapOpenId != null" >
+        #{cheapOpenId,jdbcType=INTEGER},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="cheapNo != null" >
+        #{cheapNo,jdbcType=VARCHAR},
+      </if>
+      <if test="profilePicKey != null" >
+        #{profilePicKey,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="traded != null" >
+        #{traded,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null" >
+        #{openId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.api.cheap.CheapOpenUser" >
+    update cheap_open_user
+    <set >
+      <if test="cheapNo != null" >
+        cheap_no = #{cheapNo,jdbcType=VARCHAR},
+      </if>
+      <if test="profilePicKey != null" >
+        profile_pic_key = #{profilePicKey,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="traded != null" >
+        traded = #{traded,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null" >
+        open_id = #{openId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cheap_open_id = #{cheapOpenId,jdbcType=INTEGER}
+      and mobile = #{mobile,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.domain.po.api.cheap.CheapOpenUser" >
+    update cheap_open_user
+    set cheap_no = #{cheapNo,jdbcType=VARCHAR},
+      profile_pic_key = #{profilePicKey,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      traded = #{traded,jdbcType=VARCHAR},
+      open_id = #{openId,jdbcType=VARCHAR}
+    where cheap_open_id = #{cheapOpenId,jdbcType=INTEGER}
+      and mobile = #{mobile,jdbcType=VARCHAR}
+  </update>
+</mapper>

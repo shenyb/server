@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.goods.BopsGoodsSceneDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.bops.goods.BopsGoodsScene" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="scene_id" property="sceneId" jdbcType="INTEGER" />
+    <result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+    <result column="scene_pic_key" property="scenePicKey" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="publisher_id" property="publisherId" jdbcType="INTEGER" />
+    <result column="auditor_id" property="auditorId" jdbcType="INTEGER" />
+    <result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+   <resultMap id="GoodsSceneMap" type="com.need.domain.po.bops.goods.BopsGoodsScene" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="scene_id" property="sceneId" jdbcType="INTEGER" />
+    <result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+    <result column="scene_pic_key" property="scenePicKey" jdbcType="VARCHAR" />
+    <result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+    
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />	
+    <result column="top_pic_keys" property="topPicKeys" jdbcType="VARCHAR" />
+	<result column="goods_code" property="goodsCode" jdbcType="VARCHAR" />
+	
+	<result column="scene_name" property="sceneName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+  
+  
+  <sql id="Base_Column_List" >
+    id, scene_id, goods_id, scene_pic_key, create_time, update_time, publisher_id, auditor_id, 
+    audit_status,memo
+  </sql>
+  
+  <sql id="Goods_Scene_Base" >
+    a.id,a.scene_id, a.goods_id, a.scene_pic_key, a.audit_status,a.memo
+  </sql>
+  
+  <sql id="Goods_Scene" >
+    b.goods_name,b.top_pic_keys,b.goods_code,c.scene_name
+  </sql>
+  
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from bops_goods_scene
+    where id = #{id}
+  </select>
+  <select id="checkIsAdd" resultMap="BaseResultMap"  >
+   select <include refid="Base_Column_List" /> from  bops_goods_scene where goods_id = #{0} and scene_id=#{1} and audit_status!='FAIL'
+  </select>
+  <select id="goodsSceneList" resultMap="BaseResultMap" parameterType="com.need.domain.pub.Page" >
+   select bops_goods_scene.goods_id,goods_name,top_pic_keys ,scenes_val,bops_goods_scene.audit_status,memo from bops_goods_scene left join bops_goods on bops_goods_scene.goods_id = bops_goods.goods_id  order by bops_goods_scene.create_time desc limit #{goodsScenepage.start}, #{goodsScenepage.pageSize}
+  </select>
+  <select id="searchGoodsScene" resultMap="BaseResultMap"  >
+    select bops_goods_scene.goods_id,goods_name,top_pic_keys ,scenes_val,bops_goods_scene.audit_status,memo  from bops_goods_scene left join bops_goods on bops_goods_scene.goods_id = bops_goods.goods_id
+     <where>  
+            <if test="search != null">  
+                bops_goods.goods_name like CONCAT('%','${search}','%' )   or bops_goods_scene.goods_id = '${search}'               
+             </if>
+     </where>      
+    order by bops_goods_scene.create_time desc limit #{goodsScenepage.start}, #{goodsScenepage.pageSize}
+  </select>
+  <select id="count" resultType="int" parameterType="java.lang.Integer" >
+   select count(goods_id) from bops_goods_scene
+  </select>
+ 
+  <select id="searchCount" resultType="int" parameterType="java.lang.String" >
+    select count(id)  from bops_goods_scene a left  join  bops_goods b on a.goods_id=b.goods_id  left join  bops_scene c on a.scene_id =c.scene_id
+    where a.goods_id=b.goods_id and a.scene_id=c.scene_id
+    <if test="searchKey != null">
+		and b.goods_name like CONCAT('%','${searchKey}','%' )  or b.goods_code = '${searchKey}'               
+    </if>
+  </select>
+  
+  <select id="searchGoodsNameOrGoodsCode"  resultMap="GoodsSceneMap" parameterType="com.need.domain.vo.ops.GoodsSceneSearchParam">
+    select <include refid="Goods_Scene_Base" />,<include refid="Goods_Scene" /> 
+    from bops_goods_scene a left  join  bops_goods b on a.goods_id=b.goods_id  left join  bops_scene c on a.scene_id =c.scene_id
+    where a.goods_id=b.goods_id and a.scene_id=c.scene_id
+    <if test="searchKey != null">
+		and b.goods_name like CONCAT('%','${searchKey}','%' )  or b.goods_code = '${searchKey}'               
+    </if>
+     limit #{start},#{pageSize}        
+  </select>
+  
+  
+    
+  <select id="getGoodsSceneDetail"  resultMap="GoodsSceneMap" parameterType="java.lang.String">
+    select <include refid="Goods_Scene_Base" />,<include refid="Goods_Scene" /> 
+    from bops_goods_scene a left  join  bops_goods b on a.goods_id=b.goods_id  left join  bops_scene c on a.scene_id =c.scene_id
+    where a.goods_id=b.goods_id and a.scene_id=c.scene_id
+    and   a.goods_id =#{goodsId}   and  a.scene_id in (${sceneId}) and a.audit_status='SUCCESS'
+  </select>
+  
+  
+  <select id="getGoodsSceneByGoodsId"  resultMap="GoodsSceneMap" parameterType="java.lang.String">
+    select <include refid="Goods_Scene_Base" />,<include refid="Goods_Scene" /> 
+    from bops_goods_scene a left  join  bops_goods b on a.goods_id=b.goods_id  left join  bops_scene c on a.scene_id =c.scene_id
+    where a.goods_id=b.goods_id and a.scene_id=c.scene_id
+    and   a.goods_id =#{goodsId} and a.audit_status='SUCCESS'
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bops_goods_scene
+    where id = #{id}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.bops.goods.BopsGoodsScene" keyProperty="id" useGeneratedKeys="true" >
+    insert into bops_goods_scene (id, scene_id, goods_id, 
+      scene_pic_key, create_time, update_time, 
+      publisher_id, auditor_id, audit_status,memo)
+      values (#{id}, #{sceneId}, #{goodsId}, 
+      #{scenePicKey}, NOW(), NOW(), 
+      #{publisherId}, #{auditorId}, #{auditStatus}, 
+      #{memo})
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.domain.po.bops.goods.BopsGoodsScene"   keyProperty="id" useGeneratedKeys="true">
+    insert into bops_goods_scene
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sceneId != null" >
+        scene_id,
+      </if>
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="scenePicKey != null" >
+        scene_pic_key,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="publisherId != null" >
+        publisher_id,
+      </if>
+      <if test="auditorId != null" >
+        auditor_id,
+      </if>
+      <if test="auditStatus != null" >
+        audit_status,
+      </if>
+       <if test="memo != null" >
+        memo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id},
+      </if>
+      <if test="sceneId != null" >
+        #{sceneId},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId},
+      </if>
+      <if test="scenePicKey != null" >
+        #{scenePicKey},
+      </if>
+      <if test="createTime != null" >
+        #{createTime},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime},
+      </if>
+      <if test="publisherId != null" >
+        #{publisherId},
+      </if>
+      <if test="auditorId != null" >
+        #{auditorId},
+      </if>
+      <if test="auditStatus != null" >
+        #{auditStatus},
+      </if>
+      <if test="memo != null" >
+        #{memo},
+      </if>
+      
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.bops.goods.BopsGoodsScene" >
+    update bops_goods_scene
+    <set >
+      <if test="sceneId != null" >
+        scene_id = #{sceneId},
+      </if>
+      <if test="goodsId != null" >
+        goods_id = #{goodsId},
+      </if>
+      <if test="scenePicKey != null" >
+        scene_pic_key = #{scenePicKey},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime},
+      </if>
+      <if test="publisherId != null" >
+        publisher_id = #{publisherId},
+      </if>
+      <if test="auditorId != null" >
+        auditor_id = #{auditorId},
+      </if>
+      <if test="auditStatus != null" >
+        audit_status = #{auditStatus},
+      </if>
+       <if test="memo != null" >
+        memo= #{memo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.domain.po.bops.goods.BopsGoodsScene" >
+    update bops_goods_scene
+    set scene_id = #{sceneId},
+      goods_id = #{goodsId},
+      scene_pic_key = #{scenePicKey},
+      create_time = #{createTime},
+      update_time = #{updateTime},
+      publisher_id = #{publisherId},
+      auditor_id = #{auditorId},
+      audit_status = #{auditStatus},
+      memo=#{memo}
+    where id = #{id}
+  </update>
+  
+   <delete id="deleteByGoodsId" parameterType="java.lang.String">
+     delete from bops_goods_scene where 
+      goods_id =#{goodsId}
+   </delete>
+</mapper>

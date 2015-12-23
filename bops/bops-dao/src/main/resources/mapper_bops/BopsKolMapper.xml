@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.kol.BopsKolDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.bops.kol.BopsKol" >
+    <id column="kol_id" property="kolId" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    <result column="profile_pic_key" property="profilePicKey" jdbcType="VARCHAR" />
+    <result column="kol_introduct" property="kolIntroduct" jdbcType="VARCHAR" />
+    <result column="kol_categories" property="kolCategories" jdbcType="VARCHAR" />
+    <result column="certification" property="certification" jdbcType="VARCHAR" />
+    <result column="auditor_id" property="auditorId" jdbcType="INTEGER" />
+    <result column="auditor_status" property="auditorStatus" jdbcType="VARCHAR" />
+    <result column="publisher_id" property="publisherId" jdbcType="INTEGER" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    kol_id, mobile, nick_name, profile_pic_key, kol_introduct, kol_categories, certification, 
+    auditor_id, auditor_status, publisher_id, memo, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bops_kol
+    where kol_id = #{kolId}
+  </select>
+  
+   <select id="selectAll" resultMap="BaseResultMap" parameterType="com.need.domain.vo.kol.BopsKolParamVO" >
+    select 
+    <include refid="Base_Column_List" />
+    from bops_kol
+    where 1=1
+    <if test="mobile != null" >
+     and   mobile like '%${mobile}%' 
+    </if>
+    <if test="nickName != null" >
+     and   nick_name like '%${nickName}%'
+    </if>
+    <if test="kolCategories != null" >
+     and   kol_categories like '%${kolCategories}%'
+    </if>
+    <if test="auditorStatus != null" >
+     and  auditor_status=  #{auditorStatus},
+    </if>
+    order by create_time desc
+    limit #{start},#{pageSize} 
+  </select>
+  
+   <select id="selectTotalCount" resultType="int" parameterType="com.need.domain.vo.kol.BopsKolParamVO" >
+    select 
+     count(kol_id)
+    from bops_kol
+    where 1=1
+     <if test="mobile != null" >
+     and   mobile like '%${mobile}%' 
+    </if>
+    <if test="nickName != null" >
+     and   nick_name like '%${nickName}%'
+    </if>
+    <if test="kolCategories != null" >
+     and   kol_categories like '%${kolCategories}%'
+    </if>
+    <if test="auditorStatus != null" >
+     and  auditor_status=  #{auditorStatus}
+    </if>
+  </select>
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bops_kol
+    where kol_id = #{kolId}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.bops.kol.BopsKol" useGeneratedKeys="true" keyProperty="kolId">
+    insert into bops_kol (kol_id, mobile, nick_name, 
+      profile_pic_key, kol_introduct, kol_categories, 
+      certification, auditor_id, auditor_status, 
+      publisher_id, memo, create_time, 
+      update_time)
+    values (#{kolId}, #{mobile}, #{nickName}, 
+      #{profilePicKey}, #{kolIntroduct}, #{kolCategories}, 
+      #{certification}, #{auditorId}, #{auditorStatus}, 
+      #{publisherId}, #{memo}, #{createTime}, 
+      #{updateTime})
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.domain.po.bops.kol.BopsKol" >
+    insert into bops_kol
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="kolId != null" >
+        kol_id,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="nickName != null" >
+        nick_name,
+      </if>
+      <if test="profilePicKey != null" >
+        profile_pic_key,
+      </if>
+      <if test="kolIntroduct != null" >
+        kol_introduct,
+      </if>
+      <if test="kolCategories != null" >
+        kol_categories,
+      </if>
+      <if test="certification != null" >
+        certification,
+      </if>
+      <if test="auditorId != null" >
+        auditor_id,
+      </if>
+      <if test="auditorStatus != null" >
+        auditor_status,
+      </if>
+      <if test="publisherId != null" >
+        publisher_id,
+      </if>
+      <if test="memo != null" >
+        memo,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="kolId != null" >
+        #{kolId},
+      </if>
+      <if test="mobile != null" >
+        #{mobile},
+      </if>
+      <if test="nickName != null" >
+        #{nickName},
+      </if>
+      <if test="profilePicKey != null" >
+        #{profilePicKey},
+      </if>
+      <if test="kolIntroduct != null" >
+        #{kolIntroduct},
+      </if>
+      <if test="kolCategories != null" >
+        #{kolCategories},
+      </if>
+      <if test="certification != null" >
+        #{certification},
+      </if>
+      <if test="auditorId != null" >
+        #{auditorId},
+      </if>
+      <if test="auditorStatus != null" >
+        #{auditorStatus},
+      </if>
+      <if test="publisherId != null" >
+        #{publisherId},
+      </if>
+      <if test="memo != null" >
+        #{memo},
+      </if>
+      <if test="createTime != null" >
+        #{createTime},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateKol" parameterType="com.need.domain.po.bops.kol.BopsKol" >
+    update bops_kol
+    <set >
+     
+     
+      <if test="kolIntroduct != null" >
+        kol_introduct = #{kolIntroduct},
+      </if>
+      <if test="kolCategories != null" >
+        kol_categories = #{kolCategories},
+      </if>
+      <if test="certification != null" >
+        certification = #{certification},
+      </if>
+
+      <if test="auditorStatus != null" >
+        auditor_status = #{auditorStatus},
+      </if>
+      <if test="publisherId != null" >
+        publisher_id = #{publisherId},
+      </if>
+
+
+        update_time = now()
+
+    </set>
+    where kol_id = #{kolId}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.need.domain.po.bops.kol.BopsKol" >
+    update bops_kol
+    set mobile = #{mobile},
+      nick_name = #{nickName},
+      profile_pic_key = #{profilePicKey},
+      kol_introduct = #{kolIntroduct},
+      kol_categories = #{kolCategories},
+      certification = #{certification},
+      auditor_id = #{auditorId},
+      auditor_status = #{auditorStatus},
+      publisher_id = #{publisherId},
+      memo = #{memo},
+      create_time = #{createTime},
+      update_time = #{updateTime}
+    where kol_id = #{kolId}
+  </update>
+  
+  
+  <select id="selectKOL" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bops_kol
+    where auditor_status='SUCCESS' and kol_id = #{kolId}
+  </select>
+</mapper>

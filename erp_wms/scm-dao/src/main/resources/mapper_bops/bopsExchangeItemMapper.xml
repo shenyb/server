@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.trade.BopsExchangeItemDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.bops.trade.BopsExchangeItem" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="bops_exchange_id" property="bopsExchangeId" jdbcType="BIGINT" />
+    <result column="goods_code" property="goodsCode" jdbcType="BIGINT" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="quantity" property="quantity" jdbcType="INTEGER" />
+    <result column="actual_quantity" property="actualQuantity" jdbcType="INTEGER" />
+    <result column="bops_order_item_id" property="bopsOrderItemId" jdbcType="BIGINT" />
+    <result column="price" property="price" jdbcType="BIGINT" />
+    <result column="normal_quantity" property="normalQuantity" jdbcType="INTEGER" />
+    <result column="goodsbreak_quantity" property="goodsbreakQuantity" jdbcType="INTEGER" />
+    <result column="goodsloss_quantity" property="goodslossQuantity" jdbcType="INTEGER" />
+    <result column="damagepack_quantity" property="damagepackQuantity" jdbcType="INTEGER" />
+    <result column="damagewarehouse_quantity" property="damagewarehouseQuantity" jdbcType="INTEGER" />
+    <result column="create_at" property="createAt" jdbcType="TIMESTAMP" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="change_at" property="changeAt" jdbcType="TIMESTAMP" />
+    <result column="change_by" property="changeBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, bops_exchange_id, goods_code, goods_name, quantity, actual_quantity, bops_order_item_id, 
+    price, normal_quantity, goodsbreak_quantity, goodsloss_quantity, damagepack_quantity, 
+    damagewarehouse_quantity, create_at, create_by, change_at, change_by
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from bops_exchange_item
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from bops_exchange_item
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.bops.trade.BopsExchangeItem" >
+    insert into bops_exchange_item (id, bops_exchange_id, goods_code, 
+      goods_name, quantity, actual_quantity, 
+      bops_order_item_id, price, normal_quantity, 
+      goodsbreak_quantity, goodsloss_quantity, 
+      damagepack_quantity, damagewarehouse_quantity, 
+      create_at, create_by, change_at, 
+      change_by)
+    values (#{id,jdbcType=BIGINT}, #{bopsExchangeId,jdbcType=BIGINT}, #{goodsCode,jdbcType=BIGINT}, 
+      #{goodsName,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, #{actualQuantity,jdbcType=INTEGER}, 
+      #{bopsOrderItemId,jdbcType=BIGINT}, #{price,jdbcType=BIGINT}, #{normalQuantity,jdbcType=INTEGER}, 
+      #{goodsbreakQuantity,jdbcType=INTEGER}, #{goodslossQuantity,jdbcType=INTEGER}, 
+      #{damagepackQuantity,jdbcType=INTEGER}, #{damagewarehouseQuantity,jdbcType=INTEGER}, 
+      #{createAt,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{changeAt,jdbcType=TIMESTAMP}, 
+      #{changeBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.domain.po.bops.trade.BopsExchangeItem" >
+    insert into bops_exchange_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="bopsExchangeId != null" >
+        bops_exchange_id,
+      </if>
+      <if test="goodsCode != null" >
+        goods_code,
+      </if>
+      <if test="goodsName != null" >
+        goods_name,
+      </if>
+      <if test="quantity != null" >
+        quantity,
+      </if>
+      <if test="actualQuantity != null" >
+        actual_quantity,
+      </if>
+      <if test="bopsOrderItemId != null" >
+        bops_order_item_id,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="normalQuantity != null" >
+        normal_quantity,
+      </if>
+      <if test="goodsbreakQuantity != null" >
+        goodsbreak_quantity,
+      </if>
+      <if test="goodslossQuantity != null" >
+        goodsloss_quantity,
+      </if>
+      <if test="damagepackQuantity != null" >
+        damagepack_quantity,
+      </if>
+      <if test="damagewarehouseQuantity != null" >
+        damagewarehouse_quantity,
+      </if>
+      <if test="createAt != null" >
+        create_at,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="changeAt != null" >
+        change_at,
+      </if>
+      <if test="changeBy != null" >
+        change_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="bopsExchangeId != null" >
+        #{bopsExchangeId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsCode != null" >
+        #{goodsCode,jdbcType=BIGINT},
+      </if>
+      <if test="goodsName != null" >
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="actualQuantity != null" >
+        #{actualQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="bopsOrderItemId != null" >
+        #{bopsOrderItemId,jdbcType=BIGINT},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=BIGINT},
+      </if>
+      <if test="normalQuantity != null" >
+        #{normalQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="goodsbreakQuantity != null" >
+        #{goodsbreakQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="goodslossQuantity != null" >
+        #{goodslossQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="damagepackQuantity != null" >
+        #{damagepackQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="damagewarehouseQuantity != null" >
+        #{damagewarehouseQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="createAt != null" >
+        #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="changeAt != null" >
+        #{changeAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="changeBy != null" >
+        #{changeBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.bops.trade.BopsExchangeItem" >
+    update bops_exchange_item
+    <set >
+      <if test="bopsExchangeId != null" >
+        bops_exchange_id = #{bopsExchangeId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsCode != null" >
+        goods_code = #{goodsCode,jdbcType=BIGINT},
+      </if>
+      <if test="goodsName != null" >
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null" >
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="actualQuantity != null" >
+        actual_quantity = #{actualQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="bopsOrderItemId != null" >
+        bops_order_item_id = #{bopsOrderItemId,jdbcType=BIGINT},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=BIGINT},
+      </if>
+      <if test="normalQuantity != null" >
+        normal_quantity = #{normalQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="goodsbreakQuantity != null" >
+        goodsbreak_quantity = #{goodsbreakQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="goodslossQuantity != null" >
+        goodsloss_quantity = #{goodslossQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="damagepackQuantity != null" >
+        damagepack_quantity = #{damagepackQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="damagewarehouseQuantity != null" >
+        damagewarehouse_quantity = #{damagewarehouseQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="createAt != null" >
+        create_at = #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="changeAt != null" >
+        change_at = #{changeAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="changeBy != null" >
+        change_by = #{changeBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.domain.po.bops.trade.BopsExchangeItem" >
+    update bops_exchange_item
+    set bops_exchange_id = #{bopsExchangeId,jdbcType=BIGINT},
+      goods_code = #{goodsCode,jdbcType=BIGINT},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=INTEGER},
+      actual_quantity = #{actualQuantity,jdbcType=INTEGER},
+      bops_order_item_id = #{bopsOrderItemId,jdbcType=BIGINT},
+      price = #{price,jdbcType=BIGINT},
+      normal_quantity = #{normalQuantity,jdbcType=INTEGER},
+      goodsbreak_quantity = #{goodsbreakQuantity,jdbcType=INTEGER},
+      goodsloss_quantity = #{goodslossQuantity,jdbcType=INTEGER},
+      damagepack_quantity = #{damagepackQuantity,jdbcType=INTEGER},
+      damagewarehouse_quantity = #{damagewarehouseQuantity,jdbcType=INTEGER},
+      create_at = #{createAt,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      change_at = #{changeAt,jdbcType=TIMESTAMP},
+      change_by = #{changeBy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

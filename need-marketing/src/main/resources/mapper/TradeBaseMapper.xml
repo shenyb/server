@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.marketing.dao.jdbc.api.trade.TradeBaseDAO">
+	<resultMap id="BaseResultMap"
+		type="com.need.marketing.dao.jdbc.api.trade.po.TradeBasePO">
+		<id column="order_no" property="orderNo" jdbcType="VARCHAR" />
+		<result column="trade_no" property="tradeNo" jdbcType="VARCHAR" />
+		<result column="order_status" property="orderStatus" jdbcType="VARCHAR" />
+		<result column="trade_status" property="tradeStatus" jdbcType="VARCHAR" />
+		<result column="buyer_id" property="buyerId" jdbcType="VARCHAR" />
+		<result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+		<result column="buy_count" property="buyCount" jdbcType="INTEGER" />
+		<result column="buy_price" property="buyPrice" jdbcType="INTEGER" />
+		<result column="total_price" property="totalPrice" jdbcType="INTEGER" />
+		<result column="pay_channel" property="payChannel" jdbcType="VARCHAR" />
+		<result column="pay_price" property="payPrice" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+		<result column="trade_time" property="tradeTime" jdbcType="TIMESTAMP" />
+		<result column="address_id" property="addressId" jdbcType="VARCHAR" />
+		<result column="user_trade_no" property="userTradeNo" jdbcType="VARCHAR" />
+		<result column="user_order_no" property="userOrderNo" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		order_no, trade_no, order_status, trade_status, buyer_id,
+		goods_id, buy_count,
+		buy_price,
+		total_price, pay_channel, pay_price,
+		create_time, pay_time, trade_time, address_id,
+		user_trade_no, user_order_no
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from trade_base
+		where order_no = #{orderNo}
+	</select>
+
+	<select id="getGoodsSoldCount" resultType="int" parameterType="java.lang.String">
+		SELECT
+		CASE
+		WHEN SUM(buy_count) IS NULL
+		THEN 0
+		ELSE SUM(buy_count)
+		END AS
+		sum_buy_count
+		FROM
+		trade_base
+		WHERE goods_id = #{goodsId}
+		AND
+		(trade_status = 'TRADE_SUCCESS' <!-- 交易成功 -->
+		or trade_status = 'WAIT_PLATFORM_SEND'<!-- 待发货 -->
+		or trade_status = 'REFUND_SUCCESS'<!-- 退款成功 -->
+		or trade_status = 'WAIT_RECEIVE')<!-- 待收货 -->
+	</select>
+
+	<select id="getGoodsOutStoreCount" resultType="int"
+		parameterType="java.lang.String">
+		SELECT
+		CASE
+		WHEN SUM(buy_count) IS NULL
+		THEN 0
+		ELSE SUM(buy_count)
+		END AS
+		sum_buy_count
+		FROM
+		trade_base
+		WHERE goods_id = #{goodsId}
+		AND
+		(trade_status = 'TRADE_SUCCESS' <!-- 交易成功 -->
+		or trade_status = 'REFUND_SUCCESS'<!-- 退款成功 -->
+		or trade_status = 'WAIT_RECEIVE')<!-- 待收货 -->
+	</select>
+
+	<select id="getTradeLockedCount" resultType="int" parameterType="java.lang.String">
+		select
+		sum(buy_count)
+		from trade_base
+		where goods_id =
+		#{goodsId}
+		and(
+		order_status = 'WAIT_PAY' or
+		order_status = 'WAIT_RECEIVE' )
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		trade_base
+		where order_no = #{orderNo}
+	</delete>
+	<insert id="insert" parameterType="com.need.marketing.dao.jdbc.api.trade.po.TradeBasePO">
+		insert into trade_base
+		(order_no, trade_no, order_status,
+		trade_status, buyer_id, goods_id,
+		buy_count, buy_price, total_price,
+		pay_channel, pay_price, create_time,
+		pay_time, trade_time, address_id
+		)
+		values (#{orderNo},
+		#{tradeNo},
+		#{orderStatus},
+		#{tradeStatus}, #{buyerId},
+		#{goodsId},
+		#{buyCount},
+		#{buyPrice},
+		#{totalPrice},
+		#{payChannel}, #{payPrice},
+		#{createTime},
+		#{payTime},
+		#{tradeTime},
+		#{addressId}
+		)
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.need.marketing.dao.jdbc.api.trade.po.TradeBasePO">
+		update trade_base
+		<set>
+			<if test="tradeNo != null">
+				trade_no = #{tradeNo},
+			</if>
+			<if test="orderStatus != null">
+				order_status = #{orderStatus},
+			</if>
+			<if test="tradeStatus != null">
+				trade_status = #{tradeStatus},
+			</if>
+			<if test="buyerId != null">
+				buyer_id = #{buyerId},
+			</if>
+			<if test="goodsId != null">
+				goods_id = #{goodsId},
+			</if>
+			<if test="buyCount != null">
+				buy_count = #{buyCount},
+			</if>
+			<if test="buyPrice != null">
+				buy_price = #{buyPrice},
+			</if>
+			<if test="totalPrice != null">
+				total_price = #{totalPrice},
+			</if>
+			<if test="payChannel != null">
+				pay_channel = #{payChannel},
+			</if>
+			<if test="payPrice != null">
+				pay_price = #{payPrice},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime},
+			</if>
+			<if test="payTime != null">
+				pay_time = #{payTime},
+			</if>
+			<if test="tradeTime != null">
+				trade_time = #{tradeTime},
+			</if>
+			<if test="addressId != null">
+				address_id = #{addressId},
+			</if>
+		</set>
+		where order_no = #{orderNo}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.need.marketing.dao.jdbc.api.trade.po.TradeBasePO">
+		update trade_base
+		set trade_no = #{tradeNo},
+		order_status =
+		#{orderStatus},
+		trade_status =
+		#{tradeStatus},
+		buyer_id =
+		#{buyerId},
+		goods_id = #{goodsId},
+		buy_count =
+		#{buyCount},
+		buy_price =
+		#{buyPrice},
+		total_price =
+		#{totalPrice},
+		pay_channel =
+		#{payChannel},
+		pay_price =
+		#{payPrice},
+		create_time =
+		#{createTime},
+		pay_time =
+		#{payTime},
+		trade_time =
+		#{tradeTime},
+		address_id =
+		#{addressId}
+		where order_no =
+		#{orderNo}
+	</update>
+	<select id="getByTradeNo" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from trade_base 
+		where trade_no = #{tradeNo}
+	</select>
+
+
+
+</mapper>

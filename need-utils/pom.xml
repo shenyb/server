@@ -1,0 +1,77 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+   <parent>
+		<groupId>com.need</groupId>
+		<artifactId>bops-base</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+
+  <artifactId>need-utils</artifactId>
+  <version>${need-utils.version}</version>
+  <packaging>jar</packaging>
+
+  <name>need-utils</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <definition.scope>provided</definition.scope>
+  </properties>
+
+  <dependencies>
+     <!-- log4j -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<scope>${definition.scope}</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+		</dependency>
+
+	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>javax.servlet-api</artifactId>
+		<scope>${definition.scope}</scope>
+	</dependency>
+    
+    <dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<scope>${definition.scope}</scope>
+	</dependency>
+    <!-- json处理 -->
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<classifier>jdk15</classifier>
+		</dependency>
+    <dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<scope>${definition.scope}</scope>
+	</dependency>
+    <dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<scope>${definition.scope}</scope>
+	</dependency>
+	<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+   </dependency>	
+  </dependencies>
+  
+</project>

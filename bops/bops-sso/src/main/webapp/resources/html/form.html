@@ -1,0 +1,150 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+
+
+<link rel="stylesheet" href="/resources/css/datapage.css" >
+<link rel="stylesheet" href="/resources/css/form.css" >
+<link rel="stylesheet" href="/resources/css/pagination.css" >
+
+<div class="form-page-wrap">
+	<div class="data-page-inner">
+		<div class="page-head">
+	        <h3 class="m-b-less">
+	            商品新增
+	        </h3>
+	        <!--<span class="sub-title">Welcome to Static Table</span>-->
+	        <div class="state-information">
+	            <ol class="breadcrumb m-b-less bg-less">
+	                <li><a href="#">主页</a></li>
+	                <li><a href="#">行家分类管理</a></li>
+	                <li class="active">行家分类列表</li>
+	            </ol>
+	        </div>
+	    </div>
+	    <div class="wrapper">
+	    	<div class="row">
+	    		<div class="col-sm-12">
+	    			<section class="panel">
+	    				<header class="panel-heading">商品概要</header>
+	    				<div class="panel-body">
+	    					<form class="form-horizontal">
+	    						<div class="form-group">
+	    							<label for="" class="col-lg-2">商品编号</label>
+	    							<div class="col-lg-9">
+	    								<input type="text">
+	    							</div>
+	    						</div>
+	    						<div class="form-group">
+	    							<label for="" class="col-lg-2">国际条形码</label>
+	    							<div class="col-lg-9">
+	    								<input type="text">
+	    							</div>
+	    						</div>
+	    						<div class="form-group">
+	    							<label for="" class="col-lg-2">是否为保税仓</label>
+	    							<div class="col-lg-9">
+	    								<select class="form-control" name="" id="">
+	    									<option value="">是</option>
+	    									<option value="">否</option>
+	    								</select>
+	    							</div>
+	    						</div>
+	    						<div class="form-group">
+	    							<label for="" class="col-lg-2">商品名称</label>
+	    							<div class="col-lg-9">
+	    								<input type="text">
+	    							</div>
+	    						</div>
+	    						<div class="form-group">
+	    							<label for="" class="col-lg-2">商品简介</label>
+	    							<div class="col-lg-9">
+	    								<textarea class="form-control" rows="3"></textarea>
+	    							</div>
+	    						</div>
+	    						<div class="form-group">
+	    							<label for="" class="col-lg-2">商品原价</label>
+	    							<div class="col-lg-9">
+	    								<input type="text">
+	    							</div>
+	    						</div>
+	    						<div class="form-group">
+	    							<label for="" class="col-lg-2">商品折扣价</label>
+	    							<div class="col-lg-9">
+	    								<input type="text">
+	    							</div>
+	    						</div>
+	    						<div class="form-group">
+	    							<label for="" class="col-lg-2">商品主图</label>
+	    							<div class="col-lg-9">
+	    								<input id="mainpic" data-url="/publicImageUpload" type="file" name="files">
+	    							</div>
+	    						</div>
+	    						<div class="form-group">
+	    							<label for="" class="col-lg-2">场景图</label>
+	    							<div class="col-lg-9">
+	    								<input type="text">
+	    							</div>
+	    						</div>
+	    						<div class="form-group">
+	    							<input type="checkbox">
+	    						</div>
+	    					</form>
+	    				</div>
+	    			</section>
+	    			<section class="panel">
+	    				<header class="panel-heading">商品详情</header>
+	    				<div class="panel-body">
+	    					<form class="form-horizontal">
+	    						<div class="form-group">
+	    							<label for="" class="col-lg-2">详情大图</label>
+	    							<div class="col-lg-9">
+	    								<input type="text">
+	    							</div>
+	    						</div>
+	    						<div class="form-group">
+	    							<label for="" class="col-lg-2">详情介绍</label>
+	    							<div class="col-lg-9">
+	    								<input type="text">
+	    							</div>
+	    						</div>
+	    					</form>
+	    				</div>
+	    			</section>
+	    			<section class="panel">
+	    				<header class="panel-heading">产品参数</header>
+	    				<div class="panel-body">
+	    					<form class="form-horizontal">
+	    						<div class="form-group">
+	    							<label for="" class="col-lg-2">商品尺寸</label>
+	    							<div class="col-lg-9">
+	    								<input type="text">
+	    							</div>
+	    						</div>
+	    						<div class="form-group">
+	    							<label for="" class="col-lg-2">商品颜色</label>
+	    							<div class="col-lg-9">
+	    								<input type="text">
+	    							</div>
+	    						</div>
+	    						<div class="form-group">
+	    							<label for="" class="col-lg-2">商品产地</label>
+	    							<div class="col-lg-9">
+	    								<input type="text">
+	    							</div>
+	    						</div>
+	    						<div class="form-group">
+	    							<label for="" class="col-lg-2">商品重量</label>
+	    							<div class="col-lg-9">
+	    								<input type="text">
+	    							</div>
+	    						</div>
+	    						<div class="form-group btnlist">
+	    							<button type="submit" class="btn btn-info">提交</button>
+	    						</div>
+	    					</form>
+	    				</div>
+	    			</section>
+	    		</div>
+	    	</div>
+	    </div>
+	</div>
+</div>

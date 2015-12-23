@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.common.core.dao.jdbc.device.DeviceBaseDAO" >
+  <resultMap id="BaseResultMap" type="com.need.common.domain.po.api.device.DeviceBasePO" >
+    <id column="device_id" property="deviceId" jdbcType="VARCHAR" />
+    <result column="os_version" property="osVersion" jdbcType="VARCHAR" />
+    <result column="mac" property="mac" jdbcType="VARCHAR" />
+    <result column="device_channel" property="deviceChannel" jdbcType="VARCHAR" />
+    <result column="mobile_version" property="mobileVersion" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="resolution" property="resolution" jdbcType="VARCHAR" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+     <result column="channel_id" property="channelId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    device_id, os_version, mac, device_channel, mobile_version, mobile, resolution, memo, 
+    create_time,channel_id
+  </sql>
+  <select id="getByDeviceId"  parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List"></include>
+    from device_base
+    where device_id = #{deviceId}
+  </select>
+  <select id="selectByPrimaryId" parameterType="java.lang.String" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from device_base
+    where device_id = #{deviceId,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="selectByMac" parameterType="java.lang.String" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from device_base
+    where mac = #{mac}
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from device_base
+    where device_id = #{deviceId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.need.common.domain.po.api.device.DeviceBasePO" >
+    insert into device_base (device_id, os_version, mac, 
+      device_channel, mobile_version, mobile, 
+      resolution, memo, create_time
+      )
+    values (#{deviceId,jdbcType=VARCHAR}, #{osVersion,jdbcType=VARCHAR}, #{mac,jdbcType=VARCHAR}, 
+      #{deviceChannel,jdbcType=VARCHAR}, #{mobileVersion,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{resolution,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertNewDevice" parameterType="com.need.common.domain.po.api.device.DeviceBasePO" >
+    insert into device_base
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        device_id,
+        os_version,
+        mac,
+        device_channel,
+      <if test="mobileVersion != null" >
+        mobile_version,
+      </if>
+       <if test="channelId != null" >
+        channel_id,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="resolution != null" >
+        resolution,
+      </if>
+      <if test="memo != null" >
+        memo,
+      </if>
+        create_time
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        #{deviceId},
+        #{osVersion},
+        #{mac},
+        #{deviceChannel},
+      <if test="mobileVersion != null" >
+        #{mobileVersion},
+      </if>
+        <if test="channelId != null" >
+        #{channelId},
+      </if>
+      <if test="mobile != null" >
+        #{mobile},
+      </if>
+      <if test="resolution != null" >
+        #{resolution},
+      </if>
+      <if test="memo != null" >
+        #{memo},
+      </if>
+        now()
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.common.domain.po.api.device.DeviceBasePO" >
+    update device_base
+    <set >
+      <if test="osVersion != null" >
+        os_version = #{osVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="mac != null" >
+        mac = #{mac,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceChannel != null" >
+        device_channel = #{deviceChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileVersion != null" >
+        mobile_version = #{mobileVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="resolution != null" >
+        resolution = #{resolution,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where device_id = #{deviceId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.common.domain.po.api.device.DeviceBasePO" >
+    update device_base
+    set os_version = #{osVersion,jdbcType=VARCHAR},
+      mac = #{mac,jdbcType=VARCHAR},
+      device_channel = #{deviceChannel,jdbcType=VARCHAR},
+      mobile_version = #{mobileVersion,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      resolution = #{resolution,jdbcType=VARCHAR},
+      memo = #{memo,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where device_id = #{deviceId,jdbcType=VARCHAR}
+  </update>
+</mapper>

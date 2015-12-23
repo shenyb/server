@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.goods.BopsPricechangeGoodsDAO">
+	<resultMap id="BaseResultMap"
+		type="com.need.domain.po.bops.goods.BopsPricechangeGoods">
+		<id column="pricechange_goods_id" property="pricechangeGoodsId"
+			jdbcType="INTEGER" />
+		<result column="pricechange_id" property="pricechangeId"
+			jdbcType="INTEGER" />
+		<result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+		<result column="start_price" property="startPrice" jdbcType="INTEGER" />
+		<result column="end_price" property="endPrice" jdbcType="INTEGER" />
+		<result column="history_purchase_price" property="historyPurchasePrice" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		pricechange_goods_id, pricechange_id, goods_id, start_price, end_price, history_purchase_price
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from bops_pricechange_goods
+		where pricechange_goods_id = #{pricechangeGoodsId,jdbcType=INTEGER}
+	</select>
+	
+	<select id="queryPricePO" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from bops_pricechange_goods
+		where pricechange_id = #{pricechangeId}
+	</select>
+	
+	<select id="queryPriceList" resultType="com.need.domain.vo.goods.GoodsPriceResultVO"
+		parameterType="java.lang.Integer">
+		select
+		p.pricechange_goods_id, p.goods_id, p.start_price discountPrice, p.end_price originalPrice,
+		g.goods_name, g.goods_barcode, p.history_purchase_price purchasePrice, g.goods_code
+		from bops_pricechange_goods p left join bops_goods g 
+		on g.goods_id = p.goods_id 
+		where pricechange_id = #{pricechangeId}
+	</select>
+	<select id="countGoodsPrice" resultType="java.lang.Integer"
+		parameterType="java.lang.Integer">
+		select
+		count(*)
+		from bops_pricechange_goods
+		where pricechange_id = #{pricechangeId}
+	</select>
+	
+	<select id="countGoodsPriceDetailList" resultType="java.lang.Integer"
+		parameterType="com.need.domain.vo.goods.GoodsPriceDetailParamVO">
+		select
+		count(*)
+		from bops_pricechange_goods p left join bops_goods g
+		on g.goods_id = p.goods_id
+		left join bops_pricechange c on c.pricechange_id = p.pricechange_id
+		left join bops_user u on u.user_id = c.bops_user_id
+		<![CDATA[ where 1=1]]>
+		<if test="goodsCode != null and goodsCode != '' " >
+			and g.goods_code like '%${goodsCode}%'
+		</if>
+		<if test="goodsName != null and goodsName != '' " >
+			and g.goods_name like '%${goodsName}%'
+		</if>
+		<if test="userId != null and userId != '' " >
+			and c.bops_user_id = #{userId}
+		</if>
+		<if test="goodsBarcode != null and goodsBarcode != '' " >
+			and g.goods_barcode like '%${goodsBarcode}%'
+		</if>
+	</select>
+	
+	<select id="queryPriceDetailList" resultType="com.need.domain.vo.goods.GoodsPriceDetailResultVO"
+		parameterType="com.need.domain.vo.goods.GoodsPriceDetailParamVO">
+		select
+		g.goods_code, p.pricechange_id, g.goods_barcode, g.goods_name,
+		p.start_price discountPrice, p.end_price originalPrice,
+		p.history_purchase_price purchasePrice, c.pricechange_status, c.excuted, c.pricechange_type,
+		c.bops_user_id userId, c.create_time userTime,
+		u.user_real_name userName, u.user_dept,
+		c.start_time, c.end_time
+		from bops_pricechange_goods p left join bops_goods g
+		on g.goods_id = p.goods_id
+		left join bops_pricechange c on c.pricechange_id = p.pricechange_id
+		left join bops_user u on u.user_id = c.bops_user_id
+		<![CDATA[ where 1=1]]>
+		<if test="goodsCode != null and goodsCode != '' " >
+			and g.goods_code like '%${goodsCode}%'
+		</if>
+		<if test="goodsName != null and goodsName != '' " >
+			and g.goods_name like '%${goodsName}%'
+		</if>
+		<if test="userId != null and userId != '' " >
+			and c.bops_user_id = #{userId}
+		</if>
+		<if test="goodsBarcode != null and goodsBarcode != '' " >
+			and g.goods_barcode like '%${goodsBarcode}%'
+		</if>
+		order by p.pricechange_id DESC
+		limit #{start}, #{pageSize}
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from bops_pricechange_goods
+		where pricechange_goods_id = #{pricechangeGoodsId,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.need.domain.po.bops.goods.BopsPricechangeGoods">
+		insert into bops_pricechange_goods (pricechange_goods_id,
+		pricechange_id,
+		goods_id, start_price, end_price
+		)
+		values (#{pricechangeGoodsId,jdbcType=INTEGER},
+		#{pricechangeId,jdbcType=INTEGER},
+		#{goodsId,jdbcType=VARCHAR}, #{startPrice,jdbcType=INTEGER}, #{endPrice,jdbcType=INTEGER}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.need.domain.po.bops.goods.BopsPricechangeGoods">
+		insert into bops_pricechange_goods
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			pricechange_id,
+			goods_id,
+			start_price,
+			<if test="endPrice != null and endPrice != '' ">
+				end_price,
+			</if>
+			history_purchase_price,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{pricechangeId},
+			#{goodsId},
+			#{startPrice},
+			<if test="endPrice != null and endPrice != '' ">
+				#{endPrice},
+			</if>
+			#{historyPurchasePrice},
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.bops.goods.BopsPricechangeGoods">
+		update bops_pricechange_goods
+		<set>
+			<if test="pricechangeId != null">
+				pricechange_id = #{pricechangeId,jdbcType=INTEGER},
+			</if>
+			<if test="goodsId != null">
+				goods_id = #{goodsId,jdbcType=VARCHAR},
+			</if>
+			<if test="startPrice != null">
+				start_price = #{startPrice,jdbcType=INTEGER},
+			</if>
+			<if test="endPrice != null">
+				end_price = #{endPrice,jdbcType=INTEGER},
+			</if>
+		</set>
+		where pricechange_goods_id = #{pricechangeGoodsId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.need.domain.po.bops.goods.BopsPricechangeGoods">
+		update bops_pricechange_goods
+		set pricechange_id = #{pricechangeId,jdbcType=INTEGER},
+		goods_id = #{goodsId,jdbcType=VARCHAR},
+		start_price = #{startPrice,jdbcType=INTEGER},
+		end_price = #{endPrice,jdbcType=INTEGER}
+		where pricechange_goods_id = #{pricechangeGoodsId,jdbcType=INTEGER}
+	</update>
+</mapper>

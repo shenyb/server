@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.need.integration.dao.jdbc.bops.trade.BopsRetrieveStatusRecordDAO">
+	<resultMap id="BaseResultMap"
+		type="com.need.integration.dao.jdbc.api.trade.po.TradeRetrieveStatusRecord">
+		<id column="retrieve_id" property="retrieveId" jdbcType="VARCHAR" />
+		<result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+		<result column="trade_no" property="tradeNo" jdbcType="VARCHAR" />
+		<result column="user_order_no" property="orderNo" jdbcType="VARCHAR" />
+		<result column="user_trade_no" property="tradeNo" jdbcType="VARCHAR" />
+		<result column="retrieve_status" property="retrieveStatus"
+			jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		retrieve_id,
+		trade_no,
+		order_no,
+		user_trade_no,
+		user_order_no,
+		retrieve_status,
+		create_time,
+		update_time
+	</sql>
+	<select id="getByOrderNo" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from bops_trade_retrieve_status_record
+		where order_no = #{orderNo} order by create_time desc
+	</select>
+	<select id="getByTradeNo" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from bops_trade_retrieve_status_record
+		where trade_no = #{tradeNo} order by create_time desc
+	</select>
+	<select id="getByUserTradeNo" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from bops_trade_retrieve_status_record
+		where user_trade_no = #{userTradeNo} 
+	</select>
+	<select id="getByUserOrderNo" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from bops_trade_retrieve_status_record
+		where user_order_no = #{userOrderNo}
+	</select>
+	<insert id="insert"
+		parameterType="com.need.integration.dao.jdbc.api.trade.po.TradeRetrieveStatusRecord">
+		insert into bops_trade_retrieve_status_record (trade_no,
+		order_no,
+		user_trade_no,
+		user_order_no,
+		retrieve_status,
+		create_time,
+		update_time
+		)values ( #{trade_no},
+		#{order_no},
+		#{user_trade_no},
+		#{user_order_no},
+		#{retrieve_status},
+		NOW(),NOW())
+	</insert>
+
+</mapper>

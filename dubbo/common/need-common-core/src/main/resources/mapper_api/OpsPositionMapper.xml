@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.common.core.dao.jdbc.ops.OpsPositionDAO" >
+  <resultMap id="BaseResultMap" type="com.need.common.domain.po.api.ops.OpsPositionPO" >
+    <id column="ops_id" property="opsId" jdbcType="VARCHAR" />
+    <result column="ops_type" property="opsType" jdbcType="VARCHAR" />
+    <result column="ops_pic_key" property="opsPicKey" jdbcType="VARCHAR" />
+    <result column="ops_number" property="opsNumber" jdbcType="VARCHAR" />
+    <result column="type_id" property="typeId" jdbcType="VARCHAR" />
+    <result column="ops_name" property="opsName" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ops_id, ops_type, ops_pic_key, ops_number, type_id
+  </sql>
+  <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ops_position
+    where ops_id = #{opsId}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.String" >
+    delete from ops_position
+    where ops_id = #{opsId}
+  </delete>
+  <insert id="insert" parameterType="com.need.common.domain.po.api.ops.OpsPositionPO" >
+    insert into ops_position (ops_id, ops_type, ops_pic_key, 
+      ops_number, type_id)
+    values (#{opsId}, #{opsType}, #{opsPicKey}, 
+      #{opsNumber}, #{typeId})
+  </insert>
+  
+  <update id="update" parameterType="com.need.common.domain.po.api.ops.OpsPositionPO" >
+    update ops_position
+    set ops_type = #{opsType},
+      ops_pic_key = #{opsPicKey},
+      ops_number = #{opsNumber},
+      type_id = #{typeId}
+    where ops_id = #{opsId}
+  </update>
+   <select id="querBypageHome" resultMap="BaseResultMap">
+    select
+     <include refid="Base_Column_List" />
+    from ops_position  where ops_number='BANNER_HOME'
+   </select>
+   
+   
+   <select id="querBypageOther" resultMap="BaseResultMap">
+    select
+     <include refid="Base_Column_List" />
+    from ops_position  where ops_number='BANNER_SHOP' 
+   </select>
+   
+   
+   <sql id="ops_Column_List" >
+    o.ops_id, o.ops_type, x.ops_pic as ops_pic_key, o.ops_number, o.type_id,x.ops_name
+   </sql>
+   
+   <select id="queryHomeOps" resultMap="BaseResultMap">
+     select
+     <include refid="ops_Column_List" />
+     from ops_main x inner join ops_position o on o.ops_number=x.ops_id 
+        where x.ops_type='HOME_BANNER'
+            and now() between o.eff_date and o.exp_date order by o.topic_score DESC, o.type_id DESC
+      LIMIT 0,5
+   </select>
+   
+   <select id="queryShijianOps" resultMap="BaseResultMap">
+     select
+     <include refid="ops_Column_List" />
+     from ops_main x inner join ops_position o on o.ops_number=x.ops_id where x.ops_type='SHIJIAN_BANNER'
+         and now() between o.eff_date and o.exp_date order by o.topic_score DESC, o.type_id DESC
+      LIMIT 0,5
+   </select>
+   
+    <select id="queryShijianScrollOps" resultMap="BaseResultMap">
+     select
+     <include refid="ops_Column_List" />
+     from ops_main x inner join ops_position o on o.ops_number=x.ops_id where x.ops_type='SHIJIAN_SCROLL'
+      and now() between o.eff_date and o.exp_date order by o.topic_score DESC, o.type_id DESC
+     LIMIT 0,3
+    </select>
+    
+    <select id="queryKolOps" parameterType="int" resultMap="BaseResultMap">
+     select
+     <include refid="ops_Column_List" />
+     from ops_main x inner join ops_position o on o.ops_number=x.ops_id where o.category_id=#{categoryId}
+     and now() between o.eff_date and o.exp_date order by o.topic_score DESC, o.type_id DESC
+      LIMIT 0,3
+    </select>
+    
+    
+    
+    <select id="queryStartBannerOps"  resultMap="BaseResultMap">
+     select
+     <include refid="ops_Column_List" />
+     from ops_main x inner join ops_position o on o.ops_number=x.ops_id where x.ops_type='START_BANNER'
+     and now() between o.eff_date and o.exp_date order by o.topic_score DESC, o.type_id DESC
+      LIMIT 0,3
+    </select>
+    
+    
+    
+    <select id="queryXinhuanBannerOps"  resultMap="BaseResultMap">
+     select
+     <include refid="ops_Column_List" />
+     from ops_main x inner join ops_position o on o.ops_number=x.ops_id where x.ops_type='XINHUAN_BANNER'
+     and now() between o.eff_date and o.exp_date order by o.topic_score DESC, o.type_id DESC
+      LIMIT 0,5
+    </select>
+    
+    
+    
+     <select id="queryXinhuanScrollOps"  resultMap="BaseResultMap">
+     select
+     <include refid="ops_Column_List" />
+     from ops_main x inner join ops_position o on o.ops_number=x.ops_id where x.ops_type='XINHUAN_SCROLL'
+      LIMIT 0,8
+    </select>
+    
+     <select id="queryXinhuanScrollOps_2_0"  resultMap="BaseResultMap">
+     select
+     <include refid="ops_Column_List" />
+     from ops_main x inner join ops_position o on o.ops_number=x.ops_id where x.ops_type='XINHUAN_SCROLL'
+     and now() between o.eff_date and o.exp_date order by o.topic_score DESC, o.type_id DESC
+      LIMIT 0,8
+     
+     </select>
+    
+</mapper>

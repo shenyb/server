@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.common.core.dao.jdbc.need.NeedGoodsDAO">
+	<resultMap id="BaseResultMap" type="com.need.common.domain.po.api.need.NeedGoodsPO">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="VARCHAR" />
+		<result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+		<result column="need_status" property="needStatus" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, user_id, goods_id, need_status, create_time
+	</sql>
+	<select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from need_goods
+		where id = #{id}
+	</select>
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from need_goods
+		where id = #{id}
+	</delete>
+	<insert id="insert" parameterType="com.need.common.domain.po.api.need.NeedGoodsPO">
+		replace into  need_goods (id, user_id, goods_id,
+		need_status, create_time)
+		values (#{id}, #{userId}, #{goodsId},
+		#{needStatus}, #{createTime})
+	</insert>
+
+
+	<update id="update" parameterType="com.need.common.domain.po.api.need.NeedGoodsPO">
+		update need_goods
+		set user_id = #{userId},
+		goods_id = #{goodsId},
+		need_status = #{needStatus},
+		create_time = #{createTime}
+		where id = #{id}
+	</update>
+
+	<select id="getNeedGoodsCount" parameterType="java.lang.String"
+		resultType="int">
+		select count(goods_id) from need_goods where goods_id=#{goodsId} and
+		need_status='NEED'
+	</select>
+
+	<select id="queryByParams" parameterType="java.lang.String"
+		resultType="com.need.common.domain.po.api.need.NeedGoodsPO">
+		select
+		<include refid="Base_Column_List" />
+		from need_goods where user_id=#{userId} and goods_id=#{goodsId} and
+		need_status=#{needStatus}
+	</select>
+
+	<select id="getIsNeed" parameterType="java.lang.String"
+		resultType="com.need.common.domain.po.api.need.NeedGoodsPO">
+		select
+		<include refid="Base_Column_List" />
+		from need_goods where user_id=#{userId} and goods_id=#{goodsId}
+	</select>
+
+	<select id="countIsNeed" parameterType="java.lang.String" resultType="java.lang.String">
+		select
+		need_status
+		from need_goods where user_id=#{userId} and goods_id=#{goodsId} and
+		need_status="NEED"
+	</select>
+
+	<select id="countIsNeeded" parameterType="java.lang.String"
+		resultType="Boolean">
+		select count(need_status) from (
+		select
+		need_status
+		from
+		need_goods where user_id=#{userId} and goods_id=#{goodsId} and
+		need_status="NEED") AS need
+	</select>
+
+	<select id="selectNeedGoods" parameterType="java.lang.String"
+		resultType="com.need.common.domain.po.api.goods.GoodsMainPO">
+		SELECT goods_name , onsale_price,top_pic_keys , goods_id
+		FROM
+		goods_main
+		WHERE goods_status= 'ONLINE'
+		 <if test="isGolbal != null" >
+        and  is_global=#{isGolbal}
+      </if>
+		and goods_id IN
+		(SELECT goods_id FROM need_goods WHERE
+		user_id = #{userId} and need_status = 'NEED' )
+	</select>
+	
+	
+	<select id="queryNeedList" parameterType="java.lang.String"
+		resultType="com.need.common.domain.po.api.goods.GoodsMainPO">
+		SELECT g.goods_name , g.onsale_price,g.top_pic_keys , g.goods_id
+		FROM goods_main g LEFT JOIN need_goods n ON g.goods_id = n.goods_id 
+		WHERE g.goods_status='ONLINE' AND n.user_id=#{userId} AND n.need_status = 'NEED'
+	</select>
+</mapper>

@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.api.goods.GoodsMainDAO">
+	<resultMap id="BaseResultMap"
+		type="com.need.domain.po.api.goods.GoodsMainPO">
+		<id column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+		<result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+		<result column="goods_status" property="goodsStatus" jdbcType="VARCHAR" />
+		<result column="scene_id" property="sceneId" jdbcType="INTEGER" />
+		<result column="brief" property="brief" jdbcType="VARCHAR" />
+		<result column="top_pic_keys" property="topPicKeys" jdbcType="VARCHAR" />
+		<result column="discount_price" property="discountPrice"
+			jdbcType="INTEGER" />
+		<result column="onsale_price" property="onsalePrice" jdbcType="INTEGER" />
+		<result column="store_count" property="storeCount" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="goods_code" property="goodsCode" jdbcType="VARCHAR" />
+		<result column="scene_pic_key" property="scenePicKey" jdbcType="VARCHAR" />
+		<result column="oppse_reason" property="oppseReason" jdbcType="VARCHAR" />
+		<result column="lock_count" property="lockCount" jdbcType="INTEGER" />
+		<result column="goods_barcode" property="goodsBarcode" jdbcType="VARCHAR" />
+		<result column="is_global" property="isGlobal" jdbcType="VARCHAR" />
+		<result column="haiguan_count" property="haiguanCount"
+			jdbcType="VARCHAR" />
+		<result column="guojian_count" property="guojianCount"
+			jdbcType="VARCHAR" />
+		<result column="haiguan_country_code" property="haiguanCountryCode"
+			jdbcType="VARCHAR" />
+		<result column="guojian_country_code" property="guojianCountryCode"
+			jdbcType="VARCHAR" />
+		<result column="haiguan_goods_place" property="haiguanGoodsPlace"
+			jdbcType="VARCHAR" />
+		<result column="guojian_goods_place" property="guojianGoodsPlace"
+			jdbcType="VARCHAR" />
+		<result column="warehouse_type" property="warehouseType"
+			jdbcType="VARCHAR" />
+		<result column="goods_category_id" property="goodsCategoryId"
+			jdbcType="INTEGER" />
+			
+	    <result column="brand_id" property="brandId"
+			jdbcType="INTEGER" />
+	    <result column="is_valid_date" property="isValidDate"
+			jdbcType="VARCHAR" />
+	    <result column="is_gift" property="isGift"
+			jdbcType="VARCHAR" />
+	    <result column="valid_date" property="validDate"
+			jdbcType="INTEGER" />	
+	     <result column="goods_type" property="goodsType"
+			jdbcType="INTEGER" />	
+		<result column="goods_index_category" property="goodsIndexCategory"
+			jdbcType="VARCHAR" />
+		<result column="goods_online_time" property="goodsOnlineTime"
+			jdbcType="TIMESTAMP" />		
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		goods_id, goods_name, goods_status, scene_id, brief, top_pic_keys,
+		discount_price,
+		onsale_price, store_count, create_time, update_time, goods_code, oppse_reason,
+		scene_pic_key,lock_count,goods_barcode, is_global, 
+		haiguan_count, guojian_count, haiguan_country_code, guojian_country_code,
+		haiguan_goods_place, guojian_goods_place,warehouse_type,goods_category_id,brand_id,is_valid_date,is_gift,valid_date,goods_type,goods_index_category,goods_online_time
+	</sql>
+	<sql id="GoodsVO_Column_List">
+		goods_id, goods_name, onsale_price, top_pic_keys, brief
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from goods_main
+		where goods_id = #{goodsId}
+	</select>
+	<select id="queryByGoodsCode" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from goods_main
+		where goods_code = #{goodsCode}
+	</select>
+
+	<update id="updatePriceById">
+		update goods_main set
+		discount_price = #{price},
+		update_time = #{updateTime}
+		where goods_id = #{goodsId}
+	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from goods_main
+		where goods_id = #{goodsId}
+	</delete>
+	<insert id="insert" parameterType="com.need.domain.po.api.goods.GoodsMainPO">
+		insert into goods_main (goods_id, goods_name, goods_status,
+		scene_id, brief, top_pic_keys,
+		discount_price, onsale_price, store_count,
+		create_time, update_time, goods_code,
+		oppse_reason, scene_pic_key,lock_count, goods_barcode,
+		is_global, haiguan_count, guojian_count,
+		haiguan_country_code, guojian_country_code,
+		haiguan_goods_place, guojian_goods_place, warehouse_type,
+		goods_category_id,brand_id,is_valid_date,is_gift,valid_date,goods_type)
+		values (#{goodsId}, #{goodsName}, #{goodsStatus},
+		#{sceneId}, #{brief}, #{topPicKeys},
+		#{discountPrice}, #{onsalePrice}, #{storeCount},
+		#{createTime}, #{updateTime}, #{goodsCode},
+		#{oppseReason}, #{scenePicKey},#{lockCount},#{goodsBarcode},
+		#{isGlobal}, #{haiguanCount}, #{guojianCount},
+		#{haiguanCountryCode}, #{guojianCountryCode},
+		#{haiguanGoodsPlace},#{guojianGoodsPlace},#{warehouseType},
+		#{goodsCategoryId},#{brandId},#{isValidDate},
+		#{isGift},#{validDate},#{goodsType})
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.need.domain.po.api.goods.GoodsMainPO">
+		insert into goods_main (goods_id, goods_name, goods_status,
+		scene_id, brief, top_pic_keys,
+		discount_price, onsale_price, store_count,
+		create_time, update_time, goods_code,
+		oppse_reason, scene_pic_key, goods_barcode, is_global, 
+		haiguan_count, guojian_count,
+		haiguan_country_code, guojian_country_code,
+		haiguan_goods_place, guojian_goods_place, warehouse_type,
+		goods_category_id,short_name,brand_id,is_valid_date,is_gift,valid_date,goods_type)
+		values (#{goodsId}, #{goodsName}, #{goodsStatus},
+		#{sceneId}, #{brief}, #{topPicKeys},
+		#{discountPrice}, #{onsalePrice}, 0,
+		#{createTime}, #{updateTime}, #{goodsCode},
+		#{oppseReason}, #{scenePicKey}, #{goodsBarcode},
+		#{isGlobal}, #{haiguanCount}, #{guojianCount},
+		#{haiguanCountryCode}, #{guojianCountryCode},
+		#{haiguanGoodsPlace},#{guojianGoodsPlace},#{warehouseType},
+		#{goodsCategoryId},#{shortName},#{brandId},#{isValidDate},
+		#{isGift},#{validDate},#{goodsType})
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.api.goods.GoodsMainPO">
+		update goods_main
+		<set>
+			<if test="goodsName != null">
+				goods_name = #{goodsName},
+			</if>
+			<if test="goodsStatus != null">
+				goods_status = #{goodsStatus},
+			</if>
+			<if test="sceneId != null">
+				scene_id = #{sceneId},
+			</if>
+			<if test="brief != null">
+				brief = #{brief},
+			</if>
+			<if test="topPicKeys != null">
+				top_pic_keys = #{topPicKeys},
+			</if>
+			<if test="discountPrice != null">
+				discount_price = #{discountPrice},
+			</if>
+			<if test="onsalePrice != null">
+				onsale_price = #{onsalePrice},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime},
+			</if>
+			<if test="goodsCode != null">
+				goods_code = #{goodsCode},
+			</if>
+			<if test="oppseReason != null">
+				oppse_reason = #{oppseReason},
+			</if>
+			<if test="scenePicKey != null">
+				scene_pic_key = #{scenePicKey},
+			</if>
+			<if test="goodsBarcode != null">
+				goods_barcode = #{goodsBarcode},
+			</if>
+			<if test="isGlobal != null">
+				is_global = #{isGlobal},
+			</if>
+			<if test="haiguanCount != null">
+				haiguan_count = #{haiguanCount},
+			</if>
+			<if test="guojianCount != null">
+				guojian_count = #{guojianCount},
+			</if>
+			<if test="haiguanCountryCode != null">
+				haiguan_country_code = #{haiguanCountryCode},
+			</if>
+			<if test="guojianCountryCode != null">
+				guojian_country_code = #{guojianCountryCode},
+			</if>
+			<if test="haiguanGoodsPlace != null">
+				haiguan_goods_place = #{haiguanGoodsPlace,jdbcType=VARCHAR},
+			</if>
+			<if test="guojianGoodsPlace != null">
+				guojian_goods_place = #{guojianGoodsPlace,jdbcType=VARCHAR},
+			</if>
+			<if test="warehouseType != null">
+				warehouse_type = #{warehouseType,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsCategoryId != null">
+				goods_category_id = #{goodsCategoryId},
+			</if>
+			<if test="brandId != null">
+				brand_id = #{brandId},
+			</if>
+			<if test="isValidDate != null">
+				is_valid_date = #{isValidDate},
+			</if>
+			<if test="isGift != null">
+				is_gift = #{isGift},
+			</if>
+			<if test="validDate != null">
+				valid_date = #{validDate},
+			</if>
+			<if test="goodsType != null">
+				goods_type = #{validDate}
+			</if>
+		</set>
+		where goods_id = #{goodsId}
+	</update>
+
+	<update id="updateStoreCount" parameterType="com.need.domain.po.api.goods.GoodsMainPO">
+		update goods_main
+		<set>
+			<if test="storeCount != null">
+				store_count = #{storeCount},
+			</if>
+			<if test="updateTime != null">
+				update_time = NOW(),
+			</if>
+		</set>
+		where goods_id = #{goodsId}
+	</update>
+	
+	<update id="updateGoodsPrice" >
+		update goods_main
+		set
+		discount_price = #{discountPrice},
+		update_time = NOW()
+		where goods_id = #{goodsId}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.need.domain.po.api.goods.GoodsMainPO">
+		update goods_main set
+		goods_name = #{goodsName},
+		brief = #{brief},
+		top_pic_keys = #{topPicKeys},
+		discount_price = #{discountPrice},
+		onsale_price = #{onsalePrice},
+		goods_status = #{goodsStatus},
+		update_time = #{updateTime},
+		goods_code = #{goodsCode},
+		oppse_reason = #{oppseReason},
+		scene_pic_key = #{scenePicKey},
+		goods_barcode = #{goodsBarcode},
+		is_global = #{isGlobal},
+		haiguan_count =	#{haiguanCount},
+		guojian_count =	#{guojianCount},
+		haiguan_country_code = #{haiguanCountryCode},
+		guojian_country_code = #{guojianCountryCode},
+		haiguan_goods_place = #{haiguanGoodsPlace},
+		guojian_goods_place = #{guojianGoodsPlace},
+		warehouse_type = #{warehouseType},
+		goods_category_id = #{goodsCategoryId},
+		short_name = #{shortName},
+		brand_id=#{brandId},
+		is_valid_date=#{isValidDate},
+		is_gift=#{isGift},
+		valid_date= #{validDate},
+		goods_type=#{goodsType},
+		goods_index_category=#{goodsIndexCategory}
+		where goods_id = #{goodsId}
+	</update>
+	<update id="updateLockCountByGoodsId">
+		update goods_main set
+		update_time = NOW(),
+		lock_count=lock_count-${buyCount}
+		where goods_id = #{goodsId}
+	</update>
+	
+	<update id="updateLockcount" >
+		update goods_main
+		set
+		lock_count = lock_count-${count},
+		store_count = store_count+${count},
+		update_time = NOW()
+		where goods_id = #{goodsId}
+	</update>
+	<insert id="insertGroupGoods" parameterType="com.need.domain.po.api.goods.GoodsMainPO">
+		insert into goods_main
+		(goods_id, goods_code,goods_status, goods_name,scene_id,top_pic_keys,discount_price,onsale_price,
+		create_time,goods_barcode,is_global,short_name,warehouse_type,goods_type,update_time)
+		values
+		(#{goodsId},#{goodsCode},#{goodsStatus},#{goodsName},#{sceneId}, #{topPicKeys},#{discountPrice}, #{onsalePrice},
+		NOW(),#{goodsBarcode},#{isGlobal},#{shortName},#{warehouseType},#{goodsType},#{updateTime}
+		)
+	</insert>
+	<select id="queryMinStoreByGoodsGroupId" resultType="int"
+		parameterType="java.lang.String">
+	SELECT 
+	case when FLOOR (MIN(store_count/a.goods_count))  is null then 0 else 
+	FLOOR (MIN(store_count/a.goods_count)) end as storeCount
+	FROM
+	  (SELECT 
+	     goods_id,goods_count
+	  FROM
+	    goods_items 
+	  WHERE goods_group_id =#{goodsGroupId}) a 
+	  LEFT JOIN goods_main b 
+	    ON a.goods_id = b.goods_id 
+	</select>
+	<update id="updateGoodsStatus">
+		update goods_main set
+		goods_status=#{goodsStatus},
+		goods_online_time =#{goodsOnlineTime}
+		where goods_id = #{goodsId}
+	</update>
+	
+	<update id="updateGroupPrice">
+		update goods_main set
+		onsale_price=#{onsalePrice},
+		discount_price =#{discountPrice}
+		where goods_id = #{goodsId}
+	</update>
+	
+	<update id="updateCategory">
+		update goods_main set
+		goods_index_category=#{categoryId}
+		where goods_code = #{goodsCode}
+	</update>
+</mapper>

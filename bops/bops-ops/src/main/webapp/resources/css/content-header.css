@@ -1,0 +1,203 @@
+.content-header {
+    background-color: #ffffff;
+    height: 52px;
+}
+/* 左侧按钮 */
+.content-header .toggle-btn {
+    width: 55px;
+    height: 52px;
+    line-height: 30px;
+    font-size: 14px;
+    padding: 11px;
+    cursor: pointer;
+    float: left;
+    text-align: center;
+    color: #384246;
+    transition: all 0.2s ease-out 0s;
+}
+.content-header .toggle-btn:hover, .content-header .sb-toggle-right:hover {
+    color: #8b8b8b;
+    background-color: #f7f7f7;
+}
+/* 右侧用户信息 */
+.notification-wrap {
+    float: right;
+}
+.right-notification {
+    float: right;
+    height: 52px;
+}
+.notification-menu {
+    float: right;
+    list-style: outside none none;
+    padding-left: 0px;
+    margin: 0;
+}
+/* reset bootstrap css */
+.notification-menu .dropdown-toggle:hover, 
+.notification-menu .open .dropdown-toggle.dropdown-toggle {
+    background: #F7F7F7 none repeat scroll 0% 0%;
+    box-shadow: none;
+}
+.btn-default:hover, .btn-default:focus, 
+.btn-default:active, .btn-default.active, 
+.open .dropdown-toggle.btn-default {
+    background-color: #E2E2E2;
+    border-color: #E2E2E2;
+}
+.toggle-btn:hover, .notification-menu .dropdown-toggle:hover, 
+.notification-menu .dropdown-toggle:focus, 
+.notification-menu .dropdown-toggle:active, 
+.notification-menu .dropdown-toggle.active, 
+.notification-menu .open .dropdown-toggle.dropdown-toggle {
+    background: #F7F7F7 none repeat scroll 0% 0%;
+    color: #8B8B8B;
+    outline: none;
+}
+/* reset bootstrap end */
+.notification-header-wrap {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    overflow: hidden;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+.notification-header-wrap img {
+    display: block;
+    width: 100%;
+}
+
+/* 登录信息下拉菜单样式 */
+.dropdown-usermenu.purple::after {
+    border-bottom: 6px solid #9C78CD;
+}
+.dropdown-usermenu.purple::after {
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    content: "";
+    display: inline-block;
+    right: 6%;
+    position: absolute;
+    top: -6px;
+}
+.notification-menu .dropdown-menu {
+    margin-top: 0px;
+    border-radius: 0px;
+    box-shadow: none;
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent #ECECEC #ECECEC;
+    min-width: 230px;
+    border-radius: 0px;
+}
+.notification-menu .dropdown-usermenu li {
+    padding: 0px;
+}
+.notification-menu .dropdown-menu li {
+    display: block;
+    margin: 0px;
+    float: none;
+    background: transparent none repeat scroll 0% 0%;
+}
+.notification-menu > li.open .dropdown-menu {
+    animation-name: fadeInUp;
+}
+.notification-menu .dropdown-menu {
+    padding: 0px;
+}
+.dropdown-usermenu.purple {
+    border-top: 1px solid #9C78CD;
+}
+.right-notification .notification-menu li li a {
+    height: auto;
+    line-height: normal;
+    padding: 15px;
+}
+.right-notification .notification-menu li a {
+    color: #8B8B8B;
+}
+.right-notification .notification-menu li a {
+    height: 52px;
+    line-height: 52px;
+    padding: 0px 15px;
+}
+.notification-menu .dropdown-menu li a {
+    color: #FFF;
+    font-size: 13px;
+    padding: 7px 10px;
+    transition: all 0.2s ease-out 0s;
+}
+.bg-danger, .info-number .bg-danger {
+    color: #FFF;
+    background-color: #E55957;
+}
+.bg-info, .info-number .bg-info {
+    color: #FFF;
+    background-color: #6BD3F3;
+}
+/* 下来菜单样式结束 */
+
+.mega-menu {
+    float: left;
+    padding: 0px;
+}
+.mega-menu ul li a {
+    margin-bottom: 15px;
+    display: inline-block;
+    color: #8B8B8B;
+    font-size: 12px;
+    font-weight: 200;
+}
+.mega-menu .navbar-nav {
+    height: 52px;
+}
+.mega-menu .navbar-nav > li > a {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.yamm .dropdown {
+    position: static;
+}
+.notification-menu > li {
+    float: left;
+    position: relative;
+}
+.right-notification .notification-menu li a {
+    color: #8B8B8B;
+}
+.right-notification .notification-menu li a {
+    height: 52px;
+    line-height: 52px;
+    padding: 0px 15px;
+    font-size: 12px;
+}
+.notification-menu .dropdown-toggle {
+    padding: 12px 10px;
+    background: transparent none repeat scroll 0% 0%;
+    border-radius: 0px;
+    border: medium none;
+}
+.right-notification .notification-menu > li > a > img {
+    width: 29px;
+    height: 29px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.right-notification .notification-menu > li > a > span.fa-angle-down {
+    margin-left: 5px;
+}
+
+/* 右侧伸缩按钮 */
+.sb-toggle-right {
+    width: 55px;
+    height: 52px;
+    line-height: 30px;
+    font-size: 14px;
+    padding: 11px;
+    cursor: pointer;
+    text-align: center;
+    color: #384246;
+    transition: all 0.2s ease-out 0s;
+}

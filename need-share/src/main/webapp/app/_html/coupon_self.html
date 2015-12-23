@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+	<head lang="zh-cmn">
+		<meta charset="utf-8">
+		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">  <meta content="portrait" name="x5-orientation">
+		<meta content="true" name="x5-fullscreen">
+		<meta content="portrait" name="screen-orientation">
+		<meta content="yes" name="full-screen">
+		<meta content="webkit" name="renderer">
+		<meta content="IE=Edge" http-equiv="X-UA-Compatible">
+		<meta content="no-siteapp" http-equiv="Cache-Control">
+		<meta content="网页描述" name="description"> 
+		<meta content="网页关键词" name="keywords">
+		<link rel="stylesheet" href="../css/normalize.css">
+		<link rel="stylesheet" href="../css/main.css">
+		<script type="text/javascript" src="../script/auto_fontsize.js"></script>
+		<title>优惠券分享自己查看状态</title>
+		<style>
+			body {
+				background-color: #ffffff;
+			}
+			img {
+				display: block;
+				width: 100%;
+			}
+			.content {
+				max-width: 750px;
+			}
+			.header {
+				position: relative;
+			}
+			.user-head-wrap {
+				width: 6.875rem;
+				height: 6.875rem;
+				overflow: hidden;
+				border-radius: 100%;
+				border: 1px solid #DBB0B3;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				-webkit-transform: translateX(-50%) translateY(-50%);
+				-moz-transform: translateX(-50%) translateY(-50%);
+				-o-transform: translateX(-50%) translateY(-50%);
+				transform: translateX(-50%) translateY(-50%);
+				background-color: #ffffff;
+			}
+			.user-name-wrap {
+				position: absolute;
+				width: 10.1875rem;
+				height: 1.9375rem;
+				top: 50%;
+				left: 50%;
+			    -webkit-transform: translateX(-50%);
+				-moz-transform: translateX(-50%);
+				-o-transform: translateX(-50%);
+				transform: translateX(-50%);
+				margin-top: 1.5625rem;
+			}
+			.user-name-wrap img {
+				position: absolute;
+			}
+			.user-name-wrap span {
+				position: absolute;
+				top: 0.125rem;
+				z-index: 10;
+				left: 50%;
+				color: #ffffff;
+			    -webkit-transform: translateX(-50%);
+				-moz-transform: translateX(-50%);
+				-o-transform: translateX(-50%);
+				transform: translateX(-50%);
+			}
+			.log {
+				margin-top: 1.25rem;
+			}
+			.log p {
+				color: #9F9F9F;
+				text-align: center;
+				font-size: 1rem;
+			}
+			.des {
+				padding: 0 1.25rem;
+				margin-top: 1.1875rem;
+			}
+			.des p {
+				text-align: center;
+				font-size: 1rem;
+			}
+			.list .title {
+				border-bottom: 1px solid #D8D8D8;
+			}
+			.list .title span {
+				position: absolute;
+				color: #9F9F9F;
+				font-size: 1rem;
+				margin-top: -0.75rem;
+			    background-color: #ffffff;
+			    padding: 0 0.625rem;
+			    left: 50%;
+			    -webkit-transform: translateX(-50%);
+				-moz-transform: translateX(-50%);
+				-o-transform: translateX(-50%);
+				transform: translateX(-50%);
+			}
+			.list {
+				margin-top: 2.4375rem;
+			}
+			.list .item {
+				margin-top: 2rem;
+				padding: 0 1.5625rem;
+			}
+			.list .item .l {
+				width: 2.5rem;
+				height: 2.5rem;
+				border-radius: 100%;
+				overflow: hidden;
+				float: left;
+				margin-right: 0.75rem;
+			}
+			.list .item .m {
+				float: left;
+			}
+			.list .item .m p {
+				margin: 0;
+			}
+			.list .item .m p .name {
+				font-size: 0.875rem;
+				color: #2A2A2A;
+				margin-right: 0.875rem;
+			}
+			.list .item .m p .date {
+				font-size: 0.6875rem;
+				color: #C5C5C5;
+			}
+			.list .item .r {
+				float: right;
+			}
+			.list .item .r span {
+				color: #EE4F4E;
+				font-size: 1.125rem;
+				line-height: 2.5rem;
+			}
+			.list .item .reply {
+				color: #7B7B7B;
+				font-size: 0.875rem;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="content">
+			<section class="header">
+				<img class="bg" src="../images/coupon/discount_share_bg_img@2x.png" alt="">
+				<div class="user-head-wrap">
+					<img src="../images/temp/demo_goods5.jpg" alt="">
+				</div>
+				<div class="user-name-wrap">
+					<span>Rachel.land</span>
+					<img src="../images/coupon/discount_share_namebg_img@2x.png" alt="">
+				</div>
+			</section>
+			<section class="log">
+				<p>0 位用户领取了我的优惠券</p>
+			</section>
+			<section class="des">
+				<p>即日起，你的好友领取并使用了你分享的优惠券即可获得同等面额优惠。</p>
+			</section>
+			<section class="list">
+				<div class="title">
+					<span>领取红包的小伙伴</span>
+				</div>
+				<div class="item clearfix">
+					<div class="l">
+						<img src="../images/temp/02_100x100.jpg" alt="">
+					</div>
+					<div class="m">
+						<p>
+							<span class="name">Chris.L</span>
+							<span class="date">2015-06-07</span>
+						</p>
+						<p class="reply">
+							买买买
+						</p>
+					</div>
+					<div class="r">
+						<span>101元</span>
+					</div>
+				</div>
+				<div class="item clearfix">
+					<div class="l">
+						<img src="../images/temp/02_100x100.jpg" alt="">
+					</div>
+					<div class="m">
+						<p>
+							<span class="name">Chris.L</span>
+							<span class="date">2015-06-07</span>
+						</p>
+						<p class="reply">
+							买买买
+						</p>
+					</div>
+					<div class="r">
+						<span>101元</span>
+					</div>
+				</div>
+				<div class="item clearfix">
+					<div class="l">
+						<img src="../images/temp/02_100x100.jpg" alt="">
+					</div>
+					<div class="m">
+						<p>
+							<span class="name">Chris.L</span>
+							<span class="date">2015-06-07</span>
+						</p>
+						<p class="reply">
+							买买买
+						</p>
+					</div>
+					<div class="r">
+						<span>101元</span>
+					</div>
+				</div>
+			</section>
+		</div>
+		
+	</body>
+</html>

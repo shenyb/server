@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.integration.dao.jdbc.api.trade.TradePushPullDAO">
+	<resultMap id="BaseResultMap"
+		type="com.need.integration.dao.jdbc.api.trade.po.TradePushPullPO">
+		<id column="order_no" property="orderNo" jdbcType="VARCHAR" />
+		<result column="trade_no" property="tradeNo" jdbcType="VARCHAR" />
+		<result column="out_trade_no" property="outTradeNo" jdbcType="VARCHAR" />
+		<result column="logistics_no" property="logisticsNo" jdbcType="VARCHAR" />
+		<result column="order_status" property="orderStatus" jdbcType="VARCHAR" />
+		<result column="trade_status" property="tradeStatus" jdbcType="VARCHAR" />
+		<result column="retrieve_status" property="retrieveStatus"
+			jdbcType="VARCHAR" />
+		<result column="deliver_status" property="deliverStatus"
+			jdbcType="VARCHAR" />
+		<result column="memo_deliver" property="memoDeliver" jdbcType="VARCHAR" />
+		<result column="push_return_status" property="pushReturnStatus"
+			jdbcType="VARCHAR" />
+		<result column="memo_push" property="memoPush" jdbcType="VARCHAR" />
+		<result column="memo_logistics" property="memoLogistics"
+			jdbcType="VARCHAR" />
+		<result column="memo_retrieve" property="memoRetrieve"
+			jdbcType="VARCHAR" />
+		<result column="batch_no" property="batchNo" jdbcType="VARCHAR" />
+		<result column="batch_count" property="batchCount" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="warehouse_type" property="warehouseType" jdbcType="VARCHAR" />
+		
+	</resultMap>
+	<sql id="Base_Column_List">
+		trade_no, order_no,retrieve_status, create_time,
+		out_trade_no, logistics_no, order_status,
+		trade_status,deliver_status,memo_deliver,
+		update_time,memo_push,memo_logistics,memo_retrieve,push_return_status,batch_no,batch_count,warehouse_type
+	</sql>
+	<select id="getByOrderNo" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from bops_trade_push_pull
+		where order_no = #{orderNo}
+	</select>
+	<select id="getByTradeNo" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from trade_push_pull
+		where trade_no = #{tradeNo}
+	</select>
+	<insert id="insert"
+		parameterType="com.need.integration.dao.jdbc.api.trade.po.TradePushPullPO">
+		insert into trade_push_pull ( order_no,
+		trade_no,create_time,
+		out_trade_no, logistics_no, order_status,
+		trade_status,retrieve_status,memo_push,memo_retrieve,memo_logistics,push_return_status,batch_no,batch_count,
+		update_time,warehouse_type)
+		values ( #{orderNo},#{tradeNo}, NOW(),
+		#{outTradeNo},
+		#{logisticsNo}, #{orderStatus},
+		#{tradeStatus},#{retrieveStatus},#{memoPush},#{memoRetrieve},#{memoLogistics},#{pushReturnStatus},
+		#{batchNo},#{batchCount},NOW(),#{warehouseType})
+	</insert>
+	<update id="updateByOrderNo"
+		parameterType="com.need.integration.dao.jdbc.api.trade.po.TradePushPullPO">
+		update trade_push_pull
+		set trade_no = #{tradeNo},
+		create_time = #{createTime},
+		update_time=now(),
+		out_trade_no =
+		#{outTradeNo},
+		logistics_no= #{logisticsNo},
+		order_status =
+		#{orderStatus},
+		trade_status =#{tradeStatus},
+		retrieve_status=#{retrieveStatus},
+		deliver_status=#{deliverStatus},
+		memo_deliver=#{memoDeliver},
+		memo_push=#{memoPush},
+		memo_retrieve=#{memoRetrieve},
+		memo_logistics=#{memoLogistics},
+		push_return_status=#{pushReturnStatus},
+		batch_no=#{batchNo},
+		batch_count=#{batchCount}
+		where order_no =
+		#{orderNo}
+	</update>
+	<update id="updatePushStatus"
+		parameterType="com.need.integration.dao.jdbc.api.trade.po.TradePushPullPO">
+		update trade_push_pull
+		set push_return_status = 'TRUE',
+		memo_deliver = #{result}
+		where trade_no = #{userTradeNo}
+	</update>
+	<update id="updateLogisticsNo"
+		parameterType="com.need.integration.dao.jdbc.api.trade.po.TradePushPullPO">
+		update trade_push_pull
+		set logistics_no = #{logisticsNo}
+		where trade_no = #{userTradeNo}
+	</update>
+	<update id="updateBirdexResult"
+		parameterType="com.need.integration.dao.jdbc.api.trade.po.TradePushPullPO">
+		update trade_push_pull
+		set
+		memo_deliver = #{result}
+		where trade_no = #{userTradeNo}
+	</update>
+	
+	<select id="queryListToPull" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from trade_push_pull
+		where (logistics_no is null or
+		logistics_no='' ) and push_return_status='TRUE' and
+		trade_status='WAIT_PLATFORM_SEND'
+	</select>
+	<!-- INTERIM("INTERIM", "暂存"), DECLARATION("DECLARATION", "申报"), EXAM_PASS("EXAM_PASS", 
+		"审批通过"), INSPECTION_DETENTION("INSPECTION_DETENTION", "查验扣留"), INSPECTION_PASS("INSPECTION_PASS", 
+		"查验放行"), OK("OK", "放行"), END("NO", "结关"); -->
+	<select id="queryListToRetrieve" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+			trade_push_pull
+		WHERE
+			logistics_no IS NOT NULL
+		AND logistics_no != ''
+		AND trade_status = 'WAIT_PLATFORM_SEND'
+		AND(
+			retrieve_status IS NULL
+			OR retrieve_status = 'INTERIM'
+			OR retrieve_status = 'DECLARATION'
+			OR retrieve_status = 'EXAM_PASS'
+			OR retrieve_status = 'INSPECTION_DETENTION'
+			OR retrieve_status = 'INSPECTION_PASS'
+		)
+	</select>
+	<!-- 有运单号的，清关通过，并且未发货的 -->
+	<select id="queryListToDelievr" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from trade_push_pull
+		where logistics_no is not null and
+		logistics_no!='' and (retrieve_status='OK' or retrieve_status='NO')
+		and (deliver_status is null
+		or deliver_status!='ALL_DELIVER') and
+		trade_status='WAIT_PLATFORM_SEND'
+	</select>
+	<select id="getMaxBatchCount" resultType="INTEGER"
+		parameterType="java.lang.String">
+		select
+		max(batch_count)
+		from trade_push_pull
+		WHERE
+		batch_no=#{batchNo}
+	</select>
+</mapper>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.template.BopsTemplateDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.bops.template.BopsTemplate" >
+    <id column="template_id" property="templateId" jdbcType="INTEGER" />
+    <result column="template_name" property="templateName" jdbcType="VARCHAR" />
+    <result column="template_code" property="templateCode" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="record_status" property="recordStatus" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.need.domain.po.bops.template.BopsTemplate" extends="BaseResultMap" >
+    <result column="template_contents" property="templateContents" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    template_id, template_name, template_code, create_time, record_status
+  </sql>
+  <sql id="Blob_Column_List" >
+    template_contents
+  </sql>
+
+   <select id="getById" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from bops_ops_template
+    where template_id = #{templateId}
+  </select>
+  
+  <select id="count" resultType="int"  >
+    select count(template_id)
+    from bops_ops_template
+     <![CDATA[
+	 where  DATE_FORMAT(create_time, '%Y-%m-%d') <= now()
+	]]>
+  </select>
+  
+   <select id="queryByPage" resultMap="ResultMapWithBLOBs" parameterType="com.need.domain.pub.Page" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from bops_ops_template
+   order by create_time desc
+		limit #{start}, #{pageSize}
+  </select>
+  
+  
+  <delete id="deleteById" parameterType="java.lang.String" >
+    delete from bops_ops_template
+    where template_id = #{templateId}
+  </delete>
+  
+  <insert id="insert" parameterType="com.need.domain.po.bops.template.BopsTemplate" >
+    insert into bops_ops_template (template_id, template_name, template_code, 
+      create_time, record_status, template_contents
+      )
+    values (#{templateId}, #{templateName}, #{templateCode}, 
+     now(), #{recordStatus}, #{templateContents}
+      )
+  </insert>
+ 
+  <update id="updateById" parameterType="com.need.domain.po.bops.template.BopsTemplate" >
+    update bops_ops_template
+    set template_name = #{templateName},
+      template_code = #{templateCode},
+      record_status = #{recordStatus},
+      template_contents = #{templateContents}
+    where template_id = #{templateId}
+  </update>
+  
+  <select id="countByTemplateName" resultType="int"  >
+	    select count(template_id)
+	    from bops_ops_template
+	    where template_name = #{templateName}
+   </select>
+</mapper>

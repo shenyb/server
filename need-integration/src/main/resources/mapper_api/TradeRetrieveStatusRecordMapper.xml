@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.integration.dao.jdbc.api.trade.TradeRetrieveStatusRecordDAO" >
+  <resultMap id="BaseResultMap" type="com.need.integration.dao.jdbc.api.trade.po.TradeRetrieveStatusRecord" >
+    <id column="retrieve_id" property="retrieveId" jdbcType="INTEGER" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="trade_no" property="tradeNo" jdbcType="VARCHAR" />
+    <result column="user_order_no" property="userOrderNo" jdbcType="VARCHAR" />
+    <result column="user_trade_no" property="userTradeNo" jdbcType="VARCHAR" />
+    <result column="retrieve_status" property="retrieveStatus" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="tracking_code" property="trackingCode" jdbcType="VARCHAR" />
+    <result column="tracking_desc" property="trackingDesc" jdbcType="VARCHAR" />
+    <result column="birdex_result" property="birdexResult" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    retrieve_id, order_no, trade_no, user_order_no, user_trade_no, retrieve_status, create_time, 
+    update_time, tracking_code, tracking_desc, birdex_result
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from trade_retrieve_status_record
+    where retrieve_id = #{retrieveId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from trade_retrieve_status_record
+    where retrieve_id = #{retrieveId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.need.integration.dao.jdbc.api.trade.po.TradeRetrieveStatusRecord" >
+    insert into trade_retrieve_status_record (order_no, trade_no, 
+      user_order_no, user_trade_no, retrieve_status, 
+      create_time, update_time, tracking_code, 
+      tracking_desc)
+    values (#{orderNo}, #{tradeNo}, 
+      #{userOrderNo}, #{userTradeNo}, #{retrieveStatus}, 
+      NOW(), NOW(), #{trackingCode}, 
+      #{trackingDesc})
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.integration.dao.jdbc.api.trade.po.TradeRetrieveStatusRecord" >
+    insert into trade_retrieve_status_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="retrieveId != null" >
+        retrieve_id,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="tradeNo != null" >
+        trade_no,
+      </if>
+      <if test="userOrderNo != null" >
+        user_order_no,
+      </if>
+      <if test="userTradeNo != null" >
+        user_trade_no,
+      </if>
+      <if test="retrieveStatus != null" >
+        retrieve_status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="trackingCode != null" >
+        tracking_code,
+      </if>
+      <if test="trackingDesc != null" >
+        tracking_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="retrieveId != null" >
+        #{retrieveId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeNo != null" >
+        #{tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userOrderNo != null" >
+        #{userOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userTradeNo != null" >
+        #{userTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="retrieveStatus != null" >
+        #{retrieveStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trackingCode != null" >
+        #{trackingCode,jdbcType=VARCHAR},
+      </if>
+      <if test="trackingDesc != null" >
+        #{trackingDesc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.integration.dao.jdbc.api.trade.po.TradeRetrieveStatusRecord" >
+    update trade_retrieve_status_record
+    <set >
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeNo != null" >
+        trade_no = #{tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userOrderNo != null" >
+        user_order_no = #{userOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userTradeNo != null" >
+        user_trade_no = #{userTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="retrieveStatus != null" >
+        retrieve_status = #{retrieveStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trackingCode != null" >
+        tracking_code = #{trackingCode,jdbcType=VARCHAR},
+      </if>
+      <if test="trackingDesc != null" >
+        tracking_desc = #{trackingDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where retrieve_id = #{retrieveId,jdbcType=INTEGER}
+  </update>
+  
+  
+  <insert id="insertBiredexRecord"
+		parameterType="com.need.integration.dao.jdbc.api.trade.po.TradeRetrieveStatusRecord">
+		insert into trade_retrieve_status_record (
+		trade_no,
+		create_time,
+		update_time,
+		tracking_code,
+		tracking_desc,
+		birdex_result
+		)values (
+		#{tradeNo},
+		#{createTime},NOW(),
+		#{trackingCode},#{trackingDesc},
+		#{birdexResult})
+	</insert>
+	
+	<insert id="insertIdentityNotPassRecord"
+		parameterType="com.need.integration.dao.jdbc.api.trade.po.TradeRetrieveStatusRecord">
+		insert into trade_retrieve_status_record (
+		trade_no,
+		create_time,
+		update_time,
+		tracking_code,
+		tracking_desc,
+		birdex_result
+		)values (
+		#{tradeNo},
+		NOW(),NOW(),
+		#{trackingCode},#{trackingDesc},
+		#{birdexResult})
+	</insert>
+  <update id="updateByPrimaryKey" parameterType="com.need.integration.dao.jdbc.api.trade.po.TradeRetrieveStatusRecord" >
+    update trade_retrieve_status_record
+    set order_no = #{orderNo,jdbcType=VARCHAR},
+      trade_no = #{tradeNo,jdbcType=VARCHAR},
+      user_order_no = #{userOrderNo,jdbcType=VARCHAR},
+      user_trade_no = #{userTradeNo,jdbcType=VARCHAR},
+      retrieve_status = #{retrieveStatus,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      tracking_code = #{trackingCode,jdbcType=VARCHAR},
+      tracking_desc = #{trackingDesc,jdbcType=VARCHAR}
+    where retrieve_id = #{retrieveId,jdbcType=INTEGER}
+  </update>
+  <update id="updateRecord" parameterType="com.need.integration.dao.jdbc.api.trade.po.TradeRetrieveStatusRecord" >
+    update trade_retrieve_status_record
+    set order_no = #{orderNo},
+      trade_no = #{tradeNo},
+      user_order_no = #{userOrderNo},
+      user_trade_no = #{userTradeNo},
+      retrieve_status = #{retrieveStatus},
+      create_time = #{createTime},
+      update_time = #{updateTime},
+      tracking_code = #{trackingCode},
+      tracking_desc = #{trackingDesc}
+    where retrieve_id = #{retrieveId}
+  </update>
+   <select id="getByUserTradeNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from trade_retrieve_status_record
+    where user_trade_no = #{userTradeNo}
+  </select>
+  
+  <select id="getByTradeNoAndTrackingCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from trade_retrieve_status_record
+    where trade_no = #{tradeNo}
+    and tracking_code = #{trackingCode}
+  </select>
+  
+    <select id="getByTradeNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from trade_retrieve_status_record
+    where trade_no = #{tradeNo} order by create_time desc
+  </select>
+  
+   <select id="getByRetrieveStatusAndTradeNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from trade_retrieve_status_record
+    where trade_no = #{tradeNo} and tracking_code=#{trackingCode}
+  </select>
+  <select id="getByTradeNoAndCreateTime" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from trade_retrieve_status_record
+    where trade_no = #{tradeNo} and tracking_desc=#{ProcessInfo}
+  </select>
+</mapper>

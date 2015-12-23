@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.integration.dao.jdbc.bops.store.BopsInventoryFreezeLogDAO" >
+  <resultMap id="BaseResultMap" type="com.need.integration.dao.jdbc.bops.store.po.BopsInventoryFreezeLogPO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="bops_inventory_id" property="bopsInventoryId" jdbcType="BIGINT" />
+    <result column="bill_no" property="billNo" jdbcType="VARCHAR" />
+    <result column="order_freeze_qty" property="orderFreezeQty" jdbcType="INTEGER" />
+    <result column="other_freeze_qty" property="otherFreezeQty" jdbcType="INTEGER" />
+    <result column="demage_freeze_qty" property="demageFreezeQty" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_at" property="createAt" jdbcType="TIMESTAMP" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, bops_inventory_id, bill_no, order_freeze_qty, other_freeze_qty, demage_freeze_qty, 
+    remark, create_at, create_by
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from bops_inventory_freeze_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from bops_inventory_freeze_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.need.integration.dao.jdbc.bops.store.po.BopsInventoryFreezeLogPO" >
+    insert into bops_inventory_freeze_log (id, bops_inventory_id, bill_no, 
+      order_freeze_qty, other_freeze_qty, demage_freeze_qty, 
+      remark, create_at, create_by
+      )
+    values (#{id,jdbcType=BIGINT}, #{bopsInventoryId,jdbcType=BIGINT}, #{billNo,jdbcType=VARCHAR}, 
+      #{orderFreezeQty,jdbcType=INTEGER}, #{otherFreezeQty,jdbcType=INTEGER}, #{demageFreezeQty,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{createAt,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}
+      )
+  </insert>
+  
+  <insert id="saveStoreLog">
+    insert into bops_inventory_freeze_log (bops_inventory_id, bill_no, 
+      order_freeze_qty, other_freeze_qty, demage_freeze_qty, 
+      remark, create_at 
+      )
+    values (#{bopsInventoryId}, #{orderNo}, 
+      #{buyCount}, 0, 0, 
+      #{remark}, now() 
+      )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.need.integration.dao.jdbc.bops.store.po.BopsInventoryFreezeLogPO" >
+    insert into bops_inventory_freeze_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="bopsInventoryId != null" >
+        bops_inventory_id,
+      </if>
+      <if test="billNo != null" >
+        bill_no,
+      </if>
+      <if test="orderFreezeQty != null" >
+        order_freeze_qty,
+      </if>
+      <if test="otherFreezeQty != null" >
+        other_freeze_qty,
+      </if>
+      <if test="demageFreezeQty != null" >
+        demage_freeze_qty,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createAt != null" >
+        create_at,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="bopsInventoryId != null" >
+        #{bopsInventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="billNo != null" >
+        #{billNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderFreezeQty != null" >
+        #{orderFreezeQty,jdbcType=INTEGER},
+      </if>
+      <if test="otherFreezeQty != null" >
+        #{otherFreezeQty,jdbcType=INTEGER},
+      </if>
+      <if test="demageFreezeQty != null" >
+        #{demageFreezeQty,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null" >
+        #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.integration.dao.jdbc.bops.store.po.BopsInventoryFreezeLogPO" >
+    update bops_inventory_freeze_log
+    <set >
+      <if test="bopsInventoryId != null" >
+        bops_inventory_id = #{bopsInventoryId,jdbcType=BIGINT},
+      </if>
+      <if test="billNo != null" >
+        bill_no = #{billNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderFreezeQty != null" >
+        order_freeze_qty = #{orderFreezeQty,jdbcType=INTEGER},
+      </if>
+      <if test="otherFreezeQty != null" >
+        other_freeze_qty = #{otherFreezeQty,jdbcType=INTEGER},
+      </if>
+      <if test="demageFreezeQty != null" >
+        demage_freeze_qty = #{demageFreezeQty,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null" >
+        create_at = #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.integration.dao.jdbc.bops.store.po.BopsInventoryFreezeLogPO" >
+    update bops_inventory_freeze_log
+    set bops_inventory_id = #{bopsInventoryId,jdbcType=BIGINT},
+      bill_no = #{billNo,jdbcType=VARCHAR},
+      order_freeze_qty = #{orderFreezeQty,jdbcType=INTEGER},
+      other_freeze_qty = #{otherFreezeQty,jdbcType=INTEGER},
+      demage_freeze_qty = #{demageFreezeQty,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_at = #{createAt,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

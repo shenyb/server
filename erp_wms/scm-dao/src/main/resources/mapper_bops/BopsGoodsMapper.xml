@@ -1,0 +1,861 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.need.dao.bops.goods.BopsGoodsDAO">
+	<resultMap id="BaseResultMap"
+		type="com.need.domain.po.bops.goods.BopsGoods">
+		<id column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+		<result column="goods_status" property="goodsStatus" jdbcType="VARCHAR" />
+		<result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+		<result column="scene_id" property="sceneId" jdbcType="INTEGER" />
+		<result column="brief" property="brief" jdbcType="VARCHAR" />
+		<result column="top_pic_keys" property="topPicKeys" jdbcType="VARCHAR" />
+		<result column="discount_price" property="discountPrice"
+			jdbcType="INTEGER" />
+		<result column="onsale_price" property="onsalePrice" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="audit_status" property="auditStatus" jdbcType="CHAR" />
+		<result column="publisher_id" property="publisherId" jdbcType="INTEGER" />
+		<result column="auditor_id" property="auditorId" jdbcType="INTEGER" />
+		<result column="oppose_reason" property="opposeReason"
+			jdbcType="VARCHAR" />
+		<result column="goods_code" property="goodsCode" jdbcType="VARCHAR" />
+		<result column="scene_pic_key" property="scenePicKey" jdbcType="VARCHAR" />
+		<result column="goods_barcode" property="goodsBarcode"
+			jdbcType="VARCHAR" />
+		<result column="is_global" property="isGlobal" jdbcType="VARCHAR" />
+		<result column="haiguan_count" property="haiguanCount"
+			jdbcType="VARCHAR" />
+		<result column="guojian_count" property="guojianCount"
+			jdbcType="VARCHAR" />
+		<result column="haiguan_country_code" property="haiguanCountryCode"
+			jdbcType="VARCHAR" />
+		<result column="guojian_country_code" property="guojianCountryCode"
+			jdbcType="VARCHAR" />
+		<result column="haiguan_goods_place" property="haiguanGoodsPlace"
+			jdbcType="VARCHAR" />
+		<result column="guojian_goods_place" property="guojianGoodsPlace"
+			jdbcType="VARCHAR" />
+		<result column="warehouse_type" property="warehouseType"
+			jdbcType="VARCHAR" />
+		<result column="goods_category_id" property="goodsCategoryId"
+			jdbcType="INTEGER" />
+		<result column="short_name" property="shortName"
+			jdbcType="VARCHAR" />
+		<result column="purchase_manager" property="purchaseManager"
+			jdbcType="INTEGER" />
+		<result column="purchase_leader" property="purchaseLeader"
+			jdbcType="INTEGER" />
+		<result column="purchase_price" property="purchasePrice"
+			jdbcType="INTEGER" />
+	   <result column="brand_id" property="brandId"
+			jdbcType="INTEGER" />
+	   <result column="is_valid_date" property="isValidDate"
+			jdbcType="VARCHAR" />
+	   <result column="is_gift" property="isGift"
+			jdbcType="VARCHAR" />
+	  <result column="valid_date" property="validDate"
+			jdbcType="INTEGER" />
+	  <result column="update_online_time" property="updateOnlineTime"
+			jdbcType="TIMESTAMP" />
+			<result column="update_online_id" property="updateOnlineId"
+			jdbcType="INTEGER" />
+	  <result column="goods_type" property="goodsType"
+			jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		goods_id, goods_status, goods_name, scene_id, brief,
+		top_pic_keys,
+		discount_price, oppose_reason, goods_code,
+		onsale_price,
+		create_time, update_time, audit_status, publisher_id, auditor_id,
+		scene_pic_key,goods_barcode, is_global,
+		haiguan_count, guojian_count, haiguan_country_code, guojian_country_code,
+		haiguan_goods_place, guojian_goods_place,warehouse_type, goods_category_id,
+		short_name,purchase_manager,purchase_leader,purchase_price,brand_id,is_valid_date,is_gift,valid_date,goods_type
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="com.need.domain.po.bops.goods.BopsGoods">
+		select
+		goods_id, goods_status, goods_name, scene_id,
+		brief,scene_pic_key,
+		top_pic_keys,
+		discount_price, oppose_reason, goods_code,
+		onsale_price,
+		create_time, update_time, audit_status, publisher_id,
+		auditor_id,
+		scene_pic_key,goods_barcode, is_global, haiguan_count,
+		guojian_count, haiguan_country_code, guojian_country_code,
+		haiguan_goods_place, guojian_goods_place,update_online_time,update_online_id,
+		warehouse_type, goods_category_id,short_name,purchase_price,purchase_leader,purchase_manager,brand_id,is_valid_date,is_gift,valid_date,goods_type,goods_index_category
+		from bops_goods
+		where goods_id = #{goodsId}
+	</select>
+	
+	<select id="getByGoodsId" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from bops_goods
+		where goods_id = #{goodsId}
+	</select>
+	
+	<update id="updatePriceById" >
+		update bops_goods
+		set
+		discount_price = #{price},
+		update_time = #{updateTime}
+		where goods_id = #{goodsId}
+	</update>
+
+	<select id="queryPageOfBopsGoods"
+		resultType="com.need.domain.vo.goods.GoodsStoreDetailResultVO"
+		parameterType="com.need.domain.vo.goods.GoodsPageVO">
+		select
+		goods_id, goods_status, goods_name, scene_id, brief,
+		top_pic_keys,
+		scene_pic_key,
+		discount_price/100 discountPrice, oppose_reason,
+		goods_code,
+		onsale_price/100 onsalePrice,
+		create_time, update_time,
+		audit_status, publisher_id, auditor_id,
+		scene_pic_key, goods_barcode goodsBarcode, is_global,
+		haiguan_count, guojian_count, haiguan_country_code, guojian_country_code,
+		haiguan_goods_place, guojian_goods_place,
+		warehouse_type, goods_category_id,short_name,purchase_price,brand_id,is_valid_date,is_gift,valid_date,goods_type
+		from bops_goods where
+		<![CDATA[ create_time <= NOW()]]>
+		<if test="goodsName != null and goodsName != '' ">
+			and goods_name like '%${goodsName}%'
+		</if>
+		<if test="goodsCode != null and goodsCode != '' ">
+			and goods_code like '%${goodsCode}%'
+		</if>
+		<if test="goodsBarcode != null and goodsBarcode != '' ">
+			and goods_barcode like '%${goodsBarcode}%'
+		</if>
+		<if test="goodsType != null and goodsType != '' ">
+			and goods_type = #{goodsType}
+		</if>
+		<if test="goodsStatus != null and goodsStatus != '' ">
+			and goods_status = #{goodsStatus}
+		</if>
+		<if test="auditStatus != null and auditStatus != '' ">
+			and audit_status = #{auditStatus}
+		</if>
+		<if test="warehouseType != null and warehouseType != '' ">
+			and warehouse_type = #{warehouseType}
+		</if>
+		<if test="goodsIndexCategory != null and goodsIndexCategory != '' ">
+			and goods_index_category = #{goodsIndexCategory}
+		</if>
+		<if test="shortName != null and shortName != '' ">
+			and short_name like '%${shortName}%'
+		</if>
+		order by create_time DESC
+		limit #{start},#{pageSize}
+	</select>
+
+	<select id="queryPageOfBopsGoodsExport"
+		resultType="com.need.domain.vo.goods.GoodsStoreDetailResultVO"
+		parameterType="com.need.domain.vo.goods.GoodsPageVO">
+		select
+		goods_id, goods_status, goods_name,goods_type, scene_id, brief,
+		top_pic_keys,
+		discount_price/100 discountPrice, oppose_reason,
+		goods_code,
+		onsale_price/100 onsalePrice,
+		create_time, update_time,
+		audit_status, publisher_id, auditor_id,
+		scene_pic_key, goods_barcode
+		goodsBarcode, is_global,
+		goods_category_id goodsCategories,
+		haiguan_count, guojian_count,
+		haiguan_country_code, guojian_country_code,
+		warehouse_type, goods_category_id,short_name,purchase_manager,purchase_leader,purchase_price/100 purchasePrice
+		from bops_goods where
+		<![CDATA[ create_time <= NOW()]]>
+		<if test="goodsName != null and goodsName != '' ">
+			and goods_name like '%${goodsName}%'
+		</if>
+		<if test="goodsCode != null and goodsCode != '' ">
+			and goods_code like '%${goodsCode}%'
+		</if>
+		<if test="goodsStatus != null and goodsStatus != '' ">
+			and goods_status in (${goodsStatus})
+		</if>
+		<if test="auditStatus != null and auditStatus !='' ">
+			and audit_status in (${auditStatus})
+		</if>
+		<if test="warehouseType != null and warehouseType != '' ">
+			and warehouse_type in (${warehouseType})
+		</if>
+		<if test="shortName != null and shortName != '' ">
+			and short_name like '%${shortName}%'
+		</if>
+		order by create_time DESC
+		limit #{start},#{pageSize}
+	</select>
+
+	<select id="selectByGoodsId" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		goods_id, goods_status, goods_name, scene_id,
+		brief,
+		top_pic_keys,
+		discount_price, oppose_reason, goods_code,
+		onsale_price,
+		create_time, update_time, audit_status, publisher_id,
+		auditor_id,
+		scene_pic_key, goods_barcode, is_global,
+		haiguan_count, guojian_count,
+		haiguan_country_code, guojian_country_code,
+		haiguan_goods_place, guojian_goods_place,
+		warehouse_type, goods_category_id,brand_id,is_valid_date,is_gift,valid_date,goods_type
+		from bops_goods
+		where goods_id = #{goodsId}
+	</select>
+
+	<select id="queryCountGoods" resultType="int"
+		parameterType="com.need.domain.vo.goods.GoodsPageVO">
+		select
+		count(goods_id)
+		from bops_goods
+		<![CDATA[ where create_time <= NOW()]]>
+		<if test="goodsName != null and goodsName != '' ">
+			and goods_name like '%${goodsName}%'
+		</if>
+		<if test="goodsCode != null and goodsCode != '' ">
+			and goods_code like '%${goodsCode}%'
+		</if>
+		<if test="goodsStatus != null and goodsStatus != '' ">
+			and goods_status in (${goodsStatus})
+		</if>
+		<if test="auditStatus != null and auditStatus != '' ">
+			and audit_status in (${auditStatus})
+		</if>
+		<if test="warehouseType != null and warehouseType != '' ">
+			and warehouse_type in (${warehouseType})
+		</if>
+		<if test="goodsIndexCategory != null and goodsIndexCategory != '' ">
+			and goods_index_category = #{goodsIndexCategory}
+		</if>
+		<if test="shortName != null and shortName != '' ">
+			and short_name = #{shortName}
+		</if>
+		<if test="goodsBarcode != null and goodsBarcode != '' ">
+			and goods_barcode = #{goodsBarcode}
+		</if>
+	</select>
+	
+	<select id="countPageGoods" resultType="int"
+		parameterType="com.need.domain.vo.goods.GoodsPageVO">
+		select
+		count(goods_id)
+		from bops_goods
+		<![CDATA[ where create_time <= NOW()]]>
+		<if test="goodsName != null and goodsName != '' ">
+			and goods_name like '%${goodsName}%'
+		</if>
+		<if test="goodsCode != null and goodsCode != '' ">
+			and goods_code like '%${goodsCode}%'
+		</if>
+		<if test="goodsBarcode != null and goodsBarcode != '' ">
+			and goods_barcode like '%${goodsBarcode}%'
+		</if>
+		<if test="goodsStatus != null and goodsStatus != '' ">
+			and goods_status = #{goodsStatus}
+		</if>
+		<if test="auditStatus != null and auditStatus != '' ">
+			and audit_status = #{auditStatus}
+		</if>
+		<if test="warehouseType != null and warehouseType != '' ">
+			and warehouse_type = #{warehouseType}
+		</if>
+		<if test="goodsType != null and goodsType != '' ">
+			and goods_type = #{goodsType}
+		</if>
+		<if test="shortName != null and shortName != '' ">
+			and short_name like '%${shortName}%'
+		</if>
+	</select>
+	
+
+	<select id="countBopsGoods" resultType="java.lang.Integer">
+		select count(goods_id)
+		from bops_goods <![CDATA[ where create_time <= NOW()]]>
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		bops_goods
+		where goods_id = #{goodsId,jdbcType=VARCHAR}
+	</delete>
+
+
+	<insert id="insert" parameterType="com.need.domain.po.bops.goods.BopsGoods"
+		keyProperty="goodsId" useGeneratedKeys="true">
+		insert into bops_goods
+		(goods_id, goods_status, goods_name,
+		scene_id, brief, top_pic_keys,
+		discount_price, onsale_price, create_time,
+		update_time, audit_status,
+		publisher_id,
+		auditor_id, oppose_reason, goods_code,
+		scene_pic_key,goods_barcode,is_global,
+		haiguan_count, guojian_count,
+		haiguan_country_code, guojian_country_code,
+		haiguan_goods_place, guojian_goods_place,
+		warehouse_type, goods_category_id,brand_id,is_valid_date,is_gift,valid_date,goods_type)
+		values
+		(#{goodsId,jdbcType=VARCHAR}, #{goodsStatus},
+		#{goodsName,jdbcType=VARCHAR},
+		#{sceneId,jdbcType=INTEGER},
+		#{brief,jdbcType=VARCHAR}, #{topPicKeys,jdbcType=VARCHAR},
+		#{discountPrice,jdbcType=INTEGER}, #{onsalePrice,jdbcType=INTEGER},
+		#{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP},
+		#{auditStatus,jdbcType=CHAR}, #{publisherId,jdbcType=INTEGER},
+		#{auditorId,jdbcType=INTEGER}, #{opposeReason,jdbcType=VARCHAR},
+		goods_code_nextval('goods_code_sequence'), #{scenePicKey,jdbcType=VARCHAR},
+		#{goodsBarcode},#{isGlobal},
+		#{haiguanCount},#{guojianCount},
+		#{haiguanCountryCode},#{guojianCountryCode},
+		#{haiguanGoodsPlace},#{guojianGoodsPlace},
+		#{brandId},#{isValidDate},
+		#{isGift},#{validDate},#{goodsType}
+		)
+	</insert>
+
+	<insert id="insertValue" parameterType="com.need.domain.po.bops.goods.BopsGoods"
+		keyProperty="goodsId" useGeneratedKeys="true">
+		insert into bops_goods
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			goods_id,
+			goods_status,
+			goods_name,
+			scene_id,
+			<if test="brief != null and brief !='' ">
+				brief,
+			</if>
+			top_pic_keys,
+			discount_price,
+			onsale_price,
+			create_time,
+			update_time,
+			<if test="auditStatus != null">
+				audit_status,
+			</if>
+			<if test="publisherId != null">
+				publisher_id,
+			</if>
+			<if test="auditorId != null">
+				auditor_id,
+			</if>
+			<if test="opposeReason != null">
+				oppose_reason,
+			</if>
+			goods_code,
+			scene_pic_key,
+			goods_barcode,
+			is_global,
+			haiguan_count,
+			guojian_count,
+			haiguan_country_code,
+			guojian_country_code,
+			haiguan_goods_place,
+			guojian_goods_place,
+			warehouse_type,
+			goods_category_id,
+			short_name,
+			purchase_price,
+			purchase_manager,
+			purchase_leader,
+			brand_id,
+			is_valid_date,
+			is_gift,
+			valid_date,
+			goods_type,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{goodsId},
+			#{goodsStatus},
+			#{goodsName},
+			#{sceneId},
+			<if test="brief != null and brief !='' ">
+				#{brief},
+			</if>
+			#{topPicKeys},
+			#{discountPrice},
+			#{onsalePrice},
+			NOW(),
+			NOW(),
+			<if test="auditStatus != null">
+				#{auditStatus},
+			</if>
+			<if test="publisherId != null">
+				#{publisherId},
+			</if>
+			<if test="auditorId != null">
+				#{auditorId},
+			</if>
+			<if test="opposeReason != null">
+				#{opposeReason},
+			</if>
+			goods_code_nextval('goods_code_sequence'),
+			#{scenePicKey},
+			#{goodsBarcode},
+			#{isGlobal},
+			#{haiguanCount},
+			#{guojianCount},
+			#{haiguanCountryCode},
+			#{guojianCountryCode},
+			#{haiguanGoodsPlace},
+			#{guojianGoodsPlace},
+			#{warehouseType},
+			#{goodsCategoryId},
+			#{shortName},
+			#{purchasePrice},
+			#{purchaseManager},
+			#{purchaseLeader},
+			#{brandId},
+			#{isValidDate},
+		    #{isGift},
+		    #{validDate},
+		    #{goodsType},
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.bops.goods.BopsGoods">
+		update bops_goods
+		<set>
+			<if test="goodsName != null">
+				goods_name = #{goodsName,jdbcType=VARCHAR},
+			</if>
+			<if test="sceneId != null">
+				scene_id = #{sceneId,jdbcType=INTEGER},
+			</if>
+			<if test="brief != null">
+				brief = #{brief,jdbcType=VARCHAR},
+			</if>
+			<if test="topPicKeys != null">
+				top_pic_keys = #{topPicKeys,jdbcType=VARCHAR},
+			</if>
+			<if test="discountPrice != null">
+				discount_price = #{discountPrice,jdbcType=INTEGER},
+			</if>
+			<if test="onsalePrice != null">
+				onsale_price = #{onsalePrice,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="auditStatus != null">
+				audit_status = #{auditStatus,jdbcType=CHAR},
+			</if>
+			<if test="publisherId != null">
+				publisher_id = #{publisherId,jdbcType=INTEGER},
+			</if>
+			<if test="auditorId != null">
+				auditor_id = #{auditorId,jdbcType=INTEGER},
+			</if>
+			<if test="opposeReason != null">
+				oppose_reason = #{opposeReason,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsCode != null">
+				goods_code = #{goodsCode,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsStatus != null">
+				goods_status = #{goodsStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="scenePicKey != null">
+				scene_pic_key = #{scenePicKey,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsBarcode != null">
+				goods_barcode = #{goodsBarcode,jdbcType=VARCHAR},
+			</if>
+			<if test="isGlobal != null">
+				is_global = #{isGlobal,jdbcType=VARCHAR},
+			</if>
+			<if test="haiguanCount != null">
+				haiguan_count = #{haiguanCount,jdbcType=VARCHAR},
+			</if>
+			<if test="guojianCount != null">
+				guojian_count = #{guojianCount,jdbcType=VARCHAR},
+			</if>
+			<if test="haiguanCountryCode != null">
+				haiguan_country_code = #{haiguanCountryCode,jdbcType=VARCHAR},
+			</if>
+			<if test="guojianCountryCode != null">
+				guojian_country_code = #{guojianCountryCode,jdbcType=VARCHAR},
+			</if>
+			<if test="haiguanGoodsPlace != null">
+				haiguan_goods_place = #{haiguanGoodsPlace,jdbcType=VARCHAR},
+			</if>
+			<if test="guojianGoodsPlace != null">
+				guojian_goods_place = #{guojianGoodsPlace,jdbcType=VARCHAR},
+			</if>
+			<if test="warehouseType != null">
+				warehouse_type = #{warehouseType,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsCategoryId != null">
+				goods_category_id = #{goodsCategoryId},
+			</if>
+		</set>
+		where goods_id = #{goodsId,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateByPrimaryKey" parameterType="com.need.domain.po.bops.goods.BopsGoods">
+		update bops_goods
+		set goods_name = #{goodsName,jdbcType=VARCHAR},
+		goods_status =
+		#{goodsStatus,jdbcType=VARCHAR},
+		scene_id =
+		#{sceneId,jdbcType=INTEGER},
+		brief = #{brief,jdbcType=VARCHAR},
+		top_pic_keys = #{topPicKeys,jdbcType=VARCHAR},
+		discount_price =
+		#{discountPrice,jdbcType=INTEGER},
+		onsale_price =
+		#{onsalePrice,jdbcType=INTEGER},
+		update_time =
+		#{updateTime,jdbcType=TIMESTAMP},
+		audit_status =
+		#{auditStatus,jdbcType=CHAR},
+		publisher_id =
+		#{publisherId,jdbcType=INTEGER},
+		auditor_id =
+		#{auditorId,jdbcType=INTEGER},
+		oppose_reason =
+		#{opposeReason,jdbcType=VARCHAR},
+		goods_code =
+		#{goodsCode,jdbcType=VARCHAR},
+		scene_pic_key =
+		#{scenePicKey,jdbcType=VARCHAR},
+		goods_barcode =
+		#{goodsBarcode,jdbcType=VARCHAR},
+		is_global = #{isGlobal},
+		haiguan_count = #{haiguanCount},
+		guojian_count = #{guojianCount},
+		haiguan_country_code = #{haiguanCountryCode},
+		guojian_country_code = #{guojianCountryCode},
+		haiguan_goods_place = #{haiguanGoodsPlace},
+		guojian_goods_place = #{guojianGoodsPlace},
+		warehouse_type = #{warehouseType},
+		goods_category_id = #{goodsCategoryId},
+		short_name = #{shortName},
+		purchase_manager = #{purchaseManager},
+		purchase_leader = #{purchaseLeader},
+		purchase_price = #{purchasePrice},
+		brand_id=#{brandId},
+		is_valid_date=#{isValidDate},
+		is_gift=#{isGift},
+		valid_date= #{validDate},
+		goods_type=#{goodsType},
+		goods_index_category = #{goodsIndexCategory}
+		where goods_id = #{goodsId}
+	</update>
+
+	<update id="updateAuditGoods" parameterType="com.need.domain.vo.goods.AuditGoodsVO">
+		update bops_goods
+		set
+		audit_status = #{auditStatus},
+		auditor_id = #{auditorId},
+		update_time = #{updateTime}
+		where goods_id = #{goodsId}
+	</update>
+	
+	<update id="updateGoodsPrice" >
+		update bops_goods
+		set
+		discount_price = #{discountPrice},
+		update_time = NOW()
+		where goods_id = #{goodsId}
+	</update>
+
+	<update id="updateOnlineOrOffline"
+		parameterType="com.need.domain.vo.goods.GoodsStoreDetailVO">
+		update bops_goods
+		set
+		goods_status = #{goodsStatus},
+		update_time = NOW()
+		where goods_id = #{goodsId}
+	</update>
+
+	<update id="updateById" parameterType="com.need.domain.po.bops.goods.BopsGoods">
+		update bops_goods
+		<set>
+			update_time = NOW(),
+			<if test="goodsName != null">
+				goods_name = #{goodsName,jdbcType=VARCHAR},
+			</if>
+			<if test="sceneId != null">
+				scene_id = #{sceneId,jdbcType=INTEGER},
+			</if>
+			<if test="brief != null">
+				brief = #{brief,jdbcType=VARCHAR},
+			</if>
+			<if test="topPicKeys != null">
+				top_pic_keys = #{topPicKeys,jdbcType=VARCHAR},
+			</if>
+			<if test="discountPrice != null">
+				discount_price = #{discountPrice,jdbcType=INTEGER},
+			</if>
+			<if test="onsalePrice != null">
+				onsale_price = #{onsalePrice,jdbcType=INTEGER},
+			</if>
+			<if test="auditStatus != null">
+				audit_status = #{auditStatus,jdbcType=CHAR},
+			</if>
+			<if test="publisherId != null">
+				publisher_id = #{publisherId,jdbcType=INTEGER},
+			</if>
+			<if test="auditorId != null">
+				auditor_id = #{auditorId,jdbcType=INTEGER},
+			</if>
+			<if test="goodsStatus != null">
+				goods_status = #{goodsStatus, jdbcType=VARCHAR},
+			</if>
+			<if test="opposeReason != null">
+				oppose_reason = #{opposeReason, jdbcType=VARCHAR},
+			</if>
+			<if test="goodsCode != null">
+				goods_code = #{goodsCode,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsStatus != null">
+				goods_status = #{goodsStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="scenePicKey != null">
+				scene_pic_key = #{scenePicKey,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsBarcode != null">
+				goods_barcode = #{goodsBarcode,jdbcType=VARCHAR},
+			</if>
+			<if test="isGlobal != null">
+				is_global = #{isGlobal,jdbcType=VARCHAR},
+			</if>
+			<if test="haiguanCount != null">
+				haiguan_count = #{haiguanCount,jdbcType=VARCHAR},
+			</if>
+			<if test="guojianCount != null">
+				guojian_count = #{guojianCount,jdbcType=VARCHAR},
+			</if>
+			<if test="haiguanCountryCode != null">
+				haiguan_country_code = #{haiguanCountryCode,jdbcType=VARCHAR},
+			</if>
+			<if test="guojianCountryCode != null">
+				guojian_country_code = #{guojianCountryCode,jdbcType=VARCHAR},
+			</if>
+			<if test="haiguanGoodsPlace != null">
+				haiguan_goods_place = #{haiguanGoodsPlace,jdbcType=VARCHAR},
+			</if>
+			<if test="guojianGoodsPlace != null">
+				guojian_goods_place = #{guojianGoodsPlace,jdbcType=VARCHAR},
+			</if>
+			<if test="warehouseType != null">
+				warehouse_type = #{warehouseType,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsCategoryId != null">
+				goods_category_id = #{goodsCategoryId},
+			</if>
+			<if test="shortName != null">
+				short_name = #{shortName},
+			</if>
+			<if test="purchaseManager != null">
+				purchase_manager = #{purchaseManager},
+			</if>
+			<if test="purchaseLeader != null">
+				purchase_leader = #{purchaseLeader},
+			</if>
+			<if test="purchasePrice != null">
+				purchase_price = #{purchasePrice},
+			</if>
+			
+			<if test="brandId != null">
+				brand_id = #{brandId},
+			</if>
+			<if test="isValidDate != null">
+				is_valid_date = #{isValidDate},
+			</if>
+			<if test="isGift != null">
+				is_gift = #{isGift},
+			</if>
+			<if test="validDate != null">
+				valid_date = #{validDate},
+			</if>
+			<if test="goodsType != null">
+				goods_type = #{goodsType},
+			</if>
+			<if test="goodsIndexCategory != null">
+				goods_index_category = #{goodsIndexCategory}
+			</if>
+		</set>
+		where goods_id = #{goodsId,jdbcType=VARCHAR}
+	</update>
+
+	<select id="getByGoodsCode" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from bops_goods
+		where goods_code = #{goodsCode}
+	</select>
+	
+	<select id="getByGoodsBarcode" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from bops_goods
+		where goods_barcode = #{goodsBarcode}
+	</select>
+
+	
+	<select id="getByParames" parameterType="java.lang.String"
+	resultType="com.need.domain.vo.goods.GoodsStoreDetailResultVO">
+	  select
+		<include refid="Base_Column_List" />
+		from bops_goods
+		where goods_status='ONLINE' and audit_status='SUCCESS' and goods_code =#{goodsCode}
+	</select>
+	
+	
+	<select id="getByGoodsCodes"  parameterType="java.util.List"
+	resultType="com.need.domain.vo.goods.GoodsStoreDetailResultVO">
+	select
+		<include refid="Base_Column_List" />
+		from bops_goods
+		where goods_status='ONLINE' and audit_status='SUCCESS' 
+		and goods_code in 
+          <foreach collection="goodsCodes" index="index" item="item" open="(" separator="," close=")">  
+            #{item}   
+         </foreach>
+	</select>
+
+	
+	<select id="getGoodsDetail" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		goods_id, goods_name,
+		  goods_code
+		from bops_goods
+		where goods_code = #{goodsCode}
+	</select>
+	
+
+	<select id="selectByGoodsCode" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		goods_id, goods_status, goods_name, scene_id,
+		brief,scene_pic_key,
+		top_pic_keys,
+		discount_price, oppose_reason, goods_code,
+		onsale_price,
+		create_time, update_time, audit_status, publisher_id,
+		auditor_id,
+		scene_pic_key,goods_barcode, is_global, haiguan_count,
+		guojian_count, haiguan_country_code, guojian_country_code,
+		haiguan_goods_place, guojian_goods_place,
+		warehouse_type, goods_category_id,short_name,purchase_price,purchase_leader,purchase_manager,brand_id,is_valid_date,is_gift,valid_date,goods_type
+		from bops_goods
+		where goods_code = #{goodsCode}
+	</select>
+	<select id="querySuitGoodsPrice" resultType="com.need.domain.vo.goods.SuitGoodsPriceVO"
+	 parameterType="java.lang.String">
+		SELECT 
+		  a.goods_group_id skuId,
+		  SUM((b.discount_price * a.goods_count / 100)) discountPrice,
+		  SUM((b.onsale_price * a.goods_count / 100)) onsalePrice,
+		  SUM((b.purchase_price * a.goods_count / 100)) purchasePrice
+		FROM
+		  (SELECT 
+		    goods_group_id,goods_count,goods_id
+		  FROM
+		    bops_goods_items 
+		  WHERE goods_group_id = #{goodsGroupId}) a 
+		  LEFT JOIN bops_goods b 
+		    ON a.goods_id = b.goods_id  
+</select>
+
+	<select id="selectGoodsDetailByCode" resultType="com.need.domain.vo.goods.BopsGoodsVO"
+		parameterType="com.need.domain.po.bops.goods.BopsGoods">
+		select
+		a.goods_id, a.goods_status, a.goods_name, a.scene_id,
+		a.discount_price, a.oppose_reason, a.goods_code,
+		a.onsale_price,
+		a.create_time, a.update_time, a.audit_status, a.publisher_id,
+		a.auditor_id,
+		a.scene_pic_key,a.goods_barcode, a.is_global, a.haiguan_count,
+		a.guojian_count, a.haiguan_country_code, a.guojian_country_code,
+		a.haiguan_goods_place, a.guojian_goods_place,
+		a.warehouse_type, a.goods_category_id,a.short_name,a.purchase_price,
+		a.purchase_leader,a.brand_id,a.is_valid_date,a.is_gift,
+		a.valid_date,a.goods_type
+		from bops_goods a
+		where a.goods_code = #{goodsCode} and a.warehouse_type=#{warehouseType}
+	</select>
+	<insert id="insertGroupGoods" parameterType="com.need.domain.po.bops.goods.BopsGoods">
+		insert into bops_goods
+		(goods_id, goods_code,audit_status, goods_name, goods_status,scene_id,top_pic_keys,discount_price,onsale_price,
+		create_time,goods_barcode,is_global,short_name,warehouse_type,goods_type,publisher_id,purchase_price
+		)
+		values
+		(#{goodsId},#{goodsCode},#{auditStatus},#{goodsName}, #{goodsStatus},#{sceneId}, #{topPicKeys},#{discountPrice}, #{onsalePrice},
+		NOW(),#{goodsBarcode},#{isGlobal},#{shortName},#{warehouseType},#{goodsType},#{publisherId},#{purchasePrice}
+		)
+	</insert>
+	
+	<select id="selectGoodsCode" resultType="java.lang.Integer">
+		SELECT goods_code_nextval('goods_group_code_sequence') FROM DUAL;
+	</select>
+	<update id="updateGroupGoods"
+		parameterType="com.need.domain.po.bops.goods.BopsGoods">
+		update bops_goods
+		set
+		audit_status = #{auditStatus},
+		goods_name=#{goodsName},
+		short_name=#{shortName},
+		warehouse_type=#{warehouseType},
+		update_time = NOW(),
+		onsale_price=#{onsalePrice},
+		discount_price=#{discountPrice},
+		purchase_price=#{purchasePrice}
+		where goods_id = #{goodsId}
+	</update>
+	<update id="updateGoodsStatus">
+		update bops_goods set
+		goods_status=#{goodsStatus}
+		where goods_id = #{goodsId}
+	</update>
+	<select id="queryAllgoods" resultType="com.need.domain.vo.goods.BopsGoodsVO">
+					       
+		SELECT 
+		  goods_id,
+		  purchase_price/100 purPrice,
+		  (SELECT 
+		    user_real_name 
+		  FROM
+		    bops_user a 
+		  WHERE purchase_manager = a.user_id) purchase_manager,
+		  (SELECT 
+		    user_real_name 
+		  FROM
+		    bops_user a 
+		  WHERE purchase_leader = a.user_id) purchase_leader 
+		FROM
+		  bops_goods 
+  
+	</select>
+	<update id="updateOnlineGoods">
+		update bops_goods set
+		goods_status=#{goodsStatus},
+		update_online_id=#{updateOnlineId},
+		update_online_time=NOW()
+		where goods_id = #{goodsId}
+	</update>
+</mapper>

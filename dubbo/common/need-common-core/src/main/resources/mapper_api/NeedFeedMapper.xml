@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.common.core.dao.jdbc.need.NeedFeedDAO" >
+  <resultMap id="BaseResultMap" type="com.need.common.domain.po.api.need.NeedFeedPO" >
+    <id column="feed_id" property="feedId" jdbcType="VARCHAR" />
+    <result column="author_id" property="authorId" jdbcType="VARCHAR" />
+    <result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="feed_status" property="feedStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    feed_id, author_id, goods_id, memo, create_time,feed_status
+  </sql>
+  <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from need_feed
+    where feed_id = #{feedId}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.String" >
+    delete from need_feed
+    where feed_id = #{feedId}
+  </delete>
+  <insert id="insert" parameterType="com.need.common.domain.po.api.need.NeedFeedPO">
+    insert into need_feed (feed_id, author_id, goods_id, 
+      memo, create_time,feed_status)
+    values (#{feedId}, #{authorId}, #{goodsId}, 
+      #{memo}, #{createTime}, #{feedStatus})
+  </insert>
+ 
+ 
+  <update id="update" parameterType="com.need.common.domain.po.api.need.NeedFeedPO" >
+    update need_feed
+    set author_id = #{authorId},
+      goods_id = #{goodsId},
+      memo = #{memo},
+      create_time = #{createTime},
+      feed_status=#{feedStatus}
+    where feed_id = #{feedId}
+  </update>
+  
+  
+  <sql id="Feed_List" >
+    f.feed_id, f.author_id, f.goods_id, f.memo, f.create_time
+  </sql>
+   <!-- 查询所关注的行家的feed（包括自己发送的feed） -->
+   <select id="queryBypageParams" parameterType="com.need.common.domain.vo.need.FeedsParamsVO" resultMap="BaseResultMap">
+    (
+    SELECT  
+     <include refid="Feed_List" />
+    FROM need_feed f, need_kol_fans k, goods_main g
+       WHERE f.author_id=k.kol_id  and  f.goods_id=g.goods_id and g.goods_status="ONLINE" and g.store_count>0 and g.is_global='FALSE' and f.feed_status="VALID" AND k.focus_status='FOCUS' AND k.user_id=#{userId}
+       )
+        UNION
+        (select f.feed_id, f.author_id, f.goods_id, f.memo, f.create_time 
+        FROM  need_feed f, goods_main g
+        WHERE f.goods_id=g.goods_id and g.goods_status="ONLINE" and g.store_count>0 and g.is_global='FALSE' and f.feed_status="VALID" and author_id=#{userId}
+        )
+          order by  create_time DESC 
+       LIMIT #{start},#{pageSize}
+   </select>
+   
+    <select id="getCountParam" parameterType="java.lang.String" resultType="int">
+      select count(1) from 
+      ((SELECT 
+       f.feed_id, f.author_id, f.goods_id, f.memo, f.create_time
+         FROM need_feed f, need_kol_fans k, goods_main g
+      WHERE f.author_id=k.kol_id  and  f.goods_id=g.goods_id and g.goods_status="ONLINE" and g.store_count>0 and g.is_global='FALSE' and f.feed_status="VALID" AND k.focus_status='FOCUS'  AND k.user_id=#{userId}
+       )
+        UNION
+        (SELECT f.feed_id, f.author_id, f.goods_id, f.memo, f.create_time 
+        FROM  need_feed f, goods_main g 
+        WHERE f.goods_id=g.goods_id and g.goods_status="ONLINE" and g.store_count>0 and g.is_global='FALSE' and f.feed_status="VALID" and author_id=#{userId}
+        )) AS result
+    </select>
+    
+    
+    <select id="getCount"  resultType="int">
+       <![CDATA[ select count(1)
+       FROM need_feed f, goods_main g  where f.goods_id=g.goods_id and g.goods_status="ONLINE" and g.store_count>0 and g.is_global='FALSE' and f.feed_status="VALID" and f.create_time <=now() ;]]>
+    </select>
+   
+   
+   <select id="queryByPage" parameterType="com.need.common.domain.vo.need.FeedsParamsVO" resultMap="BaseResultMap">
+   <![CDATA[   select 
+      f.feed_id, f.author_id, f.goods_id, f.memo, f.create_time
+     FROM need_feed f, goods_main g  where f.goods_id=g.goods_id and g.goods_status="ONLINE" and g.store_count>0 and g.is_global='FALSE' and f.feed_status="VALID" and  f.create_time <=now() order by f.create_time DESC LIMIT #{start},#{pageSize} ;]]>
+   </select>
+   
+   
+   
+    <!-- 查询所关注的行家的feed（包括自己发送的feed） -->
+   <select id="queryBypageParams_V1_1" parameterType="com.need.common.domain.vo.need.FeedsParamsVO" resultMap="BaseResultMap">
+    (
+    SELECT  
+     <include refid="Feed_List" />
+    FROM need_feed f, need_kol_fans k, goods_main g
+       WHERE f.author_id=k.kol_id  and  f.goods_id=g.goods_id and g.goods_status="ONLINE" and f.feed_status="VALID" AND k.focus_status='FOCUS' AND k.user_id=#{userId}
+       )
+        UNION
+        (select f.feed_id, f.author_id, f.goods_id, f.memo, f.create_time 
+        FROM  need_feed f, goods_main g
+        WHERE f.goods_id=g.goods_id and g.goods_status="ONLINE" and f.feed_status="VALID" and author_id=#{userId}
+        )
+          order by  create_time DESC 
+       LIMIT #{start},#{pageSize}
+   </select>
+   
+    <select id="getCountParam_V1_1" parameterType="java.lang.String" resultType="int">
+      select count(1) from 
+      ((SELECT 
+       f.feed_id, f.author_id, f.goods_id, f.memo, f.create_time
+         FROM need_feed f, need_kol_fans k, goods_main g
+      WHERE f.author_id=k.kol_id  and  f.goods_id=g.goods_id and g.goods_status="ONLINE" and f.feed_status="VALID" AND k.focus_status='FOCUS'  AND k.user_id=#{userId}
+       )
+        UNION
+        (SELECT f.feed_id, f.author_id, f.goods_id, f.memo, f.create_time 
+        FROM  need_feed f, goods_main g 
+        WHERE f.goods_id=g.goods_id and g.goods_status="ONLINE" and f.feed_status="VALID" and author_id=#{userId}
+        )) AS result
+    </select>
+    
+    
+    <select id="getCount_V1_1"  resultType="int">
+       <![CDATA[ select count(1)
+       FROM need_feed f, goods_main g  where f.goods_id=g.goods_id and g.goods_status="ONLINE" and f.feed_status="VALID" and f.create_time <=now() ;]]>
+    </select>
+   
+   
+   <select id="queryByPage_V1_1" parameterType="com.need.common.domain.vo.need.FeedsParamsVO" resultMap="BaseResultMap">
+   <![CDATA[   select 
+      f.feed_id, f.author_id, f.goods_id, f.memo, f.create_time
+     FROM need_feed f, goods_main g  where f.goods_id=g.goods_id and g.goods_status="ONLINE" and f.feed_status="VALID" and  f.create_time <=now() order by f.create_time DESC LIMIT #{start},#{pageSize} ;]]>
+   </select>
+   
+</mapper>

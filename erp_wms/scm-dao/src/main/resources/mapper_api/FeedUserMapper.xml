@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.api.feed.FeedUserDAO" >
+    <resultMap id="BaseResultMap" type="com.need.domain.po.api.feed.FeedUserPO" >
+        <id column="feed_id" property="feedId" jdbcType="VARCHAR" />
+        <result column="user_id" property="userId" jdbcType="VARCHAR" />
+        <result column="feed_content" property="feedContent" jdbcType="VARCHAR" />
+        <result column="feed_pic_key" property="feedPicKey" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="feed_status" property="feedStatus" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        feed_id, user_id, feed_content, feed_pic_key, create_time, feed_status
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from feed_user
+        where feed_id = #{feedId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from feed_user
+        where feed_id = #{feedId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.need.domain.po.api.feed.FeedUserPO" >
+        insert into feed_user (feed_id, user_id, feed_content, 
+        feed_pic_key, create_time, feed_status
+        )
+        values (#{feedId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{feedContent,jdbcType=VARCHAR}, 
+        #{feedPicKey,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{feedStatus,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.need.domain.po.api.feed.FeedUserPO" >
+        insert into feed_user
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="feedId != null" >
+                feed_id,
+            </if>
+            <if test="userId != null" >
+                user_id,
+            </if>
+            <if test="feedContent != null" >
+                feed_content,
+            </if>
+            <if test="feedPicKey != null" >
+                feed_pic_key,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="feedStatus != null" >
+                feed_status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="feedId != null" >
+                #{feedId,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null" >
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="feedContent != null" >
+                #{feedContent,jdbcType=VARCHAR},
+            </if>
+            <if test="feedPicKey != null" >
+                #{feedPicKey,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="feedStatus != null" >
+                #{feedStatus,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.api.feed.FeedUserPO" >
+        update feed_user
+        <set >
+            <if test="userId != null" >
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="feedContent != null" >
+                feed_content = #{feedContent,jdbcType=VARCHAR},
+            </if>
+            <if test="feedPicKey != null" >
+                feed_pic_key = #{feedPicKey,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="feedStatus != null" >
+                feed_status = #{feedStatus,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where feed_id = #{feedId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.need.domain.po.api.feed.FeedUserPO" >
+        update feed_user
+        set user_id = #{userId,jdbcType=VARCHAR},
+        feed_content = #{feedContent,jdbcType=VARCHAR},
+        feed_pic_key = #{feedPicKey,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        feed_status = #{feedStatus,jdbcType=VARCHAR}
+        where feed_id = #{feedId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateDelete"  parameterType="java.lang.String" >
+        update feed_user
+        set feed_status = 'DELETED'
+        where feed_id = #{feedId,jdbcType=VARCHAR}
+    </update>
+    <select id="queryByTime" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from feed_user
+        where create_time > #{time} ORDER BY create_time DESC
+    </select>
+
+    <select id="queryPageFeed" resultType="com.need.domain.vo.feed.FeedVO" parameterType="com.need.domain.vo.feed.FeedPageVO">
+        select f.feed_id feed_id, f.user_id user_id, f.feed_content feed_content, 
+        f.feed_pic_key feed_pic_key, f.create_time create_time, f.feed_status feed_status, 
+        u.nick_name nick_name, u.mobile mobile, count(r.feed_id) report_count, u.user_status user_status
+        from feed_user as f left join user_base as u on f.user_id = u.user_id left join feed_report as r on r.feed_id = f.feed_id where 1 = 1 
+        <if test="userId != null and userId != ''">
+            and f.user_id = #{userId,jdbcType=VARCHAR}
+        </if>
+        <if test="startTime != null and startTime != ''">
+            and f.create_time > #{startTime,jdbcType=VARCHAR}
+        </if>
+        <if test="endTime != null and endTime != ''">
+        <![CDATA[
+            and f.create_time < #{endTime,jdbcType=VARCHAR}
+        ]]>
+        </if>
+        group by f.feed_id ORDER BY f.`create_time` DESC
+		limit #{start},#{pageSize}
+    </select>
+
+    <select id="queryPageFeedCount" resultType="int" parameterType="com.need.domain.vo.feed.FeedPageVO">
+        select count(1)
+        from feed_user where 1 = 1
+        <if test="userId != null and userId != ''">
+            and user_id = #{userId,jdbcType=VARCHAR}
+        </if>
+        <if test="startTime != null and startTime != ''">
+            and create_time > #{startTime,jdbcType=VARCHAR}
+        </if>
+        <if test="endTime != null and endTime != ''">
+        <![CDATA[
+            and create_time < #{endTime,jdbcType=VARCHAR}
+        ]]>
+        </if>
+    </select>
+</mapper>

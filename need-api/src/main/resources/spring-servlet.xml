@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.2.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+    http://www.springframework.org/schema/mvc   
+    http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd 
+    http://www.springframework.org/schema/security  
+	http://www.springframework.org/schema/security/spring-security-3.2.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util-3.2.xsd" >
+	<!-- 启用spring mvc 注解 -->
+	<context:annotation-config />
+	<context:component-scan base-package="com.need.api.web.controller"></context:component-scan>
+
+   <!-- 处理在类级别上的@RequestMapping注解 -->
+	<bean class="com.need.web.core.mapping.AnnotationHandlerMapping"></bean>
+	<bean class="com.need.web.core.mapping.AnnotationMethodHandler">
+	    <property name="messageConverters">
+			<list>
+				<ref bean="mappingJacksonHttpMessageConverter" /><!-- json转换器 -->
+			</list>			
+		</property>
+	</bean>	
+     <!-- 异常处理 -->
+    <bean id="exceptionResolver" class="com.need.web.core.exception.ParteamHandlerExceptionResolver" />  
+
+	<!-- 获取所有的HandlerMapping -->           
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/> 
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/> 
+        
+    <!-- 配置JSON视图 -->
+	<bean id="mappingJacksonHttpMessageConverter"
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/html;charset=UTF-8;application/json;</value>
+			</list>
+		</property>
+		<!-- org.codehaus.jackson.map.ObjectMapper -->
+		<property name="objectMapper">
+			<bean class="com.fasterxml.jackson.databind.ObjectMapper">
+				<property name="dateFormat">
+					<bean class="java.text.SimpleDateFormat">
+						<constructor-arg index="0" type="java.lang.String" value="yyyy-MM-dd HH:mm:ss" />
+					</bean>
+				</property>
+				<!-- add by liuyabin 设置json忽略null -->
+				<property name="serializationInclusion">
+					<value type="com.fasterxml.jackson.annotation.JsonInclude.Include">NON_NULL</value>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+ 
+
+	<!-- 文件上传配置注意:这里申明的id必须为multipartResolver -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="1048576000" />
+		<property name="maxInMemorySize" value="10096" />
+	</bean>
+
+	<!-- SpringMVC拦截器 -->
+ 	 <mvc:interceptors> 
+		 <mvc:interceptor>
+			<!-- 设置拦截的路径 -->
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/device/register/**" />
+			<mvc:exclude-mapping path="/trade/payNotify**" />
+			<mvc:exclude-mapping path="/trade/refundNotify**" />
+			<mvc:exclude-mapping path="/trade/wechat/payNotify**" />	
+			<mvc:exclude-mapping path="/trade/wechat/payNotifyForWap**" />	
+			<bean class="com.need.api.interceptors.DeviceIdCheckInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<!-- 设置拦截的路径 -->
+			<mvc:mapping path="/**" />
+			<bean class="com.need.web.core.interceptors.SpendTimeInterceptor"></bean>
+		</mvc:interceptor> 
+		<mvc:interceptor>
+			<!-- 设置不拦截的路径 -->
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/device/register/**" />
+			<mvc:exclude-mapping path="/user/register/**" />
+			<mvc:exclude-mapping path="/user/login/**" />
+			<mvc:exclude-mapping path="/trade/payNotify**" />
+			<mvc:exclude-mapping path="/trade/refundNotify**" />
+			<mvc:exclude-mapping path="/trade/wechat/payNotify**" />
+			<mvc:exclude-mapping path="/common/sendValidationCode/**" />
+			<mvc:exclude-mapping path="/common/getUploadToken/**" />
+			<mvc:exclude-mapping path="/user/resetPwd/**" />
+			<mvc:exclude-mapping path="/user/checkMobileAndSendValidateCode/**" />
+			<mvc:exclude-mapping path="/trade/wechat/payNotify/**" />
+			<mvc:exclude-mapping path="/trade/wechat/payNotifyForWap/**" />
+			<mvc:exclude-mapping path="/need/home/list/**" />
+			<mvc:exclude-mapping path="/ops/home/**" />
+			<mvc:exclude-mapping path="/ops/shijian/banner/**" />
+			<mvc:exclude-mapping path="/ops/shijian/scroll/**" />
+			<mvc:exclude-mapping path="/ops/shijian/topic/recommend/**" />
+			<mvc:exclude-mapping path="/ops/shijian/moreTopicList/**" />
+			<mvc:exclude-mapping path="/ops/xinhuan/goodsList" />
+			<mvc:exclude-mapping path="/ops/xinhuan/recommend" />
+			<mvc:exclude-mapping path="/goods/**" />
+			<mvc:exclude-mapping path="/goods/**/**" />
+			<mvc:exclude-mapping path="/ops/xinhuan/show/**" />
+			<mvc:exclude-mapping path="/topic/getTopicUrl/**" />
+			<mvc:exclude-mapping path="/need/feed/commentList/**" />
+			<mvc:exclude-mapping path="/user/need/goodsList/**" />
+			<mvc:exclude-mapping path="/user/trade/goodsList/**" />
+			<mvc:exclude-mapping path="/user/getUserInfo/**" />
+			<mvc:exclude-mapping path="/user/getExternInfo/**" />
+			<mvc:exclude-mapping path="/user/kolList/**" />
+			<mvc:exclude-mapping path="/user/fansList/**" />
+			<mvc:exclude-mapping path="/kol/category/list/**" />
+			<mvc:exclude-mapping path="/kol/getKolListByCategory/**" />
+			<mvc:exclude-mapping path="/need/user/isFocus/**" />
+			<mvc:exclude-mapping path="/common/getServiceStatus/**" />
+                        <mvc:exclude-mapping path="/ops/kol/banner/**" />
+                        <mvc:exclude-mapping path="/ops/start/banner/**" />
+                        <mvc:exclude-mapping path="/ops/xinhuan/banner/**" />
+                        <mvc:exclude-mapping path="/ops/xinhuan/scroll/**" />
+                        <mvc:exclude-mapping path="/ops/xinhuan/prefecture/**" />
+                        <mvc:exclude-mapping path="/cheap/list/**" />
+                        <mvc:exclude-mapping path="/trade/getTransportExpenseLimit/**" />
+                        <mvc:exclude-mapping path="/common/fastSendValidationCode/**" />
+                        <mvc:exclude-mapping path="/user/login/fastLoginBySMS/**" />
+                        <mvc:exclude-mapping path="/user/login/SNSLogin/**" />
+                        <mvc:exclude-mapping path="/user/register/SNSRegister/**" />
+                        <mvc:exclude-mapping path="/goods/category/list/**" />
+                        <mvc:exclude-mapping path="/goods/category/goodsList/**" />
+                        <mvc:exclude-mapping path="/user/follow/list/**" />
+                        <mvc:exclude-mapping path="/user/feed/list/**" />
+                        <mvc:exclude-mapping path="/user/feed/userList/**" />
+                        <mvc:exclude-mapping path="/user/feed/detail/**" />
+                        <mvc:exclude-mapping path="/user/feed/comment/list/**" />
+                        <mvc:exclude-mapping path="/distribution/simpleGoodsList/**" />
+                        <mvc:exclude-mapping path="/follow/synchronization" />
+
+			<ref bean="authorizationInterceptor" />
+		</mvc:interceptor>
+				
+	</mvc:interceptors>
+ 
+	<bean id="authorizationInterceptor" class="com.need.api.interceptors.UserTokenInterceptor">
+		<property name="noMappingObject">
+			<list>
+				<!-- 配置不被拦截的 方法  格式 controller.method <value>GetHomeFeedsController.getHomeFeeds_v1_1</value>-->				
+			</list>		
+		</property>
+	</bean>
+
+</beans>
+

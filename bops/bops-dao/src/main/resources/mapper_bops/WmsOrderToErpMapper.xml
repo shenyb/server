@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.trade.WmsOrderToErpDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.bops.trade.WmsOrderToErp" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="skuId" property="skuid" jdbcType="BIGINT" />
+    <result column="bathNo" property="bathno" jdbcType="VARCHAR" />
+    <result column="productDate" property="productdate" jdbcType="VARCHAR" />
+    <result column="effectiveDate" property="effectivedate" jdbcType="VARCHAR" />
+    <result column="weight" property="weight" jdbcType="INTEGER" />
+    <result column="wrapNum" property="wrapnum" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, skuId, bathNo, productDate, effectiveDate, weight, wrapNum
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from wms_order_erp
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from wms_order_erp
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.bops.trade.WmsOrderToErp" >
+    insert into wms_order_erp (id, skuId, bathNo, 
+      productDate, effectiveDate, weight, 
+      wrapNum)
+    values (#{id,jdbcType=BIGINT}, #{skuid,jdbcType=BIGINT}, #{bathno,jdbcType=VARCHAR}, 
+      #{productdate,jdbcType=VARCHAR}, #{effectivedate,jdbcType=VARCHAR}, #{weight,jdbcType=INTEGER}, 
+      #{wrapnum,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.domain.po.bops.trade.WmsOrderToErp" >
+    insert into wms_order_erp
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="skuid != null" >
+        skuId,
+      </if>
+      <if test="bathno != null" >
+        bathNo,
+      </if>
+      <if test="productdate != null" >
+        productDate,
+      </if>
+      <if test="effectivedate != null" >
+        effectiveDate,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="wrapnum != null" >
+        wrapNum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="skuid != null" >
+        #{skuid,jdbcType=BIGINT},
+      </if>
+      <if test="bathno != null" >
+        #{bathno,jdbcType=VARCHAR},
+      </if>
+      <if test="productdate != null" >
+        #{productdate,jdbcType=VARCHAR},
+      </if>
+      <if test="effectivedate != null" >
+        #{effectivedate,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="wrapnum != null" >
+        #{wrapnum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.bops.trade.WmsOrderToErp" >
+    update wms_order_erp
+    <set >
+      <if test="skuid != null" >
+        skuId = #{skuid,jdbcType=BIGINT},
+      </if>
+      <if test="bathno != null" >
+        bathNo = #{bathno,jdbcType=VARCHAR},
+      </if>
+      <if test="productdate != null" >
+        productDate = #{productdate,jdbcType=VARCHAR},
+      </if>
+      <if test="effectivedate != null" >
+        effectiveDate = #{effectivedate,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="wrapnum != null" >
+        wrapNum = #{wrapnum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.domain.po.bops.trade.WmsOrderToErp" >
+    update wms_order_erp
+    set skuId = #{skuid,jdbcType=BIGINT},
+      bathNo = #{bathno,jdbcType=VARCHAR},
+      productDate = #{productdate,jdbcType=VARCHAR},
+      effectiveDate = #{effectivedate,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=INTEGER},
+      wrapNum = #{wrapnum,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

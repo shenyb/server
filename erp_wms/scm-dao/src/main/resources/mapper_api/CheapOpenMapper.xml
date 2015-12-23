@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.api.cheap.CheapOpenDAO" >
+  <resultMap id="BaseResultMap" type="com.need.domain.po.api.cheap.CheapOpen" >
+    <id column="cheap_open_id" property="cheapOpenId" jdbcType="INTEGER" />
+    <result column="cheap_no" property="cheapNo" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="cheap_status" property="cheapStatus" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="complete_time" property="completeTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    cheap_open_id, cheap_no, user_id, cheap_status, create_time, complete_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from cheap_open
+    where cheap_open_id = #{cheapOpenId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from cheap_open
+    where cheap_open_id = #{cheapOpenId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.need.domain.po.api.cheap.CheapOpen" >
+    insert into cheap_open (cheap_open_id, cheap_no, user_id, 
+      cheap_status, create_time, complete_time
+      )
+    values (#{cheapOpenId,jdbcType=INTEGER}, #{cheapNo,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{cheapStatus,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{completeTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.need.domain.po.api.cheap.CheapOpen" >
+    insert into cheap_open
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cheapOpenId != null" >
+        cheap_open_id,
+      </if>
+      <if test="cheapNo != null" >
+        cheap_no,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="cheapStatus != null" >
+        cheap_status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="completeTime != null" >
+        complete_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cheapOpenId != null" >
+        #{cheapOpenId,jdbcType=INTEGER},
+      </if>
+      <if test="cheapNo != null" >
+        #{cheapNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="cheapStatus != null" >
+        #{cheapStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="completeTime != null" >
+        #{completeTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.need.domain.po.api.cheap.CheapOpen" >
+    update cheap_open
+    <set >
+      <if test="cheapNo != null" >
+        cheap_no = #{cheapNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="cheapStatus != null" >
+        cheap_status = #{cheapStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="completeTime != null" >
+        complete_time = #{completeTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where cheap_open_id = #{cheapOpenId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.need.domain.po.api.cheap.CheapOpen" >
+    update cheap_open
+    set cheap_no = #{cheapNo,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      cheap_status = #{cheapStatus,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      complete_time = #{completeTime,jdbcType=TIMESTAMP}
+    where cheap_open_id = #{cheapOpenId,jdbcType=INTEGER}
+  </update>
+</mapper>

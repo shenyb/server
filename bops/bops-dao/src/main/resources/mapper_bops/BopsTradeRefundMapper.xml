@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.need.dao.bops.trade.BopsTradeRefundDAO">
+	<resultMap id="BaseResultMap"
+		type="com.need.domain.po.bops.trade.BopsTradeRefund">
+		<id column="trade_no" property="tradeNo" jdbcType="VARCHAR" />
+		<result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+		<result column="refund_amount" property="refundAmount"
+			jdbcType="INTEGER" />
+		<result column="trade_status" property="tradeStatus" jdbcType="VARCHAR" />
+		<result column="pay_channel" property="payChannel" jdbcType="VARCHAR" />
+		<result column="memo" property="memo" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="publisher_id" property="publisherId" jdbcType="INTEGER" />
+		<result column="auditor_id" property="auditorId" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		trade_no, order_no, refund_amount, trade_status, pay_channel, memo,
+		create_time,
+		update_time, publisher_id, auditor_id
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from bops_trade_refund
+		where trade_no = #{tradeNo}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from bops_trade_refund
+		where trade_no = #{tradeNo}
+	</delete>
+	<insert id="insert"
+		parameterType="com.need.domain.po.bops.trade.BopsTradeRefund">
+		insert into bops_trade_refund (trade_no, order_no, refund_amount,
+		trade_status, pay_channel, memo,
+		create_time, update_time, publisher_id,
+		auditor_id)
+		values (#{tradeNo}, #{orderNo}, #{refundAmount},
+		#{tradeStatus}, #{payChannel}, #{memo},
+		NOW(), NOW(), #{publisherId},
+		#{auditorId})
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.need.domain.po.bops.trade.BopsTradeRefund">
+		update bops_trade_refund
+		<set>
+			<if test="orderNo != null">
+				order_no = #{orderNo},
+			</if>
+			<if test="refundAmount != null">
+				refund_amount = #{refundAmount},
+			</if>
+			<if test="tradeStatus != null">
+				trade_status = #{tradeStatus},
+			</if>
+			<if test="payChannel != null">
+				pay_channel = #{payChannel},
+			</if>
+			<if test="memo != null">
+				memo = #{memo},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime},
+			</if>
+			<if test="publisherId != null">
+				publisher_id = #{publisherId},
+			</if>
+			<if test="auditorId != null">
+				auditor_id = #{auditorId},
+			</if>
+		</set>
+		where trade_no = #{tradeNo}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.need.domain.po.bops.trade.BopsTradeRefund">
+		update bops_trade_refund
+		set order_no = #{orderNo},
+		refund_amount = #{refundAmount},
+		trade_status = #{tradeStatus},
+		pay_channel = #{payChannel},
+		memo = #{memo},
+		create_time = #{createTime},
+		update_time = #{updateTime},
+		publisher_id = #{publisherId},
+		auditor_id = #{auditorId}
+		where trade_no = #{tradeNo}
+	</update>
+</mapper>

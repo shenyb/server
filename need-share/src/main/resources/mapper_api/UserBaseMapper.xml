@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.need.share.dao.jdbc.api.user.UserBaseDAO">
+	<resultMap id="BaseResultMap" type="com.need.share.dao.jdbc.api.user.po.UserBasePO">
+		<id column="user_id" jdbcType="VARCHAR" property="userId" />
+		<result column="mobile" jdbcType="VARCHAR" property="mobile" />
+		<result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+		<result column="login_pwd" jdbcType="VARCHAR" property="loginPwd" />
+		<result column="user_type" jdbcType="VARCHAR" property="userType" />
+		<result column="user_status" jdbcType="VARCHAR" property="userStatus" />
+		<result column="profile_pic_key" jdbcType="VARCHAR" property="profilePicKey" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		user_id, mobile, nick_name, login_pwd, user_type,
+		user_status,
+		profile_pic_key, create_time,
+		update_time
+	</sql>
+
+	<sql id="Goods_Base_List">
+		goods_name , onsale_price, discount_price,top_pic_keys ,
+		goods_id
+	</sql>
+	
+	<select id="getUserBaseByUserId" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from user_base
+		where user_id = #{userId}
+	</select>
+
+
+	<select id="getKolInfoBykolId" parameterType="java.lang.String"
+		resultType="com.need.share.web.controller.kol.vo.KolInfoVo">
+		select
+		user_id,nick_name,user_type,profile_pic_key,category_id,kol_brief
+		from  user_kol 
+		left join user_base on user_kol.kol_id= user_base.user_id
+		where
+		user_base.user_id = #{kolId} limit 1
+	</select>
+
+    <select id="querycategoryNameList" resultType="java.lang.String">
+		SELECT category_name FROM
+		user_kol a, kol_category b WHERE
+		a.category_id =b.category_id AND
+		a.kol_id = #{userId}
+	 </select>
+	 
+     <select id="queryNeedGoods" parameterType="java.lang.String" resultType="com.need.share.dao.jdbc.api.goods.po.GoodsMainPO">
+		SELECT goods_name , onsale_price,top_pic_keys , goods_id,discount_price
+		FROM
+		goods_main
+		WHERE
+		goods_id IN
+		(SELECT goods_id FROM need_goods WHERE user_id = #{userId} and need_status = 'NEED' )
+		and goods_status ='ONLINE'
+	</select>
+
+    <select id="queryTradeGoods" parameterType="java.lang.String" resultType="com.need.share.web.controller.kol.vo.TradeGoodVO">
+		SELECT goods_name , onsale_price, top_pic_keys ownPicKey,
+		goods_id , discount_price
+		FROM
+		goods_main
+		WHERE
+		goods_id IN
+		(SELECT goods_id FROM trade_base WHERE buyer_id = #{userId} )
+	</select>
+    
+	<select id="selectByMobile" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from user_base where mobile=#{mobile}
+	</select>
+	
+	
+</mapper>
